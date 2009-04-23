@@ -50,6 +50,11 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 Causes C<localtime>, C<gmtime> and C<stat> to return objects rather
 than long arrays which you never remember which bit is which.
 
+=head2 Module::Load
+
+Adds C<load> which will load a module from a scalar without requiring
+you to do funny things like C<eval require $module>.
+
 =cut
 
 sub import {
@@ -66,7 +71,8 @@ sub import {
         $caller => (
             "CLASS",
             "File::stat",
-            "Time::Piece"
+            "Time::Piece",
+            "Module::Load",
         )
     );
 }
