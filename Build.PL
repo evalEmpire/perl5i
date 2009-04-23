@@ -17,6 +17,9 @@ my $builder = Module::Build->new(
         'File::stat'            => '1.00',
         'Time::Piece'           => '1.12',
         'Module::Load'          => '0.16',
+        'autodie'               => '1.999',
+        # Comes with autodie, but we use it directly
+        'Fatal'                 => '1.999',
     },
     build_requires      => {
         'Test::More'            => '0.86',
