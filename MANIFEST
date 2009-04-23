@@ -10,3 +10,4 @@ t/lexical.t
 t/modern_perl.t
 t/Module-Load.t
 t/Time-Piece.t
+t/y2038.t
