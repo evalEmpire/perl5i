@@ -1,0 +1,6 @@
+Build.PL
+lib/perl5i.pm
+MANIFEST			This list of files
+MANIFEST.SKIP
+README
+t/modern_perl.t
