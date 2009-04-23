@@ -33,6 +33,8 @@ my $builder = Module::Build->new(
         resources => {
             repository =>
               'http://github.com/schwern/perl5i/tree/master',
+            bugtracker =>
+              'http://github.com/schwern/perl5i/issues',
         },
     },
 );

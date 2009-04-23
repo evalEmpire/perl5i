@@ -67,6 +67,33 @@ autodie's default error messages are pretty smart.
 
 All of autodie will be turned on.
 
+
+=head1 BUGS
+
+Its not lexical.
+
+Want to include L<Time::y2038> but it doesn't play nice with
+L<Time::Piece> which uses CORE::localtime and CORE::gmtime.
+
+
+=head1 LICENSE
+
+Copyright 2009, Michael G Schwern <schwern@pobox.com>
+
+This program is free software; you can redistribute it and/or
+modify it under the same terms as Perl itself.
+
+See F<http://www.perl.com/perl/misc/Artistic.html>
+
+
+=head1 SEE ALSO
+
+Repository:   F<http://github.com/schwern/perl5i/tree/master>
+Issues/Bugs:  F<http://github.com/schwern/perl5i/issues>
+
+L<Modern::Perl>
+
+
 =cut
 
 sub import {
