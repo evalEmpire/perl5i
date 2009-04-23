@@ -42,6 +42,11 @@ order.
 
 Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 
+=head2 File::stat
+
+Causes L<stat()> to return an object rather than a 13 element array
+that you never remember which bit is which.
+
 =cut
 
 sub import {
@@ -55,9 +60,13 @@ sub import {
     mro::set_mro( $caller, 'c3' );
 
     require CLASS;
+    require File::stat;
     eval qq{
         package $caller;
+
         CLASS->import;
+        File::stat->import;
+        1;
     } or die $@;
 }
 
