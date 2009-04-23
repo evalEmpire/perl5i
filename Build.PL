@@ -8,7 +8,7 @@ use 5.010;
 my $builder = Module::Build->new(
     module_name         => 'perl5i',
     license             => 'perl',
-    dist_author => 'Michael G Schwern <schwern@pobox.com>',
+    dist_author         => 'Michael G Schwern <schwern@pobox.com>',
 
     requires            => {
         'perl'                  => '5.10.0',
