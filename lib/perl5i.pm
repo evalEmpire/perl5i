@@ -70,7 +70,7 @@ All of autodie will be turned on.
 
 =head1 BUGS
 
-Its not lexical.
+Some part are not lexical.
 
 Want to include L<Time::y2038> but it doesn't play nice with
 L<Time::Piece> which uses CORE::localtime and CORE::gmtime.
@@ -96,7 +96,12 @@ L<Modern::Perl>
 
 =cut
 
+# This works around autodie's lexical nature.
+use base 'autodie';
+
 sub import {
+    my $class = shift;
+
     require Modern::Perl;
     Modern::Perl->import;
 
@@ -112,9 +117,11 @@ sub import {
             ["File::stat"],
             ["Time::Piece"],
             ["Module::Load"],
-            ["Fatal" => ":all"],
         )
     );
+
+    @_ = ($class, ":all");
+    goto &autodie::import;
 }
 
 

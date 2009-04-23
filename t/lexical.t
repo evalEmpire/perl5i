@@ -25,8 +25,6 @@ TODO: {
 
 
 # lexical autodie?
-TODO: {
-    local $TODO = "Unfortunately we disable autodie's lexical nature to make it work";
-
-    ok eval { open my $fh, "dlkfjal;kdj" };
+{
+    ok eval { open my $fh, "dlkfjal;kdj"; 1 } or diag $@;
 }
