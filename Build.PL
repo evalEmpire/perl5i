@@ -20,6 +20,7 @@ my $builder = Module::Build->new(
         'autodie'               => '1.999',
         # Comes with autodie, but we use it directly
         'Fatal'                 => '1.999',
+        'autobox::Core'         => '0.6',
     },
     build_requires      => {
         'Test::More'            => '0.86',

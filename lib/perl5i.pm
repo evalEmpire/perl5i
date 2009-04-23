@@ -50,10 +50,12 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 Causes C<localtime>, C<gmtime> and C<stat> to return objects rather
 than long arrays which you never remember which bit is which.
 
+
 =head2 Module::Load
 
 Adds C<load> which will load a module from a scalar without requiring
 you to do funny things like C<eval require $module>.
+
 
 =head2 autodie
 
@@ -66,6 +68,17 @@ trap the failure.
 autodie's default error messages are pretty smart.
 
 All of autodie will be turned on.
+
+
+=head2 autobox
+
+L<autobox> allows methods to defined for and called on most unblessed
+variables.
+
+=head2 autobox::Core
+
+L<autobox::Core> wraps a lot of Perl's built in functions so they can
+be called as methods on unblessed variables.  C<<@a->pop>> for example.
 
 
 =head1 BUGS
@@ -96,8 +109,9 @@ L<Modern::Perl>
 
 =cut
 
-# This works around autodie's lexical nature.
+# This works around their lexical nature.
 use base 'autodie';
+use base 'autobox::Core';
 
 sub import {
     my $class = shift;
@@ -120,6 +134,11 @@ sub import {
         )
     );
 
+    # Have to call both or it won't work.
+    autobox::import($class);
+    autobox::Core::import($class);
+
+    # autodie needs a bit more convincing
     @_ = ($class, ":all");
     goto &autodie::import;
 }
