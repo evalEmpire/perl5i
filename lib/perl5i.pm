@@ -85,7 +85,7 @@ sub import {
             ["File::stat"],
             ["Time::Piece"],
             ["Module::Load"],
-            ["autodie" => ":all"],
+            ["Fatal" => ":all"],
         )
     );
 }
