@@ -14,6 +14,9 @@ my $builder = Module::Build->new(
         'perl'                  => '5.10.0',
         'Modern::Perl'          => '1.03',
         'CLASS'                 => '1.00',
+        'File::stat'            => '1.00',
+        'Time::Piece'           => '1.12',
+        'Module::Load'          => '0.16',
     },
     build_requires      => {
         'Test::More'            => '0.86',

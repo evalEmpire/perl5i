@@ -4,6 +4,7 @@ use 5.010;
 
 use strict;
 use warnings;
+use Module::Load;
 
 our $VERSION = '20090422';
 
@@ -44,8 +45,10 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 
 =head2 File::stat
 
-Causes L<stat()> to return an object rather than a 13 element array
-that you never remember which bit is which.
+=head2 Time::Piece
+
+Causes C<localtime>, C<gmtime> and C<stat> to return objects rather
+than long arrays which you never remember which bit is which.
 
 =cut
 
@@ -59,15 +62,29 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    require CLASS;
-    require File::stat;
-    eval qq{
-        package $caller;
+    load_in_caller(
+        $caller => (
+            "CLASS",
+            "File::stat",
+            "Time::Piece"
+        )
+    );
+}
 
-        CLASS->import;
-        File::stat->import;
-        1;
-    } or die $@;
+
+sub load_in_caller {
+    my $caller  = shift;
+    my @modules = @_;
+
+    for my $module (@modules) {
+        load $module;
+
+        eval qq{
+            package $caller;
+            $module->import;
+            1;
+        } or die "Error while perl5i loaded $module: $@";
+    }
 }
 
 1;
