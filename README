@@ -1,0 +1,5 @@
+Perl5i is my imaginary version of Perl 5.
+
+The goal will be to load just one module and fix as much of Perl 5
+as possible.
+
