@@ -26,15 +26,21 @@ This includes adding features, changing existing core functions and
 changing defaults.  It will likely not be backwards compatible with
 Perl 5, so perl5i will have a lexical effect.
 
-=head2 What it does
+=head1 What it does
 
-=head3 warnings on
+perl5i enables each of these modules.  We'll provide a brief
+description here, but you should look at each of their documentation
+for full details.
 
-=head3 strict on
+=head2 Modern::Perl
 
-=head3 5.10 features on
+Turns on strict and warnings, enables all the 5.10 features like
+C<given/when>, C<say> and C<state>, and enables C3 method resolution
+order.
 
-=head3 C3 calling conventions on
+=head2 CLASS
+
+Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 
 =cut
 
@@ -42,9 +48,17 @@ sub import {
     require Modern::Perl;
     Modern::Perl->import;
 
+    my $caller = caller;
+
     # Modern::Perl won't pass this through to our caller.
     require mro;
-    mro::set_mro( scalar caller(), 'c3' );
+    mro::set_mro( $caller, 'c3' );
+
+    require CLASS;
+    eval qq{
+        package $caller;
+        CLASS->import;
+    } or die $@;
 }
 
 1;

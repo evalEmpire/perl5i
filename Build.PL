@@ -13,6 +13,7 @@ my $builder = Module::Build->new(
     requires            => {
         'perl'                  => '5.10.0',
         'Modern::Perl'          => '1.03',
+        'CLASS'                 => '1.00',
     },
     build_requires      => {
         'Test::More'            => '0.86',
