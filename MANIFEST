@@ -3,5 +3,10 @@ lib/perl5i.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
 README
+t/autodie.t
 t/CLASS.t
+t/File-stat.t
+t/lexical.t
 t/modern_perl.t
+t/Module-Load.t
+t/Time-Piece.t
