@@ -55,6 +55,18 @@ than long arrays which you never remember which bit is which.
 Adds C<load> which will load a module from a scalar without requiring
 you to do funny things like C<eval require $module>.
 
+=head2 autodie
+
+The autodie module causes system and file calls which can fail
+(C<open>, C<system> and C<chdir>, for example) to die when they fail.
+This means you don't have to put C<or die> at the end of every system
+call, but you do have to wrap it in an C<eval> block if you want to
+trap the failure.
+
+autodie's default error messages are pretty smart.
+
+All of autodie will be turned on.
+
 =cut
 
 sub import {
@@ -69,10 +81,11 @@ sub import {
 
     load_in_caller(
         $caller => (
-            "CLASS",
-            "File::stat",
-            "Time::Piece",
-            "Module::Load",
+            ["CLASS"],
+            ["File::stat"],
+            ["Time::Piece"],
+            ["Module::Load"],
+            ["autodie" => ":all"],
         )
     );
 }
@@ -82,14 +95,15 @@ sub load_in_caller {
     my $caller  = shift;
     my @modules = @_;
 
-    for my $module (@modules) {
-        load $module;
+    for my $spec (@modules) {
+        my($module, @args) = @$spec;
 
+        load($module);
         eval qq{
             package $caller;
-            $module->import;
+            \$module->import(\@args);
             1;
-        } or die "Error while perl5i loaded $module: $@";
+        } or die "Error while perl5i loaded $module => @args: $@";
     }
 }
 
