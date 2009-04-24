@@ -18,8 +18,8 @@ my $builder = Module::Build->new(
         'Time::Piece'           => '1.12',
         'Module::Load'          => '0.16',
         'autodie'               => '1.999',
-        # Comes with autodie, but we use it directly
-        'Fatal'                 => '1.999',
+        # Needed for autodie :system
+        'IPC::System::Simple'   => '1.18',
         'autobox::Core'         => '0.6',
     },
     build_requires      => {
