@@ -3,5 +3,5 @@
 use perl5i;
 use Test::More 'no_plan';
 
-load "Text::Parsewords";
-ok $INC{"Text/Parsewords.pm"}, "load()";
+load "Text::ParseWords";
+ok $INC{"Text/ParseWords.pm"}, "load()";
