@@ -19,6 +19,10 @@ perl5i - Bend Perl 5 so it fits how it works in my imagination
 
 =head1 DESCRIPTION
 
+B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
+Features may be added, changed and removed without notice.  You have
+been warned.
+
 Perl 5 has a lot of warts.  There's a lot of individual modules and
 techniques out there to fix those warts.  perl5i aims to pull the best
 of them together into one module so you can turn them on all at once.
