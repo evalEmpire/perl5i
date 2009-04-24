@@ -25,7 +25,12 @@ of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
 changing defaults.  It will likely not be backwards compatible with
-Perl 5, so perl5i will have a lexical effect.
+Perl 5, so perl5i will try to have a lexical effect.
+
+Please add to my imaginary world, either by telling me what Perl looks
+like in your imagination (F<http://github.com/schwern/perl5i/issues>
+or make a fork (forking on github is like a branch you control) and
+implement it yourself.
 
 =head1 What it does
 
@@ -87,6 +92,15 @@ Some part are not lexical.
 
 Want to include L<Time::y2038> but it doesn't play nice with
 L<Time::Piece> which uses CORE::localtime and CORE::gmtime.
+
+
+=head1 NOTES
+
+Inspired by chromatic's L<Modern::Perl> and in particular
+F<http://www.modernperlbooks.com/mt/2009/04/ugly-perl-a-lesson-in-the-importance-of-language-design.html>.
+
+I totally didn't come up with the "Perl 5 + i" joke.  I think it was
+Damian Conway.
 
 
 =head1 LICENSE
