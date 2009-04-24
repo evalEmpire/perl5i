@@ -1,0 +1,34 @@
+---
+name: perl5i
+version: 20090424
+author:
+  - 'Michael G Schwern <schwern@pobox.com>'
+abstract: Bend Perl 5 so it fits how it works in my imagination
+license: perl
+resources:
+  bugtracker: http://github.com/schwern/perl5i/issues
+  license: http://dev.perl.org/licenses/
+  repository: http://github.com/schwern/perl5i/tree/master
+configure_requires:
+  Module::Build: 0.32
+requires:
+  CLASS: 1.00
+  File::stat: 1.00
+  IPC::System::Simple: 1.18
+  Modern::Perl: 1.03
+  Module::Load: 0.16
+  Time::Piece: 1.12
+  autobox::Core: 0.6
+  autodie: 1.999
+  perl: 5.10.0
+build_requires:
+  Test::More: 0.86
+  Test::Warn: 0.11
+provides:
+  perl5i:
+    file: lib/perl5i.pm
+    version: 20090424
+generated_by: Module::Build version 0.32
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.2.html
+  version: 1.2
