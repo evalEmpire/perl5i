@@ -2,15 +2,14 @@
 
 use perl5i;
 use Test::More tests => 4;
-use Data::Dumper;
 
 my $str = "bar";
-my $num = 100;
+my $num = 0.1;
 
-is "foo"->perl, Dumper "foo";
+is eval "foo"->perl, "foo";
 
-is 5->perl, Dumper 5;
+is eval 5->perl, 5;
 
-is $str->perl, Dumper $str;
+is eval $str->perl, $str;
 
-is $num->perl, Dumper $num;
+is eval $num->perl, $num;

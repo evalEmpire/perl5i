@@ -22,7 +22,7 @@ my $builder = Module::Build->new(
         'IPC::System::Simple'   => '1.18',
         'autobox::Core'         => '0.6',
 	#FIXME: give this an actual version numbers when it settles down
-	'autobox::expr::dump' => 0,
+	'autobox::dump' => 0,
     },
     build_requires      => {
         'Test::More'            => '0.86',
