@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Module::Load;
 
-our $VERSION = '20090424';
+our $VERSION = '20090425';
 
 
 =head1 NAME
@@ -89,6 +89,20 @@ variables.
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
 be called as methods on unblessed variables.  C<<@a->pop>> for example.
 
+=head2 autobox::scalar::dump
+
+L<autobox::scalar::dump> defines a perl method for scalars that returns
+Data::Dumper style serialization of the non-reference scalar value.
+
+=head2 autobox::array::dump
+
+L<autobox::array::dump> defines a perl method for arrays that returns
+Data::Dumper style serialization of the array or arrayref value.
+
+=head2 autobox::hash::dump
+
+L<autobox::array::dump> defines a perl method for hashes that returns
+Data::Dumper style serialization of the hash or hashref value.
 
 =head1 BUGS
 
@@ -130,6 +144,9 @@ L<Modern::Perl>
 # This works around their lexical nature.
 use base 'autodie';
 use base 'autobox::Core';
+use base 'autobox::scalar::dump';
+use base 'autobox::array::dump';
+use base 'autobox::hash::dump';
 
 sub import {
     my $class = shift;
@@ -155,6 +172,9 @@ sub import {
     # Have to call both or it won't work.
     autobox::import($class);
     autobox::Core::import($class);
+    autobox::scalar::dump::import($class);
+    autobox::array::dump::import($class);
+    autobox::hash::dump::import($class);
 
     # autodie needs a bit more convincing
     @_ = ($class, ":all");

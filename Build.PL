@@ -21,6 +21,10 @@ my $builder = Module::Build->new(
         # Needed for autodie :system
         'IPC::System::Simple'   => '1.18',
         'autobox::Core'         => '0.6',
+	#FIXME: give these actual version numbers when they settle down
+	'autobox::scalar::dump' => 0,
+	'autobox::array::dump'  => 0,
+	'autobox::hash::dump'   => 0,
     },
     build_requires      => {
         'Test::More'            => '0.86',
