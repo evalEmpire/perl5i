@@ -94,15 +94,10 @@ be called as methods on unblessed variables.  C<<@a->pop>> for example.
 L<autobox::scalar::dump> defines a perl method for scalars that returns
 Data::Dumper style serialization of the non-reference scalar value.
 
-=head2 autobox::array::dump
+=head2 autobox::expr::dump
 
-L<autobox::array::dump> defines a perl method for arrays that returns
-Data::Dumper style serialization of the array or arrayref value.
-
-=head2 autobox::hash::dump
-
-L<autobox::array::dump> defines a perl method for hashes that returns
-Data::Dumper style serialization of the hash or hashref value.
+L<autobox::expr::dump> defines a perl method for expressions that returns
+Data::Dumper style serialization of the results of the expression.
 
 =head1 BUGS
 
@@ -144,9 +139,7 @@ L<Modern::Perl>
 # This works around their lexical nature.
 use base 'autodie';
 use base 'autobox::Core';
-use base 'autobox::scalar::dump';
-use base 'autobox::array::dump';
-use base 'autobox::hash::dump';
+use base 'autobox::expr::dump';
 
 sub import {
     my $class = shift;
@@ -172,9 +165,7 @@ sub import {
     # Have to call both or it won't work.
     autobox::import($class);
     autobox::Core::import($class);
-    autobox::scalar::dump::import($class);
-    autobox::array::dump::import($class);
-    autobox::hash::dump::import($class);
+    autobox::expr::dump::import($class);
 
     # autodie needs a bit more convincing
     @_ = ($class, ":all");

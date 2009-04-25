@@ -11,5 +11,8 @@ t/lexical.t
 t/modern_perl.t
 t/Module-Load.t
 t/Time-Piece.t
+t/autobox_scalar_dump.t
+t/autobox_array_dump.t
+t/autobox_hash_dump.t
 t/y2038.t
 META.yml
