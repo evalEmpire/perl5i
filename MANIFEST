@@ -3,6 +3,7 @@ lib/perl5i.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
 README
+t/autobox.t
 t/autodie.t
 t/CLASS.t
 t/File-stat.t
@@ -11,3 +12,4 @@ t/modern_perl.t
 t/Module-Load.t
 t/Time-Piece.t
 t/y2038.t
+META.yml
