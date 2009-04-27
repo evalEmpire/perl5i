@@ -87,7 +87,7 @@ variables.
 =head2 autobox::Core
 
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
-be called as methods on unblessed variables.  C<<@a->pop>> for example.
+be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
 
 =head1 BUGS
