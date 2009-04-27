@@ -62,13 +62,13 @@ than long arrays which you never remember which bit is which.
 
 =head2 Module::Load
 
-Adds C<load> which will load a module from a scalar without requiring
-you to do funny things like C<eval require $module>.
+L<Module::Load> adds C<load> which will load a module from a scalar
+without requiring you to do funny things like C<eval require $module>.
 
 
 =head2 autodie
 
-The autodie module causes system and file calls which can fail
+L<autodie> causes system and file calls which can fail
 (C<open>, C<system> and C<chdir>, for example) to die when they fail.
 This means you don't have to put C<or die> at the end of every system
 call, but you do have to wrap it in an C<eval> block if you want to
@@ -92,7 +92,7 @@ be called as methods on unblessed variables.  C<<@a->pop>> for example.
 
 =head1 BUGS
 
-Some part are not lexical.
+Some parts are not lexical.
 
 Want to include L<Time::y2038> but it doesn't play nice with
 L<Time::Piece> which uses CORE::localtime and CORE::gmtime.
