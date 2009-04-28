@@ -54,11 +54,14 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 
 =head2 File::stat
 
-=head2 Time::Piece
+L<File::stat> causes C<stat> to return objects rather than long arrays
+which you never remember which bit is which.
 
-Causes C<localtime>, C<gmtime> and C<stat> to return objects rather
-than long arrays which you never remember which bit is which.
+=head2 DateTime
 
+The scalar context return from C<localtime> and C<gmtime> are replaced
+with DateTime objects.  They are string overloaded to act like
+C<localtime> and C<gmtime>, but you can call them as objects.
 
 =head2 Module::Load
 
@@ -93,9 +96,6 @@ be called as methods on unblessed variables.  C<< @a->pop >> for example.
 =head1 BUGS
 
 Some parts are not lexical.
-
-Want to include L<Time::y2038> but it doesn't play nice with
-L<Time::Piece> which uses CORE::localtime and CORE::gmtime.
 
 
 =head1 NOTES
@@ -147,7 +147,6 @@ sub import {
         $caller => (
             ["CLASS"],
             ["File::stat"],
-            ["Time::Piece"],
             ["Module::Load"],
         )
     );
@@ -155,6 +154,13 @@ sub import {
     # Have to call both or it won't work.
     autobox::import($class);
     autobox::Core::import($class);
+
+    # Export our gmtime() and localtime()
+    {
+        no strict 'refs';
+        *{$caller.'::gmtime'}    = \&dt_gmtime;
+        *{$caller.'::localtime'} = \&dt_localtime;
+    }
 
     # autodie needs a bit more convincing
     @_ = ($class, ":all");
@@ -177,5 +183,53 @@ sub load_in_caller {
         } or die "Error while perl5i loaded $module => @args: $@";
     }
 }
+
+
+require DateTime;
+sub dt_gmtime (;$) {
+    my $time = @_ ? shift : time;
+    return CORE::gmtime($time) if wantarray;
+    return DateTime->from_epoch(
+        epoch     => $time,
+        formatter => "DateTime::Format::CTime"
+    );
+}
+
+
+sub dt_localtime (;$) {
+    my $time = @_ ? shift : time;
+    return CORE::localtime($time) if wantarray;
+    return DateTime->from_epoch(
+        epoch     => $time,
+        time_zone => "local",
+        formatter => "DateTime::Format::CTime"
+    );
+}
+
+
+{
+    package DateTime::Format::CTime;
+
+    use CLASS;
+
+    sub new { bless {}, $CLASS }
+
+    sub format_datetime {
+        my $self = shift;
+        my $dt = shift;
+
+        # Straight from the Open Group asctime() docs.
+        return sprintf "%.3s %.3s%3d %.2d:%.2d:%.2d %d",
+          $dt->day_abbr,
+          $dt->month_abbr,
+          $dt->mday,
+          $dt->hour,
+          $dt->min,
+          $dt->sec,
+          $dt->year,
+        ;
+    }
+}
+
 
 1;
