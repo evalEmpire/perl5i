@@ -15,7 +15,7 @@ my $builder = Module::Build->new(
         'Modern::Perl'          => '1.03',
         'CLASS'                 => '1.00',
         'File::stat'            => '1.00',
-        'Time::Piece'           => '1.12',
+        'DateTime'              => '1.12',
         'Module::Load'          => '0.16',
         'autodie'               => '1.999',
         # Needed for autodie :system

@@ -2,17 +2,17 @@ Build.PL
 lib/perl5i.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
+META.yml
 README
 t/autobox.t
 t/autodie.t
 t/CLASS.t
+t/datetime.t
 t/File-stat.t
 t/lexical.t
 t/modern_perl.t
 t/Module-Load.t
-t/Time-Piece.t
 t/autobox_scalar_dump.t
 t/autobox_array_dump.t
 t/autobox_hash_dump.t
 t/y2038.t
-META.yml
