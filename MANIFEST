@@ -16,3 +16,11 @@ t/autobox_scalar_dump.t
 t/autobox_array_dump.t
 t/autobox_hash_dump.t
 t/y2038.t
+t/first.t
+t/max.t
+t/maxstr.t
+t/min.t
+t/minstr.t
+t/reduce.t
+t/shuffle.t
+t/sum.t

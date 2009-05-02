@@ -1,6 +1,6 @@
 use perl5i;
 
-use Test::More tests => 19;
+use Test::More tests => 20;
 
 my $v = []->reduce(sub {});
 
@@ -84,9 +84,15 @@ like($@, qr/^Can't undef active subroutine/, "undef active sub");
 # redefinition takes effect immediately depends on whether we're
 # running the Perl or XS implementation.
 
-sub self_updating { local $^W; *self_updating = sub{1} ;1 }
-eval { $v = [1,2]->reduce(\&self_updating) };
-is($@, '', 'redefine self');
+{
+	my $warn;
+	local $SIG{__WARN__} = sub { $warn = shift };
+	sub self_updating { local $^W; *self_updating = sub{1} ;1 }
+	eval { $v = [1,2]->reduce(\&self_updating) };
+	is($@, '', 'redefine self');
+	my $l = "line " . (__LINE__ - 3) . ".\n";
+	is($warn, "Subroutine main::self_updating redefined at t/reduce.t $l");
+}
 
 { my $failed = 0;
 

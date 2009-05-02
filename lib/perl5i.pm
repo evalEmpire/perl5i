@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Module::Load;
 
-our $VERSION = '20090430';
+our $VERSION = '20090502';
 
 
 =head1 NAME
