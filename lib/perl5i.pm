@@ -59,9 +59,17 @@ which you never remember which bit is which.
 
 =head2 DateTime
 
-The scalar context return from C<localtime> and C<gmtime> are replaced
-with DateTime objects.  They are string overloaded to act like
-C<localtime> and C<gmtime>, but you can call them as objects.
+C<time>, C<localtime> and C<gmtime> are replaced with DateTime
+objects.  They will all act like the core functions.
+
+    # Sat Jan 10 13:37:04 2004
+    say scalar gmtime(2**30);
+
+    # 2004
+    say gmtime(2**30)->year;
+
+    # 2009 (when this was written)
+    say time->year;
 
 =head2 Module::Load
 
@@ -160,6 +168,7 @@ sub import {
         no strict 'refs';
         *{$caller.'::gmtime'}    = \&dt_gmtime;
         *{$caller.'::localtime'} = \&dt_localtime;
+        *{$caller.'::time'}      = \&dt_time;
     }
 
     # autodie needs a bit more convincing
@@ -185,10 +194,11 @@ sub load_in_caller {
 }
 
 
-require DateTime;
 sub dt_gmtime (;$) {
     my $time = @_ ? shift : time;
     return CORE::gmtime($time) if wantarray;
+
+    require DateTime;
     return DateTime->from_epoch(
         epoch     => $time,
         formatter => "DateTime::Format::CTime"
@@ -199,10 +209,26 @@ sub dt_gmtime (;$) {
 sub dt_localtime (;$) {
     my $time = @_ ? shift : time;
     return CORE::localtime($time) if wantarray;
+
+    require DateTime;
     return DateTime->from_epoch(
         epoch     => $time,
         time_zone => "local",
         formatter => "DateTime::Format::CTime"
+    );
+}
+
+
+sub dt_time () {
+    require DateTime::Format::Epoch;
+    state $formatter = DateTime::Format::Epoch->new(
+        epoch => DateTime->from_epoch( epoch => 0 )
+    );
+
+    require DateTime;
+    return DateTime->from_epoch(
+        epoch           => time,
+        formatter       => $formatter
     );
 }
 
@@ -230,6 +256,5 @@ sub dt_localtime (;$) {
         ;
     }
 }
-
 
 1;
