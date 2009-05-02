@@ -200,7 +200,7 @@ sub dt_gmtime (;$) {
 
     require DateTime;
     return DateTime->from_epoch(
-        epoch     => $time,
+        epoch     => $time + 0,
         formatter => "DateTime::Format::CTime"
     );
 }
@@ -212,7 +212,7 @@ sub dt_localtime (;$) {
 
     require DateTime;
     return DateTime->from_epoch(
-        epoch     => $time,
+        epoch     => $time + 0,
         time_zone => "local",
         formatter => "DateTime::Format::CTime"
     );
