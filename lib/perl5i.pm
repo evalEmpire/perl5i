@@ -226,10 +226,47 @@ sub dt_time () {
     );
 
     require DateTime;
-    return DateTime->from_epoch(
+    return DateTime::time->from_epoch(
         epoch           => time,
         formatter       => $formatter
     );
+}
+
+
+{
+    package DateTime::time;
+
+    use base qw(DateTime);
+
+    use overload
+      "0+" => sub { $_[0]->epoch },
+      "-"  => sub {
+          my($a, $b, $reverse) = @_;
+
+          if( $reverse ) {
+              ($b, $a) = ($a, $b);
+          }
+
+          my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
+          my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
+
+          return $time_a - $time_b;
+      },
+
+      "+"  => sub {
+          my($a, $b, $reverse) = @_;
+
+          if( $reverse ) {
+              ($b, $a) = ($a, $b);
+          }
+
+          my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
+          my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
+
+          return $time_a + $time_b;
+      },
+
+      fallback => 1;
 }
 
 
