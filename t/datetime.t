@@ -55,7 +55,7 @@ for my $name (keys %funcs) {
 
 
 # Test time.
-TODO: {
+{
     is_about time, CORE::time, "time";
     isa_ok time, "DateTime",                "  is DateTime";
     cmp_ok time->year, ">=", 2009;
