@@ -17,6 +17,7 @@ my $builder = Module::Build->new(
         'File::stat'            => '1.00',
         'DateTime'              => '0.47',
         'DateTime::Format::Epoch'       => '0.11',
+        'Time::y2038'           => '20081111',
         'Module::Load'          => '0.16',
         'autodie'               => '1.999',
         # Needed for autodie :system

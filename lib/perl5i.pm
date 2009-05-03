@@ -199,7 +199,7 @@ sub dt_gmtime (;$) {
     return CORE::gmtime($time) if wantarray;
 
     require DateTime;
-    return DateTime->from_epoch(
+    return DateTime::y2038->from_epoch(
         epoch     => $time + 0,
         formatter => "DateTime::Format::CTime"
     );
@@ -211,7 +211,7 @@ sub dt_localtime (;$) {
     return CORE::localtime($time) if wantarray;
 
     require DateTime;
-    return DateTime->from_epoch(
+    return DateTime::y2038->from_epoch(
         epoch     => $time + 0,
         time_zone => "local",
         formatter => "DateTime::Format::CTime"
@@ -234,9 +234,62 @@ sub dt_time () {
 
 
 {
+    package DateTime::y2038;
+
+    # Don't load DateTime until we need it.
+    our @ISA = qw(DateTime);
+
+    # Override gmtime and localtime with straight emulations
+    # so we can override it later.
+    {
+        *CORE::GLOBAL::gmtime = sub (;$) {
+            return @_ ? CORE::gmtime($_[0]) : CORE::gmtime();
+        };
+
+        *CORE::GLOBAL::localtime = sub (;$) {
+            return @_ ? CORE::localtime($_[0]) : CORE::localtime();
+        };
+    }
+
+    sub from_epoch {
+        my $class = shift;
+
+        require Time::y2038;
+        no warnings 'redefine';
+        local *CORE::GLOBAL::gmtime    = \&Time::y2038::gmtime;
+        local *CORE::GLOBAL::localtime = \&Time::y2038::localtime;
+
+        return $class->SUPER::from_epoch(@_);
+    }
+
+
+    # Copy of DateTime's own epoch() function.
+    sub epoch {
+        my $self = shift;
+
+        my $zone = $self->time_zone;
+        $self->set_time_zone("UTC");
+
+        require Time::y2038;
+        my $time = Time::y2038::timegm(
+            $self->sec,
+            $self->min,
+            $self->hour,
+            $self->mday,
+            $self->mon - 1,
+            $self->year - 1900,
+        );
+
+        $self->set_time_zone($zone);
+
+        return $time;
+    }
+}
+
+{
     package DateTime::time;
 
-    use base qw(DateTime);
+    use base qw(DateTime::y2038);
 
     use overload
       "0+" => sub { $_[0]->epoch },
