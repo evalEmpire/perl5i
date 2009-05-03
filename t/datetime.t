@@ -85,10 +85,11 @@ for my $name (keys %funcs) {
     my $obj = gmtime();
     my @date = gmtime();
  
-    #adjust for object's niceties
-    $date[4]++;               #month is 1 - 12 not 0 - 11
-    $date[5] += 1900;         #full year, not years since 1900
-    $date[7]++;               #julian is 1 .. 365|366 not 0 .. 354|355
+    # adjust for object's niceties
+    $date[4]++;                         # month is 1 - 12 not 0 - 11
+    $date[5] += 1900;                   # full year, not years since 1900
+    $date[6] = 7 if $date[6] == 0;      # In DateTime, Sunday is 7
+    $date[7]++;                         # julian is 1 .. 365|366 not 0 .. 354|355
  
     for my $methods (\(@methods1, @methods2, @methods3)) {
         is_deeply [@date], [map { $obj->$_ } @$methods], "DateTime methods: @$methods";
