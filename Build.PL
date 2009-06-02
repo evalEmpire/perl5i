@@ -23,6 +23,9 @@ my $builder = Module::Build->new(
         # Needed for autodie :system
         'IPC::System::Simple'   => '1.18',
         'autobox::Core'         => '0.6',
+
+        'autobox::dump'         => '20090426',
+        'autobox::List::Util'   => '20090429',
     },
     build_requires      => {
         'Test::More'            => '0.86',

@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Module::Load;
 
-our $VERSION = '20090424';
+our $VERSION = '20090502';
 
 
 =head1 NAME
@@ -100,6 +100,16 @@ variables.
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
 be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
+=head2 autobox::List::Util
+
+L<autobox::List::Util> wraps the functions from List::Util
+(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
+so they can be called on arrays and arrayrefs.
+
+=head2 autobox::dump
+
+L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
+style serialization of the results of the expression.
 
 =head1 BUGS
 
@@ -137,7 +147,10 @@ L<Modern::Perl>
 
 # This works around their lexical nature.
 use base 'autodie';
+# List::Util needs to be before Core to get the C version of sum
+use base 'autobox::List::Util'; 
 use base 'autobox::Core';
+use base 'autobox::dump';
 
 sub import {
     my $class = shift;
@@ -161,7 +174,9 @@ sub import {
 
     # Have to call both or it won't work.
     autobox::import($class);
+    autobox::List::Util::import($class);
     autobox::Core::import($class);
+    autobox::dump::import($class);
 
     # Export our gmtime() and localtime()
     {
