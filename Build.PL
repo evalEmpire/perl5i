@@ -43,6 +43,8 @@ my $builder = Module::Build->new(
               'http://github.com/schwern/perl5i/issues',
         },
     },
+
+    recursive_test_files => 1,
 );
 
 $builder->create_build_script();
