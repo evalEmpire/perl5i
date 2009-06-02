@@ -1,3 +1,5 @@
+#!perl
+
 use perl5i;
 
 use Test::More tests => 13;
@@ -13,7 +15,7 @@ $v = []->first( sub { 0 } );
 is($v, undef, 'no args');
 
 $v = [[qw(a b c)], [qw(d e f)], [qw(g h i)]]->first(
-	sub { $_->[1] le "e" and "e" le $_->[2] }
+    sub { $_->[1] le "e" and "e" le $_->[2] }
 );
 is_deeply($v, [qw(d e f)], 'reference args');
 
@@ -26,7 +28,7 @@ $v = eval { [0,0,1]->first( sub { die if $_ } )  };
 is($v, undef, 'use of die');
 
 sub foobar { 
-	["not ","not ","not "]->first( sub { !defined(wantarray) || wantarray } )
+    ["not ","not ","not "]->first( sub { !defined(wantarray) || wantarray } )
 }
 
 ($v) = foobar();
@@ -42,9 +44,9 @@ is($v, 12, 'return from loop');
 
 # Does it work from another package?
 { 
-	package Foo;
-	use autobox::List::Util;
-	::is( [1..4,24]->first(sub{$_>4}), 24, 'other package');
+    package Foo;
+    use autobox::List::Util;
+    ::is( [1..4,24]->first(sub{$_>4}), 24, 'other package');
 }
 
 # Can we undefine a first sub while it's running?
@@ -57,10 +59,13 @@ like($@, qr/^Can't undef active subroutine/, "undef active sub");
 # running the Perl or XS implementation.
 
 {
-	local $SIG{__WARN__} = sub {}; #trap warnings;
-	sub self_updating { local $^W; *self_updating = sub{1} ;1}
-	eval { $v = [1,2]->first(\&self_updating) };
-	is($@, '', 'redefine self');
+    sub self_updating {
+        no warnings 'redefine';
+        *self_updating = sub{1};
+        return;
+    }
+    eval { $v = [1,2]->first(\&self_updating) };
+    is($@, '', 'redefine self');
 }
 
 { my $failed = 0;

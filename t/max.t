@@ -1,3 +1,5 @@
+#!perl
+
 use perl5i;
 
 use Test::More tests => 4;

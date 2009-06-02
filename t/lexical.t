@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!perl -w
 
 # perl5i should have lexical effect, ideally
 

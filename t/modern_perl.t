@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 # Test the basic Modern::Perl functionality works.
 

@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!perl -w
 
 use perl5i;
 use Test::More tests => 4;

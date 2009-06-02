@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!perl
 
 use perl5i;
 use Test::More 'no_plan';

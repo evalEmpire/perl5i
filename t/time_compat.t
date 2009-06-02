@@ -1,4 +1,4 @@
-#!/usr/bin/perl -w
+#!perl -w
 
 # Test compatibility with Perl's time stuff.
 
