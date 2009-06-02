@@ -1,3 +1,5 @@
+.perlcriticrc
+.perltidyrc
 Build.PL
 lib/perl5i.pm
 MANIFEST			This list of files

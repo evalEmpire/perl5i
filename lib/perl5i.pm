@@ -152,6 +152,7 @@ use base 'autobox::List::Util';
 use base 'autobox::Core';
 use base 'autobox::dump';
 
+## no critic (Subroutines::RequireArgUnpacking)
 sub import {
     my $class = shift;
 
@@ -200,15 +201,19 @@ sub load_in_caller {
         my($module, @args) = @$spec;
 
         load($module);
+        ## no critic (BuiltinFunctions::ProhibitStringyEval)
         eval qq{
             package $caller;
             \$module->import(\@args);
             1;
         } or die "Error while perl5i loaded $module => @args: $@";
     }
+
+    return;
 }
 
 
+## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_gmtime (;$) {
     my $time = @_ ? shift : time;
     return CORE::gmtime($time) if wantarray;
@@ -221,6 +226,7 @@ sub dt_gmtime (;$) {
 }
 
 
+## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_localtime (;$) {
     my $time = @_ ? shift : time;
     return CORE::localtime($time) if wantarray;
@@ -234,6 +240,7 @@ sub dt_localtime (;$) {
 }
 
 
+## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_time () {
     require DateTime::Format::Epoch;
     state $formatter = DateTime::Format::Epoch->new(
@@ -343,7 +350,9 @@ sub dt_time () {
 
     use CLASS;
 
-    sub new { bless {}, $CLASS }
+    sub new {
+        return bless {}, $CLASS
+    }
 
     sub format_datetime {
         my $self = shift;
