@@ -18,7 +18,8 @@ use perl5i;
     my $foo;
     warning_like {
         $foo + 4;
-    } qr/^Use of uninitialized value/;
+    }
+    qr/^Use of uninitialized value/;
 }
 
 

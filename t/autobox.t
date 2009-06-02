@@ -3,7 +3,7 @@
 use perl5i;
 use Test::More 'no_plan';
 
-my @array = (1,2,3);
+my @array = ( 1, 2, 3 );
 is @array->pop, 3;
 
 sub SCALAR::my_strip {

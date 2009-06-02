@@ -1,11 +1,12 @@
 #!/usr/bin/perl -w
 
 use strict;
-use Module::Build;
+use lib 'inc';
+use MyBuild;
 
 use 5.010;
 
-my $builder = Module::Build->new(
+my $builder = MyBuild->new(
     module_name         => 'perl5i',
     license             => 'perl',
     dist_author         => 'Michael G Schwern <schwern@pobox.com>',

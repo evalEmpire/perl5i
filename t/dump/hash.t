@@ -10,7 +10,7 @@ my %h = (
 );
 my $ref = \%h;
 
-is_deeply eval({%h}->perl), {%h};
+is_deeply eval( {%h}->perl ), {%h};
 
 is_deeply eval %h->perl, \%h;
 

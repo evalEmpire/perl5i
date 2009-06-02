@@ -148,7 +148,7 @@ L<Modern::Perl>
 # This works around their lexical nature.
 use base 'autodie';
 # List::Util needs to be before Core to get the C version of sum
-use base 'autobox::List::Util'; 
+use base 'autobox::List::Util';
 use base 'autobox::Core';
 use base 'autobox::dump';
 
@@ -165,13 +165,7 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller(
-        $caller => (
-            ["CLASS"],
-            ["File::stat"],
-            ["Module::Load"],
-        )
-    );
+    load_in_caller( $caller => ( ["CLASS"], ["File::stat"], ["Module::Load"], ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
@@ -182,13 +176,13 @@ sub import {
     # Export our gmtime() and localtime()
     {
         no strict 'refs';
-        *{$caller.'::gmtime'}    = \&dt_gmtime;
-        *{$caller.'::localtime'} = \&dt_localtime;
-        *{$caller.'::time'}      = \&dt_time;
+        *{ $caller . '::gmtime' }    = \&dt_gmtime;
+        *{ $caller . '::localtime' } = \&dt_localtime;
+        *{ $caller . '::time' }      = \&dt_time;
     }
 
     # autodie needs a bit more convincing
-    @_ = ($class, ":all");
+    @_ = ( $class, ":all" );
     goto &autodie::import;
 }
 
@@ -198,7 +192,7 @@ sub load_in_caller {
     my @modules = @_;
 
     for my $spec (@modules) {
-        my($module, @args) = @$spec;
+        my( $module, @args ) = @$spec;
 
         load($module);
         ## no critic (BuiltinFunctions::ProhibitStringyEval)
@@ -243,19 +237,18 @@ sub dt_localtime (;$) {
 ## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_time () {
     require DateTime::Format::Epoch;
-    state $formatter = DateTime::Format::Epoch->new(
-        epoch => DateTime->from_epoch( epoch => 0 )
-    );
+    state $formatter = DateTime::Format::Epoch->new( epoch => DateTime->from_epoch( epoch => 0 ) );
 
     require DateTime;
     return DateTime::time->from_epoch(
-        epoch           => time,
-        formatter       => $formatter
+        epoch     => time,
+        formatter => $formatter
     );
 }
 
 
 {
+
     package DateTime::y2038;
 
     # Don't load DateTime until we need it.
@@ -265,11 +258,11 @@ sub dt_time () {
     # so we can override it later.
     {
         *CORE::GLOBAL::gmtime = sub (;$) {
-            return @_ ? CORE::gmtime($_[0]) : CORE::gmtime();
+            return @_ ? CORE::gmtime( $_[0] ) : CORE::gmtime();
         };
 
         *CORE::GLOBAL::localtime = sub (;$) {
-            return @_ ? CORE::localtime($_[0]) : CORE::localtime();
+            return @_ ? CORE::localtime( $_[0] ) : CORE::localtime();
         };
     }
 
@@ -294,10 +287,7 @@ sub dt_time () {
 
         require Time::y2038;
         my $time = Time::y2038::timegm(
-            $self->sec,
-            $self->min,
-            $self->hour,
-            $self->mday,
+            $self->sec, $self->min, $self->hour, $self->mday,
             $self->mon - 1,
             $self->year - 1900,
         );
@@ -309,6 +299,7 @@ sub dt_time () {
 }
 
 {
+
     package DateTime::time;
 
     use base qw(DateTime::y2038);
@@ -316,29 +307,29 @@ sub dt_time () {
     use overload
       "0+" => sub { $_[0]->epoch },
       "-"  => sub {
-          my($a, $b, $reverse) = @_;
+        my( $a, $b, $reverse ) = @_;
 
-          if( $reverse ) {
-              ($b, $a) = ($a, $b);
-          }
+        if($reverse) {
+            ( $b, $a ) = ( $a, $b );
+        }
 
-          my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
-          my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
+        my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
+        my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
 
-          return $time_a - $time_b;
+        return $time_a - $time_b;
       },
 
-      "+"  => sub {
-          my($a, $b, $reverse) = @_;
+      "+" => sub {
+        my( $a, $b, $reverse ) = @_;
 
-          if( $reverse ) {
-              ($b, $a) = ($a, $b);
-          }
+        if($reverse) {
+            ( $b, $a ) = ( $a, $b );
+        }
 
-          my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
-          my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
+        my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
+        my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
 
-          return $time_a + $time_b;
+        return $time_a + $time_b;
       },
 
       fallback => 1;
@@ -346,17 +337,18 @@ sub dt_time () {
 
 
 {
+
     package DateTime::Format::CTime;
 
     use CLASS;
 
     sub new {
-        return bless {}, $CLASS
+        return bless {}, $CLASS;
     }
 
     sub format_datetime {
         my $self = shift;
-        my $dt = shift;
+        my $dt   = shift;
 
         # Straight from the Open Group asctime() docs.
         return sprintf "%.3s %.3s%3d %.2d:%.2d:%.2d %d",
@@ -367,7 +359,7 @@ sub dt_time () {
           $dt->min,
           $dt->sec,
           $dt->year,
-        ;
+          ;
     }
 }
 
