@@ -87,22 +87,31 @@ like($@, qr/^Can't undef active subroutine/, "undef active sub");
 # running the Perl or XS implementation.
 
 {
-        my $warn;
-        local $SIG{__WARN__} = sub { $warn = shift };
-        sub self_updating { local $^W; *self_updating = sub{1} ;1 }
-        eval { $v = [1,2]->reduce(\&self_updating) };
-        is($@, '', 'redefine self');
-        my $l = "line " . (__LINE__ - 3) . ".\n";
-        is($warn, "Subroutine main::self_updating redefined at t/reduce.t $l");
+    my $warn;
+    local $SIG{__WARN__} = sub { $warn = shift };
+    sub self_updating { local $^W; *self_updating = sub{1} ;1 }
+    eval { $v = [1,2]->reduce(\&self_updating) };
+    is($@, '', 'redefine self');
+    my $l = "line " . (__LINE__ - 3) . ".\n";
+    is($warn, "Subroutine main::self_updating redefined at $0 $l");
 }
 
-{ my $failed = 0;
+{
+    my $failed = 0;
 
-    sub rec { my $n = shift;
-        if (!defined($n)) {  # No arg means we're being called by reduce()
-            return 1; }
-        if ($n<5) { rec($n+1); }
-        else { $v = [1,2]->reduce(\&rec) }
+    sub rec {
+        # No arg means we're being called by reduce()
+        return 1 unless @_;
+
+        my $n = shift;
+
+        if ($n<5) {
+            rec($n+1);
+        }
+        else {
+            $v = [1,2]->reduce(\&rec)
+        }
+
         $failed = 1 if !defined $n;
     }
 
