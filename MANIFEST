@@ -1,6 +1,7 @@
 .perlcriticrc
 .perltidyrc
 Build.PL
+inc/MyBuild.pm
 lib/perl5i.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
@@ -11,6 +12,7 @@ t/autodie.t
 t/CLASS.t
 t/datetime.t
 t/dump/array.t
+t/dump/code.t
 t/dump/hash.t
 t/dump/scalar.t
 t/File-stat.t

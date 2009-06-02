@@ -29,7 +29,7 @@ my $builder = MyBuild->new(
         'autobox::List::Util'   => '20090429',
     },
     build_requires      => {
-        'Test::More'            => '0.86',
+        'Test::More'            => '0.88',
         'Test::Warn'            => '0.11',
     },
     configure_requires => {
