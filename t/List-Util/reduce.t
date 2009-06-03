@@ -109,9 +109,9 @@ like( $@, qr/^Can't undef active subroutine/, "undef active sub" );
         *self_updating = sub { 1 };
         1;
     }
+    my $l = "line " . ( __LINE__ - 3 ) . ".\n";
     eval { $v = [ 1, 2 ]->reduce( \&self_updating ) };
     is( $@, '', 'redefine self' );
-    my $l = "line " . ( __LINE__ - 3 ) . ".\n";
     is( $warn, "Subroutine main::self_updating redefined at $0 $l" );
 }
 
