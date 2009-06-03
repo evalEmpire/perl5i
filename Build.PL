@@ -7,41 +7,37 @@ use MyBuild;
 use 5.010;
 
 my $builder = MyBuild->new(
-    module_name         => 'perl5i',
-    license             => 'perl',
-    dist_author         => 'Michael G Schwern <schwern@pobox.com>',
+    module_name => 'perl5i',
+    license     => 'perl',
+    dist_author => 'Michael G Schwern <schwern@pobox.com>',
 
-    requires            => {
-        'perl'                  => '5.10.0',
-        'Modern::Perl'          => '1.03',
-        'CLASS'                 => '1.00',
-        'File::stat'            => '1.00',
-        'DateTime'              => '0.47',
-        'DateTime::Format::Epoch'       => '0.11',
-        'Time::y2038'           => '20081111',
-        'Module::Load'          => '0.16',
-        'autodie'               => '1.999',
+    requires => {
+        'perl'                    => '5.10.0',
+        'Modern::Perl'            => '1.03',
+        'CLASS'                   => '1.00',
+        'File::stat'              => '1.00',
+        'DateTime'                => '0.47',
+        'DateTime::Format::Epoch' => '0.11',
+        'Time::y2038'             => '20081111',
+        'Module::Load'            => '0.16',
+        'autodie'                 => '1.999',
         # Needed for autodie :system
-        'IPC::System::Simple'   => '1.18',
-        'autobox::Core'         => '0.6',
+        'IPC::System::Simple' => '1.18',
+        'autobox::Core'       => '0.6',
 
-        'autobox::dump'         => '20090426',
-        'autobox::List::Util'   => '20090429',
+        'autobox::dump'       => '20090426',
+        'autobox::List::Util' => '20090429',
     },
-    build_requires      => {
-        'Test::More'            => '0.88',
-        'Test::Warn'            => '0.11',
+    build_requires => {
+        'Test::More' => '0.88',
+        'Test::Warn' => '0.11',
     },
-    configure_requires => {
-        'Module::Build'         => '0.32',
-    },
+    configure_requires => { 'Module::Build' => '0.32', },
 
-    meta_merge  => {
+    meta_merge => {
         resources => {
-            repository =>
-              'http://github.com/schwern/perl5i/tree/master',
-            bugtracker =>
-              'http://github.com/schwern/perl5i/issues',
+            repository => 'http://github.com/schwern/perl5i/tree/master',
+            bugtracker => 'http://github.com/schwern/perl5i/issues',
         },
     },
 
