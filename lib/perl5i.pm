@@ -1,3 +1,4 @@
+# vi: set ts=4 sw=4 ht=4 et :
 package perl5i;
 
 use 5.010;
@@ -6,7 +7,7 @@ use strict;
 use warnings;
 use Module::Load;
 
-our $VERSION = '20090502';
+our $VERSION = '20090614';
 
 
 =head1 NAME
@@ -111,6 +112,17 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
+=head2 miscellaneous other changes
+
+=over
+
+=item die
+
+The c<die> function always returns an exit code of 255 instead of trying
+to use C<$!> and C<$?>.
+
+=back
+
 =head1 BUGS
 
 Some parts are not lexical.
@@ -180,6 +192,17 @@ sub import {
         *{ $caller . '::localtime' } = \&dt_localtime;
         *{ $caller . '::time' }      = \&dt_time;
     }
+
+    # fix die so that it always returns 255
+    *CORE::GLOBAL::die = sub {
+        my $error = join '', @_;
+        unless ($error =~ /\n$/) {
+            my ($file, $line) = (caller)[1,2];
+            $error .= " at $file line $line.\n";
+        }
+        $! = 255;
+        CORE::die $error
+    };
 
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
