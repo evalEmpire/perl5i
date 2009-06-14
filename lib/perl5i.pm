@@ -94,6 +94,14 @@ sub alias {
 }
 
 
+=head2 die()
+
+C<die> now always returns an exit code of 255 instead of trying to use
+C<$!> or C<$?> which makes the exit code unpredictable.  If you want
+to exit with a message and a special message, use C<warn> then
+C<exit>.
+
+
 =head2 Modern::Perl
 
 Turns on strict and warnings, enables all the 5.10 features like
@@ -171,16 +179,6 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
-=head2 miscellaneous other changes
-
-=over
-
-=item die
-
-The c<die> function always returns an exit code of 255 instead of trying
-to use C<$!> and C<$?>.
-
-=back
 
 =head1 BUGS
 
