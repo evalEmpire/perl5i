@@ -122,6 +122,14 @@ objects.  They will all act like the core functions.
     # 2009 (when this was written)
     say time->year;
 
+
+=head2 Time::y2038
+
+gmtime() and localtime() will now safely work with dates beyond the
+year 2038 and before 1901 (the exact range is not defined, but its
+well into a couple million years in either direction).
+
+
 =head2 Module::Load
 
 L<Module::Load> adds C<load> which will load a module from a scalar
