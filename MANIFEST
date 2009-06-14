@@ -12,6 +12,7 @@ t/autobox.t
 t/autodie.t
 t/CLASS.t
 t/datetime.t
+t/die.t
 t/dump/array.t
 t/dump/code.t
 t/dump/hash.t
