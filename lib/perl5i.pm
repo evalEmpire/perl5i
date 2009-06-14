@@ -6,6 +6,7 @@ use 5.010;
 use strict;
 use warnings;
 use Module::Load;
+use Carp;
 
 our $VERSION = '20090614';
 
@@ -39,9 +40,59 @@ implement it yourself.
 
 =head1 What it does
 
-perl5i enables each of these modules.  We'll provide a brief
-description here, but you should look at each of their documentation
-for full details.
+perl5i enables each of these modules and adds/changes these functions.
+We'll provide a brief description here, but you should look at each of
+their documentation for full details.
+
+=head2 alias()
+
+    alias( $name           => $reference );
+    alias( $package, $name => $reference );
+    alias( @identifiers    => $reference );
+
+Assigns a $refrence a $name.  For example...
+
+    alias foo => sub { 42 };
+    print foo();        # prints 42
+
+It will also work on hash, array and scalar refs.
+
+    our %stuff;
+    alias stuff => \%some_other_hash;
+
+Multiple @identifiers will be joined with '::' and used as the fully
+qualified name for the alias.
+
+    my $class = "Some::Class";
+    my $name  = "foo";
+    alias $class, $name => sub { 99 };
+    print Some::Class->foo;  # prints 99
+
+If the $name has no "::" in it, the current caller will be prepended.
+
+This is basically a nicer way to say:
+
+    no strict 'refs';
+    *{$package . '::'. $name} = $reference;
+
+=cut
+
+sub alias {
+    croak "Not enough arguments given to alias()" unless @_ >= 2;
+
+    my $thing = pop @_;
+    croak "Last argument to alias() must be a reference" unless ref $thing;
+
+    my @name = @_;
+    unshift @name, (caller)[0] unless grep /::/, @name;
+
+    my $name = join "::", @name;
+
+    no strict 'refs';
+    *{$name} = $thing;
+    return;
+}
+
 
 =head2 Modern::Perl
 
@@ -71,6 +122,14 @@ objects.  They will all act like the core functions.
 
     # 2009 (when this was written)
     say time->year;
+
+
+=head2 Time::y2038
+
+gmtime() and localtime() will now safely work with dates beyond the
+year 2038 and before 1901 (the exact range is not defined, but its
+well into a couple million years in either direction).
+
 
 =head2 Module::Load
 
@@ -191,6 +250,7 @@ sub import {
         *{ $caller . '::gmtime' }    = \&dt_gmtime;
         *{ $caller . '::localtime' } = \&dt_localtime;
         *{ $caller . '::time' }      = \&dt_time;
+        *{ $caller . '::alias' }     = \&alias;
     }
 
     # fix die so that it always returns 255
