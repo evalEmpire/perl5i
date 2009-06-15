@@ -101,7 +101,6 @@ C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special message, use C<warn> then
 C<exit>.
 
-
 =head2 Modern::Perl
 
 Turns on strict and warnings, enables all the 5.10 features like
@@ -258,8 +257,9 @@ sub import {
             my ($file, $line) = (caller)[1,2];
             $error .= " at $file line $line.\n";
         }
-        $! = 255;
-        CORE::die $error
+
+        local $! = 255;
+        return CORE::die($error);
     };
 
     # autodie needs a bit more convincing

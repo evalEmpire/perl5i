@@ -46,8 +46,10 @@ is $@, "123456789\n", "die in block eval with multiple arguments";
 {
     my $error;
     local $SIG{__DIE__} = sub { $error = join '', @_ };
+    local $! = 0;
     eval { die "trigger\n" };
     is $error, "trigger\n", "__DIE__ signal handler";
+    cmp_ok $!, '==', 0, "die() did not set errno";
 }
 
 test 'package Foo; die "a noble death\n"',         "a noble death\n",              'die in a different package';
