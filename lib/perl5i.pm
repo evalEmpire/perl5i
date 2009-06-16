@@ -214,11 +214,11 @@ L<Modern::Perl>
 =cut
 
 # This works around their lexical nature.
-use base 'autodie';
+use parent 'autodie';
 # List::Util needs to be before Core to get the C version of sum
-use base 'autobox::List::Util';
-use base 'autobox::Core';
-use base 'autobox::dump';
+use parent 'autobox::List::Util';
+use parent 'autobox::Core';
+use parent 'autobox::dump';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -383,7 +383,7 @@ sub dt_time () {
 
     package DateTime::time;
 
-    use base qw(DateTime::y2038);
+    use parent -norequire, qw(DateTime::y2038);
 
     use overload
       "0+" => sub { $_[0]->epoch },

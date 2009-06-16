@@ -24,6 +24,7 @@ my $builder = MyBuild->new(
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',
         'autobox::Core'       => '0.6',
+        parent                => '0.221',
 
         'autobox::dump'       => '20090426',
         'autobox::List::Util' => '20090429',
@@ -44,6 +45,10 @@ my $builder = MyBuild->new(
     },
 
     recursive_test_files => 1,
+
+    PL_files => {
+        'bin/perl5i.PL' => 'bin/perl5i'
+    },
 );
 
 $builder->create_build_script();
