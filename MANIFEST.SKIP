@@ -34,3 +34,8 @@
 \bcover_db\b
 #!end included /usr/local/perl/5.10.0/lib/5.10.0/ExtUtils/MANIFEST.SKIP
 
+# Avoid Devel::NYTProf files
+^nytprof
+
+# Don't ship perl5i
+^bin/perl5i$

@@ -94,6 +94,13 @@ sub alias {
 }
 
 
+=head2 die()
+
+C<die> now always returns an exit code of 255 instead of trying to use
+C<$!> or C<$?> which makes the exit code unpredictable.  If you want
+to exit with a message and a special message, use C<warn> then
+C<exit>.
+
 =head2 Modern::Perl
 
 Turns on strict and warnings, enables all the 5.10 features like
@@ -171,16 +178,6 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
-=head2 miscellaneous other changes
-
-=over
-
-=item die
-
-The c<die> function always returns an exit code of 255 instead of trying
-to use C<$!> and C<$?>.
-
-=back
 
 =head1 BUGS
 
@@ -217,11 +214,11 @@ L<Modern::Perl>
 =cut
 
 # This works around their lexical nature.
-use base 'autodie';
+use parent 'autodie';
 # List::Util needs to be before Core to get the C version of sum
-use base 'autobox::List::Util';
-use base 'autobox::Core';
-use base 'autobox::dump';
+use parent 'autobox::List::Util';
+use parent 'autobox::Core';
+use parent 'autobox::dump';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -260,8 +257,9 @@ sub import {
             my ($file, $line) = (caller)[1,2];
             $error .= " at $file line $line.\n";
         }
-        $! = 255;
-        CORE::die $error
+
+        local $! = 255;
+        return CORE::die($error);
     };
 
     # autodie needs a bit more convincing
@@ -385,7 +383,7 @@ sub dt_time () {
 
     package DateTime::time;
 
-    use base qw(DateTime::y2038);
+    use parent -norequire, qw(DateTime::y2038);
 
     use overload
       "0+" => sub { $_[0]->epoch },

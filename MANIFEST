@@ -1,7 +1,9 @@
 .perlcriticrc
 .perltidyrc
+bin/perl5i.PL
 Build.PL
 inc/MyBuild.pm
+INSTALL.SKIP
 lib/perl5i.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
