@@ -12,6 +12,7 @@ README
 t/alias.t
 t/autobox.t
 t/autodie.t
+t/center.t
 t/chdir.t
 t/CLASS.t
 t/datetime.t
