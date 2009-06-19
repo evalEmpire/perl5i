@@ -310,6 +310,9 @@ sub lstat {
 # scalar autobox methods
 sub SCALAR::center {
     my ($string, $size) = @_;
+    carp "Use of uninitialized value for size in center()" if !defined $size;
+    $size //= 0;
+
     my $len             = length $string;
 
     return $string if $size <= $len;
