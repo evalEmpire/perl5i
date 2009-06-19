@@ -27,4 +27,10 @@ warning_like {
         '->center(undef)' );
 } qr/^Use of uninitialized value for size in center\(\) at $0 line /;
 
+
+# Test that center() always returns the correct length
+for my $size ($hello->length..20) {
+    is( $hello->center($size)->length, $size, "center($size) returns that size" );
+}
+
 done_testing();
