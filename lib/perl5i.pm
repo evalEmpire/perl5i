@@ -230,7 +230,7 @@ use parent 'autobox::dump';
 sub import {
     my $class = shift;
 
-    require File::Stat;
+    require File::stat;
 
     require Modern::Perl;
     Modern::Perl->import;
