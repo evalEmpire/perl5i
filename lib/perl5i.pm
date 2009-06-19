@@ -224,6 +224,8 @@ use parent 'autobox::dump';
 sub import {
     my $class = shift;
 
+    require File::Stat;
+
     require Modern::Perl;
     Modern::Perl->import;
 
@@ -233,7 +235,7 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller( $caller => ( ["CLASS"], ["File::stat"], ["Module::Load"], ) );
+    load_in_caller( $caller => ( ["CLASS"], ["Module::Load"], ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
@@ -242,13 +244,12 @@ sub import {
     autobox::dump::import($class);
 
     # Export our gmtime() and localtime()
-    {
-        no strict 'refs';
-        *{ $caller . '::gmtime' }    = \&dt_gmtime;
-        *{ $caller . '::localtime' } = \&dt_localtime;
-        *{ $caller . '::time' }      = \&dt_time;
-        *{ $caller . '::alias' }     = \&alias;
-    }
+    alias( $caller, 'gmtime',    \&dt_gmtime );
+    alias( $caller, 'localtime', \&dt_localtime );
+    alias( $caller, 'time',      \&dt_time );
+    alias( $caller, 'alias',     \&alias );
+    alias( $caller, 'stat',      \&stat );
+    alias( $caller, 'lstat',     \&lstat );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
@@ -442,6 +443,18 @@ sub dt_time () {
           $dt->year,
           ;
     }
+}
+
+
+# File::stat does not play nice in list context
+sub stat {
+    return CORE::stat(@_) if wantarray;
+    return File::stat::stat(@_);
+}
+
+sub lstat {
+    return CORE::lstat(@_) if wantarray;
+    return File::stat::lstat(@_);
 }
 
 1;

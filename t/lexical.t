@@ -19,8 +19,8 @@ use Test::More 'no_plan';
 TODO: {
     local $TODO = "lexical File::stat";
 
-    my @stat = stat("MANIFEST");
-    is $stat[7], -s "MANIFEST";
+    my $stat = stat("MANIFEST");
+    ok !ref $stat;
 }
 
 
