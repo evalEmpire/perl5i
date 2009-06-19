@@ -95,6 +95,19 @@ sub alias {
 }
 
 
+=head2 center()
+
+    my $centered_string = $string->center($length);
+
+Centers $string between spaces.  $centered_string will be of length
+$length.
+
+If $length is less than C<<$string->length>> it will just return
+C<<$string>>.
+
+    say "Hello"->center(10);   # "   Hello  ";
+    say "Hello"->center(4);    # "Hello";
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -312,30 +325,24 @@ sub lstat {
 }
 
 
+sub SCALAR::center {
+    my ($string, $size) = @_;
+    carp "Use of uninitialized value for size in center()" if !defined $size;
+    $size //= 0;
 
+    my $len             = length $string;
 
-# The naming is seems really weird on these.
+    return $string if $size <= $len;
 
-=head2 ucfirst_word                                                                                                                            
+    my $padlen          = $size - $len;
 
-Take a string and uppercase every word not the string.
+    # pad right with half the remaining characters
+    my $rpad            = int( $padlen / 2 );
 
-=cut 
+    # bias the left padding to one more space, if $size - $len is odd
+    my $lpad            = $padlen - $rpad;
 
-sub ucfirst_word {
-    my $str = shift;
-    $str =~ s/(\b\w)/ucfirst($1)/ge;
-    return $str;
-}
-
-=head2 lc_ucfirst_word
-
-Take a string and lowercase everything then uppercase every word.
-
-=cut
-
-sub lc_ucfirst_word {
-    return ucfirst_word(lc(shift));
+    return ' ' x $lpad . $string . ' ' x $rpad;
 }
 
 1;
