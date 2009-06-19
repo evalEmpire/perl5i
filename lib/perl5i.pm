@@ -474,11 +474,14 @@ sub lstat {
 
 =head2 ucfirst_word                                                                                                                            
 
+take 
+
 =cut 
 
 sub ucfirst_word {
-   #!TODO! this forces to space
-   return join( ' ', map{ ucfirst($_) } split(/\s/, shift ) );
+    my $str = shift;
+    $str =~ s/(\b\w)/ucfirst($1)/ge;
+    return $str;
 }
 
 =head2 lc_ucfirst_word
@@ -486,7 +489,7 @@ sub ucfirst_word {
 =cut
 
 sub lc_ucfirst_word {
-   return ucfirst_word(lc(shift));
+    return ucfirst_word(lc(shift));
 }
 
 1;
