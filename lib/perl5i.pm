@@ -257,6 +257,10 @@ sub import {
     alias( $caller, 'stat',      \&stat );
     alias( $caller, 'lstat',     \&lstat );
 
+    # Export the string functions
+    alias( $caller, 'ucfirst_word',     \&ucfirst_word );
+    alias( $caller, 'lc_ucfirst_word',  \&lc_ucfirst_word );
+
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
         my $error = join '', @_;
@@ -461,6 +465,28 @@ sub stat {
 sub lstat {
     return CORE::lstat(@_) if wantarray;
     return File::stat::lstat(@_);
+}
+
+
+
+
+# The naming is seems really weird on these.
+
+=head2 ucfirst_word                                                                                                                            
+
+=cut 
+
+sub ucfirst_word {
+   #!TODO! this forces to space
+   return join( ' ', map{ ucfirst($_) } split(/\s/, shift ) );
+}
+
+=head2 lc_ucfirst_word
+
+=cut
+
+sub lc_ucfirst_word {
+   return ucfirst_word(lc(shift));
 }
 
 1;
