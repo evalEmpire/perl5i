@@ -307,4 +307,22 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
+# scalar autobox methods
+sub SCALAR::center {
+    my ($string, $size) = @_;
+    my $len             = length $string;
+
+    return $string if $size <= $len;
+
+    my $padlen          = $size - $len;
+
+    # pad right with half the remaining characters
+    my $rpad            = int( $padlen / 2 );
+
+    # bias the left padding to one more space, if $size - $len is odd
+    my $lpad            = $padlen - $rpad;
+
+    return ' ' x $lpad . $string . ' ' x $rpad;
+}
+
 1;
