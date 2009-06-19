@@ -84,7 +84,7 @@ sub alias {
     croak "Last argument to alias() must be a reference" unless ref $thing;
 
     my @name = @_;
-    unshift @name, (caller)[0] unless grep /::/, @name;
+    unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;
 
     my $name = join "::", @name;
 
