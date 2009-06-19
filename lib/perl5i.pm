@@ -95,6 +95,19 @@ sub alias {
 }
 
 
+=head2 center()
+
+    my $centered_string = $string->center($length);
+
+Centers $string between spaces.  $centered_string will be of length
+$length.
+
+If $length is less than C<<$string->length>> it will just return
+C<<$string>>.
+
+    say "Hello"->center(10);   # "   Hello  ";
+    say "Hello"->center(4);    # "Hello";
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -307,7 +320,7 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-# scalar autobox methods
+
 sub SCALAR::center {
     my ($string, $size) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
