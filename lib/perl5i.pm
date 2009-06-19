@@ -111,6 +111,12 @@ order.
 
 Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 
+=head2 File::chdir
+
+L<File::chdir> gives you C<$CWD> representing the current working
+directory and its assignable to C<<chdir>>.  You can also localize it
+to safely chdir inside a scope.
+
 =head2 File::stat
 
 L<File::stat> causes C<stat> to return objects rather than long arrays
@@ -235,7 +241,7 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller( $caller => ( ["CLASS"], ["Module::Load"], ) );
+    load_in_caller( $caller => ( ["CLASS"], ["Module::Load"], ["File::chdir"] ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
