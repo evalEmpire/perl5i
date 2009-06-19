@@ -318,7 +318,7 @@ sub lstat {
 
 =head2 ucfirst_word                                                                                                                            
 
-take 
+Take a string and uppercase every word not the string.
 
 =cut 
 
@@ -329,6 +329,8 @@ sub ucfirst_word {
 }
 
 =head2 lc_ucfirst_word
+
+Take a string and lowercase everything then uppercase every word.
 
 =cut
 
