@@ -227,6 +227,16 @@ I totally didn't come up with the "Perl 5 + i" joke.  I think it was
 Damian Conway.
 
 
+=head1 THANKS
+
+Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
+chromatic and Ben Hengst.
+
+Thanks to Flavian and Matt Trout for their signature and
+Devel::Declare work.
+
+Thanks to all the CPAN authors upon whom this builds.
+
 =head1 LICENSE
 
 Copyright 2009, Michael G Schwern <schwern@pobox.com>
