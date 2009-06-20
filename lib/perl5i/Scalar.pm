@@ -72,5 +72,8 @@ sub SCALAR::rtrim {
     return $string;
 }
 
+sub SCALAR::trim {
+    return SCALAR::rtrim(SCALAR::ltrim(@_));
+}
 
 1;
