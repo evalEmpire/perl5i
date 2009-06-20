@@ -26,6 +26,9 @@ my $builder = MyBuild->new(
         'autobox::Core'       => '0.6',
         parent                => '0.221',
 
+        "IO::All"               => '0.39',
+        "IO::All::LWP"          => '0.14',
+
         'autobox::dump'       => '20090426',
         'autobox::List::Util' => '20090429',
     },

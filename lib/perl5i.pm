@@ -8,6 +8,7 @@ use warnings;
 use Module::Load;
 use Carp;
 use perl5i::DateTime;
+use perl5i::IO;
 
 our $VERSION = '20090614';
 
@@ -114,6 +115,26 @@ C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special message, use C<warn> then
 C<exit>.
+
+=head2 io()
+
+This is C<<io()>> from L<IO::All> except it will only load files,
+directories and filehandles.
+
+For any special operations, sockets, stderr, temp files, etc... call
+the appropriate IO::All method.  For example:
+
+    my $tempfile = io->temp;            # a temp file
+    my $ls = io->pipe("ls -l |");       # a pipe to ls
+
+=head2 io->url
+
+    my $io = io->url($url);
+
+We add a url() method to IO::All which will take a $url and make an
+L<IO::All> object out of it.  It supports schemes which
+L<IO::All::LWP> support, plus file URLs.
+
 
 =head2 Modern::Perl
 
@@ -270,6 +291,7 @@ sub import {
     alias( $caller, 'alias',     \&alias );
     alias( $caller, 'stat',      \&stat );
     alias( $caller, 'lstat',     \&lstat );
+    alias( $caller, 'io',        \&perl5i::IO::safer_io );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
