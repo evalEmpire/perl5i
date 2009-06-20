@@ -349,4 +349,15 @@ sub SCALAR::center {
     return ' ' x $lpad . $string . ' ' x $rpad;
 }
 
+
+sub SCALAR::ucfirst_word {
+    my ($string) = @_;
+    $string =~ s/(\b\w)/uc($1)/ge;
+    return $string;
+}
+
+sub SCALAR::lc_ucfirst_word {
+    return SCALAR::ucfirst_word(lc(shift));
+}
+
 1;
