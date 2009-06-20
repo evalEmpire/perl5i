@@ -21,6 +21,10 @@ perl5i - Bend Perl 5 so it fits how it works in my imagination
 
   use perl5i;
 
+  or
+
+  $ perl5i your_script.pl
+
 =head1 DESCRIPTION
 
 B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
@@ -115,6 +119,15 @@ C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special message, use C<warn> then
 C<exit>.
+
+=head2 English
+
+Loads L<English> to give English names to the punctuation variables
+like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
+
+It does B<not> load the regex variables which effect performance.
+C<<$PREMATCH>>, C<<$MATCH>>, and C<<POSTMATCH>> will not exist.  See
+C<</p>> in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
@@ -256,7 +269,10 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller( $caller => ( ["CLASS"], ["Module::Load"], ["File::chdir"] ) );
+    load_in_caller( $caller => (
+        ["CLASS"], ["Module::Load"], ["File::chdir"],
+        [English => qw(-no_match_vars)]
+    ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
