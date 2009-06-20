@@ -18,11 +18,6 @@ sub SCALAR::ucfirst_word {
     return $string;
 }
 
-sub SCALAR::lc_ucfirst_word {
-    return SCALAR::ucfirst_word(lc(shift));
-}
-
-
 #---------------------------------------------------------------------------
 #  whitespace
 #---------------------------------------------------------------------------
