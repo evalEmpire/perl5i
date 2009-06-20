@@ -20,6 +20,10 @@ perl5i - Bend Perl 5 so it fits how it works in my imagination
 
   use perl5i;
 
+  or
+
+  $ perl5i your_script.pl
+
 =head1 DESCRIPTION
 
 B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
