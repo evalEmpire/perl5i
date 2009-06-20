@@ -11,7 +11,7 @@ sub run_code {
     #work around for open3 wierdness surrounding lexical filehandles
     #and stderr, $err must be true or stderr will go to stdout
     my $err = 1; 
-    my $pid = open3 my $in, my $out, $err, $^X, "-Mblib", "-Mperl5i"
+    my $pid = open3 my $in, my $out, $err, $^X, "-Ilib", "-Mperl5i"
         or die "could not execute $^X: $!";
 
     print $in $code;
