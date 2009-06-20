@@ -273,6 +273,10 @@ sub import {
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
+        # Leave a single ref be
+        local $! = 255;
+        return CORE::die(@_) if @_ == 1 and ref $_[0];
+
         my $error = join '', @_;
         unless ($error =~ /\n$/) {
             my ($file, $line) = (caller)[1,2];

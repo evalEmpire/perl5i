@@ -43,6 +43,9 @@ is $@, "oops\n", "die in block eval";
 eval { die 1 .. 9, "\n" };
 is $@, "123456789\n", "die in block eval with multiple arguments";
 
+eval { die { found => 1 } };
+is_deeply $@, { found => 1 }, "die with a reference is unaltered";
+
 {
     my $error;
     local $SIG{__DIE__} = sub { $error = join '', @_ };
