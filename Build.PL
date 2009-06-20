@@ -44,6 +44,8 @@ my $builder = MyBuild->new(
         'YAML::Any'           => '0.70',
         'Digest::SHA1'        => '2.09',
         'Digest::MD5'         => '2.36',
+        "IO::All"             => '0.39',
+        "IO::All::LWP"        => '0.14',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

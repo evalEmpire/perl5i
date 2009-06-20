@@ -555,6 +555,25 @@ It does B<not> load the regex variables which affect performance.
 C<$PREMATCH>, C<$MATCH>, and C<$POSTMATCH> will not exist.  See
 the C<p> modifier in L<perlre> for a better alternative.
 
+=head2 io()
+
+This is C<<io()>> from L<IO::All> except it will only load files,
+directories and filehandles.
+
+For any special operations, sockets, stderr, temp files, etc... call
+the appropriate IO::All method.  For example:
+
+    my $tempfile = io->temp;            # a temp file
+    my $ls = io->pipe("ls -l |");       # a pipe to ls
+
+=head2 io->url
+
+    my $io = io->url($url);
+
+We add a url() method to IO::All which will take a $url and make an
+L<IO::All> object out of it.  It supports schemes which
+L<IO::All::LWP> support, plus file URLs.
+
 =head2 Modern::Perl
 
 L<Modern::Perl> turns on strict and warnings, enables all the 5.10

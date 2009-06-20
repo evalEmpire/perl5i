@@ -13,6 +13,7 @@ use Try::Tiny;
 use perl5i::2::Meta;
 use Encode ();
 use perl5i::2::autobox;
+use perl5i::IO;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -64,6 +65,7 @@ sub import {
     (\&stat)->alias( $caller, 'stat' );
     (\&lstat)->alias( $caller, 'lstat' );
     (\&utf8_open)->alias($caller, 'open');
+    (\&perl5i::IO::safer_io)->alias( $caller, "io" );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
