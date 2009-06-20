@@ -20,6 +20,7 @@ sub SCALAR::ucfirst_word {
 #---------------------------------------------------------------------------
 #  whitespace
 #---------------------------------------------------------------------------
+# docs for this are still back in perl5i.pm
 sub SCALAR::center {
     my ($string, $size) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
