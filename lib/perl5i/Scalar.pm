@@ -6,10 +6,26 @@ use strict;
 use warnings;
 use Module::Load;
 use Carp;
-use perl5i::DateTime;
 
-our $VERSION = '20090614';
 
+#---------------------------------------------------------------------------
+#  string 
+#---------------------------------------------------------------------------
+
+sub SCALAR::ucfirst_word {
+    my ($string) = @_;
+    $string =~ s/(\b\w)/uc($1)/ge;
+    return $string;
+}
+
+sub SCALAR::lc_ucfirst_word {
+    return SCALAR::ucfirst_word(lc(shift));
+}
+
+
+#---------------------------------------------------------------------------
+#  whitespace
+#---------------------------------------------------------------------------
 sub SCALAR::center {
     my ($string, $size) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
@@ -29,30 +45,6 @@ sub SCALAR::center {
 
     return ' ' x $lpad . $string . ' ' x $rpad;
 }
-
-
-sub SCALAR::ucfirst_word {
-    my ($string) = @_;
-    $string =~ s/(\b\w)/uc($1)/ge;
-    return $string;
-}
-
-sub SCALAR::lc_ucfirst_word {
-    return SCALAR::ucfirst_word(lc(shift));
-}
-
-=pod
-
-trim (strip whitespace), ltrim, rtrim
-is a number
-is an integer, decimal... all the stuff from perlfaq4
-
-is a regex
-
-is an object/instance
-is a reference
-
-=cut  
 
 
 sub SCALAR::ltrim {
@@ -75,5 +67,22 @@ sub SCALAR::rtrim {
 sub SCALAR::trim {
     return SCALAR::rtrim(SCALAR::ltrim(@_));
 }
+
+
+#---------------------------------------------------------------------------
+#  data type
+#---------------------------------------------------------------------------
+=pod
+
+is a number
+is an integer, decimal... all the stuff from perlfaq4
+
+is a regex
+
+is an object/instance
+is a reference
+
+=cut  
+
 
 1;
