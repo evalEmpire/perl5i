@@ -11,7 +11,7 @@ sub run_code {
     #work around for open3 wierdness surrounding lexical filehandles
     #and stderr, $err must be true or stderr will go to stdout
     my $err = 1; 
-    my $pid = open3 my $in, my $out, $err, $^X, "-Mblib", "-Mperl5i"
+    my $pid = open3 my $in, my $out, $err, $^X, "-Ilib", "-Mperl5i"
         or die "could not execute $^X: $!";
 
     print $in $code;
@@ -42,6 +42,9 @@ is $@, "oops\n", "die in block eval";
 
 eval { die 1 .. 9, "\n" };
 is $@, "123456789\n", "die in block eval with multiple arguments";
+
+eval { die { found => 1 } };
+is_deeply $@, { found => 1 }, "die with a reference is unaltered";
 
 {
     my $error;
