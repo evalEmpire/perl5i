@@ -7,6 +7,7 @@ use strict;
 use warnings;
 use Module::Load;
 use Carp;
+use perl5i::DateTime;
 
 our $VERSION = '20090614';
 
@@ -18,6 +19,10 @@ perl5i - Bend Perl 5 so it fits how it works in my imagination
 =head1 SYNOPSIS
 
   use perl5i;
+
+  or
+
+  $ perl5i your_script.pl
 
 =head1 DESCRIPTION
 
@@ -84,7 +89,7 @@ sub alias {
     croak "Last argument to alias() must be a reference" unless ref $thing;
 
     my @name = @_;
-    unshift @name, (caller)[0] unless grep /::/, @name;
+    unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;
 
     my $name = join "::", @name;
 
@@ -94,12 +99,34 @@ sub alias {
 }
 
 
+=head2 center()
+
+    my $centered_string = $string->center($length);
+
+Centers $string between spaces.  $centered_string will be of length
+$length.
+
+If $length is less than C<<$string->length>> it will just return
+C<<$string>>.
+
+    say "Hello"->center(10);   # "   Hello  ";
+    say "Hello"->center(4);    # "Hello";
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special message, use C<warn> then
 C<exit>.
+
+=head2 English
+
+Loads L<English> to give English names to the punctuation variables
+like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
+
+It does B<not> load the regex variables which effect performance.
+C<<$PREMATCH>>, C<<$MATCH>>, and C<<POSTMATCH>> will not exist.  See
+C<</p>> in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
@@ -110,6 +137,12 @@ order.
 =head2 CLASS
 
 Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
+
+=head2 File::chdir
+
+L<File::chdir> gives you C<$CWD> representing the current working
+directory and its assignable to C<<chdir>>.  You can also localize it
+to safely chdir inside a scope.
 
 =head2 File::stat
 
@@ -193,6 +226,16 @@ I totally didn't come up with the "Perl 5 + i" joke.  I think it was
 Damian Conway.
 
 
+=head1 THANKS
+
+Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
+chromatic and Ben Hengst.
+
+Thanks to Flavian and Matt Trout for their signature and
+Devel::Declare work.
+
+Thanks to all the CPAN authors upon whom this builds.
+
 =head1 LICENSE
 
 Copyright 2009, Michael G Schwern <schwern@pobox.com>
@@ -224,6 +267,8 @@ use parent 'autobox::dump';
 sub import {
     my $class = shift;
 
+    require File::stat;
+
     require Modern::Perl;
     Modern::Perl->import;
 
@@ -233,7 +278,10 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller( $caller => ( ["CLASS"], ["File::stat"], ["Module::Load"], ) );
+    load_in_caller( $caller => (
+        ["CLASS"], ["Module::Load"], ["File::chdir"],
+        [English => qw(-no_match_vars)]
+    ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
@@ -242,16 +290,19 @@ sub import {
     autobox::dump::import($class);
 
     # Export our gmtime() and localtime()
-    {
-        no strict 'refs';
-        *{ $caller . '::gmtime' }    = \&dt_gmtime;
-        *{ $caller . '::localtime' } = \&dt_localtime;
-        *{ $caller . '::time' }      = \&dt_time;
-        *{ $caller . '::alias' }     = \&alias;
-    }
+    alias( $caller, 'gmtime',    \&perl5i::DateTime::dt_gmtime );
+    alias( $caller, 'localtime', \&perl5i::DateTime::dt_localtime );
+    alias( $caller, 'time',      \&perl5i::DateTime::dt_time );
+    alias( $caller, 'alias',     \&alias );
+    alias( $caller, 'stat',      \&stat );
+    alias( $caller, 'lstat',     \&lstat );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
+        # Leave a single ref be
+        local $! = 255;
+        return CORE::die(@_) if @_ == 1 and ref $_[0];
+
         my $error = join '', @_;
         unless ($error =~ /\n$/) {
             my ($file, $line) = (caller)[1,2];
@@ -288,160 +339,36 @@ sub load_in_caller {
 }
 
 
-## no critic (Subroutines::ProhibitSubroutinePrototypes)
-sub dt_gmtime (;$) {
-    my $time = @_ ? shift : time;
-    return CORE::gmtime($time) if wantarray;
+# File::stat does not play nice in list context
+sub stat {
+    return CORE::stat(@_) if wantarray;
+    return File::stat::stat(@_);
+}
 
-    require DateTime;
-    return DateTime::y2038->from_epoch(
-        epoch     => $time + 0,
-        formatter => "DateTime::Format::CTime"
-    );
+sub lstat {
+    return CORE::lstat(@_) if wantarray;
+    return File::stat::lstat(@_);
 }
 
 
-## no critic (Subroutines::ProhibitSubroutinePrototypes)
-sub dt_localtime (;$) {
-    my $time = @_ ? shift : time;
-    return CORE::localtime($time) if wantarray;
+sub SCALAR::center {
+    my ($string, $size) = @_;
+    carp "Use of uninitialized value for size in center()" if !defined $size;
+    $size //= 0;
 
-    require DateTime;
-    return DateTime::y2038->from_epoch(
-        epoch     => $time + 0,
-        time_zone => "local",
-        formatter => "DateTime::Format::CTime"
-    );
-}
+    my $len             = length $string;
 
+    return $string if $size <= $len;
 
-## no critic (Subroutines::ProhibitSubroutinePrototypes)
-sub dt_time () {
-    require DateTime::Format::Epoch;
-    state $formatter = DateTime::Format::Epoch->new( epoch => DateTime->from_epoch( epoch => 0 ) );
+    my $padlen          = $size - $len;
 
-    require DateTime;
-    return DateTime::time->from_epoch(
-        epoch     => time,
-        formatter => $formatter
-    );
-}
+    # pad right with half the remaining characters
+    my $rpad            = int( $padlen / 2 );
 
+    # bias the left padding to one more space, if $size - $len is odd
+    my $lpad            = $padlen - $rpad;
 
-{
-
-    package DateTime::y2038;
-
-    # Don't load DateTime until we need it.
-    our @ISA = qw(DateTime);
-
-    # Override gmtime and localtime with straight emulations
-    # so we can override it later.
-    {
-        *CORE::GLOBAL::gmtime = sub (;$) {
-            return @_ ? CORE::gmtime( $_[0] ) : CORE::gmtime();
-        };
-
-        *CORE::GLOBAL::localtime = sub (;$) {
-            return @_ ? CORE::localtime( $_[0] ) : CORE::localtime();
-        };
-    }
-
-    sub from_epoch {
-        my $class = shift;
-
-        require Time::y2038;
-        no warnings 'redefine';
-        local *CORE::GLOBAL::gmtime    = \&Time::y2038::gmtime;
-        local *CORE::GLOBAL::localtime = \&Time::y2038::localtime;
-
-        return $class->SUPER::from_epoch(@_);
-    }
-
-
-    # Copy of DateTime's own epoch() function.
-    sub epoch {
-        my $self = shift;
-
-        my $zone = $self->time_zone;
-        $self->set_time_zone("UTC");
-
-        require Time::y2038;
-        my $time = Time::y2038::timegm(
-            $self->sec, $self->min, $self->hour, $self->mday,
-            $self->mon - 1,
-            $self->year - 1900,
-        );
-
-        $self->set_time_zone($zone);
-
-        return $time;
-    }
-}
-
-{
-
-    package DateTime::time;
-
-    use parent -norequire, qw(DateTime::y2038);
-
-    use overload
-      "0+" => sub { $_[0]->epoch },
-      "-"  => sub {
-        my( $a, $b, $reverse ) = @_;
-
-        if($reverse) {
-            ( $b, $a ) = ( $a, $b );
-        }
-
-        my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
-        my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
-
-        return $time_a - $time_b;
-      },
-
-      "+" => sub {
-        my( $a, $b, $reverse ) = @_;
-
-        if($reverse) {
-            ( $b, $a ) = ( $a, $b );
-        }
-
-        my $time_a = eval { $a->isa("DateTime") } ? $a->epoch : $a;
-        my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
-
-        return $time_a + $time_b;
-      },
-
-      fallback => 1;
-}
-
-
-{
-
-    package DateTime::Format::CTime;
-
-    use CLASS;
-
-    sub new {
-        return bless {}, $CLASS;
-    }
-
-    sub format_datetime {
-        my $self = shift;
-        my $dt   = shift;
-
-        # Straight from the Open Group asctime() docs.
-        return sprintf "%.3s %.3s%3d %.2d:%.2d:%.2d %d",
-          $dt->day_abbr,
-          $dt->month_abbr,
-          $dt->mday,
-          $dt->hour,
-          $dt->min,
-          $dt->sec,
-          $dt->year,
-          ;
-    }
+    return ' ' x $lpad . $string . ' ' x $rpad;
 }
 
 1;

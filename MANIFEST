@@ -5,6 +5,7 @@ Build.PL
 inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
+lib/perl5i/DateTime.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
@@ -12,6 +13,8 @@ README
 t/alias.t
 t/autobox.t
 t/autodie.t
+t/center.t
+t/chdir.t
 t/CLASS.t
 t/datetime.t
 t/die.t
@@ -19,6 +22,7 @@ t/dump/array.t
 t/dump/code.t
 t/dump/hash.t
 t/dump/scalar.t
+t/English.t
 t/File-stat.t
 t/lexical.t
 t/List-Util/first.t

@@ -19,6 +19,9 @@ use Test::More;
     alias "Some::thing" => sub { 123 };
     is Some::thing(), 123, "caller only prepended if there's no ::";
 
+    alias "this", "that" => sub { 234 };
+    is this::that(), 234,  "caller not prepended if there's more than one";
+
     sub bar { "wibble" }
     alias that => \&bar;
     is that(), "wibble";
