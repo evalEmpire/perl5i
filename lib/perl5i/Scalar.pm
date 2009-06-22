@@ -64,20 +64,4 @@ sub SCALAR::trim {
 }
 
 
-#---------------------------------------------------------------------------
-#  data type
-#---------------------------------------------------------------------------
-=pod
-
-is a number
-is an integer, decimal... all the stuff from perlfaq4
-
-is a regex
-
-is an object/instance
-is a reference
-
-=cut  
-
-
 1;
