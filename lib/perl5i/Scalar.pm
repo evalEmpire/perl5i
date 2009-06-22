@@ -20,6 +20,7 @@ sub SCALAR::ucfirst_word {
 #---------------------------------------------------------------------------
 #  whitespace
 #---------------------------------------------------------------------------
+# docs for this are still back in perl5i.pm
 sub SCALAR::center {
     my ($string, $size) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
@@ -61,22 +62,6 @@ sub SCALAR::rtrim {
 sub SCALAR::trim {
     return SCALAR::rtrim(SCALAR::ltrim(@_));
 }
-
-
-#---------------------------------------------------------------------------
-#  data type
-#---------------------------------------------------------------------------
-=pod
-
-is a number
-is an integer, decimal... all the stuff from perlfaq4
-
-is a regex
-
-is an object/instance
-is a reference
-
-=cut  
 
 
 1;

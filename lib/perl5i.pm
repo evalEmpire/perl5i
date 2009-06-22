@@ -298,10 +298,6 @@ sub import {
     alias( $caller, 'stat',      \&stat );
     alias( $caller, 'lstat',     \&lstat );
 
-    # Export the string functions
-    alias( $caller, 'ucfirst_word',     \&ucfirst_word );
-    alias( $caller, 'lc_ucfirst_word',  \&lc_ucfirst_word );
-
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
         # Leave a single ref be
