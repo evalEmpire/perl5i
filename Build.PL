@@ -49,6 +49,7 @@ my $builder = MyBuild->new(
     PL_files => {
         'bin/perl5i.PL' => 'bin/perl5i'
     },
+    script_files => ['bin/perl5i'],
 );
 
 $builder->create_build_script();
