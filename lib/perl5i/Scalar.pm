@@ -22,7 +22,9 @@ sub SCALAR::ucfirst_word {
 #---------------------------------------------------------------------------
 # docs for this are still back in perl5i.pm
 sub SCALAR::center {
-    my ($string, $size) = @_;
+    my ($string, $size, $fill_with) = @_;
+    $fill_with = ' ' unless defined $fill_with;
+
     carp "Use of uninitialized value for size in center()" if !defined $size;
     $size //= 0;
 
@@ -38,7 +40,7 @@ sub SCALAR::center {
     # bias the left padding to one more space, if $size - $len is odd
     my $lpad            = $padlen - $rpad;
 
-    return ' ' x $lpad . $string . ' ' x $rpad;
+    return $fill_with x $lpad . $string . $fill_with x $rpad;
 }
 
 
