@@ -112,6 +112,14 @@ C<<$string>>.
     say "Hello"->center(10);   # "   Hello  ";
     say "Hello"->center(4);    # "Hello";
 
+    my $centered_string = $string->center($length, $character);
+
+Centers $string as above, but uses the character in $character 
+instead of space.
+
+    say "Hello"->center(10, '-');   # "---Hello--"
+    say "Hello"->center(4, '-');    # "Hello";
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -352,9 +360,16 @@ sub lstat {
 
 
 sub SCALAR::center {
-    my ($string, $size) = @_;
+    my ($string, $size, $char) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
     $size //= 0;
+    $char //= ' ';
+
+    if (length $char > 1) {
+        my $bad = $char;
+        $char = substr $char, 0, 1;
+        carp "'$bad' is longer than one character, using '$char' instead";
+    }
 
     my $len             = length $string;
 
@@ -368,7 +383,7 @@ sub SCALAR::center {
     # bias the left padding to one more space, if $size - $len is odd
     my $lpad            = $padlen - $rpad;
 
-    return ' ' x $lpad . $string . ' ' x $rpad;
+    return $char x $lpad . $string . $char x $rpad;
 }
 
 1;
