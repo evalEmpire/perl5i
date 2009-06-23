@@ -15,9 +15,15 @@ int main (int argc, char** argv) {
 
 	for ( int i=1; i < argc; i++ ) {
 		void** tmpaddr;
-		tmpaddr = realloc( cmd, strlen(argv[i]) + 2 );
-		strcat( cmd, " ");
+		/*
+		 * one byte for trailing null,
+		 * one byte for pre-pended space,
+		 * two bytes for quotes
+		 */
+		tmpaddr = realloc( cmd, strlen(argv[i]) + 4 );
+		strcat( cmd, " \"");
 		strcat( cmd, argv[i] );
+		strcat( cmd, "\" ");
 	}
 
 	system(cmd);
