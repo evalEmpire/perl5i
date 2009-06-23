@@ -6,6 +6,7 @@ use 5.010;
 use strict;
 use warnings;
 use Module::Load;
+use IO::Handle;
 use Carp;
 use perl5i::DateTime;
 use perl5i::Scalar;
@@ -176,6 +177,15 @@ well into a couple million years in either direction).
 
 L<Module::Load> adds C<load> which will load a module from a scalar
 without requiring you to do funny things like C<eval require $module>.
+
+
+=head2 IO::Handle
+
+Turns filehandles into objects so you can call methods on them.  The
+biggest one is C<autoflush> rather than mucking around with C<$|> and
+C<select>.
+
+    $fh->autoflush(1);
 
 
 =head2 autodie

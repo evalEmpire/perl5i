@@ -24,6 +24,7 @@ t/dump/hash.t
 t/dump/scalar.t
 t/English.t
 t/File-stat.t
+t/io-handle.t
 t/lexical.t
 t/List-Util/first.t
 t/List-Util/max.t
