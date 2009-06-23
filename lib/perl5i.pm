@@ -117,7 +117,7 @@ C<<$string>>.
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
-to exit with a message and a special message, use C<warn> then
+to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
 =head2 English
