@@ -2,7 +2,7 @@ Perl5i is my imaginary version of Perl 5.
 
 The goal will be to load just one module and fix as much of Perl 5 as
 possible.  It will not cause excessive load time.  It will be
-readonably backwards compatible.
+reasonably backwards compatible.
 
 Since a lot of fixing Perl 5 is "go use this module from CPAN... and this
 one... and this other one... and these two... and this and this..."

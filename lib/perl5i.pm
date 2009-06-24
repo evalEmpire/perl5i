@@ -202,7 +202,7 @@ All of autodie will be turned on.
 
 =head2 autobox
 
-L<autobox> allows methods to defined for and called on most unblessed
+L<autobox> allows methods to be defined for and called on most unblessed
 variables.
 
 =head2 autobox::Core
