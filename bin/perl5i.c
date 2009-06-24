@@ -14,16 +14,16 @@ int main (int argc, char** argv) {
 	strcpy(cmd, perlcmd);
 
 	for ( int i=1; i < argc; i++ ) {
-		void** tmpaddr;
 		/*
-		 * one byte for trailing null,
-		 * one byte for pre-pended space,
-		 * two bytes for quotes
+		 * Extend cmd length adding:
+		 *     one byte for trailing null,
+		 *     one byte for pre-pended space,
+		 *     two bytes for quotes
 		 */
-		tmpaddr = realloc( cmd, strlen(argv[i]) + 4 );
+		cmd = realloc( cmd, strlen(cmd) + strlen(argv[i]) + 4 );
 		strcat( cmd, " \"");
 		strcat( cmd, argv[i] );
-		strcat( cmd, "\" ");
+		strcat( cmd, "\"");
 	}
 
 	system(cmd);
