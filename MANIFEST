@@ -38,3 +38,4 @@ t/modern_perl.t
 t/Module-Load.t
 t/time_compat.t
 t/y2038.t
+t/wrap.t

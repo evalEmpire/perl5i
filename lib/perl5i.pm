@@ -113,6 +113,17 @@ C<<$string>>.
     say "Hello"->center(10);   # "   Hello  ";
     say "Hello"->center(4);    # "Hello";
 
+=head2 wrap()
+
+    my $wrapped_string = $string->wrap($columns);
+
+Wraps $string to width $columns, breaking lines at word boundries.
+
+If no width is given, $columns defaults to 76. Line separator is the
+newline character "\n".
+
+See L<Text::Wrap> for details.
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -379,6 +390,20 @@ sub SCALAR::center {
     my $lpad            = $padlen - $rpad;
 
     return ' ' x $lpad . $string . ' ' x $rpad;
+}
+
+sub SCALAR::wrap {
+    my ($string, $width) = @_;
+    $width //= 76;
+
+    return $string if $width <= 0;
+
+    load Text::Wrap;
+    local $Text::Wrap::separator = "\n";
+    local $Text::Wrap::columns   = $width;
+
+    return Text::Wrap::wrap('', '', $string);
+
 }
 
 1;
