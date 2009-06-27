@@ -15,7 +15,6 @@ my $builder = MyBuild->new(
         'perl'                    => '5.10.0',
         'Modern::Perl'            => '1.03',
         'CLASS'                   => '1.00',
-        'File::stat'              => '1.00',
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
         'Time::y2038'             => '20081111',

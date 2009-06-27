@@ -126,7 +126,7 @@ instead of space.
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
-to exit with a message and a special message, use C<warn> then
+to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
 =head2 English
@@ -211,7 +211,7 @@ All of autodie will be turned on.
 
 =head2 autobox
 
-L<autobox> allows methods to defined for and called on most unblessed
+L<autobox> allows methods to be defined for and called on most unblessed
 variables.
 
 =head2 autobox::Core
