@@ -6,6 +6,7 @@ inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
 lib/perl5i/DateTime.pm
+lib/perl5i/SCALAR.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
