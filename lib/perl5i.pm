@@ -115,12 +115,13 @@ C<<$string>>.
 
 =head2 wrap()
 
-    my $wrapped_string = $string->wrap($columns);
+    my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
-Wraps $string to width $columns, breaking lines at word boundries.
+Wraps $string to width $cols, breaking lines at word boundries using
+separator $sep.
 
-If no width is given, $columns defaults to 76. Line separator is the
-newline character "\n".
+If no width is given, $cols defaults to 76. Default line separator is
+the newline character "\n".
 
 See L<Text::Wrap> for details.
 
@@ -393,13 +394,15 @@ sub SCALAR::center {
 }
 
 sub SCALAR::wrap {
-    my ($string, $width) = @_;
-    $width //= 76;
+    my ($string, %args) = @_;
+
+    my $width     = $args{width}     // 76;
+    my $separator = $args{separator} // "\n";
 
     return $string if $width <= 0;
 
     load Text::Wrap;
-    local $Text::Wrap::separator = "\n";
+    local $Text::Wrap::separator = $separator;
     local $Text::Wrap::columns   = $width;
 
     return Text::Wrap::wrap('', '', $string);
