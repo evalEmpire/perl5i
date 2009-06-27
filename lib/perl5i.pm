@@ -373,20 +373,4 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-sub SCALAR::wrap {
-    my ($string, %args) = @_;
-
-    my $width     = $args{width}     // 76;
-    my $separator = $args{separator} // "\n";
-
-    return $string if $width <= 0;
-
-    load Text::Wrap;
-    local $Text::Wrap::separator = $separator;
-    local $Text::Wrap::columns   = $width;
-
-    return Text::Wrap::wrap('', '', $string);
-
-}
-
 1;
