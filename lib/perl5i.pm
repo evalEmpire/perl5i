@@ -101,26 +101,6 @@ sub alias {
 }
 
 
-=head2 center()
-
-    my $centered_string = $string->center($length);
-
-Centers $string between spaces.  $centered_string will be of length
-$length.
-
-If $length is less than C<<$string->length>> it will just return
-C<<$string>>.
-
-    say "Hello"->center(10);   # "   Hello  ";
-    say "Hello"->center(4);    # "Hello";
-
-    my $centered_string = $string->center($length, $character);
-
-Centers $string as above, but uses the character in $character 
-instead of space.
-
-    say "Hello"->center(10, '-');   # "---Hello--"
-    say "Hello"->center(4, '-');    # "Hello";
 
 =head2 die()
 
@@ -369,33 +349,5 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-
-
-sub SCALAR::center {
-    my ($string, $size, $char) = @_;
-    carp "Use of uninitialized value for size in center()" if !defined $size;
-    $size //= 0;
-    $char //= ' ';
-
-    if (length $char > 1) {
-        my $bad = $char;
-        $char = substr $char, 0, 1;
-        carp "'$bad' is longer than one character, using '$char' instead";
-    }
-
-    my $len             = length $string;
-
-    return $string if $size <= $len;
-
-    my $padlen          = $size - $len;
-
-    # pad right with half the remaining characters
-    my $rpad            = int( $padlen / 2 );
-
-    # bias the left padding to one more space, if $size - $len is odd
-    my $lpad            = $padlen - $rpad;
-
-    return $char x $lpad . $string . $char x $rpad;
-}
 
 1;

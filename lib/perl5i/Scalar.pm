@@ -11,7 +11,16 @@ use Carp;
 #---------------------------------------------------------------------------
 #  string 
 #---------------------------------------------------------------------------
-sub SCALAR::ucfirst_word {
+=head2 title()
+        
+    my $name = 'joe smith'->title; #Joe Smith
+
+Will uppercase every word character that follows a wordbreak character.
+
+=cut
+
+    
+sub SCALAR::title {
     my ($string) = @_;
     $string =~ s/\b(\w)/\U$1/g;
     return $string;
@@ -20,13 +29,41 @@ sub SCALAR::ucfirst_word {
 #---------------------------------------------------------------------------
 #  whitespace
 #---------------------------------------------------------------------------
-# docs for this are still back in perl5i.pm
-sub SCALAR::center {
-    my ($string, $size, $fill_with) = @_;
-    $fill_with = ' ' unless defined $fill_with;
+=head2 center()
 
+    my $centered_string = $string->center($length);
+
+Centers $string between spaces.  $centered_string will be of length
+$length.
+
+If $length is less than C<<$string->length>> it will just return
+C<<$string>>.
+
+    say "Hello"->center(10);   # "   Hello  ";
+    say "Hello"->center(4);    # "Hello";
+
+    my $centered_string = $string->center($length, $character);
+
+Centers $string as above, but uses the character in $character 
+instead of space.
+
+    say "Hello"->center(10, '-');   # "---Hello--"
+    say "Hello"->center(4, '-');    # "Hello";
+
+=cut
+
+
+sub SCALAR::center {
+    my ($string, $size, $char) = @_;
     carp "Use of uninitialized value for size in center()" if !defined $size;
     $size //= 0;
+    $char //= ' ';
+
+    if (length $char > 1) {
+        my $bad = $char;
+        $char = substr $char, 0, 1;
+        carp "'$bad' is longer than one character, using '$char' instead";
+    }
 
     my $len             = length $string;
 
@@ -40,9 +77,16 @@ sub SCALAR::center {
     # bias the left padding to one more space, if $size - $len is odd
     my $lpad            = $padlen - $rpad;
 
-    return $fill_with x $lpad . $string . $fill_with x $rpad;
+    return $char x $lpad . $string . $char x $rpad;
 }
 
+=head2 ltrim()
+
+    my $string = '    testme'->ltrim; # 'testme'
+
+Trim leading whitespace (left).
+
+=cut
 
 sub SCALAR::ltrim {
     my ($string,$trim_charset) = @_;
@@ -52,6 +96,13 @@ sub SCALAR::ltrim {
     return $string;
 }
 
+=head2 rtrim()
+
+    my $string = 'testme    '->rtrim; #'testme'
+
+Trim trailing whitespace (right).
+
+=cut
 
 sub SCALAR::rtrim {
     my ($string,$trim_charset) = @_;
@@ -60,6 +111,14 @@ sub SCALAR::rtrim {
     $string =~ s/$re//;
     return $string;
 }
+
+=head2 trim()
+
+    my $string = '    testme    '->trim;  #'testme'
+
+Trim both leading and trailing whitespace.
+
+=cut
 
 sub SCALAR::trim {
     return SCALAR::rtrim(SCALAR::ltrim(@_));
