@@ -4,7 +4,7 @@ use Test::More;
 
 foreach my $word ("hello", "goodbye!") {
     foreach my $separator ("\n", ' - ', ' || ') {
-        test_wrap($word, $separator) for ("\n", ' - ')
+        test_wrap($word, $separator);
     }
 };
 
