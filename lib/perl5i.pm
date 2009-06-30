@@ -9,6 +9,7 @@ use Module::Load;
 use IO::Handle;
 use Carp;
 use perl5i::DateTime;
+use perl5i::SCALAR;
 
 our $VERSION = '20090614';
 
@@ -117,7 +118,7 @@ C<<$string>>.
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
-to exit with a message and a special message, use C<warn> then
+to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
 =head2 English
@@ -202,7 +203,7 @@ All of autodie will be turned on.
 
 =head2 autobox
 
-L<autobox> allows methods to defined for and called on most unblessed
+L<autobox> allows methods to be defined for and called on most unblessed
 variables.
 
 =head2 autobox::Core
@@ -360,25 +361,5 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-
-sub SCALAR::center {
-    my ($string, $size) = @_;
-    carp "Use of uninitialized value for size in center()" if !defined $size;
-    $size //= 0;
-
-    my $len             = length $string;
-
-    return $string if $size <= $len;
-
-    my $padlen          = $size - $len;
-
-    # pad right with half the remaining characters
-    my $rpad            = int( $padlen / 2 );
-
-    # bias the left padding to one more space, if $size - $len is odd
-    my $lpad            = $padlen - $rpad;
-
-    return ' ' x $lpad . $string . ' ' x $rpad;
-}
 
 1;
