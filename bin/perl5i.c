@@ -10,8 +10,8 @@ int main (int argc, char** argv) {
 	 *     exec %s -Mperl5i "$@"	
 	 */
 	char* perlcmd = "perl -Mperl5i";
-	char* cmd = (char *)malloc( strlen(perlcmd) + 1);
-	strcpy(cmd, perlcmd);
+	char* cmd = (char *) malloc( strlen(perlcmd) + 1);
+	strcpy( cmd, perlcmd );
 
 	for ( int i=1; i < argc; i++ ) {
 		/*
@@ -21,12 +21,12 @@ int main (int argc, char** argv) {
 		 *     two bytes for quotes
 		 */
 		cmd = realloc( cmd, strlen(cmd) + strlen(argv[i]) + 4 );
-		strcat( cmd, " \"");
+		strcat( cmd, " \""   );
 		strcat( cmd, argv[i] );
-		strcat( cmd, "\"");
+		strcat( cmd, "\""    );
 	}
 
-	system(cmd);
-	return(0);
+	int ret = system( cmd );
+	return( ret );
 }
 
