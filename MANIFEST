@@ -1,5 +1,6 @@
 .perlcriticrc
 .perltidyrc
+bin/perl5i.c
 Build.PL
 inc/MyBuild.pm
 INSTALL.SKIP
