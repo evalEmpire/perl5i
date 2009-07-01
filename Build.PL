@@ -45,8 +45,6 @@ my $builder = MyBuild->new(
     },
 
     recursive_test_files => 1,
-
-    script_files => ['bin/perl5i'],
 );
 
 $builder->create_build_script();

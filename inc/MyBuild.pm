@@ -20,6 +20,11 @@ sub ACTION_build {
         print STDERR "Error: No C compiler available; please install ExtUtils::CBuilder\n";
     }
 
+    # script_files is set here as the resulting compiled
+    # executable name varies based on operating system
+    $self->script_files($exe_file);
+
+    # Cleanup files from compilation
     $self->add_to_cleanup($obj_file, $exe_file);
 
     # Invoke parent 'build' action
