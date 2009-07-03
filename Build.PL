@@ -45,6 +45,10 @@ my $builder = MyBuild->new(
         },
     },
 
+    PL_files => {
+        'bin/perl5i.c.PL'       => 'bin/perl5i.c'
+    },
+
     recursive_test_files => 1,
 );
 

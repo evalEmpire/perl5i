@@ -39,3 +39,7 @@
 
 # Don't ship perl5i
 ^bin/perl5i$
+^bin/perl5i.c$
+
+# Ignore C object files
+\.o$

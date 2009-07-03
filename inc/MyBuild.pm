@@ -7,22 +7,17 @@ use base 'Module::Build';
 sub ACTION_build {
     my $self = shift;
 
+    # This has to be run first so the PL files are run to generate
+    # the C code for us to compile.
+    $self->SUPER::ACTION_build(@_);
+
     if ( $self->have_c_compiler() ) {
-        my ($obj_file, $exe_file);
-        eval {
-            my $b = $self->cbuilder();
-            $obj_file = $b->compile(
-                source               => 'bin/perl5i.c',
-                extra_compiler_flags => '-std=c99'
-            );
-            $exe_file = $b->link_executable(objects => $obj_file);
-        };
-        if ($@) {
-            # I feel like maybe $self->log_warn would be better
-            # instead of a raw print(), however log_warn() is not
-            # publicly documented and may change out from under us
-            print STDERR "Error: $@\n";
-        }
+        my $b = $self->cbuilder();
+
+        my $obj_file = $b->compile(
+            source               => 'bin/perl5i.c',
+        );
+        my $exe_file = $b->link_executable(objects => $obj_file);
 
         # script_files is set here as the resulting compiled
         # executable name varies based on operating system
@@ -32,12 +27,10 @@ sub ACTION_build {
         $self->add_to_cleanup($obj_file, $exe_file);
     }
     else {
-        print STDERR "WARNING: No C compiler available; perl5i executable will not be installed.\n";
+        warn "WARNING: No C compiler available; perl5i executable will not be installed.\n";
     }
-
-    # Invoke parent 'build' action
-    $self->SUPER::ACTION_build();
 }
+
 
 # Run perltidy over all the Perl code
 # Borrowed from Test::Harness

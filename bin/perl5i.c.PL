@@ -1,21 +1,30 @@
+# Write out the perl5i wrapper C program making sure it uses
+# the Perl its built with.
+
+my $file = shift;
+open my $fh, ">", $file or die $!;
+printf $fh <<'END', $^X;
 #include <unistd.h>
 #include <stdlib.h>
 
 /*
  * Meant to mimic the shell command
  *     exec perl -Mperl5i "$@"
+ *
+ * This is a C program so it works in a #! line.
  */
 
 int main (int argc, char* argv[]) {
     int i;
-    char* perl_cmd = "perl";
+    char* perl_cmd = "%s";
     char** perl_args = malloc(sizeof(char*) * (argc + 1));
-    perl_args[0] = "perl5i";
+    perl_args[0] = argv[0];
     perl_args[1] = "-Mperl5i";
 
     for( i = 1;  i < argc;  i++ ) {
         perl_args[i+1] = argv[i];
     }
 
-    return execvp( perl_cmd, perl_args );
+    return execv( perl_cmd, perl_args );
 }
+END

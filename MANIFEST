@@ -1,6 +1,6 @@
 .perlcriticrc
 .perltidyrc
-bin/perl5i.c
+bin/perl5i.c.PL
 Build.PL
 inc/MyBuild.pm
 INSTALL.SKIP
@@ -17,6 +17,7 @@ t/autodie.t
 t/center.t
 t/chdir.t
 t/CLASS.t
+t/command_line_wrapper.t
 t/datetime.t
 t/die.t
 t/dump/array.t
