@@ -104,15 +104,21 @@ sub alias {
 =head2 center()
 
     my $centered_string = $string->center($length);
+    my $centered_string = $string->center($length, $character);
 
-Centers $string between spaces.  $centered_string will be of length
-$length.
+Centers $string between $character.  $centered_string will be of
+length $length.
 
-If $length is less than C<<$string->length>> it will just return
-C<<$string>>.
+C<<$character>> defaults to " ".
 
-    say "Hello"->center(10);   # "   Hello  ";
-    say "Hello"->center(4);    # "Hello";
+    say "Hello"->center(10);        # "   Hello  ";
+    say "Hello"->center(10, '-');   # "---Hello--"
+
+C<<center()>> will never truncate C<<$string>>.  If $length is less
+than C<<$string->length>> it will just return C<<$string>>.
+
+    say "Hello"->center(4);        # "Hello";
+
 
 =head2 wrap()
 
@@ -372,5 +378,6 @@ sub lstat {
     return CORE::lstat(@_) if wantarray;
     return File::stat::lstat(@_);
 }
+
 
 1;
