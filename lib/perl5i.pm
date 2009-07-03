@@ -101,6 +101,7 @@ sub alias {
 }
 
 
+<<<<<<< HEAD:lib/perl5i.pm
 =head2 center()
 
     my $centered_string = $string->center($length);
@@ -131,6 +132,8 @@ If no width is given, $cols defaults to 76. Default line separator is
 the newline character "\n".
 
 See L<Text::Wrap> for details.
+=======
+>>>>>>> a3b42bad8de1789b1f13d8e72deaf43860f07669:lib/perl5i.pm
 
 =head2 die()
 
@@ -326,10 +329,6 @@ sub import {
     alias( $caller, 'alias',     \&alias );
     alias( $caller, 'stat',      \&stat );
     alias( $caller, 'lstat',     \&lstat );
-
-    # Export the string functions
-    alias( $caller, 'ucfirst_word',     \&ucfirst_word );
-    alias( $caller, 'lc_ucfirst_word',  \&lc_ucfirst_word );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {

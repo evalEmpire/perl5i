@@ -9,6 +9,8 @@ my $hello = 'hello';
 
 is( $hello->center(7), ' hello ',
     '->center() with even length has equal whitespace on both sides' );
+is( $hello->center(7,'-'), '-hello-',
+    '->center() with even length has equal whitespace on both sides' );
 
 is( $hello->center(8), '  hello ',
     '->center() with odd length pads left' );
