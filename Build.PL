@@ -19,6 +19,7 @@ my $builder = MyBuild->new(
         'DateTime::Format::Epoch' => '0.11',
         'Time::y2038'             => '20081111',
         'Module::Load'            => '0.16',
+        'Text::Wrap'              => '2009.0305',
         'autodie'                 => '1.999',
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',

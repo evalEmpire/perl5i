@@ -114,6 +114,18 @@ C<<$string>>.
     say "Hello"->center(10);   # "   Hello  ";
     say "Hello"->center(4);    # "Hello";
 
+=head2 wrap()
+
+    my $wrapped = $string->wrap( width => $cols, separator => $sep );
+
+Wraps $string to width $cols, breaking lines at word boundries using
+separator $sep.
+
+If no width is given, $cols defaults to 76. Default line separator is
+the newline character "\n".
+
+See L<Text::Wrap> for details.
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -360,6 +372,5 @@ sub lstat {
     return CORE::lstat(@_) if wantarray;
     return File::stat::lstat(@_);
 }
-
 
 1;

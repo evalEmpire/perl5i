@@ -3,6 +3,7 @@ package SCALAR;
 use strict;
 use warnings;
 use Carp;
+use Module::Load;
 
 sub center {
     my ($string, $size) = @_;
@@ -22,6 +23,22 @@ sub center {
     my $lpad            = $padlen - $rpad;
 
     return ' ' x $lpad . $string . ' ' x $rpad;
+}
+
+sub wrap {
+    my ($string, %args) = @_;
+
+    my $width     = $args{width}     // 76;
+    my $separator = $args{separator} // "\n";
+
+    return $string if $width <= 0;
+
+    load Text::Wrap;
+    local $Text::Wrap::separator = $separator;
+    local $Text::Wrap::columns   = $width;
+
+    return Text::Wrap::wrap('', '', $string);
+
 }
 
 1;
