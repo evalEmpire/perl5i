@@ -30,7 +30,7 @@ my $builder = MyBuild->new(
         'autobox::List::Util' => '20090429',
     },
     build_requires => {
-	'ExtUtils::CBuilder' => '0.26',
+        'ExtUtils::CBuilder' => '0.26',
         'Test::More'         => '0.88',
         'Test::Warn'         => '0.11',
         'IPC::Open3'         => '0',
