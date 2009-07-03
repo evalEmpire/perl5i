@@ -27,7 +27,7 @@ my $builder = MyBuild->new(
         'File::chdir'         => '0.1002',
 
         'autobox::dump'       => '20090426',
-        'autobox::List::Util' => '20090429',
+        'autobox::List::Util' => '20090629',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
