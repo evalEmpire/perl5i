@@ -21,4 +21,4 @@ is `$perl5i -e 'say "Hello"'`, "Hello\n", "Hello perl5i!";
 
 like `$perl5i -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
-done_testing(3);
+done_testing(4);
