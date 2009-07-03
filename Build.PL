@@ -30,10 +30,11 @@ my $builder = MyBuild->new(
         'autobox::List::Util' => '20090429',
     },
     build_requires => {
-        'Test::More' => '0.88',
-        'Test::Warn' => '0.11',
-        'IPC::Open3' => '0',
-        'blib'       => '0',
+	'ExtUtils::CBuilder' => '0.26',
+        'Test::More'         => '0.88',
+        'Test::Warn'         => '0.11',
+        'IPC::Open3'         => '0',
+        'blib'               => '0',
     },
     configure_requires => { 'Module::Build' => '0.32', },
 
@@ -45,11 +46,6 @@ my $builder = MyBuild->new(
     },
 
     recursive_test_files => 1,
-
-    PL_files => {
-        'bin/perl5i.PL' => 'bin/perl5i'
-    },
-    script_files => ['bin/perl5i'],
 );
 
 $builder->create_build_script();
