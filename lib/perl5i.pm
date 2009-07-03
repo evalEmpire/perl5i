@@ -112,7 +112,7 @@ length $length.
 C<<$character>> defaults to " ".
 
     say "Hello"->center(10);        # "   Hello  ";
-    say "Hello"->center(10, '-');   # "---Hello--"
+    say "Hello"->center(10, '-');   # "---Hello--";
 
 C<<center()>> will never truncate C<<$string>>.  If $length is less
 than C<<$string->length>> it will just return C<<$string>>.
