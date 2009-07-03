@@ -9,3 +9,4 @@ _build
 cover_db/
 nytprof*
 bin/perl5i
+*.o
