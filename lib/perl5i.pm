@@ -6,19 +6,25 @@ use 5.010;
 use strict;
 use warnings;
 use Module::Load;
+use IO::Handle;
 use Carp;
 use perl5i::DateTime;
+use perl5i::SCALAR;
 
 our $VERSION = '20090614';
 
 
 =head1 NAME
 
-perl5i - Bend Perl 5 so it fits how it works in my imagination
+perl5i - Bend Perl 5 so it fits how it works in our imaginations
 
 =head1 SYNOPSIS
 
   use perl5i;
+
+  or
+
+  $ perl5i your_script.pl
 
 =head1 DESCRIPTION
 
@@ -31,13 +37,13 @@ techniques out there to fix those warts.  perl5i aims to pull the best
 of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
-changing defaults.  It will likely not be backwards compatible with
-Perl 5, so perl5i will try to have a lexical effect.
+changing defaults.  It will likely not be 100% backwards compatible
+with Perl 5, so perl5i will try to have a lexical effect.
 
-Please add to my imaginary world, either by telling me what Perl looks
-like in your imagination (F<http://github.com/schwern/perl5i/issues>
-or make a fork (forking on github is like a branch you control) and
-implement it yourself.
+Please add to this imaginary world and help make it real, either by
+telling me what Perl looks like in your imagination
+(F<http://github.com/schwern/perl5i/issues> or make a fork (forking on
+github is like a branch you control) and implement it yourself.
 
 =head1 What it does
 
@@ -98,22 +104,49 @@ sub alias {
 =head2 center()
 
     my $centered_string = $string->center($length);
+    my $centered_string = $string->center($length, $character);
 
-Centers $string between spaces.  $centered_string will be of length
-$length.
+Centers $string between $character.  $centered_string will be of
+length $length.
 
-If $length is less than C<<$string->length>> it will just return
-C<<$string>>.
+C<<$character>> defaults to " ".
 
-    say "Hello"->center(10);   # "   Hello  ";
-    say "Hello"->center(4);    # "Hello";
+    say "Hello"->center(10);        # "   Hello  ";
+    say "Hello"->center(10, '-');   # "---Hello--";
+
+C<<center()>> will never truncate C<<$string>>.  If $length is less
+than C<<$string->length>> it will just return C<<$string>>.
+
+    say "Hello"->center(4);        # "Hello";
+
+
+=head2 wrap()
+
+    my $wrapped = $string->wrap( width => $cols, separator => $sep );
+
+Wraps $string to width $cols, breaking lines at word boundries using
+separator $sep.
+
+If no width is given, $cols defaults to 76. Default line separator is
+the newline character "\n".
+
+See L<Text::Wrap> for details.
 
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
-to exit with a message and a special message, use C<warn> then
+to exit with a message and a special exit code, use C<warn> then
 C<exit>.
+
+=head2 English
+
+Loads L<English> to give English names to the punctuation variables
+like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
+
+It does B<not> load the regex variables which effect performance.
+C<<$PREMATCH>>, C<<$MATCH>>, and C<<POSTMATCH>> will not exist.  See
+C<</p>> in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
@@ -164,6 +197,15 @@ L<Module::Load> adds C<load> which will load a module from a scalar
 without requiring you to do funny things like C<eval require $module>.
 
 
+=head2 IO::Handle
+
+Turns filehandles into objects so you can call methods on them.  The
+biggest one is C<autoflush> rather than mucking around with C<$|> and
+C<select>.
+
+    $fh->autoflush(1);
+
+
 =head2 autodie
 
 L<autodie> causes system and file calls which can fail
@@ -179,7 +221,7 @@ All of autodie will be turned on.
 
 =head2 autobox
 
-L<autobox> allows methods to defined for and called on most unblessed
+L<autobox> allows methods to be defined for and called on most unblessed
 variables.
 
 =head2 autobox::Core
@@ -213,6 +255,16 @@ I totally didn't come up with the "Perl 5 + i" joke.  I think it was
 Damian Conway.
 
 
+=head1 THANKS
+
+Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
+chromatic, Ben Hengst and anyone else I've forgotten.
+
+Thanks to Flavian and Matt Trout for their signature and
+Devel::Declare work.
+
+Thanks to all the CPAN authors upon whom this builds.
+
 =head1 LICENSE
 
 Copyright 2009, Michael G Schwern <schwern@pobox.com>
@@ -225,8 +277,9 @@ See F<http://www.perl.com/perl/misc/Artistic.html>
 
 =head1 SEE ALSO
 
-Repository:   F<http://github.com/schwern/perl5i/tree/master>
-Issues/Bugs:  F<http://github.com/schwern/perl5i/issues>
+Repository:   L<http://github.com/schwern/perl5i/tree/master>
+Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
+IRC:          irc.perl.org on the #perl5i channel
 
 L<Modern::Perl>
 
@@ -255,7 +308,10 @@ sub import {
     require mro;
     mro::set_mro( $caller, 'c3' );
 
-    load_in_caller( $caller => ( ["CLASS"], ["Module::Load"], ["File::chdir"] ) );
+    load_in_caller( $caller => (
+        ["CLASS"], ["Module::Load"], ["File::chdir"],
+        [English => qw(-no_match_vars)]
+    ) );
 
     # Have to call both or it won't work.
     autobox::import($class);
@@ -328,36 +384,5 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-
-sub SCALAR::center {
-    my ($string, $size) = @_;
-    carp "Use of uninitialized value for size in center()" if !defined $size;
-    $size //= 0;
-
-    my $len             = length $string;
-
-    return $string if $size <= $len;
-
-    my $padlen          = $size - $len;
-
-    # pad right with half the remaining characters
-    my $rpad            = int( $padlen / 2 );
-
-    # bias the left padding to one more space, if $size - $len is odd
-    my $lpad            = $padlen - $rpad;
-
-    return ' ' x $lpad . $string . ' ' x $rpad;
-}
-
-
-sub SCALAR::ucfirst_word {
-    my ($string) = @_;
-    $string =~ s/(\b\w)/uc($1)/ge;
-    return $string;
-}
-
-sub SCALAR::lc_ucfirst_word {
-    return SCALAR::ucfirst_word(lc(shift));
-}
 
 1;

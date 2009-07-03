@@ -1,10 +1,12 @@
 .perlcriticrc
 .perltidyrc
-bin/perl5i.PL
+bin/perl5i.c.PL
 Build.PL
 inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
+lib/perl5i/DateTime.pm
+lib/perl5i/SCALAR.pm
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
@@ -15,13 +17,16 @@ t/autodie.t
 t/center.t
 t/chdir.t
 t/CLASS.t
+t/command_line_wrapper.t
 t/datetime.t
 t/die.t
 t/dump/array.t
 t/dump/code.t
 t/dump/hash.t
 t/dump/scalar.t
+t/English.t
 t/File-stat.t
+t/io-handle.t
 t/lexical.t
 t/List-Util/first.t
 t/List-Util/max.t
@@ -35,3 +40,4 @@ t/modern_perl.t
 t/Module-Load.t
 t/time_compat.t
 t/y2038.t
+t/wrap.t
