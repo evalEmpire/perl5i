@@ -2,8 +2,12 @@
 # the Perl its built with.
 
 my $file = shift;
+
+my $perl_path = $^X;
+# Escape path for Windows
+$perl_path =~ s/\\/\\\\/g;
 open my $fh, ">", $file or die $!;
-printf $fh <<'END', $^X;
+printf $fh <<'END', $perl_path;
 #include <unistd.h>
 #include <stdlib.h>
 
