@@ -16,7 +16,7 @@ our $VERSION = '20090614';
 
 =head1 NAME
 
-perl5i - Bend Perl 5 so it fits how it works in my imagination
+perl5i - Bend Perl 5 so it fits how it works in our imaginations
 
 =head1 SYNOPSIS
 
@@ -37,13 +37,13 @@ techniques out there to fix those warts.  perl5i aims to pull the best
 of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
-changing defaults.  It will likely not be backwards compatible with
-Perl 5, so perl5i will try to have a lexical effect.
+changing defaults.  It will likely not be 100% backwards compatible
+with Perl 5, so perl5i will try to have a lexical effect.
 
-Please add to my imaginary world, either by telling me what Perl looks
-like in your imagination (F<http://github.com/schwern/perl5i/issues>
-or make a fork (forking on github is like a branch you control) and
-implement it yourself.
+Please add to this imaginary world and help make it real, either by
+telling me what Perl looks like in your imagination
+(F<http://github.com/schwern/perl5i/issues> or make a fork (forking on
+github is like a branch you control) and implement it yourself.
 
 =head1 What it does
 
@@ -258,7 +258,7 @@ Damian Conway.
 =head1 THANKS
 
 Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
-chromatic and Ben Hengst.
+chromatic, Ben Hengst and anyone else I've forgotten.
 
 Thanks to Flavian and Matt Trout for their signature and
 Devel::Declare work.
@@ -277,8 +277,9 @@ See F<http://www.perl.com/perl/misc/Artistic.html>
 
 =head1 SEE ALSO
 
-Repository:   F<http://github.com/schwern/perl5i/tree/master>
-Issues/Bugs:  F<http://github.com/schwern/perl5i/issues>
+Repository:   L<http://github.com/schwern/perl5i/tree/master>
+Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
+IRC:          irc.perl.org on the #perl5i channel
 
 L<Modern::Perl>
 
