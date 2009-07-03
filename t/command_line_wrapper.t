@@ -3,7 +3,13 @@
 use perl5i;
 
 use Config;
+use ExtUtils::CBuilder;
+
 use Test::More;
+
+my $builder = ExtUtils::CBuilder->new;
+plan skip_all => "No C compiler, assuming command line wrapper not built"
+  unless $builder->have_compiler;
 
 my $perl5i = "./bin/perl5i".$Config{_exe};
 
