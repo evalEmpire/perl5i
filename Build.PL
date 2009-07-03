@@ -34,7 +34,6 @@ my $builder = MyBuild->new(
         'Test::More'         => '0.88',
         'Test::Warn'         => '0.11',
         'IPC::Open3'         => '0',
-        'blib'               => '0',
     },
     configure_requires => { 'Module::Build' => '0.32', },
 
