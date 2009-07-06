@@ -21,8 +21,8 @@ printf $fh <<'END', $perl_path;
 
 int main (int argc, char* argv[]) {
     int i;
-    char* perl_cmd = "%s";
-    char** perl_args = malloc(sizeof(char*) * (argc + 1));
+    const char* perl_cmd = "%s";
+    char* perl_args[argc+1];
     perl_args[0] = argv[0];
     perl_args[1] = "-Mperl5i";
 
