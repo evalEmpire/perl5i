@@ -15,10 +15,10 @@ my $perl5i = "./bin/perl5i".$Config{_exe};
 
 ok -e $perl5i, "perl5i command line wrapper was built";
 
-ok system("$perl5i -e 1") == 0, "  and it runs";
+ok system(qq[$perl5i "-Ilib" -e 1]) == 0, "  and it runs";
 
-is `$perl5i -e 'say "Hello"'`, "Hello\n", "Hello perl5i!";
+is `$perl5i "-Ilib" -e 'say "Hello"'`, "Hello\n", "Hello perl5i!";
 
-like `$perl5i -h`, qr/disable all warnings/, 'perl5i -h works as expected';
+like `$perl5i "-Ilib" -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
 done_testing(4);
