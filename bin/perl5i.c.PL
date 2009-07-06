@@ -3,9 +3,10 @@
 
 my $file = shift;
 
+# Its going inside double quotes.
 my $perl_path = $^X;
-# Escape path for Windows
-$perl_path =~ s/\\/\\\\/g;
+$perl_path =~ s{ ([\\"]) }{\\$1}gx;
+
 open my $fh, ">", $file or die $!;
 printf $fh <<'END', $perl_path;
 #include <unistd.h>
