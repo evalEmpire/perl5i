@@ -8,7 +8,7 @@ my $perl_path = $^X;
 $perl_path =~ s{ ([\\"]) }{\\$1}gx;
 
 open my $fh, ">", $file or die $!;
-printf $fh <<'END', $perl_path, '%s';
+printf $fh <<'END', $perl_path, '%s', '%d', '%s';
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
