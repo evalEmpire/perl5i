@@ -30,14 +30,9 @@ int main (int argc, char* argv[]) {
     perl_args[0] = argv[0];
     perl_args[1] = "-Mperl5i";
 
-    for( i = 1;  i < argc;  i++ ) {
+    for( i = 1;  i <= argc;  i++ ) {
         perl_args[i+1] = argv[i];
     }
-
-    /* Argument array to execv must
-     * terminated by a null pointer
-     */
-    perl_args[argc+1] = (char *)NULL;
 
     return execv( perl_cmd, perl_args );
 }
