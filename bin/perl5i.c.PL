@@ -15,6 +15,8 @@ printf $fh <<'END', $0, $perl_path;
 
 #include <unistd.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 /*
  * Meant to mimic the shell command
@@ -30,9 +32,21 @@ int main (int argc, char* argv[]) {
     perl_args[0] = argv[0];
     perl_args[1] = "-Mperl5i";
 
-    for( i = 1;  i <= argc;  i++ ) {
-        perl_args[i+1] = argv[i];
+    for( i = 1;  i < argc;  i++ ) {
+        #if defined(WIN32)
+            /* Windows arguments aren't really a list but a single string,
+             * execv() fakes it, so we need to put the quotes back.
+             */
+            char* wrapped_arg = (char *)malloc( strlen(argv[i]) + 3 );
+            sprintf(wrapped_arg, "\"%%s\"", argv[i]);
+            perl_args[i+1] = wrapped_arg;
+        #else
+            perl_args[i+1] = argv[i];
+        #endif
     }
+
+    /* Argument array must be terminated by a null */
+    perl_args[argc+1] = (char *)NULL;
 
     return execv( perl_cmd, perl_args );
 }
