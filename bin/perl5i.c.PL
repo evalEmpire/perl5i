@@ -8,7 +8,7 @@ my $perl_path = $^X;
 $perl_path =~ s{ ([\\"]) }{\\$1}gx;
 
 open my $fh, ">", $file or die $!;
-printf $fh <<'END', $perl_path, '%s', '%d', '%s';
+printf $fh <<'END', $perl_path, '%s';
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -33,7 +33,6 @@ int main (int argc, char* argv[]) {
             char* wrapped_arg = (char *)malloc( strlen(argv[i]) + 3 );
             sprintf(wrapped_arg, "\"%s\"\0", argv[i]);
             perl_args[i+1] = wrapped_arg;
-            printf("%d: %s\n", i+1, perl_args[i+1]);
         #else
             perl_args[i+1] = argv[i];
         #endif
