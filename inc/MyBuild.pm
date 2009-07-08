@@ -11,7 +11,13 @@ sub ACTION_build {
     # the C code for us to compile.
     $self->SUPER::ACTION_build(@_);
 
-    if ( $self->have_c_compiler() ) {
+    if ( $self->is_windowsish ) {
+        # Writing a C wrapper is too hard on Windows
+        # Don't need it as there's no #! anyway
+        # Just do a bat file
+        $self->script_files("bin/perl5i.bat");
+    }
+    elsif ( $self->have_c_compiler() ) {
         my $b = $self->cbuilder();
 
         my $obj_file = $b->compile(
