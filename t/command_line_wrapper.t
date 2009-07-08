@@ -4,21 +4,23 @@ use perl5i;
 
 use Config;
 use ExtUtils::CBuilder;
+use File::Spec;
 
 use Test::More;
 
-my $builder = ExtUtils::CBuilder->new;
-plan skip_all => "No C compiler, assuming command line wrapper not built"
-  unless $builder->have_compiler;
-
-my $perl5i = "./bin/perl5i".$Config{_exe};
+my $perl5i;
+my $script_dir = File::Spec->catdir("blib", "script");
+for my $wrapper (qw(perl5i perl5i.bat)) {
+    $perl5i = File::Spec->catfile($script_dir, $wrapper);
+    last if -e $perl5i;
+}
 
 ok -e $perl5i, "perl5i command line wrapper was built";
 
-ok system("$perl5i -e 1") == 0, "  and it runs";
+ok system(qq[$perl5i "-Ilib" -e 1]) == 0, "  and it runs";
 
-is `$perl5i -e 'say "Hello"'`, "Hello\n", "Hello perl5i!";
+is `$perl5i "-Ilib" -e "say 'Hello'"`, "Hello\n", "Hello perl5i!";
 
-like `$perl5i -h`, qr/disable all warnings/, 'perl5i -h works as expected';
+like `$perl5i "-Ilib" -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
 done_testing(4);

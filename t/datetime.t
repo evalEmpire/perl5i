@@ -23,8 +23,9 @@ END
 }
 
 
+# Use a fixed time because a tick might happen between calls
 my $time = int rand( 2**31 - 1 );
-note("Using $time");
+note("time is $time");
 
 # Can't take a ref to a core function, so we put a wrapper around them.
 my %funcs = (
@@ -82,8 +83,9 @@ for my $name ( keys %funcs ) {
     my @methods1 = qw/sec min hour day month year day_of_week day_of_year is_dst/;
     my @methods2 = qw/second minute hour mday mon year dow doy is_dst/;
     my @methods3 = qw/sec min hour day_of_month mon year wday doy is_dst/;
-    my $obj      = gmtime();
-    my @date     = gmtime();
+
+    my $obj      = gmtime($time);
+    my @date     = gmtime($time);
 
     # adjust for object's niceties
     $date[4]++;    # month is 1 - 12 not 0 - 11
