@@ -2,16 +2,22 @@ package MyBuild;
 
 use base 'Module::Build';
 
-# Override default 'build' action
+# Override default 'code' action
 # to allow compilation of perl5i.c
-sub ACTION_build {
+sub ACTION_code {
     my $self = shift;
 
     # This has to be run first so the PL files are run to generate
     # the C code for us to compile.
-    $self->SUPER::ACTION_build(@_);
+    $self->process_PL_files;
 
-    if ( $self->have_c_compiler() ) {
+    if ( $self->is_windowsish ) {
+        # Writing a C wrapper is too hard on Windows
+        # Don't need it as there's no #! anyway
+        # Just do a bat file
+        $self->script_files("bin/perl5i.bat");
+    }
+    elsif ( $self->have_c_compiler() ) {
         my $b = $self->cbuilder();
 
         my $obj_file = $b->compile(
@@ -27,8 +33,15 @@ sub ACTION_build {
         $self->add_to_cleanup($obj_file, $exe_file);
     }
     else {
-        warn "WARNING: No C compiler available; perl5i executable will not be installed.\n";
+        # No C compiler, Unix style operating system.
+        # Just use the Perl wrapper.
+        File::Copy::copy("bin/perl5i.plx", "bin/perl5i");
+
+        $self->script_files("bin/perl5i");
+        $self->add_to_cleanup("bin/perl5i");
     }
+
+    return $self->SUPER::ACTION_code;
 }
 
 
