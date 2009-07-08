@@ -9,8 +9,9 @@ use File::Spec;
 use Test::More;
 
 my $perl5i;
+my $script_dir = File::Spec->catdir("blib", "script");
 for my $wrapper (qw(perl5i perl5i.bat)) {
-    $perl5i = File::Spec->catfile("bin", $wrapper);
+    $perl5i = File::Spec->catfile($script_dir, $wrapper);
     last if -e $perl5i;
 }
 
