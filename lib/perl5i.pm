@@ -10,6 +10,7 @@ use IO::Handle;
 use Carp;
 use perl5i::DateTime;
 use perl5i::SCALAR;
+use perl5i::NUMBER;
 
 our $VERSION = '20090614';
 
