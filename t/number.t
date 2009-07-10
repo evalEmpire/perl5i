@@ -1,7 +1,6 @@
 #!perl
 
-#use Test::More 'no_plan';
-use Test::Most 'no_plan';
+use Test::More 'no_plan';
 use perl5i;
 
 is( 12.34->ceil, 13);
@@ -15,10 +14,9 @@ ok( 12->is_integer );
 ok(!12.34->is_integer );
 ok( 12->is_int );
 ok(!12.34->is_int );
-__END__
 ok( 12.34->is_real_number );
-ok(!12.34.56->is_real_number );
-ok( 12.34->is_real );
+ok(!'12.34.56'->is_real_number );
+ok( '12.34'->is_real );
 ok(!'abc'->is_real );
 ok( 12.34->is_decimal );
 ok(!'abc'->is_decimal );
@@ -30,21 +28,11 @@ ok(!'abc'->is_float );
 
 is( '123'->reverse, '321' );
 
-
 TODO: {
    local $TODO = q{ hex is weird };
 
-   eq_or_diff(
-      255->hex,
-      'FF',
-   );
-   eq_or_diff(
-      'FF'->dec,
-      255,
-   );
-   eq_or_diff(
-      0xFF->dec,
-      255,
-   );
+   is( 255->hex, 'FF');
+   is( 'FF'->dec, 255);
+   is( 0xFF->dec, 255);
 
 };

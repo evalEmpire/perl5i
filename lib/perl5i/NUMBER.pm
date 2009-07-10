@@ -15,7 +15,7 @@ sub SCALAR::is_whole_number { shift =~ /^\d+$/ }
 sub SCALAR::is_integer      { shift =~ /^[+-]?\d+$/ }
 sub SCALAR::is_int          { SCALAR::is_integer(shift) }
 sub SCALAR::is_real_number  { shift =~ /^-?\d+\.?\d*$/ }
-sub SCALAR::is_real         { SCALAR::is_integer(shift) }
+sub SCALAR::is_real         { SCALAR::is_real_number(shift) }
 sub SCALAR::is_decimal      { shift =~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/ }
 sub SCALAR::is_dec          { SCALAR::is_decimal(shift) }
 sub SCALAR::is_float        { shift =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ }
