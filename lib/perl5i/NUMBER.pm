@@ -6,28 +6,19 @@ use warnings;
 use Carp;
 use Module::Load;
 use POSIX qw{ceil floor};
-use Scalar::Util qw{looks_like_number};
 
 sub SCALAR::ceil  { ceil(shift) }
 sub SCALAR::floor { floor(shift)}
 
-sub SCALAR::is_number { looks_like_number(shift) }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+sub SCALAR::is_number       { shift !~ /\D/ }
+sub SCALAR::is_whole_number { shift =~ /^\d+$/ }
+sub SCALAR::is_integer      { shift =~ /^[+-]?\d+$/ }
+sub SCALAR::is_int          { SCALAR::is_integer(shift) }
+sub SCALAR::is_real_number  { shift =~ /^-?\d+\.?\d*$/ }
+sub SCALAR::is_real         { SCALAR::is_integer(shift) }
+sub SCALAR::is_decimal      { shift =~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/ }
+sub SCALAR::is_dec          { SCALAR::is_decimal(shift) }
+sub SCALAR::is_float        { shift =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ }
 
 
 
