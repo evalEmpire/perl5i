@@ -101,6 +101,37 @@ sub alias {
 }
 
 
+=head2 center()
+
+    my $centered_string = $string->center($length);
+    my $centered_string = $string->center($length, $character);
+
+Centers $string between $character.  $centered_string will be of
+length $length.
+
+C<<$character>> defaults to " ".
+
+    say "Hello"->center(10);        # "   Hello  ";
+    say "Hello"->center(10, '-');   # "---Hello--";
+
+C<<center()>> will never truncate C<<$string>>.  If $length is less
+than C<<$string->length>> it will just return C<<$string>>.
+
+    say "Hello"->center(4);        # "Hello";
+
+=head2 wrap()
+
+    my $wrapped = $string->wrap( width => $cols, separator => $sep );
+
+Wraps $string to width $cols, breaking lines at word boundries using
+separator $sep.
+
+If no width is given, $cols defaults to 76. Default line separator is
+the newline character "\n".
+
+See L<Text::Wrap> for details.
+
+
 =head2 die()
 
 C<die> now always returns an exit code of 255 instead of trying to use
@@ -208,36 +239,6 @@ so they can be called on arrays and arrayrefs.
 
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
-
-=head2 center()
-
-    my $centered_string = $string->center($length);
-    my $centered_string = $string->center($length, $character);
-
-Centers $string between $character.  $centered_string will be of
-length $length.
-
-C<<$character>> defaults to " ".
-
-    say "Hello"->center(10);        # "   Hello  ";
-    say "Hello"->center(10, '-');   # "---Hello--";
-
-C<<center()>> will never truncate C<<$string>>.  If $length is less
-than C<<$string->length>> it will just return C<<$string>>.
-
-    say "Hello"->center(4);        # "Hello";
-
-=head2 wrap()
-
-    my $wrapped = $string->wrap( width => $cols, separator => $sep );
-
-Wraps $string to width $cols, breaking lines at word boundries using
-separator $sep.
-
-If no width is given, $cols defaults to 76. Default line separator is
-the newline character "\n".
-
-See L<Text::Wrap> for details.
 
 =head2 ltrim()
 
