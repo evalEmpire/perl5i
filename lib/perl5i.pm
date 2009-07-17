@@ -132,6 +132,29 @@ the newline character "\n".
 
 See L<Text::Wrap> for details.
 
+=head2 ltrim()
+
+    my $string = '    testme'->ltrim; # 'testme'
+
+Trim leading whitespace (left).
+
+=head2 rtrim()
+
+    my $string = 'testme    '->rtrim; #'testme'
+
+Trim trailing whitespace (right).
+
+=head2 trim()
+
+    my $string = '    testme    '->trim;  #'testme'
+
+Trim both leading and trailing whitespace.
+
+=head2 title_case()
+
+    my $name = 'joe smith'->title_case; #Joe Smith
+
+Will uppercase every word character that follows a wordbreak character.
 
 =head2 die()
 
@@ -142,7 +165,7 @@ C<exit>.
 
 =head2 English
 
-Loads L<English> to give English names to the punctuation variables
+L<English> gives English names to the punctuation variables
 like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
 
 It does B<not> load the regex variables which effect performance.
@@ -241,29 +264,12 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
-=head2 ltrim()
+=head2 Want
 
-    my $string = '    testme'->ltrim; # 'testme'
-
-Trim leading whitespace (left).
-
-=head2 rtrim()
-
-    my $string = 'testme    '->rtrim; #'testme'
-
-Trim trailing whitespace (right).
-
-=head2 trim()
-
-    my $string = '    testme    '->trim;  #'testme'
-
-Trim both leading and trailing whitespace.
-
-=head2 title_case()
-
-    my $name = 'joe smith'->title_case; #Joe Smith
-
-Will uppercase every word character that follows a wordbreak character.
+L<Want> generalizes the mechanism of the wantarray function, allowing a 
+function to determine the context it's being called in.  Want distinguishes
+not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
+context and more.  See perldoc L<Want>.
 
 
 =head1 BUGS
