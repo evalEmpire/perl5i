@@ -1,5 +1,5 @@
 # vi: set ts=4 sw=4 ht=4 et :
-package perl5i::Scalar;
+package SCALAR;
 use 5.010;
 
 use strict;

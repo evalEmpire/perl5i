@@ -9,7 +9,7 @@ use Module::Load;
 use IO::Handle;
 use Carp;
 use perl5i::DateTime;
-use perl5i::Scalar;
+use perl5i::SCALAR;
 
 our $VERSION = '20090614';
 
