@@ -4,8 +4,8 @@ use 5.010;
 
 use strict;
 use warnings;
-use Module::Load;
 use Carp;
+use Module::Load;
 
 
 #---------------------------------------------------------------------------

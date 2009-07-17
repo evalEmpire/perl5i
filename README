@@ -1,8 +1,9 @@
-Perl5i is my imaginary version of Perl 5.
+Perl5i is our imaginary version of Perl 5.
 
 The goal will be to load just one module and fix as much of Perl 5 as
 possible.  It will not cause excessive load time.  It will be
-reasonably backwards compatible.
+reasonably backwards compatible.  It will be stable and usable in
+production (right now it isn't).
 
 Since a lot of fixing Perl 5 is "go use this module from CPAN... and this
 one... and this other one... and these two... and this and this..."
@@ -15,3 +16,6 @@ The current goal of perl5i is to collect your pain.  What is painful
 for you about Perl?  What takes two lines when it should take one?
 What subroutines do you find yourself using over and over again?
 Please, share your pain.  Put it into the issue tracker.
+
+Currently we hang out on irc.perl.org #perl5i.  Please join us.
+

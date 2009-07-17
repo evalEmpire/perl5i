@@ -6,6 +6,10 @@ blib/
 pm_to_blib
 Build
 _build
+Build.bat
 cover_db/
 nytprof*
 bin/perl5i
+bin/perl5i.c
+bin/perl5i.bat
+*.o

@@ -5,17 +5,27 @@ package perl5i::DateTime;
 use 5.010;
 use strict;
 use warnings;
+use Time::y2038;
 
 
 ## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_gmtime (;$) {
     my $time = @_ ? shift : time;
-    return CORE::gmtime($time) if wantarray;
+    return gmtime($time) if wantarray;
+
+    my($sec, $min, $hour, $mday, $mon, $year) = gmtime($time);
+    $mon++;
+    $year += 1900;
 
     require DateTime;
-    return DateTime::y2038->from_epoch(
-        epoch     => $time + 0,
-        formatter => "DateTime::Format::CTime"
+    return DateTime::y2038->new(
+        year            => $year,
+        month           => $mon,
+        day             => $mday,
+        hour            => $hour,
+        minute          => $min,
+        second          => $sec,
+        formatter       => "DateTime::Format::CTime"
     );
 }
 
@@ -23,13 +33,22 @@ sub dt_gmtime (;$) {
 ## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_localtime (;$) {
     my $time = @_ ? shift : time;
-    return CORE::localtime($time) if wantarray;
+    return localtime($time) if wantarray;
+
+    my($sec, $min, $hour, $mday, $mon, $year) = localtime($time);
+    $mon++;
+    $year += 1900;
 
     require DateTime;
-    return DateTime::y2038->from_epoch(
-        epoch     => $time + 0,
-        time_zone => "local",
-        formatter => "DateTime::Format::CTime"
+    return DateTime::y2038->new(
+        year            => $year,
+        month           => $mon,
+        day             => $mday,
+        hour            => $hour,
+        minute          => $min,
+        second          => $sec,
+        time_zone       => "local",
+        formatter       => "DateTime::Format::CTime"
     );
 }
 
@@ -48,23 +67,10 @@ sub dt_time () {
 
 
 {
-
     package DateTime::y2038;
 
     # Don't load DateTime until we need it.
     our @ISA = qw(DateTime);
-
-    # Override gmtime and localtime with straight emulations
-    # so we can override it later.
-    {
-        *CORE::GLOBAL::gmtime = sub (;$) {
-            return @_ ? CORE::gmtime( $_[0] ) : CORE::gmtime();
-        };
-
-        *CORE::GLOBAL::localtime = sub (;$) {
-            return @_ ? CORE::localtime( $_[0] ) : CORE::localtime();
-        };
-    }
 
     sub from_epoch {
         my $class = shift;

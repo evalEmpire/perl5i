@@ -3,20 +3,37 @@
 use perl5i;
 use Test::More;
 
+use File::Temp qw(tempfile);
 use IPC::Open3;
 
 sub run_code {
     my $code = shift;
 
+    # IPC::Open3, or more specifically waitpid(), will hang on Windows
+    # if we pass the code in on STDIN.  So use a temp file.
+    my($temp_fh, $tempfile) = tempfile;
+    print $temp_fh <<"END";
+use lib "lib";
+use perl5i;
+
+#line 1 test.plx
+$code;
+END
+    close $temp_fh;
+
     #work around for open3 wierdness surrounding lexical filehandles
     #and stderr, $err must be true or stderr will go to stdout
-    my $err = 1; 
-    my $pid = open3 my $in, my $out, $err, $^X, "-Ilib", "-Mperl5i"
+    my $err = 1;
+    my $pid = open3 my $in, my $out, $err, $^X, $tempfile
         or die "could not execute $^X: $!";
-
-    print $in $code;
     close $in;
+
     waitpid $pid, 0;
+
+    # Normalize newlines
+    binmode $out, ":crlf";
+    binmode $err, ":crlf";
+
     my $rc    = $? >> 8;
     my $output = join '', <$out>;
     my $error  = join '', <$err>;
@@ -31,7 +48,7 @@ sub test {
     is $err, $error, "$test stderr";
 }
 
-test 'die "a noble death"',                        "a noble death at - line 1.\n", 'normal die';
+test 'die "a noble death"',                        "a noble death at test.plx line 1.\n", 'normal die';
 test 'die "a noble death\n"',                      "a noble death\n",              'die without line';
 test '$! = 5; die "a noble death\n"',              "a noble death\n",              'die with $! = 5';
 test '$! = 0; $? = 5 << 8; die "a noble death\n"', "a noble death\n",              'die with $! = 0 and $? = 5';

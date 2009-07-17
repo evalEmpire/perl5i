@@ -19,20 +19,22 @@ my $builder = MyBuild->new(
         'DateTime::Format::Epoch' => '0.11',
         'Time::y2038'             => '20081111',
         'Module::Load'            => '0.16',
+        'Text::Wrap'              => '2009.0305',
         'autodie'                 => '1.999',
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',
         'autobox::Core'       => '0.6',
         parent                => '0.221',
+        'File::chdir'         => '0.1002',
 
         'autobox::dump'       => '20090426',
-        'autobox::List::Util' => '20090429',
+        'autobox::List::Util' => '20090629',
     },
     build_requires => {
-        'Test::More' => '0.88',
-        'Test::Warn' => '0.11',
-        'IPC::Open3' => '0',
-        'blib'       => '0',
+        'ExtUtils::CBuilder' => '0.26',
+        'Test::More'         => '0.88',
+        'Test::Warn'         => '0.11',
+        'IPC::Open3'         => '0',
     },
     configure_requires => { 'Module::Build' => '0.32', },
 
@@ -43,12 +45,12 @@ my $builder = MyBuild->new(
         },
     },
 
-    recursive_test_files => 1,
-
     PL_files => {
-        'bin/perl5i.PL' => 'bin/perl5i'
+        'bin/perl5i.c.PL'       => 'bin/perl5i.c',
+        'bin/perl5i.bat.PL'     => 'bin/perl5i.bat',
     },
-    script_files => ['bin/perl5i'],
+
+    recursive_test_files => 1,
 );
 
 $builder->create_build_script();
