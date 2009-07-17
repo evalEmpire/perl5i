@@ -26,32 +26,6 @@ sub SCALAR::title {
     return $string;
 }
 
-#---------------------------------------------------------------------------
-#  whitespace
-#---------------------------------------------------------------------------
-=head2 center()
-
-    my $centered_string = $string->center($length);
-
-Centers $string between spaces.  $centered_string will be of length
-$length.
-
-If $length is less than C<<$string->length>> it will just return
-C<<$string>>.
-
-    say "Hello"->center(10);   # "   Hello  ";
-    say "Hello"->center(4);    # "Hello";
-
-    my $centered_string = $string->center($length, $character);
-
-Centers $string as above, but uses the character in $character 
-instead of space.
-
-    say "Hello"->center(10, '-');   # "---Hello--"
-    say "Hello"->center(4, '-');    # "Hello";
-
-=cut
-
 
 sub SCALAR::center {
     my ($string, $size, $char) = @_;
