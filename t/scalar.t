@@ -3,11 +3,11 @@
 use Test::More 'no_plan';
 use perl5i;
 
-is( "this is a test"->title, 'This Is A Test');
-is( "this is a test"->lc->title, 'This Is A Test');
+is( "this is a test"->title_case, 'This Is A Test');
+is( "this is a test"->lc->title_case, 'This Is A Test');
 
-is( "thIS is a teST"->title, 'ThIS Is A TeST');
-is( "thIS is a teST"->lc->title, 'This Is A Test');
+is( "thIS is a teST"->title_case, 'ThIS Is A TeST');
+is( "thIS is a teST"->lc->title_case, 'This Is A Test');
 
 is( '    testme'->ltrim, 'testme' );
 is( '    testme'->rtrim, '    testme' );

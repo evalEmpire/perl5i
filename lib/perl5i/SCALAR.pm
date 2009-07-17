@@ -8,7 +8,7 @@ use Carp;
 use Module::Load;
 
 
-sub SCALAR::title {
+sub SCALAR::title_case {
     my ($string) = @_;
     $string =~ s/\b(\w)/\U$1/g;
     return $string;

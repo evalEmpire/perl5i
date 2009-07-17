@@ -258,9 +258,9 @@ Trim trailing whitespace (right).
 
 Trim both leading and trailing whitespace.
 
-=head2 title()
+=head2 title_case()
 
-    my $name = 'joe smith'->title; #Joe Smith
+    my $name = 'joe smith'->title_case; #Joe Smith
 
 Will uppercase every word character that follows a wordbreak character.
 
