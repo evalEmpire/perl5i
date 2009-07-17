@@ -142,7 +142,7 @@ C<exit>.
 
 =head2 English
 
-Loads L<English> to give English names to the punctuation variables
+L<English> gives English names to the punctuation variables
 like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
 
 It does B<not> load the regex variables which effect performance.
@@ -241,6 +241,12 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
+=head2 Want
+
+L<Want> generalizes the mechanism of the wantarray function, allowing a 
+function to determine the context it's being called in.  Want distinguishes
+not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
+context and more.  See perldoc L<Want>.
 
 =head1 BUGS
 
