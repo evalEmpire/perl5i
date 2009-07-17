@@ -239,6 +239,30 @@ the newline character "\n".
 
 See L<Text::Wrap> for details.
 
+=head2 ltrim()
+
+    my $string = '    testme'->ltrim; # 'testme'
+
+Trim leading whitespace (left).
+
+=head2 rtrim()
+
+    my $string = 'testme    '->rtrim; #'testme'
+
+Trim trailing whitespace (right).
+
+=head2 trim()
+
+    my $string = '    testme    '->trim;  #'testme'
+
+Trim both leading and trailing whitespace.
+
+=head2 title()
+
+    my $name = 'joe smith'->title; #Joe Smith
+
+Will uppercase every word character that follows a wordbreak character.
+
 
 =head1 BUGS
 

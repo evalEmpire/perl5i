@@ -8,18 +8,6 @@ use Carp;
 use Module::Load;
 
 
-#---------------------------------------------------------------------------
-#  string 
-#---------------------------------------------------------------------------
-=head2 title()
-        
-    my $name = 'joe smith'->title; #Joe Smith
-
-Will uppercase every word character that follows a wordbreak character.
-
-=cut
-
-    
 sub SCALAR::title {
     my ($string) = @_;
     $string =~ s/\b(\w)/\U$1/g;
@@ -54,13 +42,6 @@ sub SCALAR::center {
     return $char x $lpad . $string . $char x $rpad;
 }
 
-=head2 ltrim()
-
-    my $string = '    testme'->ltrim; # 'testme'
-
-Trim leading whitespace (left).
-
-=cut
 
 sub SCALAR::ltrim {
     my ($string,$trim_charset) = @_;
@@ -70,13 +51,6 @@ sub SCALAR::ltrim {
     return $string;
 }
 
-=head2 rtrim()
-
-    my $string = 'testme    '->rtrim; #'testme'
-
-Trim trailing whitespace (right).
-
-=cut
 
 sub SCALAR::rtrim {
     my ($string,$trim_charset) = @_;
@@ -86,13 +60,6 @@ sub SCALAR::rtrim {
     return $string;
 }
 
-=head2 trim()
-
-    my $string = '    testme    '->trim;  #'testme'
-
-Trim both leading and trailing whitespace.
-
-=cut
 
 sub SCALAR::trim {
     return SCALAR::rtrim(SCALAR::ltrim(@_));
