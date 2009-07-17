@@ -5,7 +5,7 @@ use Test::More;
 
 sub foo :lvalue {
     if    (want(qw'LVALUE ASSIGN')) {
-      print "We have been assigned ", want('ASSIGN');
+      want('ASSIGN');
       lnoreturn;
     }
     elsif (want('LIST')) {
