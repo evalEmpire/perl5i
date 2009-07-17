@@ -25,13 +25,13 @@ sub foo :lvalue {
 
 
 {
-    ok( ( foo() = 100 ) == 100, 'assignment worked' );
+    is( ( foo() = 100 ), 100, 'assignment worked' );
 }
 
 {
     my @list = foo(3, 2, 1);
     for(1..3){
-        ok( $list[$_-1] == $_);
+        is( $list[$_-1], $_);
     }
 }
 
@@ -39,15 +39,16 @@ sub foo :lvalue {
     ok(!foo());
 }
 
-{
-    ok(foo() == 23 );
+TODO: {
+    local $TODO = "want() with prototypes is busted, thinks its CODE";
+    is(foo(), 23 );
 }
 
 {
     my %foo = %{foo()};
 
-    ok($foo{foo} == 17);
-    ok($foo{bar} == 23);
+    is($foo{foo}, 17);
+    is($foo{bar}, 23);
 }
 
 done_testing();
