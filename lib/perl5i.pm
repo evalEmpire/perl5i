@@ -10,6 +10,7 @@ use IO::Handle;
 use Carp;
 use perl5i::DateTime;
 use perl5i::SCALAR;
+use Want;
 
 our $VERSION = '20090614';
 
@@ -334,7 +335,8 @@ sub import {
 
     load_in_caller( $caller => (
         ["CLASS"], ["Module::Load"], ["File::chdir"],
-        [English => qw(-no_match_vars)]
+        [English => qw(-no_match_vars)],
+        ["Want"],
     ) );
 
     # Have to call both or it won't work.
