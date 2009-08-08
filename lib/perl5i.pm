@@ -264,6 +264,16 @@ so they can be called on arrays and arrayrefs.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.
 
+=head2 autovivification
+
+L<autovivification> fixes the bug/feature where this:
+
+    $hash = {};
+    $hash->{key1}{key2};
+
+Results in C<<$hash->{key1}>> coming into existance.  That will no longer
+happen.
+
 =head2 Want
 
 L<Want> generalizes the mechanism of the wantarray function, allowing a 
@@ -317,12 +327,15 @@ L<Modern::Perl>
 
 =cut
 
+
 # This works around their lexical nature.
 use parent 'autodie';
 # List::Util needs to be before Core to get the C version of sum
 use parent 'autobox::List::Util';
 use parent 'autobox::Core';
 use parent 'autobox::dump';
+use parent 'autovivification';
+
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -350,6 +363,7 @@ sub import {
     autobox::List::Util::import($class);
     autobox::Core::import($class);
     autobox::dump::import($class);
+    autovivification::unimport($class);
 
     # Export our gmtime() and localtime()
     alias( $caller, 'gmtime',    \&perl5i::DateTime::dt_gmtime );
