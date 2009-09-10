@@ -11,6 +11,7 @@ use Carp;
 use perl5i::DateTime;
 use perl5i::SCALAR;
 use Want;
+use Try::Tiny;
 
 our $VERSION = '20090614';
 
@@ -281,6 +282,24 @@ function to determine the context it's being called in.  Want distinguishes
 not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
 context and more.  See perldoc L<Want>.
 
+=head2 Try::Tiny
+
+L<Try::Tiny> gives support for try/catch blocks. This allows correct
+error handling with proper localization of $@ and a nice syntax layer:
+
+        # handle errors with a catch handler
+        try {
+                die "foo";
+        } catch {
+                warn "caught error: $_";
+        };
+
+        # just silence errors
+        try {
+                die "foo";
+        };
+
+See perldoc L<Try::Tiny> for details.
 
 =head1 BUGS
 
@@ -336,7 +355,6 @@ use parent 'autobox::Core';
 use parent 'autobox::dump';
 use parent 'autovivification';
 
-
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
     my $class = shift;
@@ -355,7 +373,7 @@ sub import {
     load_in_caller( $caller => (
         ["CLASS"], ["Module::Load"], ["File::chdir"],
         [English => qw(-no_match_vars)],
-        ["Want"],
+        ["Want"], ["Try::Tiny"],
     ) );
 
     # Have to call both or it won't work.

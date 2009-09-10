@@ -20,6 +20,7 @@ my $builder = MyBuild->new(
         'Time::y2038'             => '20081111',
         'Module::Load'            => '0.16',
         'Text::Wrap'              => '2009.0305',
+        'Try::Tiny'               => '0.02',
         'autodie'                 => '1.999',
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',
@@ -35,6 +36,7 @@ my $builder = MyBuild->new(
         'ExtUtils::CBuilder' => '0.26',
         'Test::More'         => '0.88',
         'Test::Warn'         => '0.11',
+        'Test::Exception'    => '0.27',
         'IPC::Open3'         => '0',
     },
     configure_requires => { 'Module::Build' => '0.32', },
