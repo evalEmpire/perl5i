@@ -45,3 +45,6 @@
 # Ignore C object files
 \.o$
 ^MYMETA.yml$
+
+# Ignore emacs temp files
+^\.#
