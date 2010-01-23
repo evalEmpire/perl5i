@@ -287,8 +287,9 @@ context and more.  See perldoc L<Want>.
 
 =head2 Try::Tiny
 
-L<Try::Tiny> gives support for try/catch blocks. This allows correct
-error handling with proper localization of $@ and a nice syntax layer:
+L<Try::Tiny> gives support for try/catch blocks as an alternative to
+C<eval BLOCK>. This allows correct error handling with proper localization
+of $@ and a nice syntax layer:
 
         # handle errors with a catch handler
         try {
