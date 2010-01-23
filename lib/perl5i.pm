@@ -12,7 +12,7 @@ use perl5i::DateTime;
 use perl5i::SCALAR;
 use Want;
 
-our $VERSION = '20090614';
+use version 0.77; our $VERSION = qv("v0.1.0");
 
 
 =head1 NAME
@@ -30,8 +30,11 @@ perl5i - Bend Perl 5 so it fits how it works in our imaginations
 =head1 DESCRIPTION
 
 B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
-Features may be added, changed and removed without notice.  You have
-been warned.
+Features may be added, changed and removed without notice.  C<use
+perl5i> may not even work in the future.  See
+L<http://github.com/schwern/perl5i/issues/issue/69> and
+L<http://github.com/schwern/perl5i/issues/issue/60> for details.  You
+have been warned.
 
 Perl 5 has a lot of warts.  There's a lot of individual modules and
 techniques out there to fix those warts.  perl5i aims to pull the best
@@ -286,6 +289,26 @@ context and more.  See perldoc L<Want>.
 
 Some parts are not lexical.
 
+See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
+
+Please report bugs at L<http://github.com/schwern/perl5i/issues/>.
+
+
+=head1 VERSIONING
+
+perl5i follows the Semantic Versioning policy, L<http://semver.org>.
+In short...
+
+Versions will be of the form X.Y.Z.
+
+0.Y.Z may change anything at any time.
+
+Incrementing X (ie. 1.2.3 -> 2.0.0) indicates a backwards incompatible change.
+
+Incrementing Y (ie. 1.2.3 -> 1.3.0) indicates a new feature.
+
+Incrementing Z (ie. 1.2.3 -> 1.2.4) indicates a bug fix or other internal change.
+
 
 =head1 NOTES
 
@@ -308,7 +331,7 @@ Thanks to all the CPAN authors upon whom this builds.
 
 =head1 LICENSE
 
-Copyright 2009, Michael G Schwern <schwern@pobox.com>
+Copyright 2009-2010, Michael G Schwern <schwern@pobox.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.

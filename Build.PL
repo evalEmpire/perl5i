@@ -30,6 +30,7 @@ my $builder = MyBuild->new(
         'autobox::List::Util' => '20090629',
         'Want'                => '0.18',
         'autovivification'    => '0.04',
+        'version'             => '0.77',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
