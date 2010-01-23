@@ -9,13 +9,16 @@ INSTALL.SKIP
 lib/perl5i.pm
 lib/perl5i/DateTime.pm
 lib/perl5i/SCALAR.pm
+LICENSE
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.yml
+PATCHING
 README
 t/alias.t
 t/autobox.t
 t/autodie.t
+t/autovivification.t
 t/center.t
 t/chdir.t
 t/CLASS.t
@@ -46,4 +49,3 @@ t/time_compat.t
 t/Want.t
 t/wrap.t
 t/y2038.t
-LICENSE
