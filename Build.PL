@@ -26,10 +26,10 @@ my $builder = MyBuild->new(
         'autobox::Core'       => '0.6',
         parent                => '0.221',
         'File::chdir'         => '0.1002',
-
         'autobox::dump'       => '20090426',
         'autobox::List::Util' => '20090629',
         'Want'                => '0.18',
+        'autovivification'    => '0.04',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
@@ -37,7 +37,9 @@ my $builder = MyBuild->new(
         'Test::Warn'         => '0.11',
         'IPC::Open3'         => '0',
     },
-    configure_requires => { 'Module::Build' => '0.32', },
+    configure_requires => {
+        'Module::Build' => '0.32',
+    },
 
     meta_merge => {
         resources => {
@@ -52,6 +54,9 @@ my $builder = MyBuild->new(
     },
 
     recursive_test_files => 1,
+
+    create_readme       => 1,
+    create_license      => 1,
 );
 
 $builder->create_build_script();
