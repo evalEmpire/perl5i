@@ -44,3 +44,4 @@
 
 # Ignore C object files
 \.o$
+^MYMETA.yml$

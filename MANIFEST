@@ -46,3 +46,4 @@ t/time_compat.t
 t/Want.t
 t/wrap.t
 t/y2038.t
+LICENSE

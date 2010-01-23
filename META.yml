@@ -1,45 +1,55 @@
 ---
-name: perl5i
-version: 20090614
+abstract: 'Bend Perl 5 so it fits how it works in our imaginations'
 author:
   - 'Michael G Schwern <schwern@pobox.com>'
-abstract: Bend Perl 5 so it fits how it works in my imagination
-license: perl
-resources:
-  bugtracker: http://github.com/schwern/perl5i/issues
-  license: http://dev.perl.org/licenses/
-  repository: http://github.com/schwern/perl5i/tree/master
+build_requires:
+  ExtUtils::CBuilder: 0.26
+  IPC::Open3: 0
+  Test::More: 0.88
+  Test::Warn: 0.11
 configure_requires:
   Module::Build: 0.32
+generated_by: 'Module::Build version 0.3601'
+license: perl
+meta-spec:
+  url: http://module-build.sourceforge.net/META-spec-v1.4.html
+  version: 1.4
+name: perl5i
+provides:
+  DateTime::Format::CTime:
+    file: lib/perl5i/DateTime.pm
+  DateTime::time:
+    file: lib/perl5i/DateTime.pm
+  DateTime::y2038:
+    file: lib/perl5i/DateTime.pm
+  perl5i:
+    file: lib/perl5i.pm
+    version: v0.1.0
+  perl5i::DateTime:
+    file: lib/perl5i/DateTime.pm
+  perl5i::SCALAR:
+    file: lib/perl5i/SCALAR.pm
 requires:
   CLASS: 1.00
   DateTime: 0.47
   DateTime::Format::Epoch: 0.11
-  File::stat: 1.00
+  File::chdir: 0.1002
   IPC::System::Simple: 1.18
   Modern::Perl: 1.03
   Module::Load: 0.16
+  Text::Wrap: 2009.0305
   Time::y2038: 20081111
+  Want: 0.18
   autobox::Core: 0.6
-  autobox::List::Util: 20090429
+  autobox::List::Util: 20090629
   autobox::dump: 20090426
   autodie: 1.999
-  perl: 5.10.0
-build_requires:
-  IPC::Open3: 0
-  Test::More: 0.88
-  Test::Warn: 0.11
-provides:
-  DateTime::Format::CTime:
-    file: lib/perl5i.pm
-  DateTime::time:
-    file: lib/perl5i.pm
-  DateTime::y2038:
-    file: lib/perl5i.pm
-  perl5i:
-    file: lib/perl5i.pm
-    version: 20090614
-generated_by: Module::Build version 0.33
-meta-spec:
-  url: http://module-build.sourceforge.net/META-spec-v1.4.html
-  version: 1.4
+  autovivification: 0.04
+  parent: 0.221
+  perl: v5.10.0
+  version: 0.77
+resources:
+  bugtracker: http://github.com/schwern/perl5i/issues
+  license: http://dev.perl.org/licenses/
+  repository: http://github.com/schwern/perl5i/tree/master
+version: v0.1.0
