@@ -188,6 +188,10 @@ L<autobox::List::Util> wraps the functions from List::Util
 (first, max, maxstr, min, minstr, shuffle, reduce, and sum)
 so they can be called on arrays and arrayrefs.
 
+=head2 caller()
+
+L<Perl6::Caller> causes C<caller> to return an object in scalar
+context.
 
 =head2 die()
 
@@ -223,8 +227,7 @@ to safely chdir inside a scope.
 
 =head2 File::stat
 
-L<File::stat> causes C<stat> to return objects rather than long arrays
-which you never remember which bit is which.
+L<File::stat> causes C<stat> to return an object in scalar context.
 
 =head2 DateTime
 
@@ -405,7 +408,7 @@ sub import {
     load_in_caller( $caller => (
         ["CLASS"], ["Module::Load"], ["File::chdir"],
         [English => qw(-no_match_vars)],
-        ["Want"], ["Try::Tiny"],
+        ["Want"], ["Try::Tiny"], ["Perl6::Caller"],
     ) );
 
     # Have to call both or it won't work.

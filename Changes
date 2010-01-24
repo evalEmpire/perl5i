@@ -1,6 +1,7 @@
 0.2.0
   New Features
   * try/catch support via Try::Tiny (brunov)
+  * caller() now returns an object via Perl6::Caller (schwern, Timothy Totten)
 
   Other
   * Added a patching policy.  See the PATCHING file.
