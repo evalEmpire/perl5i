@@ -106,7 +106,28 @@ sub alias {
 }
 
 
-=head2 center()
+=head2 Autoboxing
+
+L<autobox> allows methods to be defined for and called on most
+unblessed variables.  This means you can call methods on ordinary
+strings, lists and hashes!  It also means perl5i can add a lot of
+functionality without polluting the global namespace.
+
+L<autobox::Core> wraps a lot of Perl's built in functions so they can
+be called as methods on unblessed variables.  C<< @a->pop >> for example.
+
+=head3 perl()
+
+L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
+style serialization of the results of the expression.  It should work
+on any scalar, list, hash or reference.
+
+
+=head2 Scalar Autoboxing
+
+perl5i adds some methods to scalars of its own.
+
+=head3 center()
 
     my $centered_string = $string->center($length);
     my $centered_string = $string->center($length, $character);
@@ -124,7 +145,7 @@ than C<<$string->length>> it will just return C<<$string>>.
 
     say "Hello"->center(4);        # "Hello";
 
-=head2 wrap()
+=head3 wrap()
 
     my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
@@ -136,29 +157,37 @@ the newline character "\n".
 
 See L<Text::Wrap> for details.
 
-=head2 ltrim()
+=head3 ltrim()
 
     my $string = '    testme'->ltrim; # 'testme'
 
 Trim leading whitespace (left).
 
-=head2 rtrim()
+=head3 rtrim()
 
     my $string = 'testme    '->rtrim; #'testme'
 
 Trim trailing whitespace (right).
 
-=head2 trim()
+=head3 trim()
 
     my $string = '    testme    '->trim;  #'testme'
 
 Trim both leading and trailing whitespace.
 
-=head2 title_case()
+=head3 title_case()
 
     my $name = 'joe smith'->title_case; #Joe Smith
 
 Will uppercase every word character that follows a wordbreak character.
+
+
+=head2 List Autoboxing
+
+L<autobox::List::Util> wraps the functions from List::Util
+(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
+so they can be called on arrays and arrayrefs.
+
 
 =head2 die()
 
@@ -246,27 +275,6 @@ autodie's default error messages are pretty smart.
 
 All of autodie will be turned on.
 
-
-=head2 autobox
-
-L<autobox> allows methods to be defined for and called on most unblessed
-variables.
-
-=head2 autobox::Core
-
-L<autobox::Core> wraps a lot of Perl's built in functions so they can
-be called as methods on unblessed variables.  C<< @a->pop >> for example.
-
-=head2 autobox::List::Util
-
-L<autobox::List::Util> wraps the functions from List::Util
-(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
-so they can be called on arrays and arrayrefs.
-
-=head2 autobox::dump
-
-L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
-style serialization of the results of the expression.
 
 =head2 autovivification
 
