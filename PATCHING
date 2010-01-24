@@ -21,17 +21,23 @@ of doing it.
 
 3) DO add any new dependencies in Build.PL
 
+3a) If you're not sure what version to depend on, pick the version
+    you have installed.  That's safest.
+
 4) DON'T update MANIFEST.  Its automated and will just cause
    conflicts.
 
 5) DON'T update Changes.  It will cause conflicts when merging.
    The release manager will handle it.
 
-6) DO write tests.
+6) DO write tests.  Otherwise the release manager has to.
 
-7) DO write documentation.
+7) DO write documentation.  Otherwise the release manager has to.
 
-8) You can either send patches to schwern+perl5i@pobox.com or
+8) Commit ONE THING AT A TIME.  Preferrably use a branch for each
+   feature.  It makes it much easier to integrate.
+
+9) You can either send patches to schwern+perl5i@pobox.com or
    (preferred) issue a github pull request.
 
 Thanks for patching!
