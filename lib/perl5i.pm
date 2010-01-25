@@ -60,9 +60,9 @@ their documentation for full details.
 
 =head2 Everything is an Object
 
-perl5i introduces a new super class for all objects called "Object".
+perl5i introduces a new super class for all objects called L<Object>.
 Object will be populated with methods so they are available to all
-objects.
+objects.  See the docs for L<Object> for details.
 
 All objects already inherit from UNIVERSAL, so really Object is just a
 better name.

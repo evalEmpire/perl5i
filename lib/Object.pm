@@ -21,10 +21,6 @@ use warnings;
 }
 
 
-1;
-
-__END__
-
 =head1 NAME
 
 Object - Everything is an object
@@ -39,4 +35,22 @@ Object provides a superclass of every object.
 
 It is, in effect, nothing but a better name for UNIVERSAL.
 
+=head1 METHODS
+
+=head2 class()
+
+    my $class = $object->class;
+
+Returns the class of the $object.
+
 =cut
+
+sub class {
+    my $ref = ref $_[0];
+    return $ref if $ref;
+
+    # Not a ref, must be autoboxed
+    return ref \$_[0];
+}
+
+1;
