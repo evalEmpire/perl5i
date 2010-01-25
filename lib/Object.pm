@@ -3,6 +3,8 @@ package Object;
 use strict;
 use warnings;
 
+use Scalar::Util ();
+
 {
     package UNIVERSAL;
     our @ISA = qw(Object);
@@ -37,7 +39,7 @@ It is, in effect, nothing but a better name for UNIVERSAL.
 
 =head1 METHODS
 
-=head2 class()
+=head2 class
 
     my $class = $object->class;
 
@@ -51,6 +53,19 @@ sub class {
 
     # Not a ref, must be autoboxed
     return ref \$_[0];
+}
+
+
+=head2 reftype
+
+    my $reftype = $object->reftype;
+
+Returns the underlying reference type of the $object.
+
+=cut
+
+sub reftype {
+    return Scalar::Util::reftype($_[0]);
 }
 
 1;
