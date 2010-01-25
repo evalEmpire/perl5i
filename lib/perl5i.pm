@@ -48,7 +48,7 @@ with Perl 5, so perl5i will try to have a lexical effect.
 
 Please add to this imaginary world and help make it real, either by
 telling me what Perl looks like in your imagination
-(F<http://github.com/schwern/perl5i/issues> or make a fork (forking on
+(F<http://github.com/schwern/perl5i/issues>) or make a fork (forking on
 github is like a branch you control) and implement it yourself.
 
 =head1 What it does
@@ -74,7 +74,7 @@ better name.
     alias( $package, $name => $reference );
     alias( @identifiers    => $reference );
 
-Assigns a $refrence a $name.  For example...
+Assigns a $reference a $name.  For example...
 
     alias foo => sub { 42 };
     print foo();        # prints 42
@@ -153,7 +153,7 @@ C<<$character>> defaults to " ".
     say "Hello"->center(10, '-');   # "---Hello--";
 
 C<<center()>> will never truncate C<<$string>>.  If $length is less
-than C<<$string->length>> it will just return C<<$string>>.
+than C<< $string->length >> it will just return C<<$string>>.
 
     say "Hello"->center(4);        # "Hello";
 
@@ -196,7 +196,7 @@ Will uppercase every word character that follows a wordbreak character.
 
 =head2 List Autoboxing
 
-L<autobox::List::Util> wraps the functions from List::Util
+L<autobox::List::Util> wraps the functions from L<List::Util>
 (first, max, maxstr, min, minstr, shuffle, reduce, and sum)
 so they can be called on arrays and arrayrefs.
 
@@ -214,18 +214,19 @@ C<exit>.
 
 =head2 English
 
-L<English> gives English names to the punctuation variables
-like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
+L<English> gives English names to the punctuation variables; for
+instance, C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for
+details.
 
 It does B<not> load the regex variables which effect performance.
-C<<$PREMATCH>>, C<<$MATCH>>, and C<<POSTMATCH>> will not exist.  See
-C<</p>> in L<perlre> for a better alternative.
+C<<$PREMATCH>>, C<<$MATCH>>, and C<<$POSTMATCH>> will not exist.  See
+the C<<p>> modifier in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
-Turns on strict and warnings, enables all the 5.10 features like
-C<given/when>, C<say> and C<state>, and enables C3 method resolution
-order.
+L<Modern::Perl> turns on strict and warnings, enables all the 5.10
+features like C<given/when>, C<say> and C<state>, and enables C3
+method resolution order.
 
 =head2 CLASS
 
@@ -234,7 +235,7 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 =head2 File::chdir
 
 L<File::chdir> gives you C<$CWD> representing the current working
-directory and its assignable to C<<chdir>>.  You can also localize it
+directory and it's assignable to C<<chdir>>.  You can also localize it
 to safely chdir inside a scope.
 
 =head2 File::stat
@@ -259,7 +260,7 @@ objects.  They will all act like the core functions.
 =head2 Time::y2038
 
 gmtime() and localtime() will now safely work with dates beyond the
-year 2038 and before 1901 (the exact range is not defined, but its
+year 2038 and before 1901 (the exact range is not defined, but it's
 well into a couple million years in either direction).
 
 
@@ -298,7 +299,7 @@ L<autovivification> fixes the bug/feature where this:
     $hash = {};
     $hash->{key1}{key2};
 
-Results in C<<$hash->{key1}>> coming into existance.  That will no longer
+Results in C<< $hash->{key1} >> coming into existence.  That will no longer
 happen.
 
 =head2 Want
@@ -368,7 +369,7 @@ Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
 chromatic, Ben Hengst and anyone else I've forgotten.
 
 Thanks to Flavian and Matt Trout for their signature and
-Devel::Declare work.
+L<Devel::Declare> work.
 
 Thanks to all the CPAN authors upon whom this builds.
 
