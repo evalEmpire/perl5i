@@ -12,6 +12,7 @@ use perl5i::DateTime;
 use perl5i::SCALAR;
 use Want;
 use Try::Tiny;
+use Object;
 
 use version 0.77; our $VERSION = qv("v0.1.0");
 
@@ -55,6 +56,17 @@ github is like a branch you control) and implement it yourself.
 perl5i enables each of these modules and adds/changes these functions.
 We'll provide a brief description here, but you should look at each of
 their documentation for full details.
+
+
+=head2 Everything is an Object
+
+perl5i introduces a new super class for all objects called "Object".
+Object will be populated with methods so they are available to all
+objects.
+
+All objects already inherit from UNIVERSAL, so really Object is just a
+better name.
+
 
 =head2 alias()
 
