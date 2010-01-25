@@ -147,13 +147,13 @@ perl5i adds some methods to scalars of its own.
 Centers $string between $character.  $centered_string will be of
 length $length.
 
-C<<$character>> defaults to " ".
+C<$character> defaults to " ".
 
     say "Hello"->center(10);        # "   Hello  ";
     say "Hello"->center(10, '-');   # "---Hello--";
 
-C<<center()>> will never truncate C<<$string>>.  If $length is less
-than C<< $string->length >> it will just return C<<$string>>.
+C<center()> will never truncate C<$string>.  If $length is less
+than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
@@ -218,9 +218,9 @@ L<English> gives English names to the punctuation variables; for
 instance, C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for
 details.
 
-It does B<not> load the regex variables which effect performance.
-C<<$PREMATCH>>, C<<$MATCH>>, and C<<$POSTMATCH>> will not exist.  See
-the C<<p>> modifier in L<perlre> for a better alternative.
+It does B<not> load the regex variables which affect performance.
+C<$PREMATCH>, C<$MATCH>, and C<$POSTMATCH> will not exist.  See
+the C<p> modifier in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
@@ -235,7 +235,7 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 =head2 File::chdir
 
 L<File::chdir> gives you C<$CWD> representing the current working
-directory and it's assignable to C<<chdir>>.  You can also localize it
+directory and it's assignable to C<chdir>.  You can also localize it
 to safely chdir inside a scope.
 
 =head2 File::stat
@@ -244,7 +244,7 @@ L<File::stat> causes C<stat> to return an object in scalar context.
 
 =head2 DateTime
 
-C<time>, C<localtime> and C<gmtime> are replaced with DateTime
+C<time>, C<localtime>, and C<gmtime> are replaced with DateTime
 objects.  They will all act like the core functions.
 
     # Sat Jan 10 13:37:04 2004
@@ -259,7 +259,7 @@ objects.  They will all act like the core functions.
 
 =head2 Time::y2038
 
-gmtime() and localtime() will now safely work with dates beyond the
+C<gmtime()> and C<localtime()> will now safely work with dates beyond the
 year 2038 and before 1901 (the exact range is not defined, but it's
 well into a couple million years in either direction).
 
@@ -282,7 +282,7 @@ C<select>.
 =head2 autodie
 
 L<autodie> causes system and file calls which can fail
-(C<open>, C<system> and C<chdir>, for example) to die when they fail.
+(C<open>, C<system>, and C<chdir>, for example) to die when they fail.
 This means you don't have to put C<or die> at the end of every system
 call, but you do have to wrap it in an C<eval> block if you want to
 trap the failure.
@@ -304,10 +304,10 @@ happen.
 
 =head2 Want
 
-L<Want> generalizes the mechanism of the wantarray function, allowing a 
+L<Want> generalizes the mechanism of the wantarray function, allowing a
 function to determine the context it's being called in.  Want distinguishes
 not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
-context and more.  See perldoc L<Want>.
+context, and more.  See perldoc L<Want>.
 
 =head2 Try::Tiny
 
@@ -366,7 +366,7 @@ Damian Conway.
 =head1 THANKS
 
 Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
-chromatic, Ben Hengst and anyone else I've forgotten.
+chromatic, Ben Hengst, and anyone else I've forgotten.
 
 Thanks to Flavian and Matt Trout for their signature and
 L<Devel::Declare> work.
