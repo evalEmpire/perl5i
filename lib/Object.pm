@@ -89,7 +89,7 @@ sub is_tainted {
         return Taint::Util::tainted($code->($_[0]));
     }
     else {
-        return Taint::Util::tainted($_[0]);
+        return 0;
     }
 
     die "Never should be reached";
@@ -105,6 +105,8 @@ Taints the $object.
 Normally only scalars can be tainted, this will throw an exception on
 anything else.
 
+Tainted, string overloaded objects will cause this to be a no-op.
+
 An object can override this method if they have a means of tainting
 themselves.  Generally this is applicable to string or numeric
 overloaded objects who can taint their overloaded value.
@@ -113,13 +115,17 @@ overloaded objects who can taint their overloaded value.
 
 sub taint {
     if( $_[0]->$has_string_overload ) {
-        Carp::croak "Overloaded objects cannot be made tainted" unless $_[0]->is_tainted;
+        Carp::croak "Untainted overloaded objects cannot normally be made tainted" if
+          !$_[0]->is_tainted;
         return 1;
     }
+    else {
+        Carp::croak "Only scalars can normally be made tainted";
+    }
 
-    Taint::Util::taint($_[0]);
-    return 1;
+    Carp::confess "Should not be reached";
 }
+
 
 =head2 untaint
 
@@ -130,21 +136,23 @@ Untaints the $object.
 Normally objects cannot be tainted, so it is a no op on anything but a
 scalar.
 
-String and numeric overloaded objects are an exception.  If an object
-is string or numeric overloaded, and it is tainted, this method will
-throw an exception.  The overloaded class may override this method to
-provide their own untainting mechanism.
+Tainted, string overloaded objects will throw an exception.
+
+An object can override this method if they have a means of untainting
+themselves.  Generally this is applicable to string or numeric
+overloaded objects who can untaint their overloaded value.
 
 =cut
 
 sub untaint {
-    if( $_[0]->$has_string_overload ) {
-        Carp::croak "Overloaded objects cannot be untainted" if $_[0]->is_tainted;
-        return 1;
+    if( $_[0]->$has_string_overload && $_[0]->is_tainted ) {
+        Carp::croak "Tainted overloaded objects cannot normally be untainted";
     }
     else {
         return 1;
     }
+
+    Carp::confess "Should never be reached";
 }
 
 

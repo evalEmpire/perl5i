@@ -37,18 +37,19 @@ use Scalar::Util qw(tainted);
 
 
 # What about a scalar ref?
-# Should we check against its contents?
+# Would be nice if we could un/taint the contents, but that's not
+# possible due to how Taint::Util works and its not worth fixing.
 {
     my $foo = \42;
     ok !$foo->is_tainted;
 
-    $foo->taint;
-    ok $foo->is_tainted;
-    ok tainted($foo);  # just to be sure.
-
-    $foo->untaint;
+    $foo->untaint;  # does nothing
     ok !$foo->is_tainted;
-    ok !tainted($foo);  # just to be sure.
+    ok !tainted(\$foo);  # just to be sure.
+
+    throws_ok { $foo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$foo->is_tainted;
+    ok !tainted(\$foo);  # just to be sure.
 }
 
 
@@ -61,13 +62,9 @@ use Scalar::Util qw(tainted);
     ok !%foo->is_tainted;
     ok !tainted(\%foo);  # just to be sure.
 
-    %foo->taint;
-
-    TODO: {
-        local $TODO = "Bug in Taint::Util prevents bare hashes and arrays from being tainted";
-        ok %foo->is_tainted;
-        ok tainted(\%foo);  # just to be sure.
-    }
+    throws_ok { %foo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !%foo->is_tainted;
+    ok !tainted(\%foo);  # just to be sure.
 }
 
 
@@ -79,13 +76,13 @@ use Scalar::Util qw(tainted);
     $obj->untaint;  # does nothing
     ok !$obj->is_tainted;
 
-    $obj->taint;
-    ok $obj->is_tainted;
-    ok tainted($obj);
+    throws_ok { $obj->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$obj->is_tainted;
+    ok !tainted($obj);  # just to be sure.
 }
 
 
-# A blessed scalar ref object?
+# A blessed scalar ref object cannot be untainted... though we could.
 {
     my $thing = 42;
     my $obj = bless \$thing, "Foo";
@@ -94,9 +91,9 @@ use Scalar::Util qw(tainted);
     $obj->untaint;  # does nothing
     ok !$obj->is_tainted;
 
-    $obj->taint;
-    ok $obj->is_tainted;
-    ok tainted($obj);
+    throws_ok { $obj->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$obj->is_tainted;
+    ok !tainted($obj);  # just to be sure.
 }
 
 
@@ -119,7 +116,7 @@ use Scalar::Util qw(tainted);
         ok $obj->is_tainted;
         ok ::tainted("$obj");
 
-        throws_ok { $obj->untaint; } qr/^Overloaded objects cannot be untainted/;
+        throws_ok { $obj->untaint; } qr/^Tainted overloaded objects cannot normally be untainted/;
         ok $obj->taint;  # this is cool, its already tainted.
     }
 
@@ -133,7 +130,7 @@ use Scalar::Util qw(tainted);
         ok !::tainted("$obj");
 
         ok $obj->untaint;  # this is cool, its already untainted.
-        throws_ok { $obj->taint; } qr/^Overloaded objects cannot be made tainted/;
+        throws_ok { $obj->taint; } qr/^Untainted overloaded objects cannot normally be made tainted/;
     }
 }
 

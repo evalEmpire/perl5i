@@ -7,6 +7,7 @@ use warnings;
 use Carp;
 use Module::Load;
 use Taint::Util;
+use autobox;
 
 sub SCALAR::title_case {
     my ($string) = @_;
@@ -83,13 +84,19 @@ sub SCALAR::wrap {
 }
 
 
+# untaint the scalar itself, not the reference
 sub SCALAR::untaint {
+    return $_[0]->SUPER::untaint if ref $_[0];
+
     Taint::Util::untaint($_[0]);
     return 1;
 }
 
 
+# untaint the scalar itself, not the reference
 sub SCALAR::taint {
+    return $_[0]->SUPER::taint if ref $_[0];
+
     Taint::Util::taint($_[0]);
     return 1;
 }
@@ -97,7 +104,7 @@ sub SCALAR::taint {
 # Could use the version in Object but this removes the need to check
 # for overloading.
 sub SCALAR::is_tainted {
-    return Taint::Util::tainted($_[0]);
+    return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
 }
 
 1;
