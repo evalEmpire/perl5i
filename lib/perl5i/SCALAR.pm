@@ -6,7 +6,7 @@ use strict;
 use warnings;
 use Carp;
 use Module::Load;
-
+use Taint::Util;
 
 sub SCALAR::title_case {
     my ($string) = @_;
@@ -83,5 +83,21 @@ sub SCALAR::wrap {
 }
 
 
+sub SCALAR::untaint {
+    Taint::Util::untaint($_[0]);
+    return 1;
+}
+
+
+sub SCALAR::taint {
+    Taint::Util::taint($_[0]);
+    return 1;
+}
+
+# Could use the version in Object but this removes the need to check
+# for overloading.
+sub SCALAR::is_tainted {
+    return Taint::Util::tainted($_[0]);
+}
 
 1;

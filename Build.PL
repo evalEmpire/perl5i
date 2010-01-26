@@ -33,6 +33,7 @@ my $builder = MyBuild->new(
         'autovivification'    => '0.04',
         'version'             => '0.77',
         'Perl6::Caller'       => '0.100',
+        "Taint::Util"         => '0.06',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
