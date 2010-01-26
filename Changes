@@ -2,9 +2,19 @@
   New Features
   * try/catch support via Try::Tiny (brunov)
   * caller() now returns an object via Perl6::Caller (schwern, Timothy Totten)
+  * Everything is an Object.
+  * Added Object methods to handle tainting.  is_tainted(), taint(), untaint().
+  * Added Object->reftype to get the bare reference type of anything.
+  * Added Object->class to get the class of anything.
+
+  Docs
+  * Various POD fixes (chromatic, Richard Soderberg)
+  * Collected together the autoboxed methods
 
   Other
+  * Look, a changes document!
   * Added a patching policy.  See the PATCHING file.
+  * We have a mailing list now.  http://groups.google.com/group/perl5i
 
 
 0.1.0  Sat Jan 23 14:55:52 2010 -0800
