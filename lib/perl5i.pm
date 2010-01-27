@@ -335,7 +335,8 @@ Some parts are not lexical.
 
 See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
 
-Please report bugs at L<http://github.com/schwern/perl5i/issues/>.
+Please report bugs at L<http://github.com/schwern/perl5i/issues/> or
+email L<perl5i@googlegroups.com>.
 
 
 =head1 VERSIONING
@@ -388,8 +389,13 @@ See F<http://www.perl.com/perl/misc/Artistic.html>
 Repository:   L<http://github.com/schwern/perl5i/tree/master>
 Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
 IRC:          irc.perl.org on the #perl5i channel
+Mailing List: L<http://groups.google.com/group/perl5i/>
 
-L<Modern::Perl>
+Some modules with similar purposes include:
+L<Modern::Perl>, L<Common::Sense>
+
+For a complete object declaration system, see L<Moose> and
+L<MooseX::Declare>.
 
 
 =cut
