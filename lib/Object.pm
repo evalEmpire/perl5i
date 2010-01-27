@@ -7,6 +7,7 @@ use warnings;
 require Scalar::Util;
 require Carp;
 require Taint::Util;
+require mro;
 
 {
     package UNIVERSAL;
@@ -78,6 +79,77 @@ sub ISA {
 
     my $class = ref $_[0] ? ref $_[0] : $_[0];
     return @{$class.'::ISA'};
+}
+
+
+=head2 super
+
+    my @return = $class->super(@args);
+    my @return = $object->super(@args);
+
+Call the parent of $class/$object's implementation of the current method.
+
+Equivalent to C<< $object->SUPER::method(@args) >> but based on the
+class of the $object rather than the class in which the current method
+was declared.
+
+=cut
+
+# A single place to put the "method not found" error.
+my $method_not_found = sub {
+    my $self   = shift;
+    my $method = shift;
+    my $class  = $self->class;
+
+    Carp::croak sprintf q[Can't locate object method "%s" via package "%s"],
+      $method, $class;
+};
+
+
+# caller() will return if its inside an eval, need to skip over those.
+my $find_method = sub {
+    my $method;
+    my $height = 2;
+    do {
+        $method = (caller($height))[3];
+        $height++;
+    } until( !defined $method or $method ne '(eval)' );
+
+    return $method;
+};
+
+my $linear_isa = sub {
+    my $self  = shift;
+    my $prune_to = shift;
+
+    my @isa = (@{mro::get_linear_isa($self->class)}, "UNIVERSAL");
+    while(@isa) {
+        my $class = shift @isa;
+        return @isa if $class eq $prune_to;
+    }
+
+    return @isa;
+};
+
+sub super {
+    # Leave @_ alone.
+    my $self = $_[0];
+
+    my $fq_method = $find_method->();
+    Carp::croak "super() called outside a method" unless $fq_method;
+
+    my($parent, $method) = $fq_method =~ /^(.*)::(\w+)$/;
+
+    Carp::croak sprintf qq["%s" is not a parent class of "%s"], $parent, $self->class
+      unless $self->isa($parent);
+
+    my @isa = $self->$linear_isa($parent);
+    for (@isa) {
+        my $code = $_->can($method);
+        goto &$code;
+    }
+
+    $self->$method_not_found($method);
 }
 
 

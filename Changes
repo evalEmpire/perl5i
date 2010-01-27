@@ -7,6 +7,7 @@
   * Added Object->reftype to get the bare reference type of anything.
   * Added Object->class to get the class of anything.
   * Added Object->ISA to return @ISA.
+  * Added Object->super to call a method in a super class.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)
