@@ -59,6 +59,28 @@ sub class {
 }
 
 
+=head2 ISA
+
+    my @ISA = $object->ISA;
+    my @ISA = $class->ISA;
+
+Returns the immediate parents of the C<$class> or C<$object>.
+
+Essentially equivalent to:
+
+    no strict 'refs';
+    my @ISA = @{$class.'::ISA'};
+
+=cut
+
+sub ISA {
+    no strict 'refs';
+
+    my $class = ref $_[0] ? ref $_[0] : $_[0];
+    return @{$class.'::ISA'};
+}
+
+
 =head2 is_tainted
 
     my $is_tainted = $object->is_tainted;

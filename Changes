@@ -6,6 +6,7 @@
   * Added Object methods to handle tainting.  is_tainted(), taint(), untaint().
   * Added Object->reftype to get the bare reference type of anything.
   * Added Object->class to get the class of anything.
+  * Added Object->ISA to return @ISA.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)
