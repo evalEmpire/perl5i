@@ -347,7 +347,7 @@ Some parts are not lexical.
 See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
 
 Please report bugs at L<http://github.com/schwern/perl5i/issues/> or
-email L<perl5i@googlegroups.com>.
+email L<mailto:perl5i@googlegroups.com>.
 
 
 =head1 VERSIONING
