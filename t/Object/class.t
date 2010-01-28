@@ -12,7 +12,7 @@ use Test::More;
 my $obj = bless {}, "Foo";
 is $obj->class, "Foo";
 
-is 42->class, "SCALAR";
+is 42->class, 42;
 
 my @array;
 is @array->class, "ARRAY";

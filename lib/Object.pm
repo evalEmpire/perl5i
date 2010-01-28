@@ -46,17 +46,19 @@ It is, in effect, nothing but a better name for UNIVERSAL.
 =head2 class
 
     my $class = $object->class;
+    my $class = $class->class;
 
 Returns the class of the $object.
+
+When called as a class method, it will return the $class.
+
+Because of ambiguity, it cannot identify a SCALAR object.  It will
+instead treat it as a class method call.
 
 =cut
 
 sub class {
-    my $ref = ref $_[0];
-    return $ref if $ref;
-
-    # Not a ref, must be autoboxed
-    return ref \$_[0];
+    return ref $_[0] ? ref $_[0] : $_[0];
 }
 
 
