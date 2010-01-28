@@ -8,6 +8,7 @@
   * Added Object->class to get the class of anything.
   * Added Object->ISA to return @ISA.
   * Added Object->super to call a method in a super class.
+  * Added Object->linear_isa to get the object's inheritance path.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)

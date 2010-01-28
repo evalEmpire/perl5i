@@ -84,6 +84,31 @@ sub ISA {
 }
 
 
+=head2 linear_isa
+
+    my @isa = $class->linear_isa();
+    my @isa = $object->linear_isa();
+
+Returns the entire inheritance tree of the $class or $object as a list
+in the order it will be searched for method inheritance.
+
+This list includes the $class itself and includes UNIVERSAL and Object.
+
+=cut
+
+sub linear_isa {
+    my $self = shift;
+    my $class = $self->class;
+
+    my @extra;
+    @extra = qw(UNIVERSAL Object) unless $class eq 'UNIVERSAL' or $class eq 'Object';
+
+    # get_linear_isa() does not return UNIVERSAL and does not show Object
+    # as a parent of UNIVERSAL.
+    return @{mro::get_linear_isa($class)}, @extra;
+}
+
+
 =head2 super
 
     my @return = $class->super(@args);
