@@ -4,7 +4,7 @@
 
 use Test::More 'no_plan';
 use Test::Warn;
-use perl5i;
+use perl5i::latest;
 
 # strict?
 {

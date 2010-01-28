@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use perl5i;
+use perl5i::latest;
 
 use Config;
 use ExtUtils::CBuilder;

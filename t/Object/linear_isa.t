@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use perl5i;
+use perl5i::latest;
 use Test::More;
 
 is_deeply [Object->linear_isa],       ["Object"];
@@ -10,7 +10,7 @@ is_deeply [DoesNotExist->linear_isa], [qw(DoesNotExist UNIVERSAL Object)];
 # Set up a good ol diamond inheritance.
 {
     package Child;
-    use perl5i;
+    use perl5i::latest;
     our @ISA = qw(Mom Dad);
 
     package Mom;

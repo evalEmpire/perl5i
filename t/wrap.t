@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-use perl5i;
+use perl5i::latest;
 use Test::More;
 
 foreach my $word ("hello", "goodbye!") {

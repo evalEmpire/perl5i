@@ -1,4 +1,8 @@
 0.2.0
+  Incompatible Changes
+  * "use perl5i" no longer works.  You must instead "use perl5i::0" to
+    protect against future incompatibilities.
+
   New Features
   * try/catch support via Try::Tiny (brunov)
   * caller() now returns an object via Perl6::Caller (schwern, Timothy Totten)
@@ -9,6 +13,7 @@
   * Added Object->ISA to return @ISA.
   * Added Object->super to call a method in a super class.
   * Added Object->linear_isa to get the object's inheritance path.
+  * Introduced perl5i::latest to use the latest version.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)
