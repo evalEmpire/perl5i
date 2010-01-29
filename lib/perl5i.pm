@@ -223,6 +223,18 @@ C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
+=head2 utf8
+
+L<utf8> lets you put UTF8 encoded strings into your source code.
+This means UTF8 variable and method names, strings and regexes.
+
+It means strings will be treated as a set of characters rather than a
+set of bytes.  For example, C<length> will return the number of
+characters, not the number of bytes.
+
+    length("perl5i is MËTÁŁ");  # 15, not 18
+
+
 =head2 English
 
 L<English> gives English names to the punctuation variables; for

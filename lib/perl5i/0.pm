@@ -42,6 +42,7 @@ use parent 'autobox::List::Util';
 use parent 'autobox::Core';
 use parent 'autobox::dump';
 use parent 'autovivification';
+use parent 'utf8';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -70,6 +71,7 @@ sub import {
     autobox::Core::import($class);
     autobox::dump::import($class);
     autovivification::unimport($class);
+    utf8::import($class);
 
     # Export our gmtime() and localtime()
     alias( $caller, 'gmtime',    \&{$Latest .'::DateTime::dt_gmtime'} );
