@@ -1,5 +1,10 @@
 package perl5i;
 
+######################################
+# The real code is in perl5i::0      #
+# Please patch that                  #
+######################################
+
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest = perl5i::VERSION->latest;
@@ -24,7 +29,7 @@ __END__
 
 =head1 NAME
 
-perl5i - Bend Perl 5 so it fits how it works in our imaginations
+perl5i - Fix as much of Perl 5 as possible in one pragma
 
 =head1 SYNOPSIS
 
@@ -49,7 +54,8 @@ of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
 changing defaults.  It will likely not be 100% backwards compatible
-with Perl 5, so perl5i will try to have a lexical effect.
+with Perl 5, though it will be 99%, but perl5i will try to have a
+lexical effect.
 
 Please add to this imaginary world and help make it real, either by
 telling me what Perl looks like in your imagination
