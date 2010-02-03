@@ -94,14 +94,28 @@ We'll provide a brief description here, but you should look at each of
 their documentation for full details.
 
 
-=head2 Everything is an Object
+=head2 The Meta Object
 
-perl5i introduces a new super class for all objects called L<Object>.
-Object will be populated with methods so they are available to all
-objects.  See the docs for L<Object> for details.
+Every object (and everything is an object) now has a meta object
+associated with it.  Using the meta object you can ask things about
+the object which were previously over complicated.  For example...
 
-All objects already inherit from UNIVERSAL, so really Object is just a
-better name.
+    # the object's class
+    my $class = $obj->mo->class;
+
+    # its parent classes
+    my @isa = $obj->mo->isa;
+
+    # the complete inheritance hierarchy
+    my @complete_isa = $obj->mo->linear_isa;
+
+    # the reference type of the object
+    my $reftype = $obj->mo->reftype;
+
+A meta object is used to avoid polluting the global method space.
+C<mo> was chosen to avoid clashing with Moose's meta object.
+
+See L<perl5i::Meta> for complete details.
 
 
 =head2 alias()

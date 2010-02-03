@@ -13,8 +13,7 @@ use Test::More;
 }
 
 isa_ok "Foo", "UNIVERSAL";
-isa_ok "Foo", "Object";
 
-ok 42->isa("Object"), "autoboxed things are objects";
+ok 42->isa("UNIVERSAL"), "autoboxed things are objects";
 
 done_testing();

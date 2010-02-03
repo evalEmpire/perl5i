@@ -56,14 +56,14 @@ use Scalar::Util qw(tainted);
 # A regular hash cannot be tainted
 {
     my %foo;
-    ok !%foo->is_tainted;
+    ok !%foo->mo->is_tainted;
 
-    %foo->untaint;  # does nothing
-    ok !%foo->is_tainted;
+    %foo->mo->untaint;  # does nothing
+    ok !%foo->mo->is_tainted;
     ok !tainted(\%foo);  # just to be sure.
 
-    throws_ok { %foo->taint; } qr/^Only scalars can normally be made tainted/;
-    ok !%foo->is_tainted;
+    throws_ok { %foo->mo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !%foo->mo->is_tainted;
     ok !tainted(\%foo);  # just to be sure.
 }
 
@@ -71,13 +71,13 @@ use Scalar::Util qw(tainted);
 # A blessed hash ref object cannot be tainted
 {
     my $obj = bless {}, "Foo";
-    ok !$obj->is_tainted;
+    ok !$obj->mo->is_tainted;
 
-    $obj->untaint;  # does nothing
-    ok !$obj->is_tainted;
+    $obj->mo->untaint;  # does nothing
+    ok !$obj->mo->is_tainted;
 
-    throws_ok { $obj->taint; } qr/^Only scalars can normally be made tainted/;
-    ok !$obj->is_tainted;
+    throws_ok { $obj->mo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$obj->mo->is_tainted;
     ok !tainted($obj);  # just to be sure.
 }
 
@@ -86,13 +86,13 @@ use Scalar::Util qw(tainted);
 {
     my $thing = 42;
     my $obj = bless \$thing, "Foo";
-    ok !$obj->is_tainted;
+    ok !$obj->mo->is_tainted;
 
-    $obj->untaint;  # does nothing
-    ok !$obj->is_tainted;
+    $obj->mo->untaint;  # does nothing
+    ok !$obj->mo->is_tainted;
 
-    throws_ok { $obj->taint; } qr/^Only scalars can normally be made tainted/;
-    ok !$obj->is_tainted;
+    throws_ok { $obj->mo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$obj->mo->is_tainted;
     ok !tainted($obj);  # just to be sure.
 }
 
@@ -113,11 +113,11 @@ use Scalar::Util qw(tainted);
         my $obj = bless \$thing, "Bar";
         is $obj, $^X;
 
-        ok $obj->is_tainted;
+        ok $obj->mo->is_tainted;
         ok ::tainted("$obj");
 
-        throws_ok { $obj->untaint; } qr/^Tainted overloaded objects cannot normally be untainted/;
-        ok $obj->taint;  # this is cool, its already tainted.
+        throws_ok { $obj->mo->untaint; } qr/^Tainted overloaded objects cannot normally be untainted/;
+        ok $obj->mo->taint;  # this is cool, its already tainted.
     }
 
     # Overloaded and not tainted
@@ -126,11 +126,11 @@ use Scalar::Util qw(tainted);
         my $obj = bless \$thing, "Bar";
         is $obj, $thing;
 
-        ok !$obj->is_tainted;
+        ok !$obj->mo->is_tainted;
         ok !::tainted("$obj");
 
-        ok $obj->untaint;  # this is cool, its already untainted.
-        throws_ok { $obj->taint; } qr/^Untainted overloaded objects cannot normally be made tainted/;
+        ok $obj->mo->untaint;  # this is cool, its already untainted.
+        throws_ok { $obj->mo->taint; } qr/^Untainted overloaded objects cannot normally be made tainted/;
     }
 }
 
@@ -141,7 +141,7 @@ use Scalar::Util qw(tainted);
     require DateTime;
     my $date = DateTime->now;
 
-    ok !$date->is_tainted;
+    ok !$date->mo->is_tainted;
 }
 
 done_testing();

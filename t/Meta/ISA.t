@@ -6,9 +6,8 @@ use Test::More;
 
 # Test the basics
 {
-    is_deeply [Object->ISA], [];
-    is_deeply [UNIVERSAL->ISA], ["Object"];
-    is_deeply [DoesNotExist->ISA], [];
+    is_deeply [UNIVERSAL->mo->ISA], [];
+    is_deeply [DoesNotExist->mo->ISA], [];
 }
 
 {
@@ -22,10 +21,10 @@ use Test::More;
 
 # Single inheritance
 {
-    is_deeply [Child->ISA], ["Parent"];
+    is_deeply [Child->mo->ISA], ["Parent"];
 
     my $obj = Child->new;
-    is_deeply [$obj->ISA], ["Parent"];
+    is_deeply [$obj->mo->ISA], ["Parent"];
 }
 
 
@@ -39,6 +38,6 @@ use Test::More;
     our @ISA = qw(Foo Bar Baz);
 }
 
-is_deeply [Multiple->ISA], [qw(Foo Bar Baz)];
+is_deeply [Multiple->mo->ISA], [qw(Foo Bar Baz)];
 
 done_testing();

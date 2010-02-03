@@ -86,7 +86,7 @@ sub SCALAR::wrap {
 
 # untaint the scalar itself, not the reference
 sub SCALAR::untaint {
-    return $_[0]->SUPER::untaint if ref $_[0];
+    return $_[0]->mo->untaint if ref $_[0];
 
     Taint::Util::untaint($_[0]);
     return 1;
@@ -95,13 +95,13 @@ sub SCALAR::untaint {
 
 # untaint the scalar itself, not the reference
 sub SCALAR::taint {
-    return $_[0]->SUPER::taint if ref $_[0];
+    return $_[0]->mo->taint if ref $_[0];
 
     Taint::Util::taint($_[0]);
     return 1;
 }
 
-# Could use the version in Object but this removes the need to check
+# Could use the version in Meta but this removes the need to check
 # for overloading.
 sub SCALAR::is_tainted {
     return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);

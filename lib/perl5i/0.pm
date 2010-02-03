@@ -12,7 +12,7 @@ use perl5i::0::DateTime;
 use perl5i::0::SCALAR;
 use Want;
 use Try::Tiny;
-use Object;
+use perl5i::0::Meta;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 

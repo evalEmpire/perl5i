@@ -10,13 +10,13 @@ use Test::Exception;
 
     sub bar {
         my $self = shift;
-        $self->super("super", @_);
+        $self->mo->super("super", @_);
     }
 
     # Watch out!  An eval BLOCK will show up in caller().
     sub with_eval {
         my $self = shift;
-        return eval { $self->super("super", @_) };
+        return eval { $self->mo->super("super", @_) };
     }
 }
 
@@ -26,12 +26,12 @@ use Test::Exception;
 
     sub bar {
         my $self = shift;
-        return $self->super(@_);
+        return $self->mo->super(@_);
     }
 
     sub with_eval {
         my $self = shift;
-        return $self->super(@_);
+        return $self->mo->super(@_);
     }
 }
 
@@ -71,7 +71,7 @@ use Test::Exception;
 # What happens when called outside a method?
 {
     my $obj = Child->new;
-    ok !eval { $obj->super(); };
+    ok !eval { $obj->mo->super(); };
     is $@, sprintf "super() called outside a method at $0 line %d\n", __LINE__ - 1;
 }
 
@@ -85,7 +85,7 @@ use Test::Exception;
     our @ISA = qw(NotAGrandparent);
     sub bar {
         my $obj = Child->new;
-        return $obj->super(42);
+        return $obj->mo->super(42);
     }
 
     package main;
