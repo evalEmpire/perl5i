@@ -345,12 +345,12 @@ L<autovivification> fixes the bug/feature where this:
 Results in C<< $hash->{key1} >> coming into existence.  That will no longer
 happen.
 
-=head2 Want
+=head2 want()
 
-L<Want> generalizes the mechanism of the wantarray function, allowing a
+C<want()> generalizes the mechanism of the wantarray function, allowing a
 function to determine the context it's being called in.  Want distinguishes
 not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
-context, and more.  See perldoc L<Want>.
+context, and more.  See perldoc L<Want> for full details.
 
 =head2 Try::Tiny
 

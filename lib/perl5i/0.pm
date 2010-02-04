@@ -62,7 +62,7 @@ sub import {
     load_in_caller( $caller => (
         ["CLASS"], ["Module::Load"], ["File::chdir"],
         [English => qw(-no_match_vars)],
-        ["Want"], ["Try::Tiny"], ["Perl6::Caller"],
+        ["Want" => qw(want)], ["Try::Tiny"], ["Perl6::Caller"],
     ) );
 
     # Have to call both or it won't work.

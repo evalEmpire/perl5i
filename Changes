@@ -3,6 +3,8 @@
   * "use perl5i" no longer works.  You must instead "use perl5i::0" to
     protect against future incompatibilities.  "use perl5i::latest" for
     the adventurous.
+  * We no longer export rreturn() or lnoreturn() from Want.
+    This can wait if we tackle lvalue subroutines.
 
   New Features
   * try/catch support via Try::Tiny (brunov)
