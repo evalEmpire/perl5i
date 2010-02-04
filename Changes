@@ -1,18 +1,20 @@
 0.2.0
   Incompatible Changes
   * "use perl5i" no longer works.  You must instead "use perl5i::0" to
-    protect against future incompatibilities.
+    protect against future incompatibilities.  "use perl5i::latest" for
+    the adventurous.
 
   New Features
   * try/catch support via Try::Tiny (brunov)
   * caller() now returns an object via Perl6::Caller (schwern, Timothy Totten)
-  * Everything is an Object.
-  * Added Object methods to handle tainting.  is_tainted(), taint(), untaint().
-  * Added Object->reftype to get the bare reference type of anything.
-  * Added Object->class to get the class of anything.
-  * Added Object->ISA to return @ISA.
-  * Added Object->super to call a method in a super class.
-  * Added Object->linear_isa to get the object's inheritance path.
+  * Everything has a Meta object (perl5i::Meta) accessable via $thing->mo
+  * Added meta object methods to handle tainting.
+    mo->is_tainted(), mo->taint(), mo->untaint().
+  * Added mo->reftype to get the bare reference type of anything.
+  * Added mo->class to get the class of anything.
+  * Added mo->ISA to return @ISA.
+  * Added mo->super to call a method in a super class.
+  * Added mo->linear_isa to get the object's inheritance path.
   * Introduced perl5i::latest to use the latest version.
 
   Docs
