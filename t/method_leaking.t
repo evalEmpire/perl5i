@@ -5,6 +5,6 @@
 use perl5i::latest;
 use Test::More;
 
-ok( !SCALAR->can("load") );
+ok( !SCALAR->can("croak") );
 
 done_testing();

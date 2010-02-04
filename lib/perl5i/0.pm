@@ -60,7 +60,7 @@ sub import {
     mro::set_mro( $caller, 'c3' );
 
     load_in_caller( $caller => (
-        ["CLASS"], ["Module::Load"], ["File::chdir"],
+        ["CLASS"], ["File::chdir"],
         [English => qw(-no_match_vars)],
         ["Want" => qw(want)], ["Try::Tiny"], ["Perl6::Caller"],
     ) );

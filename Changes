@@ -5,6 +5,7 @@
     the adventurous.
   * We no longer export rreturn() or lnoreturn() from Want.
     This can wait if we tackle lvalue subroutines.
+  * load() is now a scalar method, so its $module->load not load($module)
 
   New Features
   * try/catch support via Try::Tiny (brunov)

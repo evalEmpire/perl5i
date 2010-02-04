@@ -107,4 +107,9 @@ sub SCALAR::is_tainted {
     return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
 }
 
+
+sub SCALAR::load {
+    goto &Module::Load::load;
+}
+
 1;

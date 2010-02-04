@@ -188,6 +188,21 @@ than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
+=head2 load()
+
+    $module->load(@args);
+    $path->load(@args);
+
+A thin wrapper around C<Module::Load::load()>.  It will load a module
+from a scalar without requiring you to do funny things like C<eval
+require $module>.  It accepts both module names and file paths.
+
+    # like "use $module qw(foo bar);" if that worked
+    $module->load(qw(foo bar));
+
+Note that C<< $module->load >> does not import anything.  This may
+change in the future.
+
 =head3 wrap()
 
     my $wrapped = $string->wrap( width => $cols, separator => $sep );
