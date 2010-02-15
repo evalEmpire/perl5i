@@ -1,21 +1,270 @@
-Perl5i is our imaginary version of Perl 5.
+NAME
+    perl5i - Bend Perl 5 so it fits how it works in our imaginations
 
-The goal will be to load just one module and fix as much of Perl 5 as
-possible.  It will not cause excessive load time.  It will be
-reasonably backwards compatible.  It will be stable and usable in
-production (right now it isn't).
+SYNOPSIS
+      use perl5i;
 
-Since a lot of fixing Perl 5 is "go use this module from CPAN... and this
-one... and this other one... and these two... and this and this..."
-this mostly involves loading a bunch of modules.
+      or
 
-What's Perl 5 look like in your imagination?
-http://github.com/schwern/perl5i/issues
+      $ perl5i your_script.pl
 
-The current goal of perl5i is to collect your pain.  What is painful
-for you about Perl?  What takes two lines when it should take one?
-What subroutines do you find yourself using over and over again?
-Please, share your pain.  Put it into the issue tracker.
+DESCRIPTION
+    THIS MODULE'S INTERFACE IS UNSTABLE! It's still a playground. Features
+    may be added, changed and removed without notice. `use perl5i' may not
+    even work in the future. See
+    http://github.com/schwern/perl5i/issues/issue/69 and
+    http://github.com/schwern/perl5i/issues/issue/60 for details. You have
+    been warned.
 
-Currently we hang out on irc.perl.org #perl5i.  Please join us.
+    Perl 5 has a lot of warts. There's a lot of individual modules and
+    techniques out there to fix those warts. perl5i aims to pull the best of
+    them together into one module so you can turn them on all at once.
+
+    This includes adding features, changing existing core functions and
+    changing defaults. It will likely not be 100% backwards compatible with
+    Perl 5, so perl5i will try to have a lexical effect.
+
+    Please add to this imaginary world and help make it real, either by
+    telling me what Perl looks like in your imagination
+    (http://github.com/schwern/perl5i/issues or make a fork (forking on
+    github is like a branch you control) and implement it yourself.
+
+What it does
+    perl5i enables each of these modules and adds/changes these functions.
+    We'll provide a brief description here, but you should look at each of
+    their documentation for full details.
+
+  alias()
+        alias( $name           => $reference );
+        alias( $package, $name => $reference );
+        alias( @identifiers    => $reference );
+
+    Assigns a $refrence a $name. For example...
+
+        alias foo => sub { 42 };
+        print foo();        # prints 42
+
+    It will also work on hash, array and scalar refs.
+
+        our %stuff;
+        alias stuff => \%some_other_hash;
+
+    Multiple @identifiers will be joined with '::' and used as the fully
+    qualified name for the alias.
+
+        my $class = "Some::Class";
+        my $name  = "foo";
+        alias $class, $name => sub { 99 };
+        print Some::Class->foo;  # prints 99
+
+    If the $name has no "::" in it, the current caller will be prepended.
+
+    This is basically a nicer way to say:
+
+        no strict 'refs';
+        *{$package . '::'. $name} = $reference;
+
+  center()
+        my $centered_string = $string->center($length);
+        my $centered_string = $string->center($length, $character);
+
+    Centers $string between $character. $centered_string will be of length
+    $length.
+
+    `<$character'> defaults to " ".
+
+        say "Hello"->center(10);        # "   Hello  ";
+        say "Hello"->center(10, '-');   # "---Hello--";
+
+    `<center()'> will never truncate `<$string'>. If $length is less than
+    `<$string-'length>> it will just return `<$string'>.
+
+        say "Hello"->center(4);        # "Hello";
+
+  wrap()
+        my $wrapped = $string->wrap( width => $cols, separator => $sep );
+
+    Wraps $string to width $cols, breaking lines at word boundries using
+    separator $sep.
+
+    If no width is given, $cols defaults to 76. Default line separator is
+    the newline character "\n".
+
+    See Text::Wrap for details.
+
+  ltrim()
+        my $string = '    testme'->ltrim; # 'testme'
+
+    Trim leading whitespace (left).
+
+  rtrim()
+        my $string = 'testme    '->rtrim; #'testme'
+
+    Trim trailing whitespace (right).
+
+  trim()
+        my $string = '    testme    '->trim;  #'testme'
+
+    Trim both leading and trailing whitespace.
+
+  title_case()
+        my $name = 'joe smith'->title_case; #Joe Smith
+
+    Will uppercase every word character that follows a wordbreak character.
+
+  die()
+    `die' now always returns an exit code of 255 instead of trying to use
+    `$!' or `$?' which makes the exit code unpredictable. If you want to
+    exit with a message and a special exit code, use `warn' then `exit'.
+
+  English
+    English gives English names to the punctuation variables like `<$@'> is
+    also `<$EVAL_ERROR'>. See perlvar for details.
+
+    It does not load the regex variables which effect performance.
+    `<$PREMATCH'>, `<$MATCH'>, and `<POSTMATCH'> will not exist. See `</p'>
+    in perlre for a better alternative.
+
+  Modern::Perl
+    Turns on strict and warnings, enables all the 5.10 features like
+    `given/when', `say' and `state', and enables C3 method resolution order.
+
+  CLASS
+    Provides `CLASS' and `$CLASS' alternatives to `__PACKAGE__'.
+
+  File::chdir
+    File::chdir gives you `$CWD' representing the current working directory
+    and its assignable to `<chdir'>. You can also localize it to safely
+    chdir inside a scope.
+
+  File::stat
+    File::stat causes `stat' to return objects rather than long arrays which
+    you never remember which bit is which.
+
+  DateTime
+    `time', `localtime' and `gmtime' are replaced with DateTime objects.
+    They will all act like the core functions.
+
+        # Sat Jan 10 13:37:04 2004
+        say scalar gmtime(2**30);
+
+        # 2004
+        say gmtime(2**30)->year;
+
+        # 2009 (when this was written)
+        say time->year;
+
+  Time::y2038
+    gmtime() and localtime() will now safely work with dates beyond the year
+    2038 and before 1901 (the exact range is not defined, but its well into
+    a couple million years in either direction).
+
+  Module::Load
+    Module::Load adds `load' which will load a module from a scalar without
+    requiring you to do funny things like `eval require $module'.
+
+  IO::Handle
+    Turns filehandles into objects so you can call methods on them. The
+    biggest one is `autoflush' rather than mucking around with `$|' and
+    `select'.
+
+        $fh->autoflush(1);
+
+  autodie
+    autodie causes system and file calls which can fail (`open', `system'
+    and `chdir', for example) to die when they fail. This means you don't
+    have to put `or die' at the end of every system call, but you do have to
+    wrap it in an `eval' block if you want to trap the failure.
+
+    autodie's default error messages are pretty smart.
+
+    All of autodie will be turned on.
+
+  autobox
+    autobox allows methods to be defined for and called on most unblessed
+    variables.
+
+  autobox::Core
+    autobox::Core wraps a lot of Perl's built in functions so they can be
+    called as methods on unblessed variables. `@a->pop' for example.
+
+  autobox::List::Util
+    autobox::List::Util wraps the functions from List::Util (first, max,
+    maxstr, min, minstr, shuffle, reduce, and sum) so they can be called on
+    arrays and arrayrefs.
+
+  autobox::dump
+    autobox::dump defines a `perl' method that returns Data::Dumper style
+    serialization of the results of the expression.
+
+  autovivification
+    autovivification fixes the bug/feature where this:
+
+        $hash = {};
+        $hash->{key1}{key2};
+
+    Results in `<$hash-'{key1}>> coming into existance. That will no longer
+    happen.
+
+  Want
+    Want generalizes the mechanism of the wantarray function, allowing a
+    function to determine the context it's being called in. Want
+    distinguishes not just scalar v. array context, but void, lvalue,
+    rvalue, boolean, reference context and more. See perldoc Want.
+
+BUGS
+    Some parts are not lexical.
+
+    See http://github.com/schwern/perl5i/issues/labels/bug for a complete
+    list.
+
+    Please report bugs at http://github.com/schwern/perl5i/issues/.
+
+VERSIONING
+    perl5i follows the Semantic Versioning policy, http://semver.org. In
+    short...
+
+    Versions will be of the form X.Y.Z.
+
+    0.Y.Z may change anything at any time.
+
+    Incrementing X (ie. 1.2.3 -> 2.0.0) indicates a backwards incompatible
+    change.
+
+    Incrementing Y (ie. 1.2.3 -> 1.3.0) indicates a new feature.
+
+    Incrementing Z (ie. 1.2.3 -> 1.2.4) indicates a bug fix or other
+    internal change.
+
+NOTES
+    Inspired by chromatic's Modern::Perl and in particular
+    http://www.modernperlbooks.com/mt/2009/04/ugly-perl-a-lesson-in-the-impo
+    rtance-of-language-design.html.
+
+    I totally didn't come up with the "Perl 5 + i" joke. I think it was
+    Damian Conway.
+
+THANKS
+    Thanks to our contributors: Chas Owens, Darian Patrick, rjbs, chromatic,
+    Ben Hengst and anyone else I've forgotten.
+
+    Thanks to Flavian and Matt Trout for their signature and Devel::Declare
+    work.
+
+    Thanks to all the CPAN authors upon whom this builds.
+
+LICENSE
+    Copyright 2009-2010, Michael G Schwern <schwern@pobox.com>
+
+    This program is free software; you can redistribute it and/or modify it
+    under the same terms as Perl itself.
+
+    See http://www.perl.com/perl/misc/Artistic.html
+
+SEE ALSO
+    Repository: http://github.com/schwern/perl5i/tree/master Issues/Bugs:
+    http://github.com/schwern/perl5i/issues IRC: irc.perl.org on the #perl5i
+    channel
+
+    Modern::Perl
 

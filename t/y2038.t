@@ -1,6 +1,6 @@
 #!perl
 
-use perl5i;
+use perl5i::latest;
 use Test::More 'no_plan';
 
 TODO: {

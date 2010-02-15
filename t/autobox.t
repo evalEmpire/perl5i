@@ -1,6 +1,6 @@
 #!perl -w
 
-use perl5i;
+use perl5i::latest;
 use Test::More 'no_plan';
 
 my @array = ( 1, 2, 3 );

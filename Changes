@@ -1,0 +1,64 @@
+0.2.0
+  Incompatible Changes
+  * "use perl5i" no longer works.  You must instead "use perl5i::0" to
+    protect against future incompatibilities.  "use perl5i::latest" for
+    the adventurous.
+  * We no longer export rreturn() or lnoreturn() from Want.
+    This can wait if we tackle lvalue subroutines.
+  * load() is now a scalar method, so its $module->load not load($module)
+
+  New Features
+  * try/catch support via Try::Tiny (brunov)
+  * caller() now returns an object via Perl6::Caller (schwern, Timothy Totten)
+  * Everything has a Meta object (perl5i::Meta) accessable via $thing->mo
+  * Added meta object methods to handle tainting.
+    mo->is_tainted(), mo->taint(), mo->untaint().
+  * Added mo->reftype to get the bare reference type of anything.
+  * Added mo->class to get the class of anything.
+  * Added mo->ISA to return @ISA.
+  * Added mo->super to call a method in a super class.
+  * Added mo->linear_isa to get the object's inheritance path.
+  * Introduced perl5i::latest to use the latest version.
+
+  Docs
+  * Various POD fixes (chromatic, Richard Soderberg)
+  * Collected together the autoboxed methods
+
+  Other
+  * Look, a changes document!
+  * Added a patching policy.  See the PATCHING file.
+  * We have a mailing list now.  http://groups.google.com/group/perl5i
+
+
+0.1.0  Sat Jan 23 14:55:52 2010 -0800
+  * Return to CPAN after deleting 20090424
+  * New versioning scheme so we can declare incompatibilities, see
+    semver.org for details.  If you have perl5i installed you must
+    force an upgrade.
+  * Thanks to the Open Source Bridge perl5i Hackathon!
+
+  Incompatible Changes
+  * Switched to DateTime from Time::Piece
+
+  New Features
+  * List::Util now autoboxed (Chas)
+  * time() returns a DateTime object (schwern)
+  * Added alias() (schwern)
+  * Now y2038 safe (schwern)
+  * die always returns 255 regardless of $! or $? (Chas)
+  * Added a perl5i command line program (dap)
+  * Add $CWD for localized chdir'ing via File::chdir (schwern)
+  * Add $scalar->center() (chromatic, benh)
+  * Add $scalar->ltrim(), ->rtrim() and trim() (benh)
+  * Add $scalar->wrap() via Text::Wrap (brunov)
+  * Automatic "use English" (schwern)
+  * Automatic "use IO::Handle" so things like autoflush are available (schwern)
+  * Automatic "use Want" (Jeff Lavallee)
+  * Automatic "no autovivification" (schwern)
+
+  Bug Fixes
+  * stat() works in list context (schwern)
+
+
+20090424  Fri Apr 24 11:38:24 2009 -0700
+  * First release

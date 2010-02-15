@@ -20,7 +20,7 @@ printf $fh <<'END', $0, $perl_path;
 
 /*
  * Meant to mimic the shell command
- *     exec perl -Mperl5i "$@"
+ *     exec perl -Mperl5i::latest "$@"
  *
  * This is a C program so it works in a #! line.
  */
@@ -30,7 +30,7 @@ int main (int argc, char* argv[]) {
     const char* perl_cmd = "%s";
     char* perl_args[argc+1];
     perl_args[0] = argv[0];
-    perl_args[1] = "-Mperl5i";
+    perl_args[1] = "-Mperl5i::latest";
 
     for( i = 1;  i < argc;  i++ ) {
         #if defined(WIN32)

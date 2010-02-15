@@ -4,9 +4,9 @@
 
 use Test::More 'no_plan';
 
-# use perl5i in a narrow lexical scope.
+# use perl5i::latest in a narrow lexical scope.
 # It shouldn't effect the rest of the program.
-{ use perl5i }
+{ use perl5i::latest }
 
 
 # lexical strict
