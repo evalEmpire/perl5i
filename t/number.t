@@ -10,8 +10,17 @@ is( 12.34->int, 12);
 ok( 12->is_number );
 ok(!'FF'->is_number );
 
-ok( 12->is_positive_integer );
-ok(!12.34->is_positive_integer );
+ok( 12->is_positive );
+ok( "+12"->is_positive );
+ok( 12.34->is_positive );
+ok( !"foo"->is_positive );
+ok( !"-12.2"->is_positive );
+
+ok( !12->is_negative );
+ok( "-12"->is_negative );
+ok( (-12.34)->is_negative );
+ok( !"foo"->is_negative );
+ok( "-12.2"->is_negative );
 
 ok( 12->is_integer );
 ok( -12->is_integer );
