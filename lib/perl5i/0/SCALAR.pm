@@ -124,6 +124,5 @@ sub SCALAR::is_negative         { $_[0]->is_number && ($_[0] =~ /^-/) }
 sub SCALAR::is_integer          { $_[0] =~ m{^ [+-]? \d+ $}x }
 *SCALAR::is_int = \&SCALAR::is_integer;
 sub SCALAR::is_decimal          { $_[0] =~ m{^ [+-]? (?: \d+(?:\.\d*)? | \.\d+ ) $}x }
-sub SCALAR::is_float            { $_[0] =~ m{^ [+-]? (?=\d|\.\d) \d* (?:\.\d*)? (?:[Ee](?:[+-]?\d+))? $}x }
 
 1;

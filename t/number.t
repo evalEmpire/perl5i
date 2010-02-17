@@ -34,10 +34,6 @@ ok( 12.34->is_decimal );
 ok( ".34"->is_decimal );
 ok(!'abc'->is_decimal );
 
-ok( 12.34->is_float );
-ok(!'abc'->is_float );
-
-
 is( '123'->reverse, '321' );
 
 TODO: {
