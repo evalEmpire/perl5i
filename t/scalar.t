@@ -21,3 +21,8 @@ is( '    testme    '->ltrim, 'testme    ' );
 is( '    testme    '->rtrim, '    testme' );
 is( '    testme    '->trim,  'testme' );
 
+is( '--> testme <--'->ltrim("-><"), ' testme <--' );
+is( '--> testme <--'->rtrim("-><"), '--> testme ' );
+is( '--> testme <--'->trim("-><"),  ' testme ' );
+
+is( ' --> testme <--'->trim("-><"),  ' --> testme ' );

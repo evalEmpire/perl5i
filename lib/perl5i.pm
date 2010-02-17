@@ -217,25 +217,31 @@ See L<Text::Wrap> for details.
 
 =head3 ltrim()
 
-    my $string = '    testme'->ltrim; # 'testme'
-
-Trim leading whitespace (left).
-
 =head3 rtrim()
-
-    my $string = 'testme    '->rtrim; #'testme'
-
-Trim trailing whitespace (right).
 
 =head3 trim()
 
-    my $string = '    testme    '->trim;  #'testme'
+    my $trimmed = $string->trim;
+    my $trimmed = $string->trim($character_set);
 
-Trim both leading and trailing whitespace.
+Trim whitespace.  ltrim() trims off the start of the string (left),
+rtrim() off the end (right) and trim() off both the start and end.
+
+    my $string = '    testme'->ltrim;        # 'testme'
+    my $string = 'testme    '->rtrim;        # 'testme'
+    my $string = '    testme    '->trim;     # 'testme'
+
+They all take an optional $character_set which will determine what
+characters should be trimmed.  It follows regex character set syntax
+so C<A-Z> will trim everything from A to Z.  Defaults to C<\s>,
+whitespace.
+
+    my $string = '-> test <-'->trim('-><');  # ' test '   
+
 
 =head3 title_case()
 
-    my $name = 'joe smith'->title_case; #Joe Smith
+    my $name = 'joe smith'->title_case;   # Joe Smith
 
 Will uppercase every word character that follows a wordbreak character.
 

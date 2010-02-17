@@ -63,7 +63,9 @@ sub SCALAR::rtrim {
 
 
 sub SCALAR::trim {
-    return SCALAR::rtrim(SCALAR::ltrim(@_));
+    my $charset = $_[1];
+
+    return SCALAR::rtrim(SCALAR::ltrim($_[0], $charset), $charset);
 }
 
 
