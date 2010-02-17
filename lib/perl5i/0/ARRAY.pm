@@ -9,11 +9,7 @@ use autobox;
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
 
-    if ( ref $filter eq 'Regexp' ) {
-        return [ CORE::grep /$filter/, @$array ];
-    }
-
-    return [ CORE::grep { $filter->($_) } @$array ];
+    return [ CORE::grep { $_ ~~ $filter } @$array ];
 }
 
 1;
