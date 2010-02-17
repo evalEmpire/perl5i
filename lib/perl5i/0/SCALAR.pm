@@ -114,16 +114,16 @@ sub SCALAR::load {
 
 
 use POSIX qw{ceil floor};
-sub SCALAR::ceil  { ceil(shift) }
-sub SCALAR::floor { floor(shift)}
+sub SCALAR::ceil  { ceil($_[0]) }
+sub SCALAR::floor { floor($_[0])}
 
-sub SCALAR::is_number       { shift !~ /\D/ }
-sub SCALAR::is_whole_number { shift =~ /^\d+$/ }
-sub SCALAR::is_integer      { shift =~ /^[+-]?\d+$/ }
-sub SCALAR::is_int          { SCALAR::is_integer(shift) }
-sub SCALAR::is_real_number  { shift =~ /^-?\d+\.?\d*$/ }
-sub SCALAR::is_real         { SCALAR::is_real_number(shift) }
-sub SCALAR::is_decimal      { shift =~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/ }
-sub SCALAR::is_float        { shift =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ }
+sub SCALAR::is_number       { $_[0] !~ /\D/ }
+sub SCALAR::is_whole_number { $_[0] =~ /^\d+$/ }
+sub SCALAR::is_integer      { $_[0] =~ /^[+-]?\d+$/ }
+sub SCALAR::is_int          { SCALAR::is_integer($_[0]) }
+sub SCALAR::is_real_number  { $_[0] =~ /^-?\d+\.?\d*$/ }
+sub SCALAR::is_real         { SCALAR::is_real_number($_[0]) }
+sub SCALAR::is_decimal      { $_[0] =~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/ }
+sub SCALAR::is_float        { $_[0] =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ }
 
 1;
