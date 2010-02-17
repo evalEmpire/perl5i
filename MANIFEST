@@ -14,6 +14,7 @@ lib/perl5i/0/Meta.pm
 lib/perl5i/0/Meta/Class.pm
 lib/perl5i/0/Meta/Instance.pm
 lib/perl5i/0/SCALAR.pm
+lib/perl5i/0/ARRAY.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
 lib/perl5i/VERSION.pm
@@ -42,6 +43,7 @@ t/dump/scalar.t
 t/English.t
 t/everything_is_an_object.t
 t/File-stat.t
+t/grep.t
 t/io-handle.t
 t/lexical.t
 t/List-Util/first.t
