@@ -1,8 +1,7 @@
 #!perl
 
-#use Test::Most qw{no_plan};
 use Test::More 'no_plan';
-use perl5i;
+use perl5i::latest;
 
 
 ok( []->is_array);

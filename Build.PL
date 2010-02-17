@@ -20,29 +20,38 @@ my $builder = MyBuild->new(
         'Time::y2038'             => '20081111',
         'Module::Load'            => '0.16',
         'Text::Wrap'              => '2009.0305',
+        'Try::Tiny'               => '0.02',
         'autodie'                 => '1.999',
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',
         'autobox::Core'       => '0.6',
         parent                => '0.221',
         'File::chdir'         => '0.1002',
-
         'autobox::dump'       => '20090426',
         'autobox::List::Util' => '20090629',
         'Want'                => '0.18',
+        'autovivification'    => '0.04',
+        'version'             => '0.77',
+        'Perl6::Caller'       => '0.100',
+        "Taint::Util"         => '0.06',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
         'Test::More'         => '0.88',
         'Test::Warn'         => '0.11',
+        'Test::Exception'    => '0.27',
         'IPC::Open3'         => '0',
     },
-    configure_requires => { 'Module::Build' => '0.32', },
+    configure_requires => {
+        'Module::Build' => '0.32',
+    },
 
     meta_merge => {
         resources => {
-            repository => 'http://github.com/schwern/perl5i/tree/master',
-            bugtracker => 'http://github.com/schwern/perl5i/issues',
+            repository  => 'http://github.com/schwern/perl5i/tree/master',
+            bugtracker  => 'http://github.com/schwern/perl5i/issues',
+            MailingList => "http://groups.google.com/group/perl5i",
+            Chat        => "irc://irc.perl.org/#perl5i",
         },
     },
 
@@ -52,6 +61,9 @@ my $builder = MyBuild->new(
     },
 
     recursive_test_files => 1,
+
+    create_readme       => 1,
+    create_license      => 1,
 );
 
 $builder->create_build_script();

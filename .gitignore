@@ -9,7 +9,10 @@ _build
 Build.bat
 cover_db/
 nytprof*
+*.patch
+.DS_Store
+MYMETA.yml
+*.o
 bin/perl5i
 bin/perl5i.c
 bin/perl5i.bat
-*.o

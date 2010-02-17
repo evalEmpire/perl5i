@@ -1,6 +1,6 @@
 #!perl
 
-use perl5i;
+use perl5i::latest;
 use Test::More;
 
 use File::Temp qw(tempfile);
@@ -14,7 +14,7 @@ sub run_code {
     my($temp_fh, $tempfile) = tempfile;
     print $temp_fh <<"END";
 use lib "lib";
-use perl5i;
+use perl5i::latest;
 
 #line 1 test.plx
 $code;

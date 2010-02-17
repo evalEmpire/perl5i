@@ -1,4 +1,4 @@
-package perl5i::DateTime;
+package perl5i::0::DateTime;
 
 # A file to contain the Datetime work for perl5i to get it out of perl5i.pm
 

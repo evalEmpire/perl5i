@@ -1,0 +1,69 @@
+Patching policy for perl5i.
+
+For the really impatient:
+-------------------------
+
+* Rule 1:  When in doubt, open a ticket.
+  http://github.com/schwern/perl5i/issues
+
+  Found a bug?  Not sure if its a bug or a weird feature?  Have an idea?
+  Found something unpleasent?  Had trouble using something?  Open a ticket.
+  Don't worry, we won't yell at you.  We'd rather get 10 duplicates than
+  lose one good report because somebody wasn't sure.
+
+* We prefer if you use github, but you can always email a patch
+  to perl5i@googlegroups.com.
+
+* Don't know if your code is up to our standard?  Send it in and
+  we'll work it out.
+
+* perl5i is about making Perl 5 better.  A good rule of thumb is if
+  it takes more than one line to do a simple thing, you might be on to
+  something.  If a newbie asks a simple question and the "right answer"
+  takes a full page, you've probably found a candidate for perl5i.
+
+
+Here's the preferred way to make a patch:
+----------------------------------------
+
+0) We'd rather you participate than follow all the rules, especially
+   if its your first patch.  Don't worry, be crappy.
+
+1) Put an issue in the tracker for your problem.  Then it can be
+   discussed before you put a whole lot of effort into it.
+   http://github.com/schwern/perl5i/issues
+
+1a) If its a bug, report the bug BEFORE work on it.  This ensures the
+    bug gets reported.  Mention that you're working on it.
+
+1b) If its a feature, we like to hear about your idea even if
+    you don't have a patch.
+
+2) You can either work from the CPAN version or the repository.
+   We'd prefer you worked from the repository.
+   http://github.com/schwern/perl5i
+
+2a) Ideally, make a fork on github and work on that.
+
+3) DO add any new dependencies in Build.PL
+
+3a) If you're not sure what version to depend on, pick the version
+    you have installed.  That's safest.
+
+4) DON'T update MANIFEST.  Its automated and will just cause
+   conflicts.
+
+5) DON'T update Changes.  It will cause conflicts when merging.
+   The release manager will handle it.
+
+6) DO write tests.  Otherwise the release manager has to.
+
+7) DO write documentation.  Otherwise the release manager has to.
+
+8) Commit ONE THING AT A TIME.  Preferrably use a branch for each
+   feature.  It makes it much easier to integrate.
+
+9) You can either send patches to schwern+perl5i@pobox.com or
+   (preferred) issue a github pull request.
+
+Thanks for patching!

@@ -1,7 +1,7 @@
 #!perl
 
 use Test::More 'no_plan';
-use perl5i;
+use perl5i::latest;
 
 is( 12.34->ceil, 13);
 is( 12.34->floor, 12);

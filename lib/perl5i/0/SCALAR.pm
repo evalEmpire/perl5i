@@ -1,12 +1,13 @@
 # vi: set ts=4 sw=4 ht=4 et :
-package perl5i::SCALAR;
+package perl5i::0::SCALAR;
 use 5.010;
 
 use strict;
 use warnings;
 use Carp;
 use Module::Load;
-
+use Taint::Util;
+use autobox;
 
 sub SCALAR::title_case {
     my ($string) = @_;
@@ -83,5 +84,47 @@ sub SCALAR::wrap {
 }
 
 
+# untaint the scalar itself, not the reference
+sub SCALAR::untaint {
+    return $_[0]->mo->untaint if ref $_[0];
+
+    Taint::Util::untaint($_[0]);
+    return 1;
+}
+
+
+# untaint the scalar itself, not the reference
+sub SCALAR::taint {
+    return $_[0]->mo->taint if ref $_[0];
+
+    Taint::Util::taint($_[0]);
+    return 1;
+}
+
+# Could use the version in Meta but this removes the need to check
+# for overloading.
+sub SCALAR::is_tainted {
+    return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
+}
+
+
+sub SCALAR::load {
+    goto &Module::Load::load;
+}
+
+
+use POSIX qw{ceil floor};
+sub SCALAR::ceil  { ceil(shift) }
+sub SCALAR::floor { floor(shift)}
+
+sub SCALAR::is_number       { shift !~ /\D/ }
+sub SCALAR::is_whole_number { shift =~ /^\d+$/ }
+sub SCALAR::is_integer      { shift =~ /^[+-]?\d+$/ }
+sub SCALAR::is_int          { SCALAR::is_integer(shift) }
+sub SCALAR::is_real_number  { shift =~ /^-?\d+\.?\d*$/ }
+sub SCALAR::is_real         { SCALAR::is_real_number(shift) }
+sub SCALAR::is_decimal      { shift =~ /^-?(?:\d+(?:\.\d*)?|\.\d+)$/ }
+sub SCALAR::is_dec          { SCALAR::is_decimal(shift) }
+sub SCALAR::is_float        { shift =~ /^([+-]?)(?=\d|\.\d)\d*(\.\d*)?([Ee]([+-]?\d+))?$/ }
 
 1;

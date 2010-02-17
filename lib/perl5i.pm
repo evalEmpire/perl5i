@@ -1,28 +1,39 @@
-# vi: set ts=4 sw=4 ht=4 et :
 package perl5i;
 
-use 5.010;
+######################################
+# The real code is in perl5i::0      #
+# Please patch that                  #
+######################################
 
-use strict;
-use warnings;
-use Module::Load;
-use IO::Handle;
-use Carp;
-use perl5i::DateTime;
-use perl5i::SCALAR;
-use perl5i::NUMBER;
-use Want;
+use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
-our $VERSION = '20090614';
+my $Latest = perl5i::VERSION->latest;
 
+sub import {
+    require Carp;
+    Carp::croak(<<END);
+perl5i will break compatibility in the future, you can't just "use perl5i".
+
+Instead, "use $Latest" which will guarantee compatibility with all
+feature supplied in that major version.
+
+Type "perldoc perl5i" for details in the section "Using perl5i".
+
+NOTE:  Version 0 does not guarantee compatibility.  Version 1 and up will.
+END
+}
+
+1;
+
+__END__
 
 =head1 NAME
 
-perl5i - Bend Perl 5 so it fits how it works in our imaginations
+perl5i - Fix as much of Perl 5 as possible in one pragma
 
 =head1 SYNOPSIS
 
-  use perl5i;
+  use perl5i::0;
 
   or
 
@@ -31,8 +42,11 @@ perl5i - Bend Perl 5 so it fits how it works in our imaginations
 =head1 DESCRIPTION
 
 B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
-Features may be added, changed and removed without notice.  You have
-been warned.
+Features may be added, changed and removed without notice.  C<use
+perl5i> may not even work in the future.  See
+L<http://github.com/schwern/perl5i/issues/issue/69> and
+L<http://github.com/schwern/perl5i/issues/issue/60> for details.  You
+have been warned.
 
 Perl 5 has a lot of warts.  There's a lot of individual modules and
 techniques out there to fix those warts.  perl5i aims to pull the best
@@ -40,12 +54,38 @@ of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
 changing defaults.  It will likely not be 100% backwards compatible
-with Perl 5, so perl5i will try to have a lexical effect.
+with Perl 5, though it will be 99%, but perl5i will try to have a
+lexical effect.
 
 Please add to this imaginary world and help make it real, either by
 telling me what Perl looks like in your imagination
-(F<http://github.com/schwern/perl5i/issues> or make a fork (forking on
+(F<http://github.com/schwern/perl5i/issues>) or make a fork (forking on
 github is like a branch you control) and implement it yourself.
+
+
+=head1 Using perl5i
+
+Because perl5i I<plans> to be incompatible in the future, you do not
+simply C<use perl5i>.  You must declare which major version of perl5i
+you are using.  You do this like so:
+
+    # Use perl5i major version 0
+    use perl5i::0;
+
+While version 0 does not guarante to be compatibility, 1 and up will.
+Thus the code you write with, for example, C<perl5i::2> will always
+remain compatible even as perl5i moves on.
+
+If you want to be daring, you can C<use perl5i::latest> to get the
+latest version.
+
+If you want your module to depend on perl5i, you should depend on the
+versioned class.  For example, depend on C<perl5i::0> and not
+C<perl5i>.
+
+See L</VERSIONING> for more information about perl5i's versioning
+scheme.
+
 
 =head1 What it does
 
@@ -53,13 +93,38 @@ perl5i enables each of these modules and adds/changes these functions.
 We'll provide a brief description here, but you should look at each of
 their documentation for full details.
 
+
+=head2 The Meta Object
+
+Every object (and everything is an object) now has a meta object
+associated with it.  Using the meta object you can ask things about
+the object which were previously over complicated.  For example...
+
+    # the object's class
+    my $class = $obj->mo->class;
+
+    # its parent classes
+    my @isa = $obj->mo->isa;
+
+    # the complete inheritance hierarchy
+    my @complete_isa = $obj->mo->linear_isa;
+
+    # the reference type of the object
+    my $reftype = $obj->mo->reftype;
+
+A meta object is used to avoid polluting the global method space.
+C<mo> was chosen to avoid clashing with Moose's meta object.
+
+See L<perl5i::Meta> for complete details.
+
+
 =head2 alias()
 
     alias( $name           => $reference );
     alias( $package, $name => $reference );
     alias( @identifiers    => $reference );
 
-Assigns a $refrence a $name.  For example...
+Assigns a $reference a $name.  For example...
 
     alias foo => sub { 42 };
     print foo();        # prints 42
@@ -84,26 +149,28 @@ This is basically a nicer way to say:
     no strict 'refs';
     *{$package . '::'. $name} = $reference;
 
-=cut
+=head2 Autoboxing
 
-sub alias {
-    croak "Not enough arguments given to alias()" unless @_ >= 2;
+L<autobox> allows methods to be defined for and called on most
+unblessed variables.  This means you can call methods on ordinary
+strings, lists and hashes!  It also means perl5i can add a lot of
+functionality without polluting the global namespace.
 
-    my $thing = pop @_;
-    croak "Last argument to alias() must be a reference" unless ref $thing;
+L<autobox::Core> wraps a lot of Perl's built in functions so they can
+be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
-    my @name = @_;
-    unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;
+=head3 perl()
 
-    my $name = join "::", @name;
-
-    no strict 'refs';
-    *{$name} = $thing;
-    return;
-}
+L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
+style serialization of the results of the expression.  It should work
+on any scalar, list, hash or reference.
 
 
-=head2 center()
+=head2 Scalar Autoboxing
+
+perl5i adds some methods to scalars of its own.
+
+=head3 center()
 
     my $centered_string = $string->center($length);
     my $centered_string = $string->center($length, $character);
@@ -111,17 +178,32 @@ sub alias {
 Centers $string between $character.  $centered_string will be of
 length $length.
 
-C<<$character>> defaults to " ".
+C<$character> defaults to " ".
 
     say "Hello"->center(10);        # "   Hello  ";
     say "Hello"->center(10, '-');   # "---Hello--";
 
-C<<center()>> will never truncate C<<$string>>.  If $length is less
-than C<<$string->length>> it will just return C<<$string>>.
+C<center()> will never truncate C<$string>.  If $length is less
+than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
-=head2 wrap()
+=head2 load()
+
+    $module->load(@args);
+    $path->load(@args);
+
+A thin wrapper around C<Module::Load::load()>.  It will load a module
+from a scalar without requiring you to do funny things like C<eval
+require $module>.  It accepts both module names and file paths.
+
+    # like "use $module qw(foo bar);" if that worked
+    $module->load(qw(foo bar));
+
+Note that C<< $module->load >> does not import anything.  This may
+change in the future.
+
+=head3 wrap()
 
     my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
@@ -133,29 +215,41 @@ the newline character "\n".
 
 See L<Text::Wrap> for details.
 
-=head2 ltrim()
+=head3 ltrim()
 
     my $string = '    testme'->ltrim; # 'testme'
 
 Trim leading whitespace (left).
 
-=head2 rtrim()
+=head3 rtrim()
 
     my $string = 'testme    '->rtrim; #'testme'
 
 Trim trailing whitespace (right).
 
-=head2 trim()
+=head3 trim()
 
     my $string = '    testme    '->trim;  #'testme'
 
 Trim both leading and trailing whitespace.
 
-=head2 title_case()
+=head3 title_case()
 
     my $name = 'joe smith'->title_case; #Joe Smith
 
 Will uppercase every word character that follows a wordbreak character.
+
+
+=head2 List Autoboxing
+
+L<autobox::List::Util> wraps the functions from L<List::Util>
+(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
+so they can be called on arrays and arrayrefs.
+
+=head2 caller()
+
+L<Perl6::Caller> causes C<caller> to return an object in scalar
+context.
 
 =head2 die()
 
@@ -164,20 +258,33 @@ C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
+=head2 utf8
+
+L<utf8> lets you put UTF8 encoded strings into your source code.
+This means UTF8 variable and method names, strings and regexes.
+
+It means strings will be treated as a set of characters rather than a
+set of bytes.  For example, C<length> will return the number of
+characters, not the number of bytes.
+
+    length("perl5i is MËTÁŁ");  # 15, not 18
+
+
 =head2 English
 
-L<English> gives English names to the punctuation variables
-like C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for details.
+L<English> gives English names to the punctuation variables; for
+instance, C<<$@>> is also C<<$EVAL_ERROR>>.  See L<perlvar> for
+details.
 
-It does B<not> load the regex variables which effect performance.
-C<<$PREMATCH>>, C<<$MATCH>>, and C<<POSTMATCH>> will not exist.  See
-C<</p>> in L<perlre> for a better alternative.
+It does B<not> load the regex variables which affect performance.
+C<$PREMATCH>, C<$MATCH>, and C<$POSTMATCH> will not exist.  See
+the C<p> modifier in L<perlre> for a better alternative.
 
 =head2 Modern::Perl
 
-Turns on strict and warnings, enables all the 5.10 features like
-C<given/when>, C<say> and C<state>, and enables C3 method resolution
-order.
+L<Modern::Perl> turns on strict and warnings, enables all the 5.10
+features like C<given/when>, C<say> and C<state>, and enables C3
+method resolution order.
 
 =head2 CLASS
 
@@ -186,17 +293,16 @@ Provides C<CLASS> and C<$CLASS> alternatives to C<__PACKAGE__>.
 =head2 File::chdir
 
 L<File::chdir> gives you C<$CWD> representing the current working
-directory and its assignable to C<<chdir>>.  You can also localize it
+directory and it's assignable to C<chdir>.  You can also localize it
 to safely chdir inside a scope.
 
 =head2 File::stat
 
-L<File::stat> causes C<stat> to return objects rather than long arrays
-which you never remember which bit is which.
+L<File::stat> causes C<stat> to return an object in scalar context.
 
 =head2 DateTime
 
-C<time>, C<localtime> and C<gmtime> are replaced with DateTime
+C<time>, C<localtime>, and C<gmtime> are replaced with DateTime
 objects.  They will all act like the core functions.
 
     # Sat Jan 10 13:37:04 2004
@@ -211,8 +317,8 @@ objects.  They will all act like the core functions.
 
 =head2 Time::y2038
 
-gmtime() and localtime() will now safely work with dates beyond the
-year 2038 and before 1901 (the exact range is not defined, but its
+C<gmtime()> and C<localtime()> will now safely work with dates beyond the
+year 2038 and before 1901 (the exact range is not defined, but it's
 well into a couple million years in either direction).
 
 
@@ -234,7 +340,7 @@ C<select>.
 =head2 autodie
 
 L<autodie> causes system and file calls which can fail
-(C<open>, C<system> and C<chdir>, for example) to die when they fail.
+(C<open>, C<system>, and C<chdir>, for example) to die when they fail.
 This means you don't have to put C<or die> at the end of every system
 call, but you do have to wrap it in an C<eval> block if you want to
 trap the failure.
@@ -244,38 +350,67 @@ autodie's default error messages are pretty smart.
 All of autodie will be turned on.
 
 
-=head2 autobox
+=head2 autovivification
 
-L<autobox> allows methods to be defined for and called on most unblessed
-variables.
+L<autovivification> fixes the bug/feature where this:
 
-=head2 autobox::Core
+    $hash = {};
+    $hash->{key1}{key2};
 
-L<autobox::Core> wraps a lot of Perl's built in functions so they can
-be called as methods on unblessed variables.  C<< @a->pop >> for example.
+Results in C<< $hash->{key1} >> coming into existence.  That will no longer
+happen.
 
-=head2 autobox::List::Util
+=head2 want()
 
-L<autobox::List::Util> wraps the functions from List::Util
-(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
-so they can be called on arrays and arrayrefs.
-
-=head2 autobox::dump
-
-L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
-style serialization of the results of the expression.
-
-=head2 Want
-
-L<Want> generalizes the mechanism of the wantarray function, allowing a 
+C<want()> generalizes the mechanism of the wantarray function, allowing a
 function to determine the context it's being called in.  Want distinguishes
 not just scalar v. array context, but void, lvalue, rvalue, boolean, reference
-context and more.  See perldoc L<Want>.
+context, and more.  See perldoc L<Want> for full details.
 
+=head2 Try::Tiny
+
+L<Try::Tiny> gives support for try/catch blocks as an alternative to
+C<eval BLOCK>. This allows correct error handling with proper localization
+of $@ and a nice syntax layer:
+
+        # handle errors with a catch handler
+        try {
+                die "foo";
+        } catch {
+                warn "caught error: $_";
+        };
+
+        # just silence errors
+        try {
+                die "foo";
+        };
+
+See perldoc L<Try::Tiny> for details.
 
 =head1 BUGS
 
 Some parts are not lexical.
+
+See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
+
+Please report bugs at L<http://github.com/schwern/perl5i/issues/> or
+email L<mailto:perl5i@googlegroups.com>.
+
+
+=head1 VERSIONING
+
+perl5i follows the Semantic Versioning policy, L<http://semver.org>.
+In short...
+
+Versions will be of the form X.Y.Z.
+
+0.Y.Z may change anything at any time.
+
+Incrementing X (ie. 1.2.3 -> 2.0.0) indicates a backwards incompatible change.
+
+Incrementing Y (ie. 1.2.3 -> 1.3.0) indicates a new feature.
+
+Incrementing Z (ie. 1.2.3 -> 1.2.4) indicates a bug fix or other internal change.
 
 
 =head1 NOTES
@@ -290,16 +425,16 @@ Damian Conway.
 =head1 THANKS
 
 Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
-chromatic, Ben Hengst and anyone else I've forgotten.
+chromatic, Ben Hengst, and anyone else I've forgotten.
 
 Thanks to Flavian and Matt Trout for their signature and
-Devel::Declare work.
+L<Devel::Declare> work.
 
 Thanks to all the CPAN authors upon whom this builds.
 
 =head1 LICENSE
 
-Copyright 2009, Michael G Schwern <schwern@pobox.com>
+Copyright 2009-2010, Michael G Schwern <schwern@pobox.com>
 
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
@@ -312,119 +447,10 @@ See F<http://www.perl.com/perl/misc/Artistic.html>
 Repository:   L<http://github.com/schwern/perl5i/tree/master>
 Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
 IRC:          irc.perl.org on the #perl5i channel
+Mailing List: L<http://groups.google.com/group/perl5i/>
 
-L<Modern::Perl>
+Some modules with similar purposes include:
+L<Modern::Perl>, L<Common::Sense>
 
-
-=cut
-
-# This works around their lexical nature.
-use parent 'autodie';
-# List::Util needs to be before Core to get the C version of sum
-use parent 'autobox::List::Util';
-use parent 'autobox::Core';
-use parent 'autobox::dump';
-
-## no critic (Subroutines::RequireArgUnpacking)
-sub import {
-    my $class = shift;
-
-    require File::stat;
-
-    require Modern::Perl;
-    Modern::Perl->import;
-
-    my $caller = caller;
-
-    # Modern::Perl won't pass this through to our caller.
-    require mro;
-    mro::set_mro( $caller, 'c3' );
-
-    load_in_caller( $caller => (
-        ["CLASS"], ["Module::Load"], ["File::chdir"],
-        [English => qw(-no_match_vars)],
-        ["Want"],
-    ) );
-
-    # Have to call both or it won't work.
-    autobox::import($class);
-    autobox::List::Util::import($class);
-    autobox::Core::import($class);
-    autobox::dump::import($class);
-
-    # Export our gmtime() and localtime()
-    alias( $caller, 'gmtime',    \&perl5i::DateTime::dt_gmtime );
-    alias( $caller, 'localtime', \&perl5i::DateTime::dt_localtime );
-    alias( $caller, 'time',      \&perl5i::DateTime::dt_time );
-    alias( $caller, 'alias',     \&alias );
-    alias( $caller, 'stat',      \&stat );
-    alias( $caller, 'lstat',     \&lstat );
-
-    # fix die so that it always returns 255
-    *CORE::GLOBAL::die = sub {
-        # Leave a single ref be
-        local $! = 255;
-        return CORE::die(@_) if @_ == 1 and ref $_[0];
-
-        my $error = join '', @_;
-        unless ($error =~ /\n$/) {
-            my ($file, $line) = (caller)[1,2];
-            $error .= " at $file line $line.\n";
-        }
-
-        local $! = 255;
-        return CORE::die($error);
-    };
-
-    # autodie needs a bit more convincing
-    @_ = ( $class, ":all" );
-    goto &autodie::import;
-}
-
-
-sub load_in_caller {
-    my $caller  = shift;
-    my @modules = @_;
-
-    for my $spec (@modules) {
-        my( $module, @args ) = @$spec;
-
-        load($module);
-        ## no critic (BuiltinFunctions::ProhibitStringyEval)
-        eval qq{
-            package $caller;
-            \$module->import(\@args);
-            1;
-        } or die "Error while perl5i loaded $module => @args: $@";
-    }
-
-    return;
-}
-
-
-# File::stat does not play nice in list context
-sub stat {
-    return CORE::stat(@_) if wantarray;
-    return File::stat::stat(@_);
-}
-
-sub lstat {
-    return CORE::lstat(@_) if wantarray;
-    return File::stat::lstat(@_);
-}
-
-
-map{ alias( $_, 'is_array' , sub{ ref(shift) eq 'ARRAY'} );
-     alias( $_, 'is_hash'  , sub{ ref(shift) eq 'HASH' } ); 
-     alias( $_, 'is_code'  , sub{ ref(shift) eq 'CODE' } ); 
-     alias( $_, 'is_scalar', sub{ ref(shift) eq ''     } ); 
-     alias( $_, 'flat'     , sub{ my $self = shift;
-                                   (&CORE::is_array($self)) ? map{&CORE::flat($_)} @$self
-                                  :(&CORE::is_hash($self))  ? map{&CORE::flat($_)} %$self
-                                  :(&CORE::is_code($self))  ? map{&CORE::flat($_)} &$self
-                                  :                           $self ;
-                                }
-          ); 
-   } qw{SCALAR ARRAY HASH CODE CORE};
-
-1;
+For a complete object declaration system, see L<Moose> and
+L<MooseX::Declare>.

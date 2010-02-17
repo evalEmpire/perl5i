@@ -2,7 +2,7 @@
 
 # Test dumping code refs
 
-use perl5i;
+use perl5i::latest;
 use Test::More;
 
 sub code_dump_ok($$;$) {
