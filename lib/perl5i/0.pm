@@ -10,6 +10,7 @@ use IO::Handle;
 use Carp;
 use perl5i::0::DateTime;
 use perl5i::0::SCALAR;
+use perl5i::0::ARRAY;
 use Want;
 use Try::Tiny;
 use perl5i::0::Meta;
