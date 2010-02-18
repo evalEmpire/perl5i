@@ -52,15 +52,12 @@ sub ARRAY::mesh {
 }
 
 sub ARRAY::diff {
-    require List::MoreUtils;
+    require Array::Diff;
 
-    my $original = shift;
+    return @_ if @_ == 1;
 
-    my @lumped = List::MoreUtils::uniq(map { "$_" } map { @$_ } @_ );
-
-    my @result = grep { not $_ ~~ @lumped } @$original;
-
-    return \@result;
+    return Array::Diff->diff(@_)->deleted;
 }
 
 1;
+
