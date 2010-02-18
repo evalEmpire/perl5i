@@ -4,7 +4,6 @@ use 5.010;
 
 use strict;
 use warnings;
-use Module::Load;
 
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
@@ -13,45 +12,45 @@ sub ARRAY::grep {
 }
 
 sub ARRAY::all {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return List::MoreUtils::all($_[1], @{$_[0]});
 }
 
 sub ARRAY::any {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return List::MoreUtils::any($_[1], @{$_[0]});
 }
 
 sub ARRAY::none {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return List::MoreUtils::none($_[1], @{$_[0]});
 }
 
 sub ARRAY::true {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return List::MoreUtils::true($_[1], @{$_[0]});
 }
 
 sub ARRAY::false {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return List::MoreUtils::false($_[1], @{$_[0]});
 
 }
 
 sub ARRAY::uniq {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return [ List::MoreUtils::uniq(@{$_[0]}) ];
 }
 
 sub ARRAY::minmax {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return [ List::MoreUtils::minmax(@{$_[0]}) ];
 }
 
 *ARRAY::range = *ARRAY::minmax;
 
 sub ARRAY::zip {
-    load List::MoreUtils;
+    require List::MoreUtils;
     return [ List::MoreUtils::zip(@_) ];
 }
 
