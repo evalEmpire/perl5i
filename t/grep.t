@@ -6,14 +6,15 @@ use Test::Exception;
 
 my @array = qw( foo bar baz );
 
-dies_ok { @array->grep("foo")            } "Shouldn't accept scalars";
-dies_ok { @array->grep([qw(boo boy)])    } "Shouldn't accept array refs";
-dies_ok { @array->grep({ 'boo', 'boy' }) } "Shouldn't accept hash refs";
-
 lives_ok { @array->grep( sub { 42 } ) } "Should accept code refs";
 lives_ok { @array->grep( qr/foo/ )    } "Should accept Regexps";
 
+is_deeply( @array->grep('foo'),         [qw( foo )],     "Works with SCALAR"     );
+is_deeply( @array->grep('zar'),         [],              "Works with SCALAR"     );
 is_deeply( @array->grep(qr/^ba/),       [qw( bar baz )], "Works with Regexp"     );
+is_deeply( @array->grep(+{ boo => 'boy' }), [],          "Works with HASH"       );
+is_deeply( @array->grep([qw(boo boy)]), [],              "Works with ARRAY"      );
+is_deeply( @array->grep([qw(foo baz)]), [qw(foo baz)],   "Works with ARRAY"      );
 is_deeply( @array->grep(sub { /^ba/ }), [qw( bar baz )], "... as with Code refs" );
 
 
