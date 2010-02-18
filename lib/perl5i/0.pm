@@ -11,6 +11,7 @@ use Carp;
 use perl5i::0::DateTime;
 use perl5i::0::SCALAR;
 use perl5i::0::ARRAY;
+use perl5i::0::HASH;
 use Want;
 use Try::Tiny;
 use perl5i::0::Meta;
