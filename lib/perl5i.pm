@@ -250,7 +250,7 @@ Will uppercase every word character that follows a wordbreak character.
 
 L<autobox::List::Util> wraps the functions from L<List::Util> and
 L<List::MoreUtils> (first, max, maxstr, min, minstr, minmax, shuffle,
-reduce, sum, any, all, none, true, false, uniq and zip) so they can be
+reduce, sum, any, all, none, true, false, uniq and mesh) so they can be
 called on arrays and arrayrefs.
 
 =head2 caller()
