@@ -248,10 +248,17 @@ Will uppercase every word character that follows a wordbreak character.
 
 =head2 List Autoboxing
 
-L<autobox::List::Util> wraps the functions from L<List::Util> and
-L<List::MoreUtils> (first, max, maxstr, min, minstr, minmax, shuffle,
-reduce, sum, any, all, none, true, false, uniq and mesh) so they can be
-called on arrays and arrayrefs.
+All the functions from L<List::Util> and select ones from
+L<List::MoreUtils> are all available as methods on unblessed arrays and array refs.
+
+first, max, maxstr, min, minstr, minmax, shuffle, reduce, sum, any,
+all, none, true, false, uniq and mesh.
+
+The have all been altered to return array refs where applicable in
+order to allow chaining.
+
+    @array->grep(sub{ $_->is_number })->sum->say;
+
 
 =head2 Hash Autoboxing
 
