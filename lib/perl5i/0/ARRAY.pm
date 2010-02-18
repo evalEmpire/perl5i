@@ -34,7 +34,6 @@ sub ARRAY::true {
 sub ARRAY::false {
     require List::MoreUtils;
     return List::MoreUtils::false($_[1], @{$_[0]});
-
 }
 
 sub ARRAY::uniq {
