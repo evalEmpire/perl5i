@@ -51,4 +51,16 @@ sub ARRAY::mesh {
     return [ List::MoreUtils::zip(@_) ];
 }
 
+sub ARRAY::diff {
+    require List::MoreUtils;
+
+    my $original = shift;
+
+    my @lumped = List::MoreUtils::uniq(map { "$_" } map { @$_ } @_ );
+
+    my @result = grep { not $_ ~~ @lumped } @$original;
+
+    return \@result;
+}
+
 1;
