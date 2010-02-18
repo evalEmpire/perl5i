@@ -9,13 +9,13 @@ inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
 lib/perl5i/0.pm
+lib/perl5i/0/ARRAY.pm
 lib/perl5i/0/DateTime.pm
+lib/perl5i/0/HASH.pm
 lib/perl5i/0/Meta.pm
 lib/perl5i/0/Meta/Class.pm
 lib/perl5i/0/Meta/Instance.pm
 lib/perl5i/0/SCALAR.pm
-lib/perl5i/0/ARRAY.pm
-lib/perl5i/0/HASH.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
 lib/perl5i/VERSION.pm
