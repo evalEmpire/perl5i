@@ -47,13 +47,9 @@ sub ARRAY::minmax {
     return [ List::MoreUtils::minmax(@{$_[0]}) ];
 }
 
-*ARRAY::range = *ARRAY::minmax;
-
-sub ARRAY::zip {
+sub ARRAY::mesh {
     require List::MoreUtils;
     return [ List::MoreUtils::zip(@_) ];
 }
-
-*ARRAY::mesh = *ARRAY::zip;
 
 1;
