@@ -269,13 +269,15 @@ Exchanges values for keys in a hash.
     my %things = ( foo => 1, bar => 2, baz => 5 );
     %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
 
-If there is more than one occurence of a certain value, the key of the
-rightmost remains:
+If there is more than one occurence of a certain value, any one of the
+keys may end up as the value.  This is because of the random ordering
+of hash keys.
 
-    { foo => 1, bar => 1, baz => 1 }->flip; # { 1 => baz }
+    # Could be { 1 => foo }, { 1 => bar }, or { 1 => baz }
+    { foo => 1, bar => 1, baz => 1 }->flip;
 
-It will also only work if none of the hashes' values are references (ie,
-nested hashes).
+Because hash reference cannot usefully be keys, it will not work on
+nested hashes.
 
     { foo => [ 'bar', 'baz' ] }->flip; # dies
 
