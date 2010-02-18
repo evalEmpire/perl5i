@@ -255,7 +255,7 @@ called on arrays and arrayrefs.
 
 =head2 Hash Autoboxing
 
-=head3 flip
+=head3 flip()
 
 Exchanges values for keys in a hash.
 
@@ -271,6 +271,29 @@ It will also only work if none of the hashes' values are references (ie,
 nested hashes).
 
     { foo => [ 'bar', 'baz' ] }->flip; # dies
+
+
+=head3 merge()
+
+Recursively merge two or more hashes together using L<Hash::Merge::Simple>.
+
+    my $a = { a => 1 };
+    my $b = { b => 2, c => 3 };
+
+    $a->merge($b); # { a => 1, b => 2, c => 3 }
+
+For conflicting keys, rightmost precedence is used:
+
+    my $a = { a => 1 };
+    my $b = { a => 100, b => 2};
+
+    $a->merge($b); # { a => 100, b => 2 }
+    $b->merge($a); # { a => 1,   b => 2 }
+
+It also works with nested hashes, although it won't attempt to merge
+array references or objects. For more information, look at the
+L<Hash::Merge::Simple> docs.
+
 
 =head2 caller()
 

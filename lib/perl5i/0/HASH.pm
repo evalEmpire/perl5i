@@ -7,11 +7,15 @@ use warnings;
 use Carp;
 
 sub HASH::flip {
-
     croak "Can't flip hash with references as values"
         if grep { ref } values %{$_[0]};
 
     return { reverse %{$_[0]} };
+}
+
+sub HASH::merge {
+    require Hash::Merge::Simple;
+    Hash::Merge::Simple::merge(@_);
 }
 
 1;
