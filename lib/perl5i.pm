@@ -248,9 +248,10 @@ Will uppercase every word character that follows a wordbreak character.
 
 =head2 List Autoboxing
 
-L<autobox::List::Util> wraps the functions from L<List::Util>
-(first, max, maxstr, min, minstr, shuffle, reduce, and sum)
-so they can be called on arrays and arrayrefs.
+L<autobox::List::Util> wraps the functions from L<List::Util> and
+L<List::MoreUtils> (first, max, maxstr, min, minstr, minmax, shuffle,
+reduce, sum, any, all, none, true, false, uniq and zip) so they can be
+called on arrays and arrayrefs.
 
 =head2 caller()
 
