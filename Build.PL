@@ -34,6 +34,7 @@ my $builder = MyBuild->new(
         'version'             => '0.77',
         'Perl6::Caller'       => '0.100',
         "Taint::Util"         => '0.06',
+        'Hash::Merge::Simple' => '0.04',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
