@@ -20,6 +20,10 @@
   * Added mo->super to call a method in a super class.
   * Added mo->linear_isa to get the object's inheritance path.
   * Introduced perl5i::latest to use the latest version.
+  * Added %hash->flip() and %hash->merge() (brunov)
+  * @array->grep now takes a regex
+  * Select methods from List::MoreUtils added as ARRAY methods.
+    all, any, none, true, false, uniq, minmax, mesh.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)
