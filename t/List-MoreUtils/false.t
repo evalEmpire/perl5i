@@ -5,7 +5,7 @@ use Test::More;
 
 my @numbers = ( 1 .. 10 );
 
-is( @numbers->true( sub { $_ < 5 } ), 4 );
-is( @numbers->true( sub { $_ > 9 } ), 1 );
+is( @numbers->false( sub { $_ < 5 } ), 6 );
+is( @numbers->false( sub { $_ > 9 } ), 9 );
 
 done_testing();
