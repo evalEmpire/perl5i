@@ -248,10 +248,60 @@ Will uppercase every word character that follows a wordbreak character.
 
 =head2 List Autoboxing
 
-L<autobox::List::Util> wraps the functions from L<List::Util> and
-L<List::MoreUtils> (first, max, maxstr, min, minstr, minmax, shuffle,
-reduce, sum, any, all, none, true, false, uniq and mesh) so they can be
-called on arrays and arrayrefs.
+All the functions from L<List::Util> and select ones from
+L<List::MoreUtils> are all available as methods on unblessed arrays and array refs.
+
+first, max, maxstr, min, minstr, minmax, shuffle, reduce, sum, any,
+all, none, true, false, uniq and mesh.
+
+The have all been altered to return array refs where applicable in
+order to allow chaining.
+
+    @array->grep(sub{ $_->is_number })->sum->say;
+
+
+=head2 Hash Autoboxing
+
+=head3 flip()
+
+Exchanges values for keys in a hash.
+
+    my %things = ( foo => 1, bar => 2, baz => 5 );
+    %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
+
+If there is more than one occurence of a certain value, any one of the
+keys may end up as the value.  This is because of the random ordering
+of hash keys.
+
+    # Could be { 1 => foo }, { 1 => bar }, or { 1 => baz }
+    { foo => 1, bar => 1, baz => 1 }->flip;
+
+Because hash reference cannot usefully be keys, it will not work on
+nested hashes.
+
+    { foo => [ 'bar', 'baz' ] }->flip; # dies
+
+
+=head3 merge()
+
+Recursively merge two or more hashes together using L<Hash::Merge::Simple>.
+
+    my $a = { a => 1 };
+    my $b = { b => 2, c => 3 };
+
+    $a->merge($b); # { a => 1, b => 2, c => 3 }
+
+For conflicting keys, rightmost precedence is used:
+
+    my $a = { a => 1 };
+    my $b = { a => 100, b => 2};
+
+    $a->merge($b); # { a => 100, b => 2 }
+    $b->merge($a); # { a => 1,   b => 2 }
+
+It also works with nested hashes, although it won't attempt to merge
+array references or objects. For more information, look at the
+L<Hash::Merge::Simple> docs.
 
 =head2 caller()
 

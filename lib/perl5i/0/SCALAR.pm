@@ -5,7 +5,6 @@ use 5.010;
 use strict;
 use warnings;
 use Carp;
-use Module::Load;
 use Taint::Util;
 use autobox;
 
@@ -77,7 +76,7 @@ sub SCALAR::wrap {
 
     return $string if $width <= 0;
 
-    load Text::Wrap;
+    require Text::Wrap;
     local $Text::Wrap::separator = $separator;
     local $Text::Wrap::columns   = $width;
 
@@ -111,6 +110,7 @@ sub SCALAR::is_tainted {
 
 
 sub SCALAR::load {
+    require Module::Load;
     goto &Module::Load::load;
 }
 
