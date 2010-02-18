@@ -253,6 +253,25 @@ L<List::MoreUtils> (first, max, maxstr, min, minstr, minmax, shuffle,
 reduce, sum, any, all, none, true, false, uniq and mesh) so they can be
 called on arrays and arrayrefs.
 
+=head2 Hash Autoboxing
+
+=head3 flip
+
+Exchanges values for keys in a hash.
+
+    my %things = ( foo => 1, bar => 2, baz => 5 );
+    %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
+
+If there is more than one occurence of a certain value, the key of the
+rightmost remains:
+
+    { foo => 1, bar => 1, baz => 1 }->flip; # { 1 => baz }
+
+It will also only work if none of the hashes' values are references (ie,
+nested hashes).
+
+    { foo => [ 'bar', 'baz' ] }->flip; # dies
+
 =head2 caller()
 
 L<Perl6::Caller> causes C<caller> to return an object in scalar
