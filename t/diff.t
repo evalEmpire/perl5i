@@ -28,7 +28,7 @@ is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
 TODO: {
 # Nested data structures
-    local $TODO = "Implement deep diff";
+    todo_skip "Implement deep diff", 1;
     is_deeply(
         [ { foo => 1 }, { foo => 2 } ]->diff( [ { foo => 2 } ] ),
         [ { foo => 1 } ],
