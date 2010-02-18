@@ -6,6 +6,7 @@
   * We no longer export rreturn() or lnoreturn() from Want.
     This can wait if we tackle lvalue subroutines.
   * load() is now a scalar method, so its $module->load not load($module)
+  * alias() is now an autoboxed method rather than a function.
 
   New Features
   * try/catch support via Try::Tiny (brunov)

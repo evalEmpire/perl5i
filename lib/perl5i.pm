@@ -118,37 +118,6 @@ C<mo> was chosen to avoid clashing with Moose's meta object.
 See L<perl5i::Meta> for complete details.
 
 
-=head2 alias()
-
-    alias( $name           => $reference );
-    alias( $package, $name => $reference );
-    alias( @identifiers    => $reference );
-
-Assigns a $reference a $name.  For example...
-
-    alias foo => sub { 42 };
-    print foo();        # prints 42
-
-It will also work on hash, array and scalar refs.
-
-    our %stuff;
-    alias stuff => \%some_other_hash;
-
-Multiple @identifiers will be joined with '::' and used as the fully
-qualified name for the alias.
-
-    my $class = "Some::Class";
-    my $name  = "foo";
-    alias $class, $name => sub { 99 };
-    print Some::Class->foo;  # prints 99
-
-If the $name has no "::" in it, the current caller will be prepended.
-
-This is basically a nicer way to say:
-
-    no strict 'refs';
-    *{$package . '::'. $name} = $reference;
-
 =head2 Autoboxing
 
 L<autobox> allows methods to be defined for and called on most
@@ -164,6 +133,59 @@ be called as methods on unblessed variables.  C<< @a->pop >> for example.
 L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
 style serialization of the results of the expression.  It should work
 on any scalar, list, hash or reference.
+
+
+=head2 alias()
+
+    $scalar_reference->alias( @identifiers );
+    @alias->alias( @identifiers );
+    %hash->alias( @identifiers );
+    (\&code)->alias( @identifiers );
+
+Aliases a variable to a new global name.
+
+    my $code = sub { 42 };
+    $code->alias( "foo" );
+    print foo();        # prints 42
+
+It will work on everything except scalar references.
+
+    our %stuff;
+    %other_hash->alias( "stuff" );  # %stuff now aliased to %other_hash
+
+It is not a copy, changes to one will change the other.
+
+    my %things = (foo => 23);
+    our %stuff;
+    %things->alias( "stuff" );  # alias %things to %stuff
+    $stuff{foo} = 42;           # change %stuff
+    say $things{foo};           # and it will show up in %things
+
+Multiple @identifiers will be joined with '::' and used as the fully
+qualified name for the alias.
+
+    my $class = "Some::Class";
+    my $name  = "foo";
+    sub { 99 }->alias( $class, $name );
+    print Some::Class->foo;  # prints 99
+
+If there is just one @identifier and it has no "::" in it, the current
+caller will be prepended.  C<< $thing->alias("name") >> is shorthand for
+C<< $thing->alias(CLASS, "name") >>
+
+Due to limitations in autobox, non-reference scalars cannot be
+aliased.  Alias a scalar ref instead.
+
+    my $thing = 23;
+    $thing->alias("foo");  # error
+
+    my $thing = \23;
+    $thing->alias("foo");  # $foo is now aliased to $thing
+
+This is basically a nicer way to say:
+
+    no strict 'refs';
+    *{$package . '::'. $name} = $reference;
 
 
 =head2 Scalar Autoboxing

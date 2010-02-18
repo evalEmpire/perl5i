@@ -114,4 +114,14 @@ sub SCALAR::load {
     goto &Module::Load::load;
 }
 
+
+sub SCALAR::alias {
+    croak <<ERROR if !ref $_[0];
+Due to limitations in autoboxing, scalars cannot be aliased.
+Sorry.  Use a scalar reference instead.
+ERROR
+
+    goto &DEFAULT::alias;
+}
+
 1;

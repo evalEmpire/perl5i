@@ -7,23 +7,23 @@ use Test::More;
 
 # Test name construction
 {
-    alias foo => sub { 42 };
+    sub { 42 }->alias("foo");
     is foo(), 42;
 
-    alias "Local::Class", "foo" => sub { 23 };
+    sub { 23 }->alias("Local::Class", "foo");
     is Local::Class->foo, 23;
 
-    alias qw(This Is A Little Silly) => sub { 99 };
+    sub { 99 }->alias(qw(This Is A Little Silly));
     is This::Is::A::Little::Silly(), 99;
 
-    alias "Some::thing" => sub { 123 };
+    sub { 123 }->alias("Some::thing");
     is Some::thing(), 123, "caller only prepended if there's no ::";
 
-    alias "this", "that" => sub { 234 };
+    sub { 234 }->alias("this", "that");
     is this::that(), 234,  "caller not prepended if there's more than one";
 
     sub bar { "wibble" }
-    alias that => \&bar;
+    (\&bar)->alias("that");
     is that(), "wibble";
 }
 
@@ -31,44 +31,47 @@ use Test::More;
 # Things other than code.
 {
     our $foo;
-    alias foo => \23;
+    (\23)->alias('foo');
     is $foo, 23;
 
     our @bar;
-    alias bar => [1,2,3];
+    [1,2,3]->alias('bar');
     is_deeply \@bar, [1,2,3];
 
     our %baz;
-    alias baz => { foo => 23, bar => 42 };
+    { foo => 23, bar => 42 }->alias('baz');
     is_deeply \%baz, { foo => 23, bar => 42 };
+}
+
+
+# Make sure its an alias and not a copy
+{
+    my @src = qw(1 2 3);
+    our @dest;
+    @src->alias("dest");
+    is \@src, \@dest;
+
+    my $src = \23;
+    our $dest;
+
+    $src->alias("dest");
+    is $src, \$dest;
 }
 
 
 # Errors
 {
     ok !eval {
-        alias();
+        sub{}->alias();
         1;
     };
     like $@, qr{^\QNot enough arguments given to alias()};
 
     ok !eval {
-        alias("foo");
+        23->alias("bar");
         1;
     };
-    like $@, qr{^\QNot enough arguments given to alias()};
-
-    ok !eval {
-        alias(sub { 42 });
-        1;
-    };
-    like $@, qr{^\QNot enough arguments given to alias()};
-
-    ok !eval {
-        alias("foo" => "bar");
-        1;
-    };
-    like $@, qr{^\QLast argument to alias() must be a reference};
+    like $@, qr{scalars cannot be aliased};
 }
 
 

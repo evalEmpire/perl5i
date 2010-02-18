@@ -12,29 +12,15 @@ use perl5i::0::DateTime;
 use perl5i::0::SCALAR;
 use perl5i::0::ARRAY;
 use perl5i::0::HASH;
+use perl5i::0::DEFAULT;
 use Want;
 use Try::Tiny;
 use perl5i::0::Meta;
+use autobox;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 our $Latest = perl5i::VERSION->latest;
-
-sub alias {
-    croak "Not enough arguments given to alias()" unless @_ >= 2;
-
-    my $thing = pop @_;
-    croak "Last argument to alias() must be a reference" unless ref $thing;
-
-    my @name = @_;
-    unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;
-
-    my $name = join "::", @name;
-
-    no strict 'refs';
-    *{$name} = $thing;
-    return;
-}
 
 
 # This works around their lexical nature.
@@ -76,12 +62,12 @@ sub import {
     utf8::import($class);
 
     # Export our gmtime() and localtime()
-    alias( $caller, 'gmtime',    \&{$Latest .'::DateTime::dt_gmtime'} );
-    alias( $caller, 'localtime', \&{$Latest .'::DateTime::dt_localtime'} );
-    alias( $caller, 'time',      \&{$Latest .'::DateTime::dt_time'} );
-    alias( $caller, 'alias',     \&alias );
-    alias( $caller, 'stat',      \&stat );
-    alias( $caller, 'lstat',     \&lstat );
+    (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
+    (\&{$Latest .'::DateTime::dt_localtime'})->alias($caller, 'localtime');
+    (\&{$Latest .'::DateTime::dt_time'})->alias($caller, 'time');
+    (\&alias)->alias( $caller, 'alias' );
+    (\&stat)->alias( $caller, 'stat' );
+    (\&lstat)->alias( $caller, 'lstat' );
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
