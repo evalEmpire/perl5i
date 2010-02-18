@@ -386,21 +386,6 @@ of $@ and a nice syntax layer:
                 warn "caught error: $_";
         };
 
-<<<<<<< HEAD:lib/perl5i.pm
-=head2 Try::Tiny
-
-L<Try::Tiny> gives support for try/catch blocks. This allows correct
-error handling with proper localization of $@ and a nice syntax layer:
-
-        # handle errors with a catch handler
-        try {
-                die "foo";
-        } catch {
-                warn "caught error: $_";
-        };
-
-=======
->>>>>>> c42eeb70e76091c49d59846c183a983be33d25e1:lib/perl5i.pm
         # just silence errors
         try {
                 die "foo";
