@@ -366,9 +366,19 @@ Calculate the difference of two arrays:
     @a->diff(\@b) # [ 1, 2 ]
     @b->diff(\@a) # [ 4, 5 ]
 
-Currently, it uses L<Array::Diff> and only operates on shallow arrays.
-This means that it won't try to compare nested data structures, although
-it might do so in the future.
+Element order is not considered: two identical elements in both arrays
+will be recognized as such disregarding their index.
+
+    [ qw( foo bar ) ]->diff( [ qw( bar foo ) ] ) # empty, they are equal
+
+It also works with nested data structures; it will traverse them
+depth-first to assess whether they are identical or not. For instance:
+
+    [ [ 'foo ' ], { bar => 1 } ]->diff([ 'foo' ]) # [ { bar => 1 } ]
+
+This inspection is done for array, hash and scalar references, and not
+for objects, globs or filehandles. For the latter, they will only be
+considered equal if their stringified values are equal.
 
 =head2 Hash Autoboxing
 
