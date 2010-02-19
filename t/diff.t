@@ -26,14 +26,10 @@ is_deeply( [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
 # Mix numbers and strings
 is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
-TODO: {
-# Nested data structures
-    todo_skip "Implement deep diff", 1;
-    is_deeply(
-        [ { foo => 1 }, { foo => 2 } ]->diff( [ { foo => 2 } ] ),
-        [ { foo => 1 } ],
-        'Works for nested data structures',
-    );
-}
+is_deeply(
+    [ { foo => 1 }, { foo => 2 } ]->diff( [ { foo => 2 } ] ),
+    [ { foo => 1 } ],
+    'Works for nested data structures',
+);
 
 done_testing();

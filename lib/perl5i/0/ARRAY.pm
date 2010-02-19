@@ -53,16 +53,81 @@ sub ARRAY::mesh {
 }
 
 sub ARRAY::diff {
+    my ($c, $d) = @_;
 
-    my ($first, $second) = @_;
+    return $c if not defined $d;
+    croak "Argument must be an array reference" unless ref $d eq 'ARRAY';
 
-    return $first unless $second;
+    # Split both arrays into shallow elements (nonrefs) and nested data
+    # structures (references);
+    my ( %nonrefs, %refs );
+    $refs{c} = [ grep { ref } @$c ];
+    $refs{d} = [ grep { ref } @$d ];
+    $nonrefs{c} = [ grep { ! ref } @$c ];
+    $nonrefs{d} = [ grep { ! ref } @$d ];
 
-    croak "Can't handle nested data structures yet"
-        if grep { ref } map { @$_ } ($first, $second);
+    my $diff;
 
-    require Array::Diff;
-    return Array::Diff->diff($first, $second)->deleted;
+    # Calculate the diff of the shallow elements, populating $diff;
+    if ( not defined $nonrefs{d} ) { $diff = $nonrefs{c} }
+    else {
+        require Array::Diff;
+        $diff = Array::Diff->diff($nonrefs{c}, $nonrefs{d})->deleted;
+    }
+
+    return $diff if not defined $refs{c};
+    return [ @$diff, @{$refs{c}} ] if not defined $refs{d};
+
+    # Now both $c and $d contained deep structures. Try to find for each
+    # element of $c if it is equal to any of the elements of $d. If not,
+    # it's unique, and has to be pushed into $diff;
+
+    require List::MoreUtils;
+    foreach my $item (@{$refs{c}}) {
+        unless (
+            # for some reason, any { foo() } @bar complains
+            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @{$refs{d}} )
+        )
+        { push @$diff, $item; }
+    }
+
+    return $diff;
+}
+
+sub _are_equal {
+    my ($r1, $r2) = @_;
+
+    # given two scalars, decide whether they are identical or not,
+    # recursing over deep data structures. Since it uses recursion,
+    # traversal is done depth-first.
+
+    return unless ( defined $r1 and defined $r2 and ( ref $r1 eq ref $r2 ) );
+
+    given (ref $r1) {
+        when ("") {
+            return "$r1" eq "$r2";
+        }
+        when ('ARRAY') {
+            return unless @$r1 == @$r2;
+            foreach my $i (0 .. @$r1 - 1) {
+                return unless _are_equal($r1->[$i], $r2->[$i]);
+            }
+            return 1;
+        }
+        when ("SCALAR") {
+            return "$$r1" eq "$$r2";
+        }
+        when ("HASH") {
+            return unless _are_equal( [ keys %$r1   ], [ keys %$r2   ] );
+            return unless _are_equal( [ values %$r1 ], [ values %$r2 ] );
+            return 1;
+        }
+        default {
+            return "$r1" eq "$r2";
+        }
+
+    }
+
 }
 
 1;
