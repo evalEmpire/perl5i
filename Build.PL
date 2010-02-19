@@ -57,6 +57,19 @@ my $builder = MyBuild->new(
             MailingList => "http://groups.google.com/group/perl5i",
             Chat        => "irc://irc.perl.org/#perl5i",
         },
+        no_index => {
+            file  => [qw(
+                lib/perl5i/0/DateTime.pm
+                lib/perl5i/0/ARRAY.pm
+                lib/perl5i/0/DEFAULT.pm
+                lib/perl5i/0/HASH.pm
+                lib/perl5i/0/Meta.pm
+                lib/perl5i/0/Meta/Class.pm
+                lib/perl5i/0/Meta/Instance.pm
+                lib/perl5i/0/SCALAR.pm
+                lib/perl5i/VERSION.pm
+            )],
+        },
     },
 
     PL_files => {
