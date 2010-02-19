@@ -1,3 +1,8 @@
+0.2.1  Fri Feb 19 04:23:58 PST 2010
+  Bug Fixes
+  * round_up() and round_down() didn't work
+
+
 0.2.0  Fri Feb 19 03:48:36 PST 2010
   Incompatible Changes
   * "use perl5i" no longer works.  You must instead "use perl5i::0" to
