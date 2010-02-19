@@ -26,6 +26,10 @@ is_deeply( [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
 # Mix numbers and strings
 is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
+# Diff more than two arrays
+is_deeply( @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' );
+is_deeply( @a->diff(\@b, [ 1, 2 ]  ), [ 0 ],       'Diff more than two arrays' );
+
 is_deeply(
     [ { foo => 1 }, { foo => 2 } ]->diff( [ { foo => 2 } ] ),
     [ { foo => 1 } ],

@@ -53,10 +53,20 @@ sub ARRAY::mesh {
 }
 
 sub ARRAY::diff {
-    my ($c, $d) = @_;
+    my ($c, @rest) = @_;
+    return $c unless (@rest);
 
-    return $c if not defined $d;
-    croak "Argument must be an array reference" unless ref $d eq 'ARRAY';
+    croak "Arguments must be array references" if grep { ! ref $_ eq 'ARRAY' } @rest;
+
+    foreach my $array (@rest) {
+        $c = _diff_two($c, $array);
+    }
+
+    return $c;
+}
+
+sub _diff_two {
+    my ($c, $d) = @_;
 
     # Split both arrays into shallow elements (nonrefs) and nested data
     # structures (references);
