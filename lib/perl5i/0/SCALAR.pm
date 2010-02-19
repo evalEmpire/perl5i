@@ -5,7 +5,6 @@ use 5.010;
 use strict;
 use warnings;
 use Carp;
-use Taint::Util;
 use autobox;
 
 sub SCALAR::title_case {
@@ -89,6 +88,7 @@ sub SCALAR::wrap {
 sub SCALAR::untaint {
     return $_[0]->mo->untaint if ref $_[0];
 
+    require Taint::Util;
     Taint::Util::untaint($_[0]);
     return 1;
 }
@@ -98,6 +98,7 @@ sub SCALAR::untaint {
 sub SCALAR::taint {
     return $_[0]->mo->taint if ref $_[0];
 
+    require Taint::Util;
     Taint::Util::taint($_[0]);
     return 1;
 }
@@ -105,6 +106,7 @@ sub SCALAR::taint {
 # Could use the version in Meta but this removes the need to check
 # for overloading.
 sub SCALAR::is_tainted {
+    require Taint::Util;
     return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
 }
 

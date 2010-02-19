@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 require Scalar::Util;
-require Taint::Util;
 require overload;
 require Carp;
 
@@ -30,6 +29,7 @@ sub is_tainted {
     my $code;
 
     if( $code = $_[0]->$has_string_overload ) {
+        require Taint::Util;
         return Taint::Util::tainted( $code->(${$_[0]}) );
     }
     else {
