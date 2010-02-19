@@ -281,6 +281,19 @@ order to allow chaining.
 
     @array->grep(sub{ $_->is_number })->sum->say;
 
+=head3 diff()
+
+Calculate the difference of two arrays:
+
+    my @a = ( 1, 2, 3);
+    my @b = ( 3, 4, 5);
+
+    @a->diff(\@b) # [ 1, 2 ]
+    @b->diff(\@a) # [ 4, 5 ]
+
+Currently, it uses L<Array::Diff> and only operates on shallow arrays.
+This means that it won't try to compare nested data structures, although
+it might do so in the future.
 
 =head2 Hash Autoboxing
 
@@ -324,7 +337,6 @@ For conflicting keys, rightmost precedence is used:
 It also works with nested hashes, although it won't attempt to merge
 array references or objects. For more information, look at the
 L<Hash::Merge::Simple> docs.
-
 
 =head2 caller()
 

@@ -4,6 +4,7 @@ use 5.010;
 
 use strict;
 use warnings;
+use Carp;
 
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
@@ -51,4 +52,18 @@ sub ARRAY::mesh {
     return [ List::MoreUtils::zip(@_) ];
 }
 
+sub ARRAY::diff {
+
+    my ($first, $second) = @_;
+
+    return $first unless $second;
+
+    croak "Can't handle nested data structures yet"
+        if grep { ref } map { @$_ } ($first, $second);
+
+    require Array::Diff;
+    return Array::Diff->diff($first, $second)->deleted;
+}
+
 1;
+
