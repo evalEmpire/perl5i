@@ -128,13 +128,15 @@ ERROR
 use POSIX qw{ceil floor};
 sub SCALAR::ceil  { ceil($_[0]) }
 sub SCALAR::floor { floor($_[0])}
+*round_up   = \&SCALAR::ceil;
+*round_down = \&SCALAR::floor;
 
 use Scalar::Util qw(looks_like_number);
 sub SCALAR::is_number           { looks_like_number($_[0]) }
-sub SCALAR::is_positive         { $_[0]->is_number && ($_[0] !~ /^-/) }
-sub SCALAR::is_negative         { $_[0]->is_number && ($_[0] =~ /^-/) }
-sub SCALAR::is_integer          { $_[0] =~ m{^ [+-]? \d+ $}x }
+sub SCALAR::is_positive         { $_[0]->is_number && $_[0] > 0 }
+sub SCALAR::is_negative         { $_[0]->is_number && $_[0] < 0 }
+sub SCALAR::is_integer          { $_[0]->is_number && ((int($_[0]) - $_[0]) == 0) }
 *SCALAR::is_int = \&SCALAR::is_integer;
-sub SCALAR::is_decimal          { $_[0] =~ m{^ [+-]? (?: \d+(?:\.\d*)? | \.\d+ ) $}x }
+sub SCALAR::is_decimal          { $_[0]->is_number && ((int($_[0]) - $_[0]) != 0) }
 
 1;

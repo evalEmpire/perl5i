@@ -32,6 +32,7 @@ ok(!12.34->is_int );
 
 ok( 12.34->is_decimal );
 ok( ".34"->is_decimal );
+ok( !12->is_decimal );
 ok(!'abc'->is_decimal );
 
 is( '123'->reverse, '321' );

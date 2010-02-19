@@ -210,6 +210,79 @@ than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
+=head2 round_up
+
+=head2 ceil
+
+    my $new_number = $number->round_up;
+
+Rounds the $number up.
+
+    2.45->round_up;  # 3
+
+ceil() is a synonym for round_up().
+
+
+=head2 round_down
+
+=head2 floor
+
+    my $new_number = $number->round_down;
+
+Rounds the $number down.
+
+    2.45->round_down; # 2
+
+floor() is a synonyn for round_down().
+
+
+=head2 is_number
+
+    $is_a_number = $thing->is_number;
+
+Returns true of $thing is a number understood by Perl.
+
+    12.34->is_number;           # true
+    "12.34"->is_number;         # also true
+    "eleven"->is_number;        # false
+
+=head2 is_positive
+
+    $is_positive = $thing->is_positive;
+
+Returns true if $thing is a positive number.
+
+=head2 is_negative
+
+    $is_negative = $thing->is_negative;
+
+Returns true if $thing is a negative number.
+
+=head2 is_integer
+
+    $is_an_integer = $thing->is_integer;
+
+Returns true if $thing is an integer.
+
+    12->is_integer;             # true
+    12.34->is_integer;          # false
+    "eleven"->is_integer;       # false
+
+=head2 is_int
+
+A synonym for is_integer
+
+=head2 is_decimal
+
+    $is_a_decimal_number = $thing->is_decimal;
+
+Returns true if $thing is a decimal number.
+
+    12->is_decimal;             # false
+    12.34->is_decimal;          # true
+    ".34"->is_decimal;          # true
+    "point five"->is_decimal;   # false
+
 =head2 load()
 
     $module->load(@args);
