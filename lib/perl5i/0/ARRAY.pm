@@ -140,10 +140,8 @@ sub _are_equal {
 
         when ("HASH") {
 
-            # Since keys can't be references, if the arrays of ordered
-            # keys of both hashes aren't identical, the hashes aren't
-            # equal.
-            return unless ( @{[ sort keys %$r1 ]} ~~ @{[ sort keys %$r2 ]} );
+            # Hashes can't be equal unless their keys are equal.
+            return unless ( %$r1 ~~ %$r2 );
 
             # Compare the equality of the values for each key.
             foreach my $key (%$r1) {
