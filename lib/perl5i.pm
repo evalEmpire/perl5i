@@ -358,7 +358,7 @@ order to allow chaining.
 
 =head3 diff()
 
-Calculate the difference of two arrays:
+Calculate the difference of two (or more) arrays:
 
     my @a = ( 1, 2, 3);
     my @b = ( 3, 4, 5);
@@ -379,6 +379,14 @@ depth-first to assess whether they are identical or not. For instance:
 This inspection is done for array, hash and scalar references, and not
 for objects, globs or filehandles. For the latter, they will only be
 considered equal if their stringified values are equal.
+
+For comparing more than two arrays:
+
+    @a->diff(\@b, \@c, ... )
+
+All comparisons are against the base array (C<@a> in this example). The
+result will be composed of all those elements that were present in C<@a>
+and in none other.
 
 =head2 Hash Autoboxing
 
