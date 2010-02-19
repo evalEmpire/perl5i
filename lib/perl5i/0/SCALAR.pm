@@ -128,8 +128,8 @@ ERROR
 use POSIX qw{ceil floor};
 sub SCALAR::ceil  { ceil($_[0]) }
 sub SCALAR::floor { floor($_[0])}
-*round_up   = \&SCALAR::ceil;
-*round_down = \&SCALAR::floor;
+*SCALAR::round_up   = \&SCALAR::ceil;
+*SCALAR::round_down = \&SCALAR::floor;
 
 use Scalar::Util qw(looks_like_number);
 sub SCALAR::is_number           { looks_like_number($_[0]) }

@@ -3,8 +3,10 @@
 use Test::More;
 use perl5i::latest;
 
-is( 12.34->ceil, 13);
-is( 12.34->floor, 12);
+is( 12.34->ceil,       13);
+is( 12.34->round_up,   13);
+is( 12.34->floor,      12);
+is( 12.34->round_down, 12);
 is( 12.34->int, 12);
 
 ok( 12->is_number );
