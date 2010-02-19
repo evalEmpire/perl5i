@@ -1,7 +1,9 @@
 #!/usr/bin/perl -w
 
 use strict;
-use lib 'inc';
+
+# Include 'lib' so it sees our perl5i::VERSION when version checking
+use lib 'inc', 'lib';
 use MyBuild;
 
 use 5.010;
