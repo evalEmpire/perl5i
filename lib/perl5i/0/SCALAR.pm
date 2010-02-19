@@ -5,7 +5,6 @@ use 5.010;
 use strict;
 use warnings;
 use Carp;
-use Module::Load;
 use Taint::Util;
 use autobox;
 
@@ -63,7 +62,9 @@ sub SCALAR::rtrim {
 
 
 sub SCALAR::trim {
-    return SCALAR::rtrim(SCALAR::ltrim(@_));
+    my $charset = $_[1];
+
+    return SCALAR::rtrim(SCALAR::ltrim($_[0], $charset), $charset);
 }
 
 
@@ -75,7 +76,7 @@ sub SCALAR::wrap {
 
     return $string if $width <= 0;
 
-    load Text::Wrap;
+    require Text::Wrap;
     local $Text::Wrap::separator = $separator;
     local $Text::Wrap::columns   = $width;
 
@@ -109,7 +110,18 @@ sub SCALAR::is_tainted {
 
 
 sub SCALAR::load {
+    require Module::Load;
     goto &Module::Load::load;
+}
+
+
+sub SCALAR::alias {
+    croak <<ERROR if !ref $_[0];
+Due to limitations in autoboxing, scalars cannot be aliased.
+Sorry.  Use a scalar reference instead.
+ERROR
+
+    goto &DEFAULT::alias;
 }
 
 

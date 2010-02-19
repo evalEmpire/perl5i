@@ -6,6 +6,7 @@
   * We no longer export rreturn() or lnoreturn() from Want.
     This can wait if we tackle lvalue subroutines.
   * load() is now a scalar method, so its $module->load not load($module)
+  * alias() is now an autoboxed method rather than a function.
 
   New Features
   * try/catch support via Try::Tiny (brunov)
@@ -19,6 +20,13 @@
   * Added mo->super to call a method in a super class.
   * Added mo->linear_isa to get the object's inheritance path.
   * Introduced perl5i::latest to use the latest version.
+  * Added %hash->flip() and %hash->merge() (brunov)
+  * @array->grep now takes a regex
+  * Select methods from List::MoreUtils added as ARRAY methods.
+    all, any, none, true, false, uniq, minmax, mesh.
+  * "use utf8" is on by default.
+  * STDOUT, STDIN, STDERR and all opened filehandles have utf8 encoding on.
+  * @ARGV is encoded as UTF8
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)

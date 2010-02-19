@@ -16,3 +16,5 @@ MYMETA.yml
 bin/perl5i
 bin/perl5i.c
 bin/perl5i.bat
+.prove
+*.swp
