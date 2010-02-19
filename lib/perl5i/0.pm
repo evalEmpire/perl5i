@@ -151,19 +151,5 @@ sub lstat {
     return File::stat::lstat(@_);
 }
 
-
-map{ alias( $_, 'is_array' , sub{ ref(shift) eq 'ARRAY'} );
-     alias( $_, 'is_hash'  , sub{ ref(shift) eq 'HASH' } ); 
-     alias( $_, 'is_code'  , sub{ ref(shift) eq 'CODE' } ); 
-     alias( $_, 'is_scalar', sub{ ref(shift) eq ''     } ); 
-     alias( $_, 'flat'     , sub{ my $self = shift;
-                                   (&CORE::is_array($self)) ? map{&CORE::flat($_)} @$self
-                                  :(&CORE::is_hash($self))  ? map{&CORE::flat($_)} %$self
-                                  :(&CORE::is_code($self))  ? map{&CORE::flat($_)} &$self
-                                  :                           $self ;
-                                }
-          ); 
-   } qw{SCALAR ARRAY HASH CODE CORE};
-
 1;
 
