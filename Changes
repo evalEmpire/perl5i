@@ -1,3 +1,8 @@
+0.2.2  Fri Feb 19 14:56:36 PST 2010
+  Other
+  * Some modules got the wrong version.
+  
+
 0.2.1  Fri Feb 19 04:23:58 PST 2010
   Bug Fixes
   * round_up() and round_down() didn't work
