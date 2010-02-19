@@ -114,6 +114,9 @@ sub utf8_open(*;$@) {
         $ret = CORE::open $_[0], $_[1], @_[2..$#_];
     }
 
+    # Don't try to binmode an unopened filehandle
+    return $ret unless $ret;
+
     my $h = (caller 1)[10];
     binmode $_[0], ":encoding(utf8)" if $h->{perl5i};
     return $ret;
