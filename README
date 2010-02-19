@@ -1,8 +1,8 @@
 NAME
-    perl5i - Bend Perl 5 so it fits how it works in our imaginations
+    perl5i - Fix as much of Perl 5 as possible in one pragma
 
 SYNOPSIS
-      use perl5i;
+      use perl5i::0;
 
       or
 
@@ -22,66 +22,226 @@ DESCRIPTION
 
     This includes adding features, changing existing core functions and
     changing defaults. It will likely not be 100% backwards compatible with
-    Perl 5, so perl5i will try to have a lexical effect.
+    Perl 5, though it will be 99%, but perl5i will try to have a lexical
+    effect.
 
     Please add to this imaginary world and help make it real, either by
     telling me what Perl looks like in your imagination
-    (http://github.com/schwern/perl5i/issues or make a fork (forking on
+    (http://github.com/schwern/perl5i/issues) or make a fork (forking on
     github is like a branch you control) and implement it yourself.
+
+Using perl5i
+    Because perl5i *plans* to be incompatible in the future, you do not
+    simply `use perl5i'. You must declare which major version of perl5i you
+    are using. You do this like so:
+
+        # Use perl5i major version 0
+        use perl5i::0;
+
+    While version 0 does not guarante to be compatibility, 1 and up will.
+    Thus the code you write with, for example, `perl5i::2' will always
+    remain compatible even as perl5i moves on.
+
+    If you want to be daring, you can `use perl5i::latest' to get the latest
+    version.
+
+    If you want your module to depend on perl5i, you should depend on the
+    versioned class. For example, depend on `perl5i::0' and not `perl5i'.
+
+    See VERSIONING for more information about perl5i's versioning scheme.
 
 What it does
     perl5i enables each of these modules and adds/changes these functions.
     We'll provide a brief description here, but you should look at each of
     their documentation for full details.
 
+  The Meta Object
+    Every object (and everything is an object) now has a meta object
+    associated with it. Using the meta object you can ask things about the
+    object which were previously over complicated. For example...
+
+        # the object's class
+        my $class = $obj->mo->class;
+
+        # its parent classes
+        my @isa = $obj->mo->isa;
+
+        # the complete inheritance hierarchy
+        my @complete_isa = $obj->mo->linear_isa;
+
+        # the reference type of the object
+        my $reftype = $obj->mo->reftype;
+
+    A meta object is used to avoid polluting the global method space. `mo'
+    was chosen to avoid clashing with Moose's meta object.
+
+    See perl5i::Meta for complete details.
+
+  Autoboxing
+    autobox allows methods to be defined for and called on most unblessed
+    variables. This means you can call methods on ordinary strings, lists
+    and hashes! It also means perl5i can add a lot of functionality without
+    polluting the global namespace.
+
+    autobox::Core wraps a lot of Perl's built in functions so they can be
+    called as methods on unblessed variables. `@a->pop' for example.
+
+    perl()
+    autobox::dump defines a `perl' method that returns Data::Dumper style
+    serialization of the results of the expression. It should work on any
+    scalar, list, hash or reference.
+
   alias()
-        alias( $name           => $reference );
-        alias( $package, $name => $reference );
-        alias( @identifiers    => $reference );
+        $scalar_reference->alias( @identifiers );
+        @alias->alias( @identifiers );
+        %hash->alias( @identifiers );
+        (\&code)->alias( @identifiers );
 
-    Assigns a $refrence a $name. For example...
+    Aliases a variable to a new global name.
 
-        alias foo => sub { 42 };
+        my $code = sub { 42 };
+        $code->alias( "foo" );
         print foo();        # prints 42
 
-    It will also work on hash, array and scalar refs.
+    It will work on everything except scalar references.
 
         our %stuff;
-        alias stuff => \%some_other_hash;
+        %other_hash->alias( "stuff" );  # %stuff now aliased to %other_hash
+
+    It is not a copy, changes to one will change the other.
+
+        my %things = (foo => 23);
+        our %stuff;
+        %things->alias( "stuff" );  # alias %things to %stuff
+        $stuff{foo} = 42;           # change %stuff
+        say $things{foo};           # and it will show up in %things
 
     Multiple @identifiers will be joined with '::' and used as the fully
     qualified name for the alias.
 
         my $class = "Some::Class";
         my $name  = "foo";
-        alias $class, $name => sub { 99 };
+        sub { 99 }->alias( $class, $name );
         print Some::Class->foo;  # prints 99
 
-    If the $name has no "::" in it, the current caller will be prepended.
+    If there is just one @identifier and it has no "::" in it, the current
+    caller will be prepended. `$thing->alias("name")' is shorthand for
+    `$thing->alias(CLASS, "name")'
+
+    Due to limitations in autobox, non-reference scalars cannot be aliased.
+    Alias a scalar ref instead.
+
+        my $thing = 23;
+        $thing->alias("foo");  # error
+
+        my $thing = \23;
+        $thing->alias("foo");  # $foo is now aliased to $thing
 
     This is basically a nicer way to say:
 
         no strict 'refs';
         *{$package . '::'. $name} = $reference;
 
-  center()
+  Scalar Autoboxing
+    perl5i adds some methods to scalars of its own.
+
+    center()
         my $centered_string = $string->center($length);
         my $centered_string = $string->center($length, $character);
 
     Centers $string between $character. $centered_string will be of length
     $length.
 
-    `<$character'> defaults to " ".
+    `$character' defaults to " ".
 
         say "Hello"->center(10);        # "   Hello  ";
         say "Hello"->center(10, '-');   # "---Hello--";
 
-    `<center()'> will never truncate `<$string'>. If $length is less than
-    `<$string-'length>> it will just return `<$string'>.
+    `center()' will never truncate `$string'. If $length is less than
+    `$string->length' it will just return `$string'.
 
         say "Hello"->center(4);        # "Hello";
 
-  wrap()
+  round_up
+  ceil
+        my $new_number = $number->round_up;
+
+    Rounds the $number up.
+
+        2.45->round_up;  # 3
+
+    ceil() is a synonym for round_up().
+
+  round_down
+  floor
+        my $new_number = $number->round_down;
+
+    Rounds the $number down.
+
+        2.45->round_down; # 2
+
+    floor() is a synonyn for round_down().
+
+  is_number
+        $is_a_number = $thing->is_number;
+
+    Returns true of $thing is a number understood by Perl.
+
+        12.34->is_number;           # true
+        "12.34"->is_number;         # also true
+        "eleven"->is_number;        # false
+
+  is_positive
+        $is_positive = $thing->is_positive;
+
+    Returns true if $thing is a positive number.
+
+    0 is not positive.
+
+  is_negative
+        $is_negative = $thing->is_negative;
+
+    Returns true if $thing is a negative number.
+
+    0 is not negative.
+
+  is_integer
+        $is_an_integer = $thing->is_integer;
+
+    Returns true if $thing is an integer.
+
+        12->is_integer;             # true
+        12.34->is_integer;          # false
+        "eleven"->is_integer;       # false
+
+  is_int
+    A synonym for is_integer
+
+  is_decimal
+        $is_a_decimal_number = $thing->is_decimal;
+
+    Returns true if $thing is a decimal number.
+
+        12->is_decimal;             # false
+        12.34->is_decimal;          # true
+        ".34"->is_decimal;          # true
+        "point five"->is_decimal;   # false
+
+  load()
+        $module->load(@args);
+        $path->load(@args);
+
+    A thin wrapper around `Module::Load::load()'. It will load a module from
+    a scalar without requiring you to do funny things like `eval require
+    $module'. It accepts both module names and file paths.
+
+        # like "use $module qw(foo bar);" if that worked
+        $module->load(qw(foo bar));
+
+    Note that `$module->load' does not import anything. This may change in
+    the future.
+
+    wrap()
         my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
     Wraps $string to width $cols, breaking lines at word boundries using
@@ -92,57 +252,144 @@ What it does
 
     See Text::Wrap for details.
 
-  ltrim()
-        my $string = '    testme'->ltrim; # 'testme'
+    ltrim()
+    rtrim()
+    trim()
+        my $trimmed = $string->trim;
+        my $trimmed = $string->trim($character_set);
 
-    Trim leading whitespace (left).
+    Trim whitespace. ltrim() trims off the start of the string (left),
+    rtrim() off the end (right) and trim() off both the start and end.
 
-  rtrim()
-        my $string = 'testme    '->rtrim; #'testme'
+        my $string = '    testme'->ltrim;        # 'testme'
+        my $string = 'testme    '->rtrim;        # 'testme'
+        my $string = '    testme    '->trim;     # 'testme'
 
-    Trim trailing whitespace (right).
+    They all take an optional $character_set which will determine what
+    characters should be trimmed. It follows regex character set syntax so
+    `A-Z' will trim everything from A to Z. Defaults to `\s', whitespace.
 
-  trim()
-        my $string = '    testme    '->trim;  #'testme'
+        my $string = '-> test <-'->trim('-><');  # ' test '   
 
-    Trim both leading and trailing whitespace.
-
-  title_case()
-        my $name = 'joe smith'->title_case; #Joe Smith
+    title_case()
+        my $name = 'joe smith'->title_case;   # Joe Smith
 
     Will uppercase every word character that follows a wordbreak character.
+
+  List Autoboxing
+    All the functions from List::Util and select ones from List::MoreUtils
+    are all available as methods on unblessed arrays and array refs.
+
+    first, max, maxstr, min, minstr, minmax, shuffle, reduce, sum, any, all,
+    none, true, false, uniq and mesh.
+
+    The have all been altered to return array refs where applicable in order
+    to allow chaining.
+
+        @array->grep(sub{ $_->is_number })->sum->say;
+
+    diff()
+    Calculate the difference of two arrays:
+
+        my @a = ( 1, 2, 3);
+        my @b = ( 3, 4, 5);
+
+        @a->diff(\@b) # [ 1, 2 ]
+        @b->diff(\@a) # [ 4, 5 ]
+
+    Currently, it uses Array::Diff and only operates on shallow arrays. This
+    means that it won't try to compare nested data structures, although it
+    might do so in the future.
+
+  Hash Autoboxing
+    flip()
+    Exchanges values for keys in a hash.
+
+        my %things = ( foo => 1, bar => 2, baz => 5 );
+        %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
+
+    If there is more than one occurence of a certain value, any one of the
+    keys may end up as the value. This is because of the random ordering of
+    hash keys.
+
+        # Could be { 1 => foo }, { 1 => bar }, or { 1 => baz }
+        { foo => 1, bar => 1, baz => 1 }->flip;
+
+    Because hash reference cannot usefully be keys, it will not work on
+    nested hashes.
+
+        { foo => [ 'bar', 'baz' ] }->flip; # dies
+
+    merge()
+    Recursively merge two or more hashes together using Hash::Merge::Simple.
+
+        my $a = { a => 1 };
+        my $b = { b => 2, c => 3 };
+
+        $a->merge($b); # { a => 1, b => 2, c => 3 }
+
+    For conflicting keys, rightmost precedence is used:
+
+        my $a = { a => 1 };
+        my $b = { a => 100, b => 2};
+
+        $a->merge($b); # { a => 100, b => 2 }
+        $b->merge($a); # { a => 1,   b => 2 }
+
+    It also works with nested hashes, although it won't attempt to merge
+    array references or objects. For more information, look at the
+    Hash::Merge::Simple docs.
+
+  caller()
+    Perl6::Caller causes `caller' to return an object in scalar context.
 
   die()
     `die' now always returns an exit code of 255 instead of trying to use
     `$!' or `$?' which makes the exit code unpredictable. If you want to
     exit with a message and a special exit code, use `warn' then `exit'.
 
-  English
-    English gives English names to the punctuation variables like `<$@'> is
-    also `<$EVAL_ERROR'>. See perlvar for details.
+  utf8
+    utf8 lets you put UTF8 encoded strings into your source code. This means
+    UTF8 variable and method names, strings and regexes.
 
-    It does not load the regex variables which effect performance.
-    `<$PREMATCH'>, `<$MATCH'>, and `<POSTMATCH'> will not exist. See `</p'>
-    in perlre for a better alternative.
+    It means strings will be treated as a set of characters rather than a
+    set of bytes. For example, `length' will return the number of
+    characters, not the number of bytes.
+
+        length("perl5i is MËTÁŁ");  # 15, not 18
+
+    `@ARGV' will be read as UTF8.
+
+    STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
+    encoding turned on. Consequently, if you want to output raw bytes to a
+    file, such as outputting an image, you must set `binmode $fh'.
+
+  English
+    English gives English names to the punctuation variables; for instance,
+    `<$@'> is also `<$EVAL_ERROR'>. See perlvar for details.
+
+    It does not load the regex variables which affect performance.
+    `$PREMATCH', `$MATCH', and `$POSTMATCH' will not exist. See the `p'
+    modifier in perlre for a better alternative.
 
   Modern::Perl
-    Turns on strict and warnings, enables all the 5.10 features like
-    `given/when', `say' and `state', and enables C3 method resolution order.
+    Modern::Perl turns on strict and warnings, enables all the 5.10 features
+    like `given/when', `say' and `state', and enables C3 method resolution
+    order.
 
   CLASS
     Provides `CLASS' and `$CLASS' alternatives to `__PACKAGE__'.
 
   File::chdir
     File::chdir gives you `$CWD' representing the current working directory
-    and its assignable to `<chdir'>. You can also localize it to safely
-    chdir inside a scope.
+    and it's assignable to `chdir'. You can also localize it to safely chdir
+    inside a scope.
 
   File::stat
-    File::stat causes `stat' to return objects rather than long arrays which
-    you never remember which bit is which.
+    File::stat causes `stat' to return an object in scalar context.
 
   DateTime
-    `time', `localtime' and `gmtime' are replaced with DateTime objects.
+    `time', `localtime', and `gmtime' are replaced with DateTime objects.
     They will all act like the core functions.
 
         # Sat Jan 10 13:37:04 2004
@@ -155,9 +402,9 @@ What it does
         say time->year;
 
   Time::y2038
-    gmtime() and localtime() will now safely work with dates beyond the year
-    2038 and before 1901 (the exact range is not defined, but its well into
-    a couple million years in either direction).
+    `gmtime()' and `localtime()' will now safely work with dates beyond the
+    year 2038 and before 1901 (the exact range is not defined, but it's well
+    into a couple million years in either direction).
 
   Module::Load
     Module::Load adds `load' which will load a module from a scalar without
@@ -171,7 +418,7 @@ What it does
         $fh->autoflush(1);
 
   autodie
-    autodie causes system and file calls which can fail (`open', `system'
+    autodie causes system and file calls which can fail (`open', `system',
     and `chdir', for example) to die when they fail. This means you don't
     have to put `or die' at the end of every system call, but you do have to
     wrap it in an `eval' block if you want to trap the failure.
@@ -180,37 +427,40 @@ What it does
 
     All of autodie will be turned on.
 
-  autobox
-    autobox allows methods to be defined for and called on most unblessed
-    variables.
-
-  autobox::Core
-    autobox::Core wraps a lot of Perl's built in functions so they can be
-    called as methods on unblessed variables. `@a->pop' for example.
-
-  autobox::List::Util
-    autobox::List::Util wraps the functions from List::Util (first, max,
-    maxstr, min, minstr, shuffle, reduce, and sum) so they can be called on
-    arrays and arrayrefs.
-
-  autobox::dump
-    autobox::dump defines a `perl' method that returns Data::Dumper style
-    serialization of the results of the expression.
-
   autovivification
     autovivification fixes the bug/feature where this:
 
         $hash = {};
         $hash->{key1}{key2};
 
-    Results in `<$hash-'{key1}>> coming into existance. That will no longer
+    Results in `$hash->{key1}' coming into existence. That will no longer
     happen.
 
-  Want
-    Want generalizes the mechanism of the wantarray function, allowing a
+  want()
+    `want()' generalizes the mechanism of the wantarray function, allowing a
     function to determine the context it's being called in. Want
     distinguishes not just scalar v. array context, but void, lvalue,
-    rvalue, boolean, reference context and more. See perldoc Want.
+    rvalue, boolean, reference context, and more. See perldoc Want for full
+    details.
+
+  Try::Tiny
+    Try::Tiny gives support for try/catch blocks as an alternative to `eval
+    BLOCK'. This allows correct error handling with proper localization of
+    $@ and a nice syntax layer:
+
+            # handle errors with a catch handler
+            try {
+                    die "foo";
+            } catch {
+                    warn "caught error: $_";
+            };
+
+            # just silence errors
+            try {
+                    die "foo";
+            };
+
+    See perldoc Try::Tiny for details.
 
 BUGS
     Some parts are not lexical.
@@ -218,7 +468,8 @@ BUGS
     See http://github.com/schwern/perl5i/issues/labels/bug for a complete
     list.
 
-    Please report bugs at http://github.com/schwern/perl5i/issues/.
+    Please report bugs at http://github.com/schwern/perl5i/issues/ or email
+    mailto:perl5i@googlegroups.com.
 
 VERSIONING
     perl5i follows the Semantic Versioning policy, http://semver.org. In
@@ -246,7 +497,7 @@ NOTES
 
 THANKS
     Thanks to our contributors: Chas Owens, Darian Patrick, rjbs, chromatic,
-    Ben Hengst and anyone else I've forgotten.
+    Ben Hengst, and anyone else I've forgotten.
 
     Thanks to Flavian and Matt Trout for their signature and Devel::Declare
     work.
@@ -264,7 +515,9 @@ LICENSE
 SEE ALSO
     Repository: http://github.com/schwern/perl5i/tree/master Issues/Bugs:
     http://github.com/schwern/perl5i/issues IRC: irc.perl.org on the #perl5i
-    channel
+    channel Mailing List: http://groups.google.com/group/perl5i/
 
-    Modern::Perl
+    Some modules with similar purposes include: Modern::Perl, Common::Sense
+
+    For a complete object declaration system, see Moose and MooseX::Declare.
 

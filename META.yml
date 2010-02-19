@@ -1,10 +1,11 @@
 ---
-abstract: 'Bend Perl 5 so it fits how it works in our imaginations'
+abstract: 'Fix as much of Perl 5 as possible in one pragma'
 author:
   - 'Michael G Schwern <schwern@pobox.com>'
 build_requires:
   ExtUtils::CBuilder: 0.26
   IPC::Open3: 0
+  Test::Exception: 0.27
   Test::More: 0.88
   Test::Warn: 0.11
 configure_requires:
@@ -17,28 +18,55 @@ meta-spec:
 name: perl5i
 provides:
   DateTime::Format::CTime:
-    file: lib/perl5i/DateTime.pm
+    file: lib/perl5i/0/DateTime.pm
   DateTime::time:
-    file: lib/perl5i/DateTime.pm
+    file: lib/perl5i/0/DateTime.pm
   DateTime::y2038:
-    file: lib/perl5i/DateTime.pm
+    file: lib/perl5i/0/DateTime.pm
   perl5i:
     file: lib/perl5i.pm
     version: v0.1.0
-  perl5i::DateTime:
-    file: lib/perl5i/DateTime.pm
-  perl5i::SCALAR:
-    file: lib/perl5i/SCALAR.pm
+  perl5i::0:
+    file: lib/perl5i/0.pm
+    version: v0.1.0
+  perl5i::0::ARRAY:
+    file: lib/perl5i/0/ARRAY.pm
+  perl5i::0::DEFAULT:
+    file: lib/perl5i/0/DEFAULT.pm
+  perl5i::0::DateTime:
+    file: lib/perl5i/0/DateTime.pm
+  perl5i::0::HASH:
+    file: lib/perl5i/0/HASH.pm
+  perl5i::0::Meta:
+    file: lib/perl5i/0/Meta.pm
+  perl5i::0::Meta::Class:
+    file: lib/perl5i/0/Meta/Class.pm
+  perl5i::0::Meta::Instance:
+    file: lib/perl5i/0/Meta/Instance.pm
+  perl5i::0::SCALAR:
+    file: lib/perl5i/0/SCALAR.pm
+  perl5i::VERSION:
+    file: lib/perl5i/VERSION.pm
+    version: v0.2.0
+  perl5i::latest:
+    file: lib/perl5i/latest.pm
+    version: v0.1.0
 requires:
+  Array::Diff: 0.05002
   CLASS: 1.00
   DateTime: 0.47
   DateTime::Format::Epoch: 0.11
   File::chdir: 0.1002
+  Hash::Merge::Simple: 0.04
   IPC::System::Simple: 1.18
+  List::MoreUtils: 0.22
   Modern::Perl: 1.03
   Module::Load: 0.16
+  Perl6::Caller: 0.100
+  Taint::Util: 0.06
   Text::Wrap: 2009.0305
   Time::y2038: 20081111
+  Try::Tiny: 0.02
   Want: 0.18
   autobox::Core: 0.6
   autobox::List::Util: 20090629
@@ -49,7 +77,9 @@ requires:
   perl: v5.10.0
   version: 0.77
 resources:
+  Chat: irc://irc.perl.org/#perl5i
+  MailingList: http://groups.google.com/group/perl5i
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
-version: v0.1.0
+version: v0.2.0
