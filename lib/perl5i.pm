@@ -41,12 +41,10 @@ perl5i - Fix as much of Perl 5 as possible in one pragma
 
 =head1 DESCRIPTION
 
-B<THIS MODULE'S INTERFACE IS UNSTABLE!> It's still a playground.
-Features may be added, changed and removed without notice.  C<use
-perl5i> may not even work in the future.  See
-L<http://github.com/schwern/perl5i/issues/issue/69> and
-L<http://github.com/schwern/perl5i/issues/issue/60> for details.  You
-have been warned.
+B<THIS MODULE'S INTERFACE IS UNSTABLE!> While the code is well tested,
+the interface is still a playground.  Features may be added, changed
+and removed without notice.  See L</VERSIONING> for details.  You have
+been warned.
 
 Perl 5 has a lot of warts.  There's a lot of individual modules and
 techniques out there to fix those warts.  perl5i aims to pull the best
@@ -54,8 +52,8 @@ of them together into one module so you can turn them on all at once.
 
 This includes adding features, changing existing core functions and
 changing defaults.  It will likely not be 100% backwards compatible
-with Perl 5, though it will be 99%, but perl5i will try to have a
-lexical effect.
+with Perl 5, though it will be 99%, perl5i will try to have a lexical
+effect.
 
 Please add to this imaginary world and help make it real, either by
 telling me what Perl looks like in your imagination
