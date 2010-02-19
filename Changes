@@ -27,6 +27,9 @@
   * "use utf8" is on by default.
   * STDOUT, STDIN, STDERR and all opened filehandles have utf8 encoding on.
   * @ARGV is encoded as UTF8
+  * Added methods to determine if a scalar is a number and what kind it
+    is.
+  * Added ceil()/floor() and round_up()/round_down() synonyms.
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)
