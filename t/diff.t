@@ -32,4 +32,28 @@ is_deeply(
     'Works for nested data structures',
 );
 
+# Stress test deep comparison
+
+my $foo = [
+    qw( foo bar baz ),              # plain elements
+    { foo => 2 },                   # hash reference
+    [                               # array reference of ...
+        qw( foo bar baz ),          # plain elements and ...
+        { foo => { foo => 'bar' } } # hash reference with hash ref as value
+    ]
+];
+
+my $bar = [
+    qw( foo baz ),                  # bar is missing
+    { foo => 1 },                   # 1 != 2
+    [                               # this arrayref is identical
+        qw( foo bar baz ),
+        { foo => { foo => 'bar' } }
+    ],
+    [ qw( foo bar baz ) ]           # this is unique to $bar
+];
+
+is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],            "stress test 1" );
+is_deeply( $bar->diff($foo), [ { foo => 1 },[qw(foo bar baz)] ], "stress test 1" );
+
 done_testing();
