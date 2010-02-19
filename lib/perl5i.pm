@@ -252,11 +252,15 @@ Returns true of $thing is a number understood by Perl.
 
 Returns true if $thing is a positive number.
 
+0 is not positive.
+
 =head2 is_negative
 
     $is_negative = $thing->is_negative;
 
 Returns true if $thing is a negative number.
+
+0 is not negative.
 
 =head2 is_integer
 
