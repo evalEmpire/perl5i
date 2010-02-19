@@ -24,6 +24,9 @@
   * @array->grep now takes a regex
   * Select methods from List::MoreUtils added as ARRAY methods.
     all, any, none, true, false, uniq, minmax, mesh.
+  * "use utf8" is on by default.
+  * STDOUT, STDIN, STDERR and all opened filehandles have utf8 encoding on.
+  * @ARGV is encoded as UTF8
 
   Docs
   * Various POD fixes (chromatic, Richard Soderberg)

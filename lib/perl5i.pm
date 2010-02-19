@@ -349,6 +349,12 @@ characters, not the number of bytes.
 
     length("perl5i is MËTÁŁ");  # 15, not 18
 
+C<@ARGV> will be read as UTF8.
+
+STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
+encoding turned on.  Consequently, if you want to output raw bytes to
+a file, such as outputting an image, you must set C<< binmode $fh >>.
+
 
 =head2 English
 

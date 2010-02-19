@@ -17,6 +17,7 @@ use Want;
 use Try::Tiny;
 use perl5i::0::Meta;
 use autobox;
+use Encode ();
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -31,6 +32,7 @@ use parent 'autobox::Core';
 use parent 'autobox::dump';
 use parent 'autovivification';
 use parent 'utf8';
+use parent 'open';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -61,6 +63,9 @@ sub import {
     autovivification::unimport($class);
     utf8::import($class);
 
+    open::import($class, ":encoding(utf8)");
+    open::import($class, ":std");
+
     # Export our gmtime() and localtime()
     (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
     (\&{$Latest .'::DateTime::dt_localtime'})->alias($caller, 'localtime');
@@ -68,6 +73,7 @@ sub import {
     (\&alias)->alias( $caller, 'alias' );
     (\&stat)->alias( $caller, 'stat' );
     (\&lstat)->alias( $caller, 'lstat' );
+    (\&utf8_open)->alias($caller, 'open');
 
     # fix die so that it always returns 255
     *CORE::GLOBAL::die = sub {
@@ -85,9 +91,28 @@ sub import {
         return CORE::die($error);
     };
 
+
+    # utf8ify @ARGV
+    $_ = Encode::decode('utf8', $_) for @ARGV;
+
+
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
     goto &autodie::import;
+}
+
+
+sub utf8_open(*;$@) {
+    my $ret;
+    if( @_ == 1 ) {
+        $ret = CORE::open $_[0];
+    }
+    else {
+        $ret = CORE::open $_[0], $_[1], @_[2..$#_];
+    }
+
+    binmode $_[0], ":encoding(utf8)";
+    return $ret;
 }
 
 
