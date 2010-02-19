@@ -22,6 +22,9 @@ ok( (-12.34)->is_negative );
 ok( !"foo"->is_negative );
 ok( "-12.2"->is_negative );
 
+ok !0->is_negative,     "zero is not negative";
+ok !0->is_positive,     "zero is not positive";
+
 ok( 12->is_integer );
 ok( -12->is_integer );
 ok( "+12"->is_integer );
