@@ -51,7 +51,7 @@ my $bar = [
     qw( foo baz ),                  # bar is missing
     { foo => 1 },                   # 1 != 2
     [                               # this arrayref is identical
-        qw( foo bar baz ),
+        qw( foo baz bar ),
         { foo => { foo => 'bar' } }
     ],
     [ qw( foo bar baz ) ]           # this is unique to $bar
