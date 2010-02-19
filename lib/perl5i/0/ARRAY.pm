@@ -53,32 +53,33 @@ sub ARRAY::mesh {
 }
 
 sub ARRAY::diff {
-    my ($c, @rest) = @_;
-    return $c unless (@rest);
+    my ($base, @rest) = @_;
+    return $base unless (@rest);
 
     croak "Arguments must be array references" if grep { ! ref $_ eq 'ARRAY' } @rest;
 
     foreach my $array (@rest) {
-        $c = _diff_two($c, $array);
+        $base = _diff_two($base, $array);
     }
 
-    return $c;
+    return $base;
 }
 
 sub _diff_two {
+    # Compare differences between two arrays.
     my ($c, $d) = @_;
 
     # Split both arrays into shallow elements (nonrefs) and nested data
-    # structures (references);
+    # structures (references).
     my ( %nonrefs, %refs );
-    $refs{c} = [ grep { ref } @$c ];
-    $refs{d} = [ grep { ref } @$d ];
+    $refs{c}    = [ grep {   ref } @$c ];
+    $refs{d}    = [ grep {   ref } @$d ];
     $nonrefs{c} = [ grep { ! ref } @$c ];
     $nonrefs{d} = [ grep { ! ref } @$d ];
 
     my $diff;
 
-    # Calculate the diff of the shallow elements, populating $diff;
+    # Calculate the diff of the shallow elements, populating $diff.
     if ( not defined $nonrefs{d} ) { $diff = $nonrefs{c} }
     else {
         require Array::Diff;
@@ -90,13 +91,13 @@ sub _diff_two {
 
     # Now both $c and $d contained deep structures. Try to find for each
     # element of $c if it is equal to any of the elements of $d. If not,
-    # it's unique, and has to be pushed into $diff;
+    # it's unique, and has to be pushed into $diff.
 
     require List::MoreUtils;
     foreach my $item (@{$refs{c}}) {
         unless (
             # for some reason, any { foo() } @bar complains
-            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @{$refs{d}} )
+            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @{ $refs{d} } )
         )
         { push @$diff, $item; }
     }
@@ -114,32 +115,49 @@ sub _are_equal {
     return unless ( defined $r1 and defined $r2 and ( ref $r1 eq ref $r2 ) );
 
     given (ref $r1) {
+
         when ("") {
             return "$r1" eq "$r2";
         }
+
         when ('ARRAY') {
+
+            # They can only be equal if they have the same nº of elements.
             return unless @$r1 == @$r2;
+
             foreach my $item (@$r1) {
+                # they are not equal if it can't find an element in r2
+                # that is equal to $item. Notice ordering doesn't
+                # matter.
                 return unless grep { _are_equal($item, $_) } @$r2;
             }
             return 1;
         }
+
         when ("SCALAR") {
             return "$$r1" eq "$$r2";
         }
+
         when ("HASH") {
+
+            # Since keys can't be references, if the arrays of ordered
+            # keys of both hashes aren't identical, the hashes aren't
+            # equal.
             return unless ( @{[ sort keys %$r1 ]} ~~ @{[ sort keys %$r2 ]} );
+
+            # Compare the equality of the values for each key.
             foreach my $key (%$r1) {
                 return if @{ _diff_two( [ $r1->{$key} ], [ $r2->{$key} ] ) };
             }
+
             return 1;
         }
+
         default {
+            # Objects, globs ...
             return "$r1" eq "$r2";
         }
-
     }
-
 }
 
 1;
