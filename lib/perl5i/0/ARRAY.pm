@@ -114,47 +114,40 @@ sub _are_equal {
 
     return unless ( defined $r1 and defined $r2 and ( ref $r1 eq ref $r2 ) );
 
-    given (ref $r1) {
+    if (ref eq 'ARRAY') {
 
-        when ("") {
-            return "$r1" eq "$r2";
+        # They can only be equal if they have the same nº of elements.
+        return @$r1 == @$r2;
+
+        foreach my $item (@$r1) {
+            # they are not equal if it can't find an element in r2
+            # that is equal to $item. Notice ordering doesn't
+            # matter.
+            return unless grep { _are_equal($item, $_) } @$r2;
+        }
+        return 1;
+    }
+
+    if (ref $r1 eq "SCALAR") {
+        return "$$r1" eq "$$r2";
+    }
+
+    if (ref $r1 eq "HASH") {
+
+        # Hashes can't be equal unless their keys are equal.
+        return unless ( %$r1 ~~ %$r2 );
+
+        # Compare the equality of the values for each key.
+        foreach my $key (keys %$r1) {
+            return unless _are_equal( $r1->{$key}, $r2->{$key} );
         }
 
-        when ('ARRAY') {
+        return 1;
+    }
 
-            # They can only be equal if they have the same nº of elements.
-            return unless @$r1 == @$r2;
-
-            foreach my $item (@$r1) {
-                # they are not equal if it can't find an element in r2
-                # that is equal to $item. Notice ordering doesn't
-                # matter.
-                return unless grep { _are_equal($item, $_) } @$r2;
-            }
-            return 1;
-        }
-
-        when ("SCALAR") {
-            return "$$r1" eq "$$r2";
-        }
-
-        when ("HASH") {
-
-            # Hashes can't be equal unless their keys are equal.
-            return unless ( %$r1 ~~ %$r2 );
-
-            # Compare the equality of the values for each key.
-            foreach my $key (%$r1) {
-                return if @{ _diff_two( [ $r1->{$key} ], [ $r2->{$key} ] ) };
-            }
-
-            return 1;
-        }
-
-        default {
-            # Objects, globs ...
-            return "$r1" eq "$r2";
-        }
+    else {
+        # Scalars, Objects, globs
+        return "$r1" eq "$r2";
     }
 }
 
