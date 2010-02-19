@@ -96,11 +96,14 @@ sub import {
     $_ = Encode::decode('utf8', $_) for @ARGV;
 
 
+    $^H{perl5i} = 1;
+
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
     goto &autodie::import;
 }
 
+sub unimport { $^H{perl5i} = 0 }
 
 sub utf8_open(*;$@) {
     my $ret;
@@ -111,7 +114,8 @@ sub utf8_open(*;$@) {
         $ret = CORE::open $_[0], $_[1], @_[2..$#_];
     }
 
-    binmode $_[0], ":encoding(utf8)";
+    my $h = (caller 1)[10];
+    binmode $_[0], ":encoding(utf8)" if $h->{perl5i};
     return $ret;
 }
 
