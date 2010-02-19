@@ -119,8 +119,8 @@ sub _are_equal {
         }
         when ('ARRAY') {
             return unless @$r1 == @$r2;
-            foreach my $i (0 .. @$r1 - 1) {
-                return unless _are_equal($r1->[$i], $r2->[$i]);
+            foreach my $item (@$r1) {
+                return unless grep { _are_equal($item, $_) } @$r2;
             }
             return 1;
         }
@@ -128,8 +128,10 @@ sub _are_equal {
             return "$$r1" eq "$$r2";
         }
         when ("HASH") {
-            return unless _are_equal( [ keys %$r1   ], [ keys %$r2   ] );
-            return unless _are_equal( [ values %$r1 ], [ values %$r2 ] );
+            return unless ( @{[ sort keys %$r1 ]} ~~ @{[ sort keys %$r2 ]} );
+            foreach my $key (%$r1) {
+                return if @{ _diff_two( [ $r1->{$key} ], [ $r2->{$key} ] ) };
+            }
             return 1;
         }
         default {
