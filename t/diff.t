@@ -58,6 +58,6 @@ my $bar = [
 ];
 
 is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],             "stress test 1" );
-is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz)] ], "stress test 1" );
+is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz)] ], "stress test 2" );
 
 done_testing();
