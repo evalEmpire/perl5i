@@ -80,7 +80,9 @@ sub _diff_two {
     my $diff;
 
     # Calculate the diff of the shallow elements, populating $diff.
-    if ( not defined $nonrefs{d} ) { $diff = $nonrefs{c} }
+    if ( not defined $nonrefs{d} ) {
+        $diff = $nonrefs{c}
+    }
     else {
         require Array::Diff;
         $diff = Array::Diff->diff($nonrefs{c}, $nonrefs{d})->deleted;
@@ -99,7 +101,9 @@ sub _diff_two {
             # for some reason, any { foo() } @bar complains
             List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @{ $refs{d} } )
         )
-        { push @$diff, $item; }
+        {
+            push @$diff, $item;
+        }
     }
 
     return $diff;
@@ -112,12 +116,12 @@ sub _are_equal {
     # recursing over deep data structures. Since it uses recursion,
     # traversal is done depth-first.
 
-    return unless ( defined $r1 and defined $r2 and ( ref $r1 eq ref $r2 ) );
+    return if !defined $r1 or !defined $r2;
+    return if ref $r1 ne ref $r2;
 
-    if (ref eq 'ARRAY') {
-
+    if (ref $r1 eq 'ARRAY') {
         # They can only be equal if they have the same nº of elements.
-        return @$r1 == @$r2;
+        return if @$r1 != @$r2;
 
         foreach my $item (@$r1) {
             # they are not equal if it can't find an element in r2
@@ -125,15 +129,13 @@ sub _are_equal {
             # matter.
             return unless grep { _are_equal($item, $_) } @$r2;
         }
+
         return 1;
     }
-
-    if (ref $r1 eq "SCALAR") {
+    elsif (ref $r1 eq "SCALAR") {
         return "$$r1" eq "$$r2";
     }
-
-    if (ref $r1 eq "HASH") {
-
+    elsif (ref $r1 eq "HASH") {
         # Hashes can't be equal unless their keys are equal.
         return unless ( %$r1 ~~ %$r2 );
 
@@ -144,7 +146,6 @@ sub _are_equal {
 
         return 1;
     }
-
     else {
         # Scalars, Objects, globs
         return "$r1" eq "$r2";
@@ -152,4 +153,3 @@ sub _are_equal {
 }
 
 1;
-
