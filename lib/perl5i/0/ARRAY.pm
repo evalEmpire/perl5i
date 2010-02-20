@@ -4,7 +4,6 @@ use 5.010;
 
 use strict;
 use warnings;
-use Carp;
 
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
@@ -56,7 +55,9 @@ sub ARRAY::diff {
     my ($base, @rest) = @_;
     return $base unless (@rest);
 
-    croak "Arguments must be array references" if grep { ! ref $_ eq 'ARRAY' } @rest;
+    # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
+    # ssasign ... "
+    die "Arguments must be array references" if grep { ref $_ ne 'ARRAY' } @rest;
 
     foreach my $array (@rest) {
         $base = _diff_two($base, $array);

@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
 use Test::More;
+use Test::Exception;
 use perl5i::latest;
 
 my @a = ( 0 .. 5 );
@@ -16,6 +17,12 @@ is_deeply( @a->diff, \@a, 'No arguments' );
 is_deeply( @a->diff([]), \@a, 'Diff with an empty array');
 
 is_deeply( []->diff, [], 'Diff an empty array' );
+
+# Dies when called with non-arrayref arguments
+
+throws_ok { @a->diff('foo')        } qr/Arguments must be/;
+throws_ok { @a->diff({ foo => 1 }) } qr/Arguments must be/;
+throws_ok { []->diff(\'foo')       } qr/Arguments must be/;
 
 # Works with strings also
 is_deeply( [qw(foo bar)]->diff(['bar']), ['foo'], 'Works ok with strings' );
