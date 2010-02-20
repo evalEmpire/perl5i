@@ -70,37 +70,20 @@ sub _diff_two {
     # Compare differences between two arrays.
     my ($c, $d) = @_;
 
-    # Split both arrays into shallow elements (nonrefs) and nested data
-    # structures (references).
-    my ( %nonrefs, %refs );
-    $refs{c}    = [ grep {   ref } @$c ];
-    $refs{d}    = [ grep {   ref } @$d ];
-    $nonrefs{c} = [ grep { ! ref } @$c ];
-    $nonrefs{d} = [ grep { ! ref } @$d ];
-
     my $diff;
 
-    # Calculate the diff of the shallow elements, populating $diff.
-    if ( not defined $nonrefs{d} ) {
-        $diff = $nonrefs{c}
-    }
-    else {
-        require Array::Diff;
-        $diff = Array::Diff->diff($nonrefs{c}, $nonrefs{d})->deleted;
-    }
+    return    if not defined $c;
+    return $c if not defined $d;
 
-    return $diff if not defined $refs{c};
-    return [ @$diff, @{$refs{c}} ] if not defined $refs{d};
-
-    # Now both $c and $d contained deep structures. Try to find for each
-    # element of $c if it is equal to any of the elements of $d. If not,
-    # it's unique, and has to be pushed into $diff.
+    # For each element of $c, try to find if it is equal to any of the
+    # elements of $d. If not, it's unique, and has to be pushed into
+    # $diff.
 
     require List::MoreUtils;
-    foreach my $item (@{$refs{c}}) {
+    foreach my $item (@$c) {
         unless (
             # for some reason, any { foo() } @bar complains
-            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @{ $refs{d} } )
+            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @$d )
         )
         {
             push @$diff, $item;
@@ -118,9 +101,9 @@ sub _are_equal {
     # traversal is done depth-first.
 
     return if !defined $r1 or !defined $r2;
-    return if ref $r1 ne ref $r2;
 
-    if (ref $r1 eq 'ARRAY') {
+
+    if (ref $r1 eq 'ARRAY' and ref $r2 eq 'ARRAY') {
         # They can only be equal if they have the same nº of elements.
         return if @$r1 != @$r2;
 
@@ -133,10 +116,10 @@ sub _are_equal {
 
         return 1;
     }
-    elsif (ref $r1 eq "SCALAR") {
+    elsif (ref $r1 eq 'SCALAR' and ref $r2 eq 'SCALAR') {
         return $$r1 eq $$r2;
     }
-    elsif (ref $r1 eq "HASH") {
+    elsif (ref $r1 eq 'HASH' and ref $r2 eq 'HASH') {
         # Hashes can't be equal unless their keys are equal.
         return unless ( %$r1 ~~ %$r2 );
 
