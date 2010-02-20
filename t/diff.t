@@ -67,4 +67,46 @@ my $bar = [
 is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],             "stress test 1" );
 is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz)] ], "stress test 2" );
 
+# Test overloading
+{
+    package Number;
+    use overload
+        '==' => \&number_equal,
+        '""' => sub { 42 };
+
+    sub new { bless {} }
+
+    sub number_equal {
+        return 42 == $_[1];
+    }
+}
+
+{
+    package String;
+    use overload
+        'eq' => \&string_equal,
+        '""' => sub { 'foo' };
+
+    sub new { bless {} }
+
+    sub string_equal {
+        return 'foo' eq $_[1];
+    }
+}
+
+my $answer = Number->new;
+my $string = String->new;
+
+# Minimal testing of overloaded classes
+ok( $answer == 42 );
+ok( $string eq 'foo' );
+
+is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), undef );
+
+is_deeply( [ $answer, $string ]->diff([ 'foo' ]), [ $answer ] );
+is_deeply( [ $answer, $string ]->diff([ 'foo' ]), [   42    ] );
+
+is_deeply( [ $answer, $string ]->diff([ 42 ]), [ $string ] );
+is_deeply( [ $answer, $string ]->diff([ 42 ]), [  'foo'  ] );
+
 done_testing();

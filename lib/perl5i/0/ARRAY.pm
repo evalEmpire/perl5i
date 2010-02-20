@@ -130,9 +130,101 @@ sub _are_equal {
 
         return 1;
     }
-    else {
-        # Scalars, Objects, globs
+    elsif ( !ref $r1 and !ref $r2 ) {
         return $r1 eq $r2;
+    }
+    else {
+        # So this is ugly-land: objects (possibly overloaded) or mix
+        # between objects, unblessed refs and non-refs
+        return _equal_possibly_overloaded( $r1, $r2 );
+    }
+}
+
+sub _equal_possibly_overloaded {
+    my ($r1, $r2) = @_;
+
+    require overload;
+    require Scalar::Util;
+
+    my $is_ref_1 = ref $r1;
+    my $is_ref_2 = ref $r2;
+
+    my $is_obj_1 = $is_ref_1 ? Scalar::Util::blessed($r1) : 0;
+    my $is_obj_2 = $is_ref_2 ? Scalar::Util::blessed($r2) : 0;
+
+    # Return early for the most common case: two unblessed refs
+    # of different reftype (ie, HASH vs ARRAY).
+
+    return if !$is_obj_1 and !$is_obj_2;
+
+    my $is_ol_1 = $is_obj_1 ? overload::Overloaded($r1) : 0;
+    my $is_ol_2 = $is_obj_2 ? overload::Overloaded($r2) : 0;
+
+    if ( $is_ref_1 and $is_ref_2 ) {
+        if ( !$is_ol_1 and !$is_ol_2 ) {
+            return $r1 eq $r2;
+        }
+        elsif ( $is_ol_1 and !$is_ol_2 ) {
+            return _equal_one_overloaded( $r2, $r1 );
+        }
+        elsif ( !$is_ol_1 and $is_ol_2 ) {
+            return _equal_one_overloaded( $r1, $r2 );
+        }
+        else {
+            return _equal_both_overloaded( $r1, $r2 );
+        }
+    }
+    elsif ( $is_ref_1 and ! $is_ref_2 ) {
+        if ( $is_ol_1 ) {
+            return _equal_one_overloaded( $r2, $r1 );
+        }
+        else {
+            return;
+        }
+    }
+    elsif ( !$is_ref_1 and $is_ref_2 ) {
+        if ( $is_ol_2 ) {
+            return _equal_one_overloaded( $r1, $r2 );
+        }
+        else {
+            return;
+        }
+    }
+    else {
+        return;
+    }
+}
+
+sub _equal_one_overloaded {
+    my ($non_ol, $overloaded) = @_;
+
+    require Scalar::Util;
+
+    if ( overload::Method($overloaded, '==') and Scalar::Util::looks_like_number($non_ol) ) {
+        return $non_ol == $overloaded;
+    }
+    elsif ( overload::Method($overloaded, 'eq') ) {
+        return $non_ol eq $overloaded;
+    }
+    else {
+        return;
+    }
+}
+
+sub _equal_both_overloaded {
+    my ($r1, $r2) = @_;
+
+    # Both are overloaded
+
+    if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
+        return $r1 == $r2;
+    }
+
+    elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
+        return $r1 eq $r2;
+    }
+    else {
+        return;
     }
 }
 
