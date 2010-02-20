@@ -133,7 +133,7 @@ sub _are_equal {
         return 1;
     }
     elsif (ref $r1 eq "SCALAR") {
-        return "$$r1" eq "$$r2";
+        return $$r1 eq $$r2;
     }
     elsif (ref $r1 eq "HASH") {
         # Hashes can't be equal unless their keys are equal.
@@ -148,7 +148,7 @@ sub _are_equal {
     }
     else {
         # Scalars, Objects, globs
-        return "$r1" eq "$r2";
+        return $r1 eq $r2;
     }
 }
 
