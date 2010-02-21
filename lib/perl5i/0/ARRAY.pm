@@ -72,9 +72,6 @@ sub _diff_two {
 
     my $diff;
 
-    return    if not defined $c;
-    return $c if not defined $d;
-
     # For each element of $c, try to find if it is equal to any of the
     # elements of $d. If not, it's unique, and has to be pushed into
     # $diff.

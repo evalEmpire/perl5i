@@ -23,6 +23,7 @@ is_deeply( []->diff, [], 'Diff an empty array' );
 throws_ok { @a->diff('foo')        } qr/Arguments must be/;
 throws_ok { @a->diff({ foo => 1 }) } qr/Arguments must be/;
 throws_ok { []->diff(\'foo')       } qr/Arguments must be/;
+throws_ok { @a->diff(undef, \@a)   } qr/Arguments must be/;
 
 # Works with strings also
 is_deeply( [qw(foo bar)]->diff(['bar']), ['foo'], 'Works ok with strings' );
