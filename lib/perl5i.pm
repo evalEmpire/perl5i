@@ -238,7 +238,7 @@ floor() is a synonyn for round_down().
 
     $is_a_number = $thing->is_number;
 
-Returns true of $thing is a number understood by Perl.
+Returns true if $thing is a number understood by Perl.
 
     12.34->is_number;           # true
     "12.34"->is_number;         # also true
