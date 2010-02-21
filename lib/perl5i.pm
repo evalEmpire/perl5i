@@ -360,8 +360,8 @@ order to allow chaining.
 
 Calculate the difference of two arrays:
 
-    my @a = ( 1, 2, 3);
-    my @b = ( 3, 4, 5);
+    my @a = ( 1, 2, 3 );
+    my @b = ( 3, 4, 5 );
 
     @a->diff(\@b) # [ 1, 2 ]
     @b->diff(\@a) # [ 4, 5 ]
