@@ -39,7 +39,7 @@ is_deeply( @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' )
 is_deeply( @a->diff(\@b, [ 1, 2 ]  ), [ 0 ],       'Diff more than two arrays' );
 
 is_deeply(
-    [ { foo => 1 }, { foo => 2 } ]->diff( [ { foo => 2 } ] ),
+    [ { foo => 1 }, { foo => \2 } ]->diff( [ { foo => \2 } ] ),
     [ { foo => 1 } ],
     'Works for nested data structures',
 );
@@ -62,11 +62,11 @@ my $bar = [
         qw( foo baz bar ),
         { foo => { foo => 'bar' } }
     ],
-    [ qw( foo bar baz ) ]           # this is unique to $bar
+    [ qw( foo bar baz ), \'gorch' ] # this is unique to $bar
 ];
 
-is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],             "stress test 1" );
-is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz)] ], "stress test 2" );
+is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],                       "stress test 1" );
+is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz), \'gorch'] ], "stress test 2" );
 
 # Test overloading
 {
