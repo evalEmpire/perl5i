@@ -46,27 +46,32 @@ is_deeply(
 
 # Stress test deep comparison
 
+my $code = sub { 'foo' };
+
 my $foo = [
     qw( foo bar baz ),              # plain elements
     { foo => 2 },                   # hash reference
+    { bar => 1 },                   # hash reference
     [                               # array reference of ...
         qw( foo bar baz ),          # plain elements and ...
-        { foo => { foo => 'bar' } } # hash reference with hash ref as value
-    ]
+        { foo => { foo => $code } } # hash reference with hash ref as value
+    ]                               # with code ref as value
 ];
 
 my $bar = [
     qw( foo baz ),                  # bar is missing
-    { foo => 1 },                   # 1 != 2
+    { foo => 1 },                   # 1 != 2, bar =! foo
     [                               # this arrayref is identical
         qw( foo baz bar ),
-        { foo => { foo => 'bar' } }
+        { foo => { foo => $code } }
     ],
-    [ qw( foo bar baz ), \'gorch' ] # this is unique to $bar
+    [ qw( foo baz ), \'gorch' ]     # this is unique to $bar
 ];
 
-is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 } ],                       "stress test 1" );
-is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo bar baz), \'gorch'] ], "stress test 2" );
+is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 }, { bar => 1 }     ], "stress test 1" );
+is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo baz), \'gorch'] ], "stress test 2" );
+
+is_deeply( [ $code ]->diff([ sub { 'bar' }]), [ $code ] );
 
 # Test overloading
 {

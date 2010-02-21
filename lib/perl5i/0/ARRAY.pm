@@ -127,8 +127,8 @@ sub _are_equal {
     elsif ( $ref2 eq 'SCALAR' ) {
         return _equal_scalar( $r2, $r1, $ref1 );
     }
-    elsif ( $_ ~~ /GLOB|CODE/ or $ref2 ~~ /GLOB|CODE/ ) {
-        return $ref1 eq $ref2;
+    elsif ( $ref1 ~~ /GLOB|CODE/ or $ref2 ~~ /GLOB|CODE/ ) {
+        return $r1 eq $r2;
     }
     elsif ( $ref1 ) {
         # ref1 *has* to be an object
