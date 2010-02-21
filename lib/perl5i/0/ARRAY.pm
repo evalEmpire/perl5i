@@ -99,132 +99,147 @@ sub _are_equal {
     # given two scalars, decide whether they are identical or not,
     # recursing over deep data structures. Since it uses recursion,
     # traversal is done depth-first.
+    # Warning: complex if-then-else decision tree ahead. It's ordered on
+    # my perceived and anecdotical take on the frequency of occurrence
+    # of each reftype: most popular on top, most rare on the bottom.
+    # This way we return as early as possible.
 
     return if !defined $r1 or !defined $r2;
 
+    my ($ref1, $ref2) = (ref $r1, ref $r2);
 
-    if (ref $r1 eq 'ARRAY' and ref $r2 eq 'ARRAY') {
-        # They can only be equal if they have the same nº of elements.
-        return if @$r1 != @$r2;
-
-        foreach my $item (@$r1) {
-            # they are not equal if it can't find an element in r2
-            # that is equal to $item. Notice ordering doesn't
-            # matter.
-            return unless grep { _are_equal($item, $_) } @$r2;
-        }
-
-        return 1;
+    if ( !$ref1 and !$ref2 ) {
+        # plain scalars;
+        return $r1 eq $r2;
     }
-    elsif (ref $r1 eq 'SCALAR' and ref $r2 eq 'SCALAR') {
+    elsif ( $ref1 eq 'ARRAY' ) {
+        _equal_array( $r1, $r2, $ref2 );
+    }
+    elsif ( $ref2 eq 'ARRAY' ) {
+        _equal_array( $r2, $r1, $ref1 );
+    }
+    elsif ( $ref1 eq 'HASH' ) {
+        _equal_hash( $r1, $r2, $ref2 );
+    }
+    elsif ( $ref2 eq 'HASH' ) {
+        _equal_hash( $r2, $r1, $ref1 );
+    }
+    elsif ( $ref1 eq 'SCALAR' ) {
+        _equal_scalar( $r1, $r2, $ref2 );
+    }
+    elsif ( $ref2 eq 'SCALAR' ) {
+        _equal_scalar( $r2, $r1, $ref1 );
+    }
+    elsif ( $_ ~~ /GLOB|CODE/ or $ref2 ~~ /GLOB|CODE/ ) {
+        return $ref1 eq $ref2;
+    }
+    elsif ( $ref1 ) {
+        # ref1 *has* to be an object
+        _equal_object( $r1, $r2, $ref2 );
+    }
+    else {
+        # ref2 *has* to be an object
+        _equal_object( $r2, $r1, $ref1 );
+    }
+}
+
+sub _equal_array {
+    my ($r1, $r2, $ref2) = @_;
+    if (!$ref2 or $ref2 ne 'ARRAY') {
+        return;
+    }
+    else {
+        _equal_arrays( $r1, $r2 );
+    }
+}
+
+sub _equal_hash {
+    my ($r1, $r2, $ref2) = @_;
+    if ( !$ref2 or $ref2 ne 'HASH' ) {
+        return;
+    }
+    else {
+        _equal_hashes( $r1, $r2 );
+    }
+}
+
+sub _equal_scalar {
+    my ($r1, $r2, $ref2) = @_;
+    if ( !$ref2 or $ref2 ne 'SCALAR' ) {
+        return;
+    }
+    else {
         return $$r1 eq $$r2;
     }
-    elsif (ref $r1 eq 'HASH' and ref $r2 eq 'HASH') {
-        # Hashes can't be equal unless their keys are equal.
-        return unless ( %$r1 ~~ %$r2 );
-
-        # Compare the equality of the values for each key.
-        foreach my $key (keys %$r1) {
-            return unless _are_equal( $r1->{$key}, $r2->{$key} );
-        }
-
-        return 1;
-    }
-    elsif ( !ref $r1 and !ref $r2 ) {
-        return $r1 eq $r2;
-    }
-    else {
-        # So this is ugly-land: objects (possibly overloaded) or mix
-        # between objects, unblessed refs and non-refs
-        return _equal_possibly_overloaded( $r1, $r2 );
-    }
 }
 
-sub _equal_possibly_overloaded {
+sub _equal_arrays {
     my ($r1, $r2) = @_;
+    # They can only be equal if they have the same nº of elements.
+    return if @$r1 != @$r2;
+
+    foreach my $item (@$r1) {
+        # they are not equal if it can't find an element in r2
+        # that is equal to $item. Notice ordering doesn't
+        # matter.
+        return unless grep { _are_equal($item, $_) } @$r2;
+    }
+
+    return 1;
+}
+
+sub _equal_hashes {
+    my ($r1, $r2) = @_;
+    # Hashes can't be equal unless their keys are equal.
+    return unless ( %$r1 ~~ %$r2 );
+
+    # Compare the equality of the values for each key.
+    foreach my $key (keys %$r1) {
+        return unless _are_equal( $r1->{$key}, $r2->{$key} );
+    }
+
+    return 1;
+}
+
+sub _equal_object {
+    my ($r1, $r2, $ref2) = @_;
 
     require overload;
-    require Scalar::Util;
-
-    my $is_ref_1 = ref $r1;
-    my $is_ref_2 = ref $r2;
-
-    my $is_obj_1 = $is_ref_1 ? Scalar::Util::blessed($r1) : 0;
-    my $is_obj_2 = $is_ref_2 ? Scalar::Util::blessed($r2) : 0;
-
-    # Return early for the most common case: two unblessed refs
-    # of different reftype (ie, HASH vs ARRAY).
-
-    return if !$is_obj_1 and !$is_obj_2;
-
-    my $is_ol_1 = $is_obj_1 ? overload::Overloaded($r1) : 0;
-    my $is_ol_2 = $is_obj_2 ? overload::Overloaded($r2) : 0;
-
-    if ( $is_ref_1 and $is_ref_2 ) {
-        if ( !$is_ol_1 and !$is_ol_2 ) {
-            return $r1 eq $r2;
-        }
-        elsif ( $is_ol_1 and !$is_ol_2 ) {
-            return _equal_one_overloaded( $r2, $r1 );
-        }
-        elsif ( !$is_ol_1 and $is_ol_2 ) {
-            return _equal_one_overloaded( $r1, $r2 );
-        }
-        else {
-            return _equal_both_overloaded( $r1, $r2 );
-        }
-    }
-    elsif ( $is_ref_1 and ! $is_ref_2 ) {
-        if ( $is_ol_1 ) {
-            return _equal_one_overloaded( $r2, $r1 );
-        }
-        else {
-            return;
-        }
-    }
-    elsif ( !$is_ref_1 and $is_ref_2 ) {
-        if ( $is_ol_2 ) {
-            return _equal_one_overloaded( $r1, $r2 );
-        }
-        else {
-            return;
-        }
-    }
-    else {
-        return;
-    }
-}
-
-sub _equal_one_overloaded {
-    my ($non_ol, $overloaded) = @_;
-
-    require Scalar::Util;
-
-    if ( overload::Method($overloaded, '==') and Scalar::Util::looks_like_number($non_ol) ) {
-        return $non_ol == $overloaded;
-    }
-    elsif ( overload::Method($overloaded, 'eq') ) {
-        return $non_ol eq $overloaded;
-    }
-    else {
-        return;
-    }
-}
-
-sub _equal_both_overloaded {
-    my ($r1, $r2) = @_;
-
-    # Both are overloaded
-
-    if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
-        return $r1 == $r2;
-    }
-
-    elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
+    if (not overload::Overloaded($r1)) {
         return $r1 eq $r2;
     }
     else {
-        return;
+        if ( $ref2 ) {
+            # Now both r1 and r2 are objects, and r1 is overloaded
+            if (not overload::Overloaded($r2) ) {
+                return;
+            }
+            else {
+                # Now both objects are overloaded.
+                if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
+                    return $r1 == $r2;
+                }
+                elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
+                    return $r1 eq $r2;
+                }
+                else {
+                    return;
+                }
+            }
+        }
+        else {
+            # Here r1 is an object, and r2 is a scalar
+            require Scalar::Util;
+            if ( overload::Method($r1, '==') and Scalar::Util::looks_like_number($r2) ) {
+                return $r1 == $r2;
+            }
+            elsif ( overload::Method($r1, 'eq') ) {
+                return $r1 eq $r2;
+            }
+            else {
+                return;
+            }
+        }
     }
 }
 
