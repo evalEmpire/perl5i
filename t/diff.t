@@ -104,10 +104,16 @@ ok( $string eq 'foo' );
 
 is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), undef );
 
-is_deeply( [ $answer, $string ]->diff([ 'foo' ]), [ $answer ] );
-is_deeply( [ $answer, $string ]->diff([ 'foo' ]), [   42    ] );
+# Overloaded objects vs. scalars
+is_deeply( [ $answer, $string ]->diff([  'foo'  ]), [ $answer ] );
+is_deeply( [ $answer, $string ]->diff([  'foo'  ]), [   42    ] );
+is_deeply( [ $answer, $string ]->diff([   42    ]), [ $string ] );
+is_deeply( [ $answer, $string ]->diff([   42    ]), [  'foo'  ] );
 
-is_deeply( [ $answer, $string ]->diff([ 42 ]), [ $string ] );
-is_deeply( [ $answer, $string ]->diff([ 42 ]), [  'foo'  ] );
+# Overloaded objects vs. overloaded objects.
+is_deeply( [ $answer, $string ]->diff([ $string ]), [ $answer ] );
+is_deeply( [ $answer, $string ]->diff([ $string ]), [   42    ] );
+is_deeply( [ $answer, $string ]->diff([ $answer ]), [ $string ] );
+is_deeply( [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
 
 done_testing();
