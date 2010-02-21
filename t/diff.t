@@ -107,7 +107,7 @@ my $string = String->new;
 ok( $answer == 42 );
 ok( $string eq 'foo' );
 
-is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), undef );
+is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), [] );
 
 # Overloaded objects vs. scalars
 is_deeply( [ $answer, $string ]->diff([  'foo'  ]), [ $answer ] );

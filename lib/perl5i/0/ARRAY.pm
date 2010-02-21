@@ -70,7 +70,7 @@ sub _diff_two {
     # Compare differences between two arrays.
     my ($c, $d) = @_;
 
-    my $diff;
+    my $diff = [];
 
     # For each element of $c, try to find if it is equal to any of the
     # elements of $d. If not, it's unique, and has to be pushed into
