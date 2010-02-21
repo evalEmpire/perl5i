@@ -113,33 +113,33 @@ sub _are_equal {
         return $r1 eq $r2;
     }
     elsif ( $ref1 eq 'ARRAY' ) {
-        _equal_array( $r1, $r2, $ref2 );
+        return _equal_array( $r1, $r2, $ref2 );
     }
     elsif ( $ref2 eq 'ARRAY' ) {
-        _equal_array( $r2, $r1, $ref1 );
+        return _equal_array( $r2, $r1, $ref1 );
     }
     elsif ( $ref1 eq 'HASH' ) {
-        _equal_hash( $r1, $r2, $ref2 );
+        return _equal_hash( $r1, $r2, $ref2 );
     }
     elsif ( $ref2 eq 'HASH' ) {
-        _equal_hash( $r2, $r1, $ref1 );
+        return _equal_hash( $r2, $r1, $ref1 );
     }
     elsif ( $ref1 eq 'SCALAR' ) {
-        _equal_scalar( $r1, $r2, $ref2 );
+        return _equal_scalar( $r1, $r2, $ref2 );
     }
     elsif ( $ref2 eq 'SCALAR' ) {
-        _equal_scalar( $r2, $r1, $ref1 );
+        return _equal_scalar( $r2, $r1, $ref1 );
     }
     elsif ( $_ ~~ /GLOB|CODE/ or $ref2 ~~ /GLOB|CODE/ ) {
         return $ref1 eq $ref2;
     }
     elsif ( $ref1 ) {
         # ref1 *has* to be an object
-        _equal_object( $r1, $r2, $ref2 );
+        return _equal_object( $r1, $r2, $ref2 );
     }
     else {
         # ref2 *has* to be an object
-        _equal_object( $r2, $r1, $ref1 );
+        return _equal_object( $r2, $r1, $ref1 );
     }
 }
 
@@ -149,7 +149,7 @@ sub _equal_array {
         return;
     }
     else {
-        _equal_arrays( $r1, $r2 );
+        return _equal_arrays( $r1, $r2 );
     }
 }
 
@@ -159,7 +159,7 @@ sub _equal_hash {
         return;
     }
     else {
-        _equal_hashes( $r1, $r2 );
+        return _equal_hashes( $r1, $r2 );
     }
 }
 
