@@ -203,7 +203,7 @@ sub _equal_object {
 
     require overload;
     if (not overload::Overloaded($r1)) {
-        return $r1 eq $r2;
+        return "$r1" eq "$r2";
     }
     else {
         if ( $ref2 ) {

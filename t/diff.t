@@ -116,4 +116,11 @@ is_deeply( [ $answer, $string ]->diff([ $string ]), [   42    ] );
 is_deeply( [ $answer, $string ]->diff([ $answer ]), [ $string ] );
 is_deeply( [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
 
+# Overloaded objects vs. non-overloaded objects
+
+my $object = bless {}, 'Object';
+
+is_deeply( [ $object ]->diff( [ $answer ] ), [ $object ] );
+is_deeply( [ $answer ]->diff( [ $object ] ), [ $answer ] );
+
 done_testing();
