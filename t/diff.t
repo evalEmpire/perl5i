@@ -34,8 +34,11 @@ is_deeply( [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
 # Mix numbers and strings
 is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
-# Ordering shouldn't matter
-is_deeply( [ 1, 2 ]->diff([ 2, 1 ]), [], "Ordering of elements doesn't matter" );
+# Ordering shouldn't matter in the top level array
+is_deeply( [ 1, 2 ]->diff([ 2, 1 ]), [] );
+
+# ... but it matters for there down ( see [ github 96 ] )
+is_deeply( [ [ 1, 2 ] ]->diff([ [ 2, 1 ] ]), [ [ 1, 2 ] ] );
 
 # Diff more than two arrays
 is_deeply( @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' );
