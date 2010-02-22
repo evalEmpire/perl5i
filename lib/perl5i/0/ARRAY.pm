@@ -142,31 +142,62 @@ sub _are_equal {
 
 sub _equal_array {
     my ($r1, $r2, $ref2) = @_;
-    if (!$ref2 or $ref2 ne 'ARRAY') {
+    if (!$ref2) {
         return;
     }
-    else {
+    elsif ($ref2 eq 'ARRAY') {
         return _equal_arrays( $r1, $r2 );
+    }
+    else {
+        require Scalar::Util;
+        require overload;
+        if ( Scalar::Util::blessed($r2) and overload::Overloaded($r2) ) {
+            return _equal_object( $r2, $r1, ref $r1 );
+        }
+        else {
+            return;
+        }
+
     }
 }
 
 sub _equal_hash {
     my ($r1, $r2, $ref2) = @_;
-    if ( !$ref2 or $ref2 ne 'HASH' ) {
+    if ( !$ref2 ) {
         return;
     }
-    else {
+    elsif ( $ref2 eq 'HASH' ) {
         return _equal_hashes( $r1, $r2 );
+    }
+    else {
+        require Scalar::Util;
+        require overload;
+        if ( Scalar::Util::blessed($r2) and overload::Overloaded($r2) ) {
+            return _equal_object( $r2, $r1, ref $r1 );
+        }
+        else {
+            return;
+        }
     }
 }
 
 sub _equal_scalar {
     my ($r1, $r2, $ref2) = @_;
-    if ( !$ref2 or $ref2 ne 'SCALAR' ) {
+    if ( !$ref2 ) {
         return;
     }
-    else {
+    elsif ( $ref2 eq 'SCALAR' ) {
         return $$r1 eq $$r2;
+    }
+    else {
+        require Scalar::Util;
+        require overload;
+        if ( Scalar::Util::blessed($r2) and Overload::overloaded($r2) ) {
+            return _equal_object( $r2, $r1, ref $r1 );
+        }
+        else {
+            return;
+        }
     }
 }
 
@@ -203,7 +234,8 @@ sub _equal_object {
         return "$r1" eq "$r2";
     }
     else {
-        if ( $ref2 ) {
+        require Scalar::Util;
+        if ( $ref2 and Scalar::Util::blessed($r2)) {
             # Now both r1 and r2 are objects, and r1 is overloaded
             if (not overload::Overloaded($r2) ) {
                 return;
@@ -222,7 +254,8 @@ sub _equal_object {
             }
         }
         else {
-            # Here r1 is an object, and r2 is a scalar
+            # Here r1 is an object, and r2 is a scalar or non-blessed
+            # reference
             require Scalar::Util;
             if ( overload::Method($r1, '==') and Scalar::Util::looks_like_number($r2) ) {
                 return $r1 == $r2;
