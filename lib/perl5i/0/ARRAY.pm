@@ -230,43 +230,65 @@ sub _equal_object {
     my ($r1, $r2, $ref2) = @_;
 
     require overload;
+
     if (not overload::Overloaded($r1)) {
         return "$r1" eq "$r2";
     }
     else {
-        require Scalar::Util;
-        if ( $ref2 and Scalar::Util::blessed($r2)) {
-            # Now both r1 and r2 are objects, and r1 is overloaded
-            if (not overload::Overloaded($r2) ) {
-                return;
-            }
-            else {
-                # Now both objects are overloaded.
-                if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
-                    return $r1 == $r2;
-                }
-                elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
-                    return $r1 eq $r2;
-                }
-                else {
-                    return;
-                }
-            }
+        return _equal_overloaded_object($r1, $r2, $ref2);
+    }
+}
+
+sub _equal_overloaded_object {
+    my ($r1, $r2, $ref2) = @_;
+
+    require Scalar::Util;
+
+    if ( $ref2 and Scalar::Util::blessed($r2)) {
+        # Now both r1 and r2 are objects, and r1 is overloaded
+        if (not overload::Overloaded($r2) ) {
+            return;
         }
         else {
-            # Here r1 is an object, and r2 is a scalar or non-blessed
-            # reference
-            require Scalar::Util;
-            if ( overload::Method($r1, '==') and Scalar::Util::looks_like_number($r2) ) {
-                return $r1 == $r2;
-            }
-            elsif ( overload::Method($r1, 'eq') ) {
-                return $r1 eq $r2;
-            }
-            else {
-                return;
-            }
+            # Now both objects are overloaded.
+            return _equal_overloaded_objects($r1, $r2);
         }
+    }
+    else {
+        # Here r1 is an object, and r2 is a scalar or non-blessed
+        # reference
+        return _equal_overloaded_non_overloaded($r1, $r2);
+    }
+}
+
+sub _equal_overloaded_objects {
+    my ($r1, $r2) = @_;
+
+    require overload;
+
+    if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
+        return $r1 == $r2;
+    }
+    elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
+        return $r1 eq $r2;
+    }
+    else {
+        return;
+    }
+}
+
+sub _equal_overloaded_non_overloaded {
+    my ($r1, $r2) = @_;
+    require Scalar::Util;
+
+    if ( overload::Method($r1, '==') and Scalar::Util::looks_like_number($r2) ) {
+        return $r1 == $r2;
+    }
+    elsif ( overload::Method($r1, 'eq') ) {
+        return $r1 eq $r2;
+    }
+    else {
+        return;
     }
 }
 
