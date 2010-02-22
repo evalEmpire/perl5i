@@ -175,11 +175,8 @@ sub _equal_arrays {
     # They can only be equal if they have the same nº of elements.
     return if @$r1 != @$r2;
 
-    foreach my $item (@$r1) {
-        # they are not equal if it can't find an element in r2
-        # that is equal to $item. Notice ordering doesn't
-        # matter.
-        return unless grep { _are_equal($item, $_) } @$r2;
+    foreach my $i (0 .. @$r1 - 1) {
+        return unless _are_equal($r1->[$i], $r2->[$i]);
     }
 
     return 1;

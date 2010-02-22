@@ -34,6 +34,9 @@ is_deeply( [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
 # Mix numbers and strings
 is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
+# Ordering shouldn't matter
+is_deeply( [ 1, 2 ]->diff([ 2, 1 ]), [], "Ordering of elements doesn't matter" );
+
 # Diff more than two arrays
 is_deeply( @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' );
 is_deeply( @a->diff(\@b, [ 1, 2 ]  ), [ 0 ],       'Diff more than two arrays' );
@@ -62,7 +65,7 @@ my $bar = [
     qw( foo baz ),                  # bar is missing
     { foo => 1 },                   # 1 != 2, bar =! foo
     [                               # this arrayref is identical
-        qw( foo baz bar ),
+        qw( foo bar baz ),
         { foo => { foo => $code } }
     ],
     [ qw( foo baz ), \'gorch' ]     # this is unique to $bar
