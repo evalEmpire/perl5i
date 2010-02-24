@@ -6,6 +6,19 @@ use strict;
 use warnings;
 use Carp;
 
+sub ARRAY::first {
+    my ( $array, $filter ) = @_;
+
+    # Deep recursion and segfault (lines 90 and 91 in first.t) if we use
+    # the same elegant approach as in ARRAY::grep().
+    if ( ref $filter eq 'Regexp' ) {
+        return List::Util::first( sub { $_ ~~ $filter }, @$array );
+    }
+
+    return List::Util::first( sub { $filter->() }, @$array );
+
+}
+
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
 

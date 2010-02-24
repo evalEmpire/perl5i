@@ -2,7 +2,7 @@
 
 use perl5i::latest;
 
-use Test::More tests => 13;
+use Test::More tests => 14;
 
 my $v = [ 9, 4, 5, 6 ]->first( sub { 8 == ( $_ - 1 ) } );
 
@@ -95,3 +95,7 @@ like( $@, qr/^Can't undef active subroutine/, "undef active sub" );
     rec(1);
     ok( !$failed, 'from active sub' );
 }
+
+# Works with Regexp
+
+is [ qw(foo bar baz) ]->first(qr/^ba/), 'bar', "Works with Regexp";
