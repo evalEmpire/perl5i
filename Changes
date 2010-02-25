@@ -1,3 +1,8 @@
+0.2.3
+  New Features
+  * @array->first() now takes a regex like @array->grep() [github 93] (brunov)
+
+
 0.2.2  Fri Feb 19 14:56:36 PST 2010
   Other
   * Some modules got the wrong version.
