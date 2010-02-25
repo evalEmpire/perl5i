@@ -138,8 +138,8 @@ sub _intersect_two {
     my $intersect = [];
 
     # For each element of $c, try to find if it is equal to any of the
-    # elements of $d. If not, it's unique, and has to be pushed into
-    # $diff.
+    # elements of $d. If it is, it's shared, and has to be pushed into
+    # $intersect.
 
     require List::MoreUtils;
     foreach my $item (@$c) {
