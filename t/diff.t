@@ -83,59 +83,29 @@ is_deeply( [ $code ]->diff([ sub { 'bar' }]), [ $code ] );
 {
     package Number;
     use overload
-        '==' => \&number_equal,
-        '""' => sub { 42 };
+        '0+' => sub { 42 },
+        fallback => 1;
 
     sub new { bless {} }
-
-    sub number_equal {
-        return 42 == $_[1];
-    }
 }
 
 {
     package String;
     use overload
-        'eq' => \&string_equal,
-        '""' => sub { 'foo' };
+        '""' => sub { 'foo' },
+        fallback => 1;
 
     sub new { bless {} }
-
-    sub string_equal {
-        return 'foo' eq $_[1];
-    }
-}
-{
-    package List;
-    use feature ':5.10';
-    use overload
-        'eq' => \&list_equal;
-
-    sub new { bless [] }
-
-    sub list {
-        return [ 'foo', 'bar' ];
-    }
-
-    sub list_equal {
-        my ($self, $list) = @_;
-        if ( ref $list eq 'List' ) {
-            $list = $list->list;
-        }
-        return unless ref $list eq 'ARRAY';
-        return @{$self->list} ~~ @$list;
-    }
 }
 
 my $answer = Number->new;
 my $string = String->new;
-my $list   = List->new;
 
 # Minimal testing of overloaded classes
 ok( $answer == 42 );
 ok( $string eq 'foo' );
-ok( $list eq [ 'foo', 'bar' ] );
 
+$DB::single = 1;
 is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), [] );
 
 # Overloaded objects vs. scalars
@@ -145,10 +115,6 @@ is_deeply( [ $answer, $string ]->diff([   42    ]), [ $string ] );
 is_deeply( [ $answer, $string ]->diff([   42    ]), [  'foo'  ] );
 is_deeply( [ 42,      'foo'   ]->diff([ $answer ]), [  'foo'  ] );
 is_deeply( [ 42,      'foo'   ]->diff([ $string ]), [   42    ] );
-
-# Overloaded objects vs references
-is_deeply( [ $list ]->diff([ [ 'foo', 'bar' ] ]), [] );
-is_deeply( [ $list ]->diff([ $list ]),            [] );
 
 # Overloaded objects vs. overloaded objects.
 is_deeply( [ $answer, $string ]->diff([ $string ]), [ $answer ] );
