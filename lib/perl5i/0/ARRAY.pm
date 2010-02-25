@@ -162,10 +162,7 @@ sub _are_equal {
         elsif ( $ref1 eq 'HASH' ) {
             return _equal_hashes( $r1, $r2 );
         }
-        elsif ( $ref1 eq 'SCALAR' ) {
-            return _are_equal($$r1, $$r2);
-        }
-        elsif( $ref1 eq 'REF' ) {
+        elsif ( $ref1 ~~ [qw(SCALAR REF)] ) {
             return _are_equal($$r1, $$r2);
         }
         else {
