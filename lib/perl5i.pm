@@ -238,7 +238,7 @@ floor() is a synonyn for round_down().
 
     $is_a_number = $thing->is_number;
 
-Returns true of $thing is a number understood by Perl.
+Returns true if $thing is a number understood by Perl.
 
     12.34->is_number;           # true
     "12.34"->is_number;         # also true
@@ -360,8 +360,8 @@ order to allow chaining.
 
 Calculate the difference of two (or more) arrays:
 
-    my @a = ( 1, 2, 3);
-    my @b = ( 3, 4, 5);
+    my @a = ( 1, 2, 3 );
+    my @b = ( 3, 4, 5 );
 
     @a->diff(\@b) # [ 1, 2 ]
     @b->diff(\@a) # [ 4, 5 ]

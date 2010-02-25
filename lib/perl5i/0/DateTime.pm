@@ -72,6 +72,13 @@ sub dt_time () {
     # Don't load DateTime until we need it.
     our @ISA = qw(DateTime);
 
+    use overload
+      "eq" => sub {
+          my($dt1, $dt2) = @_;
+          return "$dt1" eq "$dt2" if !eval { $dt2->isa("DateTime") };
+          return $dt1 eq $dt2;
+      };
+
     sub from_epoch {
         my $class = shift;
 
@@ -136,6 +143,12 @@ sub dt_time () {
         my $time_b = eval { $b->isa("DateTime") } ? $b->epoch : $b;
 
         return $time_a + $time_b;
+      },
+
+      "==" => sub {
+          my($a, $b) = @_;
+          return $a+0 == $b+0 if !eval { $b->isa("DateTime") };
+          return $a == $b;
       },
 
       fallback => 1;
