@@ -65,3 +65,22 @@ my $now = time();
     );
 }
 
+
+# Make sure the return from gmtime() compares as a string
+{
+    my $dt     = gmtime(123);
+    my $string = CORE::gmtime(123);
+
+    # Don't use is() or cmp_ok() as they can strip off overloading.
+    # We want to explicitly check eq
+    ok $dt eq $string, 'gmtime eq';
+}
+
+
+# Make sure time compares as a number
+{
+    my $dt     = time;
+    my $num    = $dt+0;
+
+    ok $dt == $num;
+}
