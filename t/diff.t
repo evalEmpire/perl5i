@@ -50,11 +50,6 @@ is_deeply(
     'Works for nested data structures',
 );
 
-{
-    my @array = (1,2,3);
-    is_deeply( @array->diff([1,2,4]), [3,4] );
-}
-
 # Test undef
 {
     my @array = (1,2,undef,4);
@@ -70,7 +65,7 @@ is_deeply(
     is_deeply( @array->diff([4,\$ref2,2,1]), [] );
 
     my $ref3 = \23;
-    is_deeply( @array->diff([1,2,\$ref3,4]), [\$ref1, \$ref3] );
+    is_deeply( @array->diff([1,2,\$ref3,4]), [\$ref1] );
 }
 
 # Stress test deep comparison
