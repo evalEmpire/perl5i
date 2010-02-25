@@ -358,7 +358,7 @@ order to allow chaining.
 
 =head3 diff()
 
-Calculate the difference of two (or more) arrays:
+Calculate the difference between two (or more) arrays:
 
     my @a = ( 1, 2, 3 );
     my @b = ( 3, 4, 5 );
@@ -366,19 +366,11 @@ Calculate the difference of two (or more) arrays:
     @a->diff(\@b) # [ 1, 2 ]
     @b->diff(\@a) # [ 4, 5 ]
 
-Element order is not considered: two identical elements in both arrays
-will be recognized as such disregarding their index.
+Diff returns all elements in arra C<@a> that are not present in array
+C<@b>. Element order is not considered: two identical elements in both
+arrays will be recognized as such disregarding their index.
 
     [ qw( foo bar ) ]->diff( [ qw( bar foo ) ] ) # empty, they are equal
-
-It also works with nested data structures; it will traverse them
-depth-first to assess whether they are identical or not. For instance:
-
-    [ [ 'foo ' ], { bar => 1 } ]->diff([ 'foo' ]) # [ { bar => 1 } ]
-
-This inspection is done for array, hash and scalar references, and not
-for objects, globs or filehandles. For the latter, they will only be
-considered equal if their stringified values are equal.
 
 For comparing more than two arrays:
 
@@ -387,6 +379,18 @@ For comparing more than two arrays:
 All comparisons are against the base array (C<@a> in this example). The
 result will be composed of all those elements that were present in C<@a>
 and in none other.
+
+It also works with nested data structures; it will traverse them
+depth-first to assess whether they are identical or not. For instance:
+
+    [ [ 'foo ' ], { bar => 1 } ]->diff([ 'foo' ]) # [ { bar => 1 } ]
+
+In the case of overloaded objects, (ie, L<DateTime>, L<URI>,
+L<Path::Class>, etc) it tries its best to treat them as strings or numbers.
+
+    my $uri = URI->new("http://www.perl.com";
+
+    [ $uri ]->diff( "http://www.perl.com" ) # empty, they are equal
 
 =head2 Hash Autoboxing
 
