@@ -51,6 +51,19 @@ sub ARRAY::mesh {
     return [ List::MoreUtils::zip(@_) ];
 }
 
+
+# Returns the code which will run when the object is used as a string
+require overload;
+my $treat_as_string = sub {
+    return unless ref $_[0];
+    return overload::Method($_[0], q[""]) || overload::Method($_[0], q[eq])
+};
+
+my $treat_as_number = sub {
+    return unless ref $_[0];
+    return overload::Method($_[0], q[0+]) || overload::Method($_[0], q[==]);
+};
+
 sub ARRAY::diff {
     my ($base, @rest) = @_;
     return $base unless (@rest);
@@ -79,7 +92,6 @@ sub _diff_two {
     require List::MoreUtils;
     foreach my $item (@$c) {
         unless (
-            # for some reason, any { foo() } @bar complains
             List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @$d )
         )
         {
@@ -101,103 +113,71 @@ sub _are_equal {
     # of each reftype: most popular on top, most rare on the bottom.
     # This way we return as early as possible.
 
-    return if !defined $r1 or !defined $r2;
+    # undef eq undef
+    return 1 if !defined $r1 and !defined $r2;
 
-    my ($ref1, $ref2) = (ref $r1, ref $r2);
+    # One is defined, one isn't
+    return   if defined $r1 xor defined $r2;
 
-    if ( !$ref1 and !$ref2 ) {
-        # plain scalars;
+    my( $ref1, $ref2 ) = (ref $r1, ref $r2);
+
+    my($cmp_as1, $cmp_as2);
+    # Detect overloading.
+    if( $ref1 ) {
+        $cmp_as1 = $treat_as_number->($r1) ? 'number' :
+                   $treat_as_string->($r1) ? 'string' :
+                                             ""       ;
+        $ref1 = '' if $cmp_as1;
+    }
+    else {
+        $cmp_as1 = SCALAR::is_number($r1) ? 'number' : 'string';
+    }
+
+    if( $ref2 ) {
+        $cmp_as2 = $treat_as_number->($r2) ? 'number' :
+                   $treat_as_string->($r2) ? 'string' :
+                                             ""       ;
+        $ref2 = '' if $cmp_as2;
+    }
+    else {
+        $cmp_as2 = SCALAR::is_number($r2) ? 'number' : 'string';
+    }
+
+    # Not the same ref type
+    return if $ref1 ne $ref2;
+
+    # One's a string, one's a number.  It'll never work
+    return if $cmp_as1 ne $cmp_as2;
+
+    # One has numeric overloading, honor that
+    if ( $cmp_as1 eq 'number' ) {
+        return $r1 == $r2;
+    }
+    elsif( $cmp_as1 eq 'string' ) {
+        return $r1 eq $r2;
+    }
+    elsif ( $ref1 ~~ [qw(Regexp GLOB CODE)] ) {
         return $r1 eq $r2;
     }
     elsif ( $ref1 eq 'ARRAY' ) {
-        return _equal_array( $r1, $r2, $ref2 );
-    }
-    elsif ( $ref2 eq 'ARRAY' ) {
-        return _equal_array( $r2, $r1, $ref1 );
-    }
-    elsif ( $ref1 eq 'HASH' ) {
-        return _equal_hash( $r1, $r2, $ref2 );
-    }
-    elsif ( $ref2 eq 'HASH' ) {
-        return _equal_hash( $r2, $r1, $ref1 );
-    }
-    elsif ( $ref1 eq 'SCALAR' ) {
-        return _equal_scalar( $r1, $r2, $ref2 );
-    }
-    elsif ( $ref2 eq 'SCALAR' ) {
-        return _equal_scalar( $r2, $r1, $ref1 );
-    }
-    elsif ( $ref1 ~~ /GLOB|CODE/ or $ref2 ~~ /GLOB|CODE/ ) {
-        return $r1 eq $r2;
-    }
-    elsif ( $ref1 ) {
-        # ref1 *has* to be an object
-        return _equal_object( $r1, $r2, $ref2 );
-    }
-    else {
-        # ref2 *has* to be an object
-        return _equal_object( $r2, $r1, $ref1 );
-    }
-}
-
-sub _equal_array {
-    my ($r1, $r2, $ref2) = @_;
-    if (!$ref2) {
-        return;
-    }
-    elsif ($ref2 eq 'ARRAY') {
         return _equal_arrays( $r1, $r2 );
     }
-    else {
-        require Scalar::Util;
-        require overload;
-        if ( Scalar::Util::blessed($r2) and overload::Overloaded($r2) ) {
-            return _equal_object( $r2, $r1, ref $r1 );
-        }
-        else {
-            return;
-        }
-
-    }
-}
-
-sub _equal_hash {
-    my ($r1, $r2, $ref2) = @_;
-    if ( !$ref2 ) {
-        return;
-    }
-    elsif ( $ref2 eq 'HASH' ) {
+    elsif ( $ref1 eq 'HASH' ) {
         return _equal_hashes( $r1, $r2 );
     }
-    else {
-        require Scalar::Util;
-        require overload;
-        if ( Scalar::Util::blessed($r2) and overload::Overloaded($r2) ) {
-            return _equal_object( $r2, $r1, ref $r1 );
-        }
-        else {
-            return;
-        }
-    }
-}
-
-sub _equal_scalar {
-    my ($r1, $r2, $ref2) = @_;
-    if ( !$ref2 ) {
-        return;
-    }
-    elsif ( $ref2 eq 'SCALAR' ) {
+    elsif ( $ref1 eq 'SCALAR' ) {
         return $$r1 eq $$r2;
     }
+    elsif( $ref1 eq 'REF' ) {
+        return _are_equal( $$r1, $$r2 );
+    }
+    elsif ( Scalar::Util::blessed($ref1) ) {
+        # They're objects of the same class.  Don't violate encapsulation,
+        # just see if they're the same object.
+        return "$r1" eq "$r2";
+    }
     else {
-        require Scalar::Util;
-        require overload;
-        if ( Scalar::Util::blessed($r2) and Overload::overloaded($r2) ) {
-            return _equal_object( $r2, $r1, ref $r1 );
-        }
-        else {
-            return;
-        }
+        die "Unknown ref type encountered in diff(): $ref1";
     }
 }
 
@@ -224,72 +204,6 @@ sub _equal_hashes {
     }
 
     return 1;
-}
-
-sub _equal_object {
-    my ($r1, $r2, $ref2) = @_;
-
-    require overload;
-
-    if (not overload::Overloaded($r1)) {
-        return "$r1" eq "$r2";
-    }
-    else {
-        return _equal_overloaded_object($r1, $r2, $ref2);
-    }
-}
-
-sub _equal_overloaded_object {
-    my ($r1, $r2, $ref2) = @_;
-
-    require Scalar::Util;
-
-    if ( $ref2 and Scalar::Util::blessed($r2)) {
-        # Now both r1 and r2 are objects, and r1 is overloaded
-        if (not overload::Overloaded($r2) ) {
-            return;
-        }
-        else {
-            # Now both objects are overloaded.
-            return _equal_overloaded_objects($r1, $r2);
-        }
-    }
-    else {
-        # Here r1 is an object, and r2 is a scalar or non-blessed
-        # reference
-        return _equal_overloaded_non_overloaded($r1, $r2);
-    }
-}
-
-sub _equal_overloaded_objects {
-    my ($r1, $r2) = @_;
-
-    require overload;
-
-    if ( overload::Method($r1, '==') and overload::Method($r2, '==') ) {
-        return $r1 == $r2;
-    }
-    elsif ( overload::Method($r1, 'eq') and overload::Method($r2, 'eq') ) {
-        return $r1 eq $r2;
-    }
-    else {
-        return;
-    }
-}
-
-sub _equal_overloaded_non_overloaded {
-    my ($r1, $r2) = @_;
-    require Scalar::Util;
-
-    if ( overload::Method($r1, '==') and Scalar::Util::looks_like_number($r2) ) {
-        return $r1 == $r2;
-    }
-    elsif ( overload::Method($r1, 'eq') ) {
-        return $r1 eq $r2;
-    }
-    else {
-        return;
-    }
 }
 
 1;
