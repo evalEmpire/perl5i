@@ -226,7 +226,7 @@ sub _equal_overload {
     }
     elsif(
         ($type1 eq 'num' and $type2 eq 'str') or
-        ($type1 eq 'str' and $type2 eq 'str')
+        ($type1 eq 'str' and $type2 eq 'num')
     )
     {
         # They're not both numbers, not both strings, and not both both

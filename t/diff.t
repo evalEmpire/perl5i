@@ -105,7 +105,6 @@ my $string = String->new;
 ok( $answer == 42 );
 ok( $string eq 'foo' );
 
-$DB::single = 1;
 is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), [] );
 
 # Overloaded objects vs. scalars
