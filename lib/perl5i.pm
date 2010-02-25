@@ -392,6 +392,19 @@ L<Path::Class>, etc) it tries its best to treat them as strings or numbers.
 
     [ $uri ]->diff( "http://www.perl.com" ) # empty, they are equal
 
+=head3 intersect()
+
+    my @a = (1 .. 10);
+    my @b = (5 .. 15);
+
+    @a->intersect(\@b) # [ 5 .. 10 ];
+
+Performs intersection between arrays, returning those elements that are
+present in all of the argument arrays simultaneously.
+
+As with C<diff()>, it works with nested data structures of arbitrary
+depth, and handles overloaded objects graciously.
+
 =head2 Hash Autoboxing
 
 =head3 flip()
