@@ -60,7 +60,8 @@ sub ARRAY::uniq {
 
 sub ARRAY::minmax {
     require List::MoreUtils;
-    return [ List::MoreUtils::minmax(@{$_[0]}) ];
+    my @minmax = List::MoreUtils::minmax(@{$_[0]});
+    return wantarray ? @minmax : \@minmax;
 }
 
 sub ARRAY::mesh {
