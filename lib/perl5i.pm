@@ -19,8 +19,6 @@ Instead, "use $Latest" which will guarantee compatibility with all
 feature supplied in that major version.
 
 Type "perldoc perl5i" for details in the section "Using perl5i".
-
-NOTE:  Version 0 does not guarantee compatibility.  Version 1 and up will.
 END
 }
 
@@ -41,11 +39,6 @@ perl5i - Fix as much of Perl 5 as possible in one pragma
   $ perl5i your_script.pl
 
 =head1 DESCRIPTION
-
-B<THIS MODULE'S INTERFACE IS UNSTABLE!> While the code is well tested,
-the interface is still a playground.  Features may be added, changed
-and removed without notice.  See L</VERSIONING> for details.  You have
-been warned.
 
 Perl 5 has a lot of warts.  There's a lot of individual modules and
 techniques out there to fix those warts.  perl5i aims to pull the best
@@ -71,8 +64,7 @@ you are using.  You do this like so:
     # Use perl5i major version 1
     use perl5i::1;
 
-While version 0 does not guarante to be compatibility, 1 and up will.
-Thus the code you write with, for example, C<perl5i::2> will always
+Thus the code you write with, for example, C<perl5i::1> will always
 remain compatible even as perl5i moves on.
 
 If you want to be daring, you can C<use perl5i::latest> to get the
@@ -681,6 +673,8 @@ Repository:   L<http://github.com/schwern/perl5i/tree/master>
 Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
 IRC:          irc.perl.org on the #perl5i channel
 Mailing List: L<http://groups.google.com/group/perl5i/>
+
+Frequently Asked Questions about perl5i: L<perl5ifaq>
 
 Some modules with similar purposes include:
 L<Modern::Perl>, L<Common::Sense>
