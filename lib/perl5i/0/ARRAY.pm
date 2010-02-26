@@ -54,7 +54,8 @@ sub ARRAY::false {
 
 sub ARRAY::uniq {
     require List::MoreUtils;
-    return [ List::MoreUtils::uniq(@{$_[0]}) ];
+    my @uniq = List::MoreUtils::uniq(@{$_[0]});
+    return wantarray ? @uniq : \@uniq;
 }
 
 sub ARRAY::minmax {
