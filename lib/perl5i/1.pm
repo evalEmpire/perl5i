@@ -9,15 +9,11 @@ use Module::Load;
 use IO::Handle;
 use Carp;
 use perl5i::1::DateTime;
-use perl5i::1::SCALAR;
-use perl5i::1::ARRAY;
-use perl5i::1::HASH;
-use perl5i::1::DEFAULT;
 use Want;
 use Try::Tiny;
 use perl5i::1::Meta;
-use autobox;
 use Encode ();
+use perl5i::1::autobox;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -26,10 +22,7 @@ our $Latest = perl5i::VERSION->latest;
 
 # This works around their lexical nature.
 use parent 'autodie';
-# List::Util needs to be before Core to get the C version of sum
-use parent 'autobox::List::Util';
-use parent 'autobox::Core';
-use parent 'autobox::dump';
+use parent 'perl5i::1::autobox';
 use parent 'autovivification';
 use parent 'utf8';
 use parent 'open';
@@ -56,10 +49,7 @@ sub import {
     ) );
 
     # Have to call both or it won't work.
-    autobox::import($class);
-    autobox::List::Util::import($class);
-    autobox::Core::import($class);
-    autobox::dump::import($class);
+    perl5i::1::autobox::import($class);
     autovivification::unimport($class);
     utf8::import($class);
 

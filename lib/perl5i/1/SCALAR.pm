@@ -4,26 +4,27 @@ use 5.010;
 
 use strict;
 use warnings;
-use Carp;
+require Carp;
 use autobox;
+use perl5i::1::autobox;
 
-sub SCALAR::title_case {
+sub title_case {
     my ($string) = @_;
     $string =~ s/\b(\w)/\U$1/g;
     return $string;
 }
 
 
-sub SCALAR::center {
+sub center {
     my ($string, $size, $char) = @_;
-    carp "Use of uninitialized value for size in center()" if !defined $size;
+    Carp::carp("Use of uninitialized value for size in center()") if !defined $size;
     $size //= 0;
     $char //= ' ';
 
     if (length $char > 1) {
         my $bad = $char;
         $char = substr $char, 0, 1;
-        carp "'$bad' is longer than one character, using '$char' instead";
+        Carp::carp("'$bad' is longer than one character, using '$char' instead");
     }
 
     my $len             = length $string;
@@ -42,7 +43,7 @@ sub SCALAR::center {
 }
 
 
-sub SCALAR::ltrim {
+sub ltrim {
     my ($string,$trim_charset) = @_;
     $trim_charset = '\s' unless defined $trim_charset;
     my $re = qr/^[$trim_charset]*/;
@@ -51,7 +52,7 @@ sub SCALAR::ltrim {
 }
 
 
-sub SCALAR::rtrim {
+sub rtrim {
     my ($string,$trim_charset) = @_;
     $trim_charset = '\s' unless defined $trim_charset;
     my $re = qr/[$trim_charset]*$/;
@@ -60,14 +61,14 @@ sub SCALAR::rtrim {
 }
 
 
-sub SCALAR::trim {
+sub trim {
     my $charset = $_[1];
 
-    return SCALAR::rtrim(SCALAR::ltrim($_[0], $charset), $charset);
+    return rtrim(ltrim($_[0], $charset), $charset);
 }
 
 
-sub SCALAR::wrap {
+sub wrap {
     my ($string, %args) = @_;
 
     my $width     = $args{width}     // 76;
@@ -85,7 +86,7 @@ sub SCALAR::wrap {
 
 
 # untaint the scalar itself, not the reference
-sub SCALAR::untaint {
+sub untaint {
     return $_[0]->mo->untaint if ref $_[0];
 
     require Taint::Util;
@@ -95,7 +96,7 @@ sub SCALAR::untaint {
 
 
 # untaint the scalar itself, not the reference
-sub SCALAR::taint {
+sub taint {
     return $_[0]->mo->taint if ref $_[0];
 
     require Taint::Util;
@@ -105,44 +106,44 @@ sub SCALAR::taint {
 
 # Could use the version in Meta but this removes the need to check
 # for overloading.
-sub SCALAR::is_tainted {
+sub is_tainted {
     require Taint::Util;
     return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
 }
 
 
-sub SCALAR::load {
+sub load {
     require Module::Load;
     goto &Module::Load::load;
 }
 
 
-sub SCALAR::alias {
-    croak <<ERROR if !ref $_[0];
+sub alias {
+    Carp::croak(<<ERROR) if !ref $_[0];
 Due to limitations in autoboxing, scalars cannot be aliased.
 Sorry.  Use a scalar reference instead.
 ERROR
 
-    goto &DEFAULT::alias;
+    goto &perl5i::1::UNIVERSAL::alias;
 }
 
 
 require POSIX;
-*SCALAR::ceil  = \&POSIX::ceil;
-*SCALAR::floor = \&POSIX::floor;
-*SCALAR::round_up   = \&SCALAR::ceil;
-*SCALAR::round_down = \&SCALAR::floor;
-sub SCALAR::round {
-    abs($_[0] - int($_[0])) < 0.5 ? SCALAR::round_down($_[0])
-                                  : SCALAR::round_up($_[0])
+*ceil  = \&POSIX::ceil;
+*floor = \&POSIX::floor;
+*round_up   = \&ceil;
+*round_down = \&floor;
+sub round {
+    abs($_[0] - int($_[0])) < 0.5 ? round_down($_[0])
+                                  : round_up($_[0])
 }
 
 require Scalar::Util;
-*SCALAR::is_number = \&Scalar::Util::looks_like_number;
-sub SCALAR::is_positive         { $_[0]->is_number && $_[0] > 0 }
-sub SCALAR::is_negative         { $_[0]->is_number && $_[0] < 0 }
-sub SCALAR::is_integer          { $_[0]->is_number && ((int($_[0]) - $_[0]) == 0) }
-*SCALAR::is_int = \&SCALAR::is_integer;
-sub SCALAR::is_decimal          { $_[0]->is_number && ((int($_[0]) - $_[0]) != 0) }
+*is_number = \&Scalar::Util::looks_like_number;
+sub is_positive         { $_[0]->is_number && $_[0] > 0 }
+sub is_negative         { $_[0]->is_number && $_[0] < 0 }
+sub is_integer          { $_[0]->is_number && ((int($_[0]) - $_[0]) == 0) }
+*is_int = \&is_integer;
+sub is_decimal          { $_[0]->is_number && ((int($_[0]) - $_[0]) != 0) }
 
 1;
