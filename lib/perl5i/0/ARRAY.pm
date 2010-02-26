@@ -80,7 +80,9 @@ my $overload_type = sub {
 
 sub ARRAY::diff {
     my ($base, @rest) = @_;
-    return $base unless (@rest);
+    unless (@rest) {
+        return wantarray ? @$base : $base;
+    }
 
     # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
     # ssasign ... "
