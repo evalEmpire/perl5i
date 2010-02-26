@@ -1,3 +1,8 @@
+1.0.1
+  Bugs
+  * alias() was still being exported.
+
+
 1.0.0  Thu Feb 25 21:56:47 PST 2010
   New Features
   * @array->first() now takes a regex like @array->grep() [github 93] (brunov)

@@ -75,17 +75,4 @@ use Test::More;
 }
 
 
-# Lexical aliases
-TODO: {
-    todo_skip "Lexical aliasing not implemented", 2;
-
-    my $foo = 23;
-    alias my $bar => \$foo;
-    is $foo, $bar;
-
-    $foo = 99;
-    is $bar, 99;
-}
-
-
 done_testing();

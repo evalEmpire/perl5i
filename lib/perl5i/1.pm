@@ -60,7 +60,6 @@ sub import {
     (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
     (\&{$Latest .'::DateTime::dt_localtime'})->alias($caller, 'localtime');
     (\&{$Latest .'::DateTime::dt_time'})->alias($caller, 'time');
-    (\&alias)->alias( $caller, 'alias' );
     (\&stat)->alias( $caller, 'stat' );
     (\&lstat)->alias( $caller, 'lstat' );
     (\&utf8_open)->alias($caller, 'open');

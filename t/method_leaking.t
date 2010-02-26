@@ -1,10 +1,11 @@
 #!/usr/bin/perl -w
 
-# Methods were leaking into the SCALAR package from loaded modules
+# Test methods and functions aren't leaking.
 
 use perl5i::latest;
 use Test::More;
 
 ok( !SCALAR->can("croak") );
+ok !defined &main::alias;
 
 done_testing();
