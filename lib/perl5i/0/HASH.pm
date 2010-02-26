@@ -17,7 +17,9 @@ sub HASH::flip {
 
 sub HASH::merge {
     require Hash::Merge::Simple;
-    Hash::Merge::Simple::merge(@_);
+    my $merged = Hash::Merge::Simple::merge(@_);
+
+    return wantarray ? %$merged : $merged;
 }
 
 1;
