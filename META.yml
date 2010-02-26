@@ -36,10 +36,10 @@ provides:
     file: lib/perl5i/0/DateTime.pm
   perl5i:
     file: lib/perl5i.pm
-    version: v0.2.2
+    version: v1.0.0
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v0.2.2
+    version: v1.0.0
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
   perl5i::0::DEFAULT:
@@ -56,14 +56,36 @@ provides:
     file: lib/perl5i/0/Meta/Instance.pm
   perl5i::0::SCALAR:
     file: lib/perl5i/0/SCALAR.pm
+  perl5i::1:
+    file: lib/perl5i/1.pm
+    version: v1.0.0
+  perl5i::1::ARRAY:
+    file: lib/perl5i/1/ARRAY.pm
+  perl5i::1::CODE:
+    file: lib/perl5i/1/CODE.pm
+  perl5i::1::DateTime:
+    file: lib/perl5i/1/DateTime.pm
+  perl5i::1::HASH:
+    file: lib/perl5i/1/HASH.pm
+  perl5i::1::Meta:
+    file: lib/perl5i/1/Meta.pm
+  perl5i::1::Meta::Class:
+    file: lib/perl5i/1/Meta/Class.pm
+  perl5i::1::Meta::Instance:
+    file: lib/perl5i/1/Meta/Instance.pm
+  perl5i::1::SCALAR:
+    file: lib/perl5i/1/SCALAR.pm
+  perl5i::1::UNIVERSAL:
+    file: lib/perl5i/1/UNIVERSAL.pm
+  perl5i::1::autobox:
+    file: lib/perl5i/1/autobox.pm
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v0.2.2
+    version: v1.0.0
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v0.2.2
+    version: v1.0.0
 requires:
-  Array::Diff: 0.05002
   CLASS: 1.00
   DateTime: 0.47
   DateTime::Format::Epoch: 0.11
@@ -76,7 +98,7 @@ requires:
   Perl6::Caller: 0.100
   Taint::Util: 0.06
   Text::Wrap: 2009.0305
-  Time::y2038: 20081111
+  Time::y2038: 20100218
   Try::Tiny: 0.02
   Want: 0.18
   autobox::Core: 0.6
@@ -93,4 +115,4 @@ resources:
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
-version: v0.2.2
+version: v1.0.0
