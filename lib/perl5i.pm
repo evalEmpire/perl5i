@@ -5,6 +5,7 @@ package perl5i;
 # Please patch that                  #
 ######################################
 
+use strict;
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest = perl5i::VERSION->latest;

@@ -47,7 +47,7 @@ pager           = $PAGER
 
 # We're going to be doing this a lot
 [-Modules::ProhibitMultiplePackages]
-
+[-Modules::RequireFilenameMatchesPackage]
 
 ###
 ### Configure policies

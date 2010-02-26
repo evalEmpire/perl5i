@@ -105,7 +105,7 @@ sub import {
 
 sub unimport { $^H{perl5i} = 0 }
 
-sub utf8_open(*;$@) {
+sub utf8_open(*;$@) {  ## no critic (Subroutines::ProhibitSubroutinePrototypes)
     my $ret;
     if( @_ == 1 ) {
         $ret = CORE::open $_[0];
