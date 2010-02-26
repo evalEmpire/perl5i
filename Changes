@@ -8,6 +8,7 @@
   * diff() now works on nested data structures and honors overloaded objects
     (brunov)
   * Add a basic $number->round() [github 95]
+  * Added @array->intersect() (brunov)
 
   Docs
   * Wrote perl5ifaq for all your frequently asked questions.
