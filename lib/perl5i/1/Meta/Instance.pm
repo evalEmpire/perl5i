@@ -65,4 +65,31 @@ sub untaint {
     Carp::confess "Should never be reached";
 }
 
+
+sub checksum {
+    my( $thing, %args ) = @_;
+
+    $args{algorithm} //= 'sha1';
+    $args{algorithm} =~ /^sha1|md5$/ or Carp::croak("algorithm must be either sha1 or md5\n");
+
+    $args{base} //= 'hex';
+    $args{base} =~ /^hex|64|utf$/ or Carp::croak("base must be either hex, 64 or utf\n");
+
+    my %suffix = ( hex => 'hex', 64 => 'b64', utf => undef );
+
+    my $module = 'Digest::' . uc $args{algorithm};
+    my $digest = defined $suffix{ $args{base} } ? $suffix{ $args{base} } . 'digest' : 'digest';
+
+    Module::Load::load($module);
+    my $digestor = $module->new;
+
+    require Data::Dumper;
+
+    my $d = Data::Dumper->new( [ ${$thing} ] );
+    $d->Deparse(1)->Terse(1)->Sortkeys(1)->Indent(0);
+
+    $digestor->add( $d->Dump );
+    return $digestor->$digest;
+}
+
 1;
