@@ -66,7 +66,8 @@ sub ARRAY::minmax {
 
 sub ARRAY::mesh {
     require List::MoreUtils;
-    return [ List::MoreUtils::zip(@_) ];
+    my @mesh = List::MoreUtils::zip(@_);
+    return wantarray ? @mesh : \@mesh;
 }
 
 sub ARRAY::diff {
