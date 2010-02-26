@@ -51,5 +51,11 @@ TODO: {
 
 };
 
+for my $ref ([ 'foo' ], { bar => 1 }, \'baz', sub { 'gorch' }) {
+    for my $method (qw(is_decimal is_integer is_int is_negative is_positive)) {
+       ok(!$ref->$method);
+    }
+}
+
 
 done_testing();
