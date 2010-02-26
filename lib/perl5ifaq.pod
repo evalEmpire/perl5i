@@ -1,0 +1,183 @@
+=pod
+
+=head1 NAME
+
+perl5ifaq - Frequently Asked Questions about perl5i
+
+=head1 DESCRIPTION
+
+=head1 Using perl5i
+
+=head2 What is perl5i?
+
+perl5i is a Perl module.  It is short for "Perl 5 + i".  The "+ i"
+indicates a complex number, going off in a different direction than
+traditional Perl 5 development.
+
+=head2 What's the point of perl5i?
+
+perl5i was originally conceived after Schwern had a conversation with
+a Ruby programmer who had a job writing Perl.  He was listening to
+their complaints about Perl and providing better solutions where
+possible.  What he found was a lot of the solutions were "go get this
+module from CPAN" or "turn on this pragma".  C<use strict>, C<use
+warnings>, C<use autodie>, C<use autobox>, C<use List::Util>, C<use
+DateTime>.
+
+Not only does this cause you to litter your code with a dozen use
+statements, it also requires tribal knowledge not neccessarily
+available to the new programmer
+
+
+=head2 What's perl5i's relation to Perl 6?
+
+perl5i steals liberally from Perl 6.
+
+perl5i is not intended as a competitor to Perl 6 nor an abandonment.
+But its going to be a while before Perl 6 is production stable and
+we've got to get some work done before Christmas.
+
+
+=head2 Is perl5i intended for production?
+
+Yes.  Once version 1.0.0 comes out the API will be stable.  Its
+already fairly well tested.
+
+=head2 What's perl5i's performance like?
+
+perl5i tries to make you only pay for what you use.  It delays loading
+most modules to keep startup time reasonable.
+
+While we've been watching perl5i's weight, serious performance
+optimization has not begun.  Interface and correctness take priority.
+
+Autoboxed methods carry a run-time performance penalty similar to a
+normal method call.  In general, because perl5i has to wrap much of
+Perl 5 it will run slower.  Whether this actually effects the
+performance of your app should be determined by profiling your entire
+app and not just benchmarking individual operators.
+
+perl5i's true performance comes out in helping the programmer write
+code faster and more consistently with less hand written code for
+common tasks.  In some cases we've discovered perl5i works faster than
+the equivalent hand coded solution because perl5i can take advantage
+of very clever CPAN modules written in XS.  Of course, you can do that
+without perl5i but we've done the research for you.
+
+
+=head1 Coding with perl5i
+
+=head2 How do I tell if something is a number?
+
+  $thing->is_number;     # its something Perl thinks is a number
+  $thing->is_positive;   # its a positive number
+  $thing->is_negative;   # its a negative number
+  $thing->is_integer;    # its an integer, no decimal part
+  $thing->is_decimal;    # its a decimal number
+
+
+=head2 How do I get the difference between two arrays?
+
+  my @diff = @array1->diff(\@array2);
+
+Will return the elements in @array2 which are not in @array1.
+
+
+=head2 How do I get information about the current date?
+
+localtime(), gmtime() and time() all return L<DateTime> objects in
+scalar context.
+
+No more mucking around with C<$year += 1900>.  Its simply:
+
+    my $now = localtime;
+    my $year = $now->year;
+
+Or even:
+
+    my $year = localtime->year;
+
+The name of the current month can be gotten with:
+
+    my $month_name = localtime->month_name;
+
+You have the full range of L<DateTime> features available.
+
+
+=head2 How do I make my distribution depend on perl5i?
+
+perl5i is not backwards compatible across major versions.  This is why
+when you use perl5i you use a major version such as C<use perl5i::1>.
+This guarantees that code you write will continue to work even after
+perl5i has changed.
+
+When depending on perl5i, depend on the specific major version.  That
+is, depend on C<perl5i::1> and not C<perl5i>.  This is because older
+versions will eventually be spun out into their own seperate
+distributions to avoid cluttering the main dist.  If you depend on
+C<perl5i::1> then the CPAN shell will always be able to find it.
+
+
+=head1 perl5i Development
+
+=head2 Where can I find out more about perl5i?
+
+You can follow perl5i development on Twitter at L<http://twitter.com/perl5i>
+and we have discussions on IRC.  Connect to irc.perl.org and join #perl5i.
+
+
+=head2 I have a great idea I want to add!  How can I help?
+
+Wonderful!  Let us know.  The best way is to create an issue in the
+issue tracker at L<http://github.com/schwern/perl5i/issues>.  Think of
+it less as an issue tracker and more of a web forum with great
+tagging.
+
+Or you can send mail to F<perl5i@googlegroups.com>.
+
+Finally, if you just want to write some code, you can fork and work on
+it at L<http://github.com/schwern/perl5i>.  Full details on our
+patching policy can be read at
+L<http://github.com/schwern/perl5i/raw/master/PATCHING>.
+
+We'd like to hear from you.  Don't worry if you're doing it right,
+come talk with us.
+
+
+=head2 Why doesn't perl5i use Moose?
+
+We'd love to, but L<Moose> more than doubles perl5i's startup time.
+
+In addition, simply using Moose doesn't buy you much.  Like perl5i, it
+is one line to fix much of Perl's OO woes.  But even Moose needs
+fixing.  What we would really like is to be able to conditionally use
+L<MooseX::Declare> which fixes Perl's OO syntax as well as provides
+some better Moose defaults.  But that has the double whammy of using
+L<Devel::Declare> and L<Moose>.
+
+
+=head2 Why doesn't perl5i use Class::MOP?
+
+L<Class::MOP> is more about method declaration and dispatch.  Our
+meta-object is more about things you want to do to every object but
+don't want to pollute the UNIVERSAL namespace with.
+
+
+=head2 Why doesn't perl5i use Module::That::Uses::Devel::Declare?
+
+At the time of this writing, Devel::Declare is not quite production
+safe.  There are many wonderful things which can be done with
+Devel::Declare and we are continually evaluating this position.
+
+
+=head2 perl5i has too many dependencies!
+
+That's not a question.  Eventually, perl5i will look into a bundling
+solution to ease the dependency hell its rapidly descending into.  In
+general we've favored using a CPAN module over writing it ourselves so
+maintenance can be distributed.
+
+We monitor the health of our dependencies and try to pick ones which
+are solid or fix those which fail too often.
+
+=cut
