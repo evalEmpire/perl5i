@@ -209,6 +209,12 @@ than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
+=head2 round
+
+    my $rounded_number = $number->round;
+
+Round to the nearest integer.
+
 =head2 round_up
 
 =head2 ceil

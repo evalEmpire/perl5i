@@ -9,6 +9,12 @@ is( 12.34->floor,      12);
 is( 12.34->round_down, 12);
 is( 12.34->int, 12);
 
+is( 2.5->round, 3 );
+is( 2->round, 2 );
+is( 0->round, 0 );
+is( 2.51->round, 3 );
+is( -3.51->round, -4 );
+
 ok( 12->is_number );
 ok(!'FF'->is_number );
 

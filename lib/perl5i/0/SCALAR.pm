@@ -132,6 +132,10 @@ require POSIX;
 *SCALAR::floor = \&POSIX::floor;
 *SCALAR::round_up   = \&SCALAR::ceil;
 *SCALAR::round_down = \&SCALAR::floor;
+sub SCALAR::round {
+    abs($_[0] - int($_[0])) < 0.5 ? SCALAR::round_down($_[0])
+                                  : SCALAR::round_up($_[0])
+}
 
 require Scalar::Util;
 *SCALAR::is_number = \&Scalar::Util::looks_like_number;
