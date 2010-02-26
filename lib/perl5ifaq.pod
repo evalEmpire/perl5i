@@ -4,8 +4,6 @@
 
 perl5ifaq - Frequently Asked Questions about perl5i
 
-=head1 DESCRIPTION
-
 =head1 Using perl5i
 
 =head2 What is perl5i?
@@ -15,6 +13,9 @@ indicates a complex number, going off in a different direction than
 traditional Perl 5 development.
 
 =head2 What's the point of perl5i?
+
+perl5i is also about getting the defaults righter.  Make Perl 5 DWIM
+better, without having to load a dozen Perl modules.
 
 perl5i was originally conceived after Schwern had a conversation with
 a Ruby programmer who had a job writing Perl.  He was listening to
@@ -26,7 +27,17 @@ DateTime>.
 
 Not only does this cause you to litter your code with a dozen use
 statements, it also requires tribal knowledge not neccessarily
-available to the new programmer
+available to the new programmer.  To use Perl 5 well requires an
+experienced Perl programmer looking over your shoulder, giving you
+advice.
+
+For the experienced Perl 5 programmer, using perl5i means writing less
+boilerplate code.  It means not having to decide between doing it the
+right way and doing it the convenient way.  For example, you probably
+should be using a proper exception handling module, but which one?
+And then you have to get it and remember to load it.  perl5i gives you
+C<try> and C<catch> that are always there, there's no excuse not to
+do it right.
 
 
 =head2 What's perl5i's relation to Perl 6?
@@ -41,7 +52,14 @@ we've got to get some work done before Christmas.
 =head2 Is perl5i intended for production?
 
 Yes.  Once version 1.0.0 comes out the API will be stable.  Its
-already fairly well tested.
+already fairly well tested.  Its effects are mostly lexical and mostly
+compatible with Perl 5.
+
+perl5i's interface is I<NOT> compatible between major versions, but
+fear not!  perl5i has an intentional backwards incompatibility plan so
+that code written for one version will continue to work even after you
+upgrade.  Please read L<perl5i/Using perl5i> for details.
+
 
 =head2 What's perl5i's performance like?
 
@@ -67,6 +85,9 @@ without perl5i but we've done the research for you.
 
 =head1 Coding with perl5i
 
+Here are some ways to do traditional Perl 5 things the perl5i way.
+
+
 =head2 How do I tell if something is a number?
 
   $thing->is_number;     # its something Perl thinks is a number
@@ -75,10 +96,13 @@ without perl5i but we've done the research for you.
   $thing->is_integer;    # its an integer, no decimal part
   $thing->is_decimal;    # its a decimal number
 
+This will work even if $thing is a reference (they will all return
+false).
+
 
 =head2 How do I get the difference between two arrays?
 
-  my @diff = @array1->diff(\@array2);
+  my $diff = @array1->diff(\@array2);
 
 Will return the elements in @array2 which are not in @array1.
 
