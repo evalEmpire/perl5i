@@ -17,9 +17,21 @@ lib/perl5i/0/Meta.pm
 lib/perl5i/0/Meta/Class.pm
 lib/perl5i/0/Meta/Instance.pm
 lib/perl5i/0/SCALAR.pm
+lib/perl5i/1.pm
+lib/perl5i/1/ARRAY.pm
+lib/perl5i/1/autobox.pm
+lib/perl5i/1/CODE.pm
+lib/perl5i/1/DateTime.pm
+lib/perl5i/1/HASH.pm
+lib/perl5i/1/Meta.pm
+lib/perl5i/1/Meta/Class.pm
+lib/perl5i/1/Meta/Instance.pm
+lib/perl5i/1/SCALAR.pm
+lib/perl5i/1/UNIVERSAL.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
 lib/perl5i/VERSION.pm
+lib/perl5ifaq.pod
 LICENSE
 MANIFEST			This list of files
 MANIFEST.SKIP
@@ -27,6 +39,7 @@ META.yml
 PATCHING
 README
 t/alias.t
+t/ARGV.t
 t/autobox.t
 t/autodie.t
 t/autovivification.t
@@ -38,6 +51,7 @@ t/CLASS.t
 t/command_line_wrapper.t
 t/datetime.t
 t/die.t
+t/diff.t
 t/dump/array.t
 t/dump/code.t
 t/dump/hash.t
@@ -48,6 +62,7 @@ t/File-stat.t
 t/flip.t
 t/grep.t
 t/hash-merge.t
+t/intersect.t
 t/io-handle.t
 t/lexical.t
 t/List-MoreUtils/all.t
@@ -74,6 +89,7 @@ t/Meta/super.t
 t/method_leaking.t
 t/modern_perl.t
 t/Module-Load.t
+t/number.t
 t/perl5i.t
 t/scalar.t
 t/taint.t
@@ -81,6 +97,7 @@ t/time_compat.t
 t/try-tiny.t
 t/utf8.t
 t/version_0/00_compile.t
+t/version_1/00_compile.t
 t/Want.t
 t/wrap.t
 t/y2038.t
