@@ -128,6 +128,125 @@ The name of the current month can be gotten with:
 You have the full range of L<DateTime> features available.
 
 
+=head2 How do I alias a variable?
+
+You call the C<alias()> method on the variable you want to alias.
+
+Here's an example turning an anonymous subroutine into a named method.
+
+    my $class = "Some::Class";
+    my $name = "method_name";
+    my $code = sub { ... };
+    $code->alias($class, $name);
+
+C<< Some::Class->method_name >> will now call the C<$code>.
+
+This works for arrays, hashes and scalars.  See L<perl5i/alias()> for
+details.
+
+
+=head2 How do I use a module from a variable?
+
+Call the L<load> method on that variable.
+
+    my $module = "Some::Module";
+    $module->load;
+
+See L<perl5i/load()> for details.
+
+=head2 How do I strip whitespace off a string?
+
+Use the C<trim()> method.
+
+    my $string = "  some stuff  ";
+    $string = $string->trim;  # $string is now "some stuff"
+
+See L<perl5i/trim()> for details.
+
+=head2 How do I find information about my caller?
+
+C<caller()> returns an object in scalar context which you can query
+for information.
+
+    my $caller = caller();
+    printf "Something something something dark side at %s line %d.\n",
+        $caller->filename, $caller->line;
+
+=head2 How do I write my code in UTF8?
+
+perl5i enables UTF8 processing of code, arguments, strings and
+filehandles.  Working with UTF8 should just work.
+
+=head2 How do I read/write a non-UTF8 file?
+
+Since all filehandles are treated as UTF8, if you want to work on
+non-UTF8 data you will have to say so explicitly.  Usually this
+involves calling C<binmode> on the filehandle.
+
+Here's an example of writing an image file.
+
+    open my $fh, ">", $image_file;
+    binmode $fh;
+    print $fh $image_data;
+
+Here's an example of Latin-1.
+
+    open my $fh, ">", $file;
+    binmode $fh, ":encoding(Latin-1)";
+    print $fh $text;
+
+If UTF8 is not to you liking you can switch the default encoding of
+newly opened filehandles with the C<open> pragma.
+
+    use open ":encoding(Latin-1)";  # new filehandles will be Latin-1
+    use open ":std";                # so will STDOUT, STDERR and STDIN
+
+See L<perl5i/utf8> for details.
+
+=head2 How do I get the name of the current class?
+
+The $CLASS variable and CLASS constant are exported by perl5i and it
+contains the name of the current class.
+
+    CLASS->class_method(@args);
+    print "OMG! You're using class $CLASS.\n";
+
+See L<per5i/CLASS> for details.
+
+=head2 How do I get the current directory?
+
+Simply read $CWD.  See L<perl5i/File::chdir> for details.
+
+=head2 How do I temporary change the directory?
+
+If a function has to change directory, its polite to change it back
+before returning.  perl5i provides C<local $CWD> to accomplish this.
+
+    sub do_things {
+        local $CWD = "some/subdir";
+        ... do unspeakable things in some/subdir ...
+        return $whatever;
+    }
+
+    chdir "/some/path";
+    do_things();  # do_things operates in /some/path/some/subdir
+    print $CWD;   # prints /some/path
+
+Even if the code in do_things() dies, it will still return to the
+original directory.
+
+See L<perl5i/File::chdir> for details.
+
+=head2 How do I catch an exception?
+
+Use C<try/catch>.
+
+    try   { some_code() }
+    catch { warn "some_code() didn't work because: $_" };
+
+See L<perl5i/Try::Tiny> for details.
+
+
 =head2 How do I make my distribution depend on perl5i?
 
 perl5i is not backwards compatible across major versions.  This is why
