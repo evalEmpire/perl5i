@@ -10,6 +10,7 @@
 
   Docs
   * Wrote perl5ifaq for all your frequently asked questions.
+  * Document the perl5i command line utility. [github 31]
 
   Bug Fixes
   * Ensure the DateTime objects coming from time(), gmtime() and localtime()

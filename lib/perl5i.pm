@@ -596,6 +596,20 @@ of $@ and a nice syntax layer:
 
 See perldoc L<Try::Tiny> for details.
 
+=head1 Command line program
+
+There is a perl5i command line program installed with perl5i (Windows
+users get perl5i.bat).  This is handy for writing one liners.
+
+    perl5i -e 'gmtime->year->say'
+
+And you can use it on the C<#!> line.
+
+    #!/usr/bin/perl5i
+
+    gmtime->year->say;
+
+
 =head1 BUGS
 
 Some parts are not lexical.
