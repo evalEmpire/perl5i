@@ -358,17 +358,39 @@ order to allow chaining.
 
 =head3 diff()
 
-Calculate the difference of two arrays:
+Calculate the difference between two (or more) arrays:
 
     my @a = ( 1, 2, 3 );
     my @b = ( 3, 4, 5 );
 
-    @a->diff(\@b) # [ 1, 2 ]
-    @b->diff(\@a) # [ 4, 5 ]
+    my @diff_a = @a->diff(\@b) # [ 1, 2 ]
+    my @diff_b = @b->diff(\@a) # [ 4, 5 ]
 
-Currently, it uses L<Array::Diff> and only operates on shallow arrays.
-This means that it won't try to compare nested data structures, although
-it might do so in the future.
+Diff returns all elements in array C<@a> that are not present in array
+C<@b>. Item order is not considered: two identical elements in both
+arrays will be recognized as such disregarding their index.
+
+    [ qw( foo bar ) ]->diff( [ qw( bar foo ) ] ) # empty, they are equal
+
+For comparing more than two arrays:
+
+    @a->diff(\@b, \@c, ... )
+
+All comparisons are against the base array (C<@a> in this example). The
+result will be composed of all those elements that were present in C<@a>
+and in none other.
+
+It also works with nested data structures; it will traverse them
+depth-first to assess whether they are identical or not. For instance:
+
+    [ [ 'foo ' ], { bar => 1 } ]->diff([ 'foo' ]) # [ { bar => 1 } ]
+
+In the case of overloaded objects, (ie, L<DateTime>, L<URI>,
+L<Path::Class>, etc) it tries its best to treat them as strings or numbers.
+
+    my $uri = URI->new("http://www.perl.com");
+
+    [ $uri ]->diff( [ "http://www.perl.com" ] ) # empty, they are equal
 
 =head2 Hash Autoboxing
 
