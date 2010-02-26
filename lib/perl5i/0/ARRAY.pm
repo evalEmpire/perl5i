@@ -90,7 +90,7 @@ sub ARRAY::diff {
         $base = _diff_two($base, $array);
     }
 
-    return $base;
+    return wantarray ? @$base : $base;
 }
 
 sub _diff_two {

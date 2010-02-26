@@ -6,17 +6,21 @@ use perl5i::latest;
 my @a = ( 0 .. 5 );
 my @b = ( 3 .. 8 );
 
-is_deeply( @a->diff(\@b), [ 0, 1, 2 ], 'Simple number diff' );
+my $d;
 
-is_deeply( @b->diff(\@a), [ 6, 7, 8 ], 'Simple number diff' );
+is_deeply( $d = @a->diff(\@b), [ 0, 1, 2 ], 'Simple number diff' );
+is_deeply( $d = @b->diff(\@a), [ 6, 7, 8 ], 'Simple number diff' );
 
 # No arguments
-is_deeply( @a->diff, \@a, 'No arguments' );
+is_deeply( $d = @a->diff, \@a, 'No arguments' );
 
 # Empty array
-is_deeply( @a->diff([]), \@a, 'Diff with an empty array');
+is_deeply( $d = @a->diff([]), \@a, 'Diff with an empty array');
+is_deeply( $d = []->diff, [], 'Diff an empty array' );
 
-is_deeply( []->diff, [], 'Diff an empty array' );
+# Context
+my @d = @a->diff(\@b);
+is scalar @d, 3, "Returns array in list context";
 
 # Dies when called with non-arrayref arguments
 
@@ -26,26 +30,26 @@ throws_ok { []->diff(\'foo')       } qr/Arguments must be/;
 throws_ok { @a->diff(undef, \@a)   } qr/Arguments must be/;
 
 # Works with strings also
-is_deeply( [qw(foo bar)]->diff(['bar']), ['foo'], 'Works ok with strings' );
+is_deeply( $d = [qw(foo bar)]->diff(['bar']), ['foo'], 'Works ok with strings' );
 
 # Mix strings and numbers
-is_deeply( [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
+is_deeply( $d = [qw(foo bar)]->diff(\@a), [qw(foo bar)], 'Mix strings and numbers' );
 
 # Mix numbers and strings
-is_deeply( @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
+is_deeply( $d =  @a->diff([qw(foo bar)]), \@a, 'Mix numbers and strings' );
 
 # Ordering shouldn't matter in the top level array
-is_deeply( [ 1, 2 ]->diff([ 2, 1 ]), [] );
+is_deeply( $d = [ 1, 2 ]->diff([ 2, 1 ]), [] );
 
 # ... but it matters for there down ( see [ github 96 ] )
-is_deeply( [ [ 1, 2 ] ]->diff([ [ 2, 1 ] ]), [ [ 1, 2 ] ] );
+is_deeply( $d =  [ [ 1, 2 ] ]->diff([ [ 2, 1 ] ]), [ [ 1, 2 ] ] );
 
 # Diff more than two arrays
-is_deeply( @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' );
-is_deeply( @a->diff(\@b, [ 1, 2 ]  ), [ 0 ],       'Diff more than two arrays' );
+is_deeply( $d = @a->diff(\@b, [ 'foo' ] ), [ 0, 1, 2 ], 'Diff more than two arrays' );
+is_deeply( $d = @a->diff(\@b, [ 1, 2 ]  ), [ 0 ],       'Diff more than two arrays' );
 
 is_deeply(
-    [ { foo => 1 }, { foo => \2 } ]->diff( [ { foo => \2 } ] ),
+    $d = [ { foo => 1 }, { foo => \2 } ]->diff( [ { foo => \2 } ] ),
     [ { foo => 1 } ],
     'Works for nested data structures',
 );
@@ -53,8 +57,8 @@ is_deeply(
 # Test undef
 {
     my @array = (1,2,undef,4);
-    is_deeply( @array->diff([1,2,4,undef]), [] );
-    is_deeply( @array->diff([1,2,4]), [undef] );
+    is_deeply( $d = @array->diff([1,2,4,undef]), [] );
+    is_deeply( $d = @array->diff([1,2,4]), [undef] );
 }
 
 # Test REF
@@ -62,10 +66,10 @@ is_deeply(
     my $ref1 = \42;
     my $ref2 = \42;
     my @array = (1,2,\$ref1,4);
-    is_deeply( @array->diff([4,\$ref2,2,1]), [] );
+    is_deeply( $d = @array->diff([4,\$ref2,2,1]), [] );
 
     my $ref3 = \23;
-    is_deeply( @array->diff([1,2,\$ref3,4]), [\$ref1] );
+    is_deeply( $d = @array->diff([1,2,\$ref3,4]), [\$ref1] );
 }
 
 # Stress test deep comparison
@@ -92,10 +96,10 @@ my $bar = [
     [ qw( foo baz ), \'gorch' ]     # this is unique to $bar
 ];
 
-is_deeply( $foo->diff($bar), [ 'bar', { foo => 2 }, { bar => 1 }     ], "stress test 1" );
-is_deeply( $bar->diff($foo), [ { foo => 1 }, [qw(foo baz), \'gorch'] ], "stress test 2" );
+is_deeply( $d = $foo->diff($bar), [ 'bar', { foo => 2 }, { bar => 1 }     ], "stress test 1" );
+is_deeply( $d = $bar->diff($foo), [ { foo => 1 }, [qw(foo baz), \'gorch'] ], "stress test 2" );
 
-is_deeply( [ $code ]->diff([ sub { 'bar' }]), [ $code ] );
+is_deeply( $d = [ $code ]->diff([ sub { 'bar' }]), [ $code ] );
 
 # Test overloading
 {
@@ -123,29 +127,29 @@ my $string = String->new;
 ok( $answer == 42 );
 ok( $string eq 'foo' );
 
-is_deeply( [ $answer, $string ]->diff([ 'foo', 42 ]), [] );
+is_deeply( $d = [ $answer, $string ]->diff([ 'foo', 42 ]), [] );
 
 # Overloaded objects vs. scalars
-is_deeply( [ $answer, $string ]->diff([  'foo'  ]), [ $answer ] );
-is_deeply( [ $answer, $string ]->diff([   42    ]), [ $string ] );
-is_deeply( [ $answer, $string ]->diff([   42    ]), [  'foo'  ] );
-is_deeply( [ 42,      'foo'   ]->diff([ $answer ]), [  'foo'  ] );
-is_deeply( [ 42,      'foo'   ]->diff([ $string ]), [   42    ] );
+is_deeply( $d = [ $answer, $string ]->diff([  'foo'  ]), [ $answer ] );
+is_deeply( $d = [ $answer, $string ]->diff([   42    ]), [ $string ] );
+is_deeply( $d = [ $answer, $string ]->diff([   42    ]), [  'foo'  ] );
+is_deeply( $d = [ 42,      'foo'   ]->diff([ $answer ]), [  'foo'  ] );
+is_deeply( $d = [ 42,      'foo'   ]->diff([ $string ]), [   42    ] );
 
 # Overloaded objects vs. overloaded objects.
-is_deeply( [ $answer, $string ]->diff([ $string ]), [ $answer ] );
-is_deeply( [ $answer, $string ]->diff([ $answer ]), [ $string ] );
-is_deeply( [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
+is_deeply( $d = [ $answer, $string ]->diff([ $string ]), [ $answer ] );
+is_deeply( $d = [ $answer, $string ]->diff([ $answer ]), [ $string ] );
+is_deeply( $d = [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
 
 
 # Objects vs. objects
 my $object = bless {}, 'Object';
 
-is_deeply( [ $object ]->diff( [ $object ] ), [ ] );
-is_deeply( [ $object ]->diff( [ ] ), [ $object ] );
+is_deeply( $d = [ $object ]->diff( [ $object ] ), [ ] );
+is_deeply( $d = [ $object ]->diff( [ ] ), [ $object ] );
 
 # Overloaded objects vs. non-overloaded objects
-is_deeply( [ $object ]->diff( [ $answer ] ), [ $object ] );
-is_deeply( [ $answer ]->diff( [ $object ] ), [ $answer ] );
+is_deeply( $d = [ $object ]->diff( [ $answer ] ), [ $object ] );
+is_deeply( $d = [ $answer ]->diff( [ $object ] ), [ $answer ] );
 
 done_testing();
