@@ -45,13 +45,13 @@ do it right.
 perl5i steals liberally from Perl 6.
 
 perl5i is not intended as a competitor to Perl 6 nor an abandonment.
-But its going to be a while before Perl 6 is production stable and
+But it's going to be a while before Perl 6 is production stable and
 we've got to get some work done before Christmas.
 
 
 =head2 Is perl5i intended for production?
 
-Yes.  Once version 1.0.0 comes out the API will be stable.  Its
+Yes.  Once version 1.0.0 comes out the API will be stable.  It's
 already fairly well tested.  Its effects are mostly lexical and mostly
 compatible with Perl 5.
 
@@ -90,11 +90,11 @@ Here are some ways to do traditional Perl 5 things the perl5i way.
 
 =head2 How do I tell if something is a number?
 
-  $thing->is_number;     # its something Perl thinks is a number
-  $thing->is_positive;   # its a positive number
-  $thing->is_negative;   # its a negative number
-  $thing->is_integer;    # its an integer, no decimal part
-  $thing->is_decimal;    # its a decimal number
+  $thing->is_number;     # it's something Perl thinks is a number
+  $thing->is_positive;   # it's a positive number
+  $thing->is_negative;   # it's a negative number
+  $thing->is_integer;    # it's an integer, no decimal part
+  $thing->is_decimal;    # it's a decimal number
 
 This will work even if $thing is a reference (they will all return
 false).
@@ -102,7 +102,7 @@ false).
 
 =head2 How do I get the difference between two arrays?
 
-  my $diff = @array1->diff(\@array2);
+  my @diff = @array1->diff(\@array2);
 
 Will return the elements in @array2 which are not in @array1.
 
@@ -112,7 +112,7 @@ Will return the elements in @array2 which are not in @array1.
 localtime(), gmtime() and time() all return L<DateTime> objects in
 scalar context.
 
-No more mucking around with C<$year += 1900>.  Its simply:
+No more mucking around with C<$year += 1900>.  It's simply:
 
     my $now = localtime;
     my $year = $now->year;
@@ -219,7 +219,7 @@ Simply read $CWD.  See L<perl5i/File::chdir> for details.
 
 =head2 How do I temporary change the directory?
 
-If a function has to change directory, its polite to change it back
+If a function has to change directory, it's polite to change it back
 before returning.  perl5i provides C<local $CWD> to accomplish this.
 
     sub do_things {
