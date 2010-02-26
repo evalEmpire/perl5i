@@ -363,11 +363,11 @@ Calculate the difference between two (or more) arrays:
     my @a = ( 1, 2, 3 );
     my @b = ( 3, 4, 5 );
 
-    @a->diff(\@b) # [ 1, 2 ]
-    @b->diff(\@a) # [ 4, 5 ]
+    my @diff_a = @a->diff(\@b) # [ 1, 2 ]
+    my @diff_b = @b->diff(\@a) # [ 4, 5 ]
 
-Diff returns all elements in arra C<@a> that are not present in array
-C<@b>. Element order is not considered: two identical elements in both
+Diff returns all elements in array C<@a> that are not present in array
+C<@b>. Item order is not considered: two identical elements in both
 arrays will be recognized as such disregarding their index.
 
     [ qw( foo bar ) ]->diff( [ qw( bar foo ) ] ) # empty, they are equal
@@ -388,9 +388,9 @@ depth-first to assess whether they are identical or not. For instance:
 In the case of overloaded objects, (ie, L<DateTime>, L<URI>,
 L<Path::Class>, etc) it tries its best to treat them as strings or numbers.
 
-    my $uri = URI->new("http://www.perl.com";
+    my $uri = URI->new("http://www.perl.com");
 
-    [ $uri ]->diff( "http://www.perl.com" ) # empty, they are equal
+    [ $uri ]->diff( [ "http://www.perl.com" ] ) # empty, they are equal
 
 =head2 Hash Autoboxing
 
