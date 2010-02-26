@@ -392,25 +392,29 @@ depth-first to assess whether they are identical or not. For instance:
 
     [ [ 'foo ' ], { bar => 1 } ]->diff([ 'foo' ]) # [ { bar => 1 } ]
 
-In the case of overloaded objects, (ie, L<DateTime>, L<URI>,
-L<Path::Class>, etc) it tries its best to treat them as strings or numbers.
+In the case of overloaded objects (i.e., L<DateTime>, L<URI>,
+L<Path::Class>, etc.), it tries its best to treat them as strings or numbers.
 
-    my $uri = URI->new("http://www.perl.com");
+    my $uri  = URI->new("http://www.perl.com");
+    my $uri2 = URI->new("http://www.perl.com");
 
-    [ $uri ]->diff( [ "http://www.perl.com" ] ) # empty, they are equal
+    [ $uri ]->diff( [ "http://www.perl.com" ] ); # empty, they are equal
+    [ $uri ]->diff( [ $uri2 ] );                 # empty, they are equal
+
 
 =head3 intersect()
 
     my @a = (1 .. 10);
     my @b = (5 .. 15);
 
-    @a->intersect(\@b) # [ 5 .. 10 ];
+    my @intersection = @a->intersect(\@b) # [ 5 .. 10 ];
 
 Performs intersection between arrays, returning those elements that are
 present in all of the argument arrays simultaneously.
 
-As with C<diff()>, it works with nested data structures of arbitrary
-depth, and handles overloaded objects graciously.
+As with C<diff()>, it works with any number of arrays, nested data
+structures of arbitrary depth, and handles overloaded objects
+graciously.
 
 =head2 Hash Autoboxing
 
@@ -419,7 +423,7 @@ depth, and handles overloaded objects graciously.
 Exchanges values for keys in a hash.
 
     my %things = ( foo => 1, bar => 2, baz => 5 );
-    %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
+    my %flipped = %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
 
 If there is more than one occurence of a certain value, any one of the
 keys may end up as the value.  This is because of the random ordering
@@ -428,7 +432,7 @@ of hash keys.
     # Could be { 1 => foo }, { 1 => bar }, or { 1 => baz }
     { foo => 1, bar => 1, baz => 1 }->flip;
 
-Because hash reference cannot usefully be keys, it will not work on
+Because hash references cannot usefully be keys, it will not work on
 nested hashes.
 
     { foo => [ 'bar', 'baz' ] }->flip; # dies
