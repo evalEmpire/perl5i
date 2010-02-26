@@ -2,6 +2,9 @@
   Bugs
   * alias() was still being exported.
 
+  Docs
+  * Document that carp() and croak() are exported.
+
 
 1.0.0  Thu Feb 25 21:56:47 PST 2010
   New Features

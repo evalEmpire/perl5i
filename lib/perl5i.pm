@@ -480,6 +480,9 @@ STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
 encoding turned on.  Consequently, if you want to output raw bytes to
 a file, such as outputting an image, you must set C<< binmode $fh >>.
 
+=head2 Carp
+
+C<croak> and C<carp> from L<Carp> are always available.
 
 =head2 English
 
