@@ -598,7 +598,7 @@ Damian Conway.
 =head1 THANKS
 
 Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
-chromatic, Ben Hengst, and anyone else I've forgotten.
+chromatic, Ben Hengst, Bruno Vecchi and anyone else I've forgotten.
 
 Thanks to Flavian and Matt Trout for their signature and
 L<Devel::Declare> work.
