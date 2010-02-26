@@ -46,6 +46,7 @@ my $builder = MyBuild->new(
         'Test::Warn'         => '0.11',
         'Test::Exception'    => '0.27',
         'IPC::Open3'         => '0',
+        'Test::Output'       => '0.16',
     },
     configure_requires => {
         'Module::Build' => '0.32',

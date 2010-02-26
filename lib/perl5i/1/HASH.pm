@@ -22,4 +22,14 @@ sub merge {
     return wantarray ? %$merged : $merged;
 }
 
+sub print {
+    my $hash = shift;
+    print join(" ", map { "$_ => $hash->{$_}" } keys %$hash);
+}
+
+sub say {
+    my $hash = shift;
+    print join(" ", map { "$_ => $hash->{$_}" } keys %$hash), "\n";
+}
+
 1;

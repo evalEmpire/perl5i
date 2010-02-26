@@ -1,4 +1,7 @@
-1.0.1
+1.1.0
+  New Features
+  * print() and say() now work on hashes.
+
   Bugs
   * alias() was still being exported.
 
