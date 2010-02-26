@@ -1,6 +1,8 @@
-0.2.3
+0.3.0
   New Features
   * @array->first() now takes a regex like @array->grep() [github 93] (brunov)
+  * All autoboxed objects now respond to is_number() and friends.  They
+    always return false. [github 100] (brunov)
 
   Bug Fixes
   * Ensure the DateTime objects coming from time(), gmtime() and localtime()
