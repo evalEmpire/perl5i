@@ -21,7 +21,9 @@ sub ARRAY::first {
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
 
-    return [ CORE::grep { $_ ~~ $filter } @$array ];
+    my @result = CORE::grep { $_ ~~ $filter } @$array;
+
+    return wantarray ? @result : \@result;
 }
 
 sub ARRAY::all {
@@ -51,17 +53,20 @@ sub ARRAY::false {
 
 sub ARRAY::uniq {
     require List::MoreUtils;
-    return [ List::MoreUtils::uniq(@{$_[0]}) ];
+    my @uniq = List::MoreUtils::uniq(@{$_[0]});
+    return wantarray ? @uniq : \@uniq;
 }
 
 sub ARRAY::minmax {
     require List::MoreUtils;
-    return [ List::MoreUtils::minmax(@{$_[0]}) ];
+    my @minmax = List::MoreUtils::minmax(@{$_[0]});
+    return wantarray ? @minmax : \@minmax;
 }
 
 sub ARRAY::mesh {
     require List::MoreUtils;
-    return [ List::MoreUtils::zip(@_) ];
+    my @mesh = List::MoreUtils::zip(@_);
+    return wantarray ? @mesh : \@mesh;
 }
 
 

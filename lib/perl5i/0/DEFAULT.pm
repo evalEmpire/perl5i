@@ -29,5 +29,11 @@ sub DEFAULT::alias {
     return 1;
 }
 
+sub DEFAULT::is_number   { return }
+sub DEFAULT::is_positive { return }
+sub DEFAULT::is_negative { return }
+sub DEFAULT::is_int      { return }
+sub DEFAULT::is_integer  { return }
+sub DEFAULT::is_decimal  { return }
 
 1;
