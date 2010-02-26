@@ -123,6 +123,47 @@ sub _diff_two {
     return $diff;
 }
 
+sub ARRAY::intersect {
+    my ($base, @rest) = @_;
+
+    unless (@rest) {
+        return wantarray ? @$base : $base;
+    }
+
+    # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
+    # ssasign ... "
+    die "Arguments must be array references" if grep { ref $_ ne 'ARRAY' } @rest;
+
+    foreach my $array (@rest) {
+        $base = _intersect_two($base, $array);
+    }
+
+    return wantarray ? @$base : $base;
+}
+
+sub _intersect_two {
+    # Compare differences between two arrays.
+    my ($c, $d) = @_;
+
+    my $intersect = [];
+
+    # For each element of $c, try to find if it is equal to any of the
+    # elements of $d. If it is, it's shared, and has to be pushed into
+    # $intersect.
+
+    require List::MoreUtils;
+    foreach my $item (@$c) {
+        if (
+            List::MoreUtils::any( sub { _are_equal( $item, $_ ) }, @$d )
+        )
+        {
+            push @$intersect, $item;
+        }
+    }
+
+    return $intersect;
+}
+
 sub _are_equal {
     my ($r1, $r2) = @_;
 
