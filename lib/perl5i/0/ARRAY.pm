@@ -123,7 +123,10 @@ sub _diff_two {
 
 sub ARRAY::intersect {
     my ($base, @rest) = @_;
-    return $base unless (@rest);
+
+    unless (@rest) {
+        return wantarray ? @$base : $base;
+    }
 
     # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
     # ssasign ... "
@@ -133,7 +136,7 @@ sub ARRAY::intersect {
         $base = _intersect_two($base, $array);
     }
 
-    return $base;
+    return wantarray ? @$base : $base;
 }
 
 sub _intersect_two {

@@ -5,18 +5,22 @@ use perl5i::latest;
 
 my @a = ( 0 .. 5 );
 my @b = ( 3 .. 8 );
+my $i;
 
-is_deeply( @a->intersect(\@b), [ 3, 4, 5 ], 'Simple number intersect' );
+is_deeply( $i = @a->intersect(\@b), [ 3, 4, 5 ], 'Simple number intersect' );
+is_deeply( $i = @b->intersect(\@a), [ 3, 4, 5 ], 'Simple number intersect' );
 
-is_deeply( @b->intersect(\@a), [ 3, 4, 5 ], 'Simple number intersect' );
+my @i = @b->intersect(\@a);
+
+is scalar @i, 3, "Returns an array in list context";
 
 # No arguments
-is_deeply( @a->intersect, \@a, 'No arguments' );
+is_deeply( $i = @a->intersect, \@a, 'No arguments' );
 
 # Empty array
-is_deeply( @a->intersect([]), [], 'Intersect with an empty array');
+is_deeply( $i = @a->intersect([]), [], 'Intersect with an empty array');
 
-is_deeply( []->diff, [], 'Diff an empty array' );
+is_deeply( $i = []->diff, [], 'Diff an empty array' );
 
 # Dies when called with non-arrayref arguments
 
@@ -26,26 +30,26 @@ throws_ok { []->intersect(\'foo')       } qr/Arguments must be/;
 throws_ok { @a->intersect(undef, \@a)   } qr/Arguments must be/;
 
 # Works with strings also
-is_deeply( [qw(foo bar)]->intersect(['bar']), ['bar'], 'Works ok with strings' );
+is_deeply( $i = [qw(foo bar)]->intersect(['bar']), ['bar'], 'Works ok with strings' );
 
 # Mix strings and numbers
-is_deeply( [qw(foo bar)]->intersect(\@a), [], 'Mix strings and numbers' );
+is_deeply( $i = [qw(foo bar)]->intersect(\@a), [], 'Mix strings and numbers' );
 
 # Mix numbers and strings
-is_deeply( @a->intersect([qw(foo bar)]), [], 'Mix numbers and strings' );
+is_deeply( $i = @a->intersect([qw(foo bar)]), [], 'Mix numbers and strings' );
 
 # Ordering shouldn't matter in the top level array
-is_deeply( [ 1, 2 ]->intersect([ 2, 1 ]), [ 1, 2, ] );
+is_deeply( $i = [ 1, 2 ]->intersect([ 2, 1 ]), [ 1, 2, ] );
 
 # ... but it matters for there down ( see [ github 96 ] )
-is_deeply( [ [ 1, 2 ] ]->intersect([ [ 2, 1 ] ]), [ ] );
+is_deeply( $i = [ [ 1, 2 ] ]->intersect([ [ 2, 1 ] ]), [ ] );
 
 # Diff more than two arrays
-is_deeply( @a->intersect(\@b, [ 4, 'foo' ] ), [ 4 ],    'Intersect more than two arrays' );
-is_deeply( @a->intersect(\@b, [ 3, 5, 12 ] ), [ 3, 5 ], 'Intersect more than two arrays' );
+is_deeply( $i = @a->intersect(\@b, [ 4, 'foo' ] ), [ 4 ],    'Intersect more than two arrays' );
+is_deeply( $i = @a->intersect(\@b, [ 3, 5, 12 ] ), [ 3, 5 ], 'Intersect more than two arrays' );
 
 is_deeply(
-    [ { foo => 1 }, { foo => \2 } ]->intersect( [ { foo => \2 } ] ),
+    $i = [ { foo => 1 }, { foo => \2 } ]->intersect( [ { foo => \2 } ] ),
     [ { foo => \2 } ],
     'Works for nested data structures',
 );
@@ -53,8 +57,8 @@ is_deeply(
 # Test undef
 {
     my @array = (1,2,undef,4);
-    is_deeply( @array->intersect([1,2,4,undef]), [ 1, 2, undef, 4 ] );
-    is_deeply( @array->intersect([1,2,4]), [ 1, 2, 4 ] );
+    is_deeply( $i = @array->intersect([1,2,4,undef]), [ 1, 2, undef, 4 ] );
+    is_deeply( $i = @array->intersect([1,2,4]), [ 1, 2, 4 ] );
 }
 
 # Test REF
@@ -62,10 +66,10 @@ is_deeply(
     my $ref1 = \42;
     my $ref2 = \42;
     my @array = (1,2,\$ref1,4);
-    is_deeply( @array->intersect([4,\$ref2,2,1]), \@array );
+    is_deeply( $i = @array->intersect([4,\$ref2,2,1]), \@array );
 
     my $ref3 = \23;
-    is_deeply( @array->intersect([1,2,\$ref3,4]), [1, 2, 4] );
+    is_deeply( $i = @array->intersect([1,2,\$ref3,4]), [1, 2, 4] );
 }
 
 # Stress test deep comparison
@@ -93,18 +97,18 @@ my $bar = [
 ];
 
 is_deeply(
-    $foo->intersect($bar),
+    $i = $foo->intersect($bar),
     [ 'foo', 'baz', [ qw(foo bar baz), { foo => { foo => $code } } ] ],
     "stress test 1"
 );
 is_deeply(
-    $bar->intersect($foo),
+    $i = $bar->intersect($foo),
     [ 'foo', 'baz', [ qw(foo bar baz), { foo => { foo => $code } } ] ],
     "stress test 2"
 );
 
-is_deeply( [ $code ]->intersect([ sub { 'bar' }]), [ ] );
-is_deeply( [ $code ]->intersect([ $code ]), [ $code ] );
+is_deeply( $i = [ $code ]->intersect([ sub { 'bar' }]), [ ] );
+is_deeply( $i = [ $code ]->intersect([ $code ]), [ $code ] );
 
 # Test overloading
 {
@@ -132,27 +136,27 @@ my $string = String->new;
 ok( $answer == 42 );
 ok( $string eq 'foo' );
 
-is_deeply( [ $answer, $string ]->intersect([ 'foo', 42 ]), [ $answer, $string ] );
+is_deeply( $i = [ $answer, $string ]->intersect([ 'foo', 42 ]), [ $answer, $string ] );
 
 # Overloaded objects vs. scalars
-is_deeply( [ $answer, $string ]->intersect([  'foo'  ]), [ $string ] );
-is_deeply( [ $answer, $string ]->intersect([   42    ]), [ $answer ] );
-is_deeply( [ 42,      'foo'   ]->intersect([ $answer ]), [   42    ] );
-is_deeply( [ 42,      'foo'   ]->intersect([ $string ]), [  'foo'  ] );
+is_deeply( $i = [ $answer, $string ]->intersect([  'foo'  ]), [ $string ] );
+is_deeply( $i = [ $answer, $string ]->intersect([   42    ]), [ $answer ] );
+is_deeply( $i = [ 42,      'foo'   ]->intersect([ $answer ]), [   42    ] );
+is_deeply( $i = [ 42,      'foo'   ]->intersect([ $string ]), [  'foo'  ] );
 
 # Overloaded objects vs. overloaded objects.
-is_deeply( [ $answer, $string ]->diff([ $string ]), [ $answer ] );
-is_deeply( [ $answer, $string ]->diff([ $answer ]), [ $string ] );
-is_deeply( [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
+is_deeply( $i = [ $answer, $string ]->diff([ $string ]), [ $answer ] );
+is_deeply( $i = [ $answer, $string ]->diff([ $answer ]), [ $string ] );
+is_deeply( $i = [ $answer, $string ]->diff([ $answer ]), [  'foo'  ] );
 
 
 # Objects vs. objects
 my $object = bless {}, 'Object';
 
-is_deeply( [ $object ]->intersect( [ $object ]), [ $object ] );
+is_deeply( $i = [ $object ]->intersect( [ $object ]), [ $object ] );
 
 # Overloaded objects vs. non-overloaded objects
-is_deeply( [ $object ]->intersect( [ $answer ] ), [ ] );
-is_deeply( [ $answer ]->intersect( [ $object ] ), [ ] );
+is_deeply( $i = [ $object ]->intersect( [ $answer ] ), [ ] );
+is_deeply( $i = [ $answer ]->intersect( [ $object ] ), [ ] );
 
 done_testing();
