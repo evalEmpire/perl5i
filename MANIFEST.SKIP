@@ -48,3 +48,6 @@
 
 # Ignore emacs temp files
 ^\.#
+
+# Ignore our own dist dir
+^perl5i-
