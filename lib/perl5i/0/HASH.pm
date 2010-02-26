@@ -10,12 +10,16 @@ sub HASH::flip {
     croak "Can't flip hash with references as values"
         if grep { ref } values %{$_[0]};
 
-    return { reverse %{$_[0]} };
+    my %flipped = reverse %{$_[0]};
+
+    return wantarray ? %flipped : \%flipped;
 }
 
 sub HASH::merge {
     require Hash::Merge::Simple;
-    Hash::Merge::Simple::merge(@_);
+    my $merged = Hash::Merge::Simple::merge(@_);
+
+    return wantarray ? %$merged : $merged;
 }
 
 1;
