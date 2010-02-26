@@ -22,7 +22,9 @@ sub ARRAY::first {
 sub ARRAY::grep {
     my ( $array, $filter ) = @_;
 
-    return [ CORE::grep { $_ ~~ $filter } @$array ];
+    my @result = CORE::grep { $_ ~~ $filter } @$array;
+
+    return wantarray ? @result : \@result;
 }
 
 sub ARRAY::all {
