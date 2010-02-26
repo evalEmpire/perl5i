@@ -67,4 +67,13 @@ sub ACTION_tidy {
     }
 }
 
+sub ACTION_critic {
+    my $self = shift;
+
+    my @files = keys %{ $self->find_pm_files };
+
+    print "Running perlcritic on @{[ scalar @files ]} files...\n";
+    system( "perlcritic", @files );
+}
+
 1;
