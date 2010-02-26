@@ -1,8 +1,15 @@
-0.3.0
+1.0.0
   New Features
   * @array->first() now takes a regex like @array->grep() [github 93] (brunov)
   * All autoboxed objects now respond to is_number() and friends.  They
     always return false. [github 100] (brunov)
+  * All applicable array and hash methods now return arrays in list context
+    and array refs in scalar context. (brunov)
+  * diff() now works on nested data structures and honors overloaded objects
+    (brunov)
+
+  Docs
+  * Wrote perl5ifaq for all your frequently asked questions.
 
   Bug Fixes
   * Ensure the DateTime objects coming from time(), gmtime() and localtime()
@@ -12,7 +19,7 @@
 0.2.2  Fri Feb 19 14:56:36 PST 2010
   Other
   * Some modules got the wrong version.
-  
+
 
 0.2.1  Fri Feb 19 04:23:58 PST 2010
   Bug Fixes
