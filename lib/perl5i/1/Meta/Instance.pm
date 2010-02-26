@@ -75,10 +75,10 @@ sub checksum {
     $args{base} //= 'hex';
     $args{base} =~ /^hex|64|utf$/ or Carp::croak("base must be either hex, 64 or utf\n");
 
-    my %suffix = ( hex => 'hex', 64 => 'b64', utf => undef );
+    my %prefix = ( hex => 'hex', 64 => 'b64', utf => undef );
 
     my $module = 'Digest::' . uc $args{algorithm};
-    my $digest = defined $suffix{ $args{base} } ? $suffix{ $args{base} } . 'digest' : 'digest';
+    my $digest = defined $prefix{ $args{base} } ? $prefix{ $args{base} } . 'digest' : 'digest';
 
     Module::Load::load($module);
     my $digestor = $module->new;
