@@ -18,27 +18,27 @@ throws_ok { $foo->mo->checksum( base      => 'foo' ) } qr/^base must be/;
 
 my %digests;
 
-my @bases = qw(hex 64 utf);
+my @bases = qw(hex 64 binary);
 my @algos = qw(md5 sha1);
-my @refs  = ($foo, $foo2, $bar);
+my @refs  = ( $foo, $foo2, $bar );
 
 foreach my $algorithm (@algos) {
     foreach my $base (@bases) {
         foreach my $ref (@refs) {
-            $digests{ refaddr $ref }{ $base      }{ $algorithm   } =
-            $digests{ $base        }{ $algorithm }{ refaddr $ref } =
-                $ref->mo->checksum( algorithm => $algorithm, base => $base );
+            $digests{ refaddr $ref }{$base}{$algorithm}
+              = $digests{$base}{$algorithm}{ refaddr $ref }
+              = $ref->mo->checksum( algorithm => $algorithm, base => $base );
         }
     }
 }
 
 # All checksums of equivalent objects should be identical
-is_deeply( [ $digests{refaddr $foo} ], [ $digests{ refaddr $foo2 } ] );
+is_deeply( [ $digests{ refaddr $foo} ], [ $digests{ refaddr $foo2 } ] );
 
 my %length = (
-    utf => { md5 => 16, sha1 => 20 },
-    64  => { md5 => 22, sha1 => 27 },
-    hex => { md5 => 32, sha1 => 40 },
+    binary => { md5 => 16, sha1 => 20 },
+    64     => { md5 => 22, sha1 => 27 },
+    hex    => { md5 => 32, sha1 => 40 },
 );
 
 # Checksums should have the expected character length
