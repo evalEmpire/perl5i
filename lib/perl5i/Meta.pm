@@ -136,3 +136,34 @@ overloaded objects who can untaint their overloaded value.
     my $reftype = $object->mo->reftype;
 
 Returns the underlying reference type of the $object.
+
+=head2 checksum
+
+    my $sha = $object->mo->checksum; # 802ef5f8b8074a7a6868f29cdedb7196bed724e6
+
+    my $md5 = $object->mo->checksum( algorithm => 'md5' ); # 34929161b6c9b4fa776f59e242a7432b
+
+    $object->mo->checksum( algorithm => [md5|sha2], base => [hex|64|binary] );
+
+Get a digest of the object's contents. The object is dumped using
+L<Data::Dumper>; the resulting string is digested with either
+L<Digest::SHA1> or L<Digest::MD5>.
+
+=head3 options
+
+=over 4
+
+=item algorithm
+
+Can be either SHA1 (default), which uses L<Digest::SHA1>, or MD5, which uses L<Digest::MD5>.
+
+=item base
+
+The character set of the resulting string, can be hex, 64, or binary. hex,
+the default, uses [0-9a-f]. Base 64 uses [a-Za-z0-9+/]. Binary will
+return a 16 or 20 byte long binary string for md5 and sha1,
+respectively.
+
+=back
+
+For details, refer to the L<Digest::SHA1> or L<Digest::MD5> docs.
