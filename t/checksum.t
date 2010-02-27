@@ -1,6 +1,7 @@
 #!/usr/bin/env perl
 use Test::More;
 use perl5i::latest;
+use Scalar::Util 'refaddr';
 
 my $foo  = bless {}, 'Foo';
 my $foo2 = bless {}, 'Foo';
@@ -11,6 +12,40 @@ ok $foo->mo->checksum;
 is $foo->mo->checksum,   $foo2->mo->checksum;
 isnt $foo->mo->checksum, $bar->mo->checksum;
 
+my %digests;
+
+my @bases = qw(hex 64 utf);
+my @algos = qw(md5 sha1);
+my @refs  = ($foo, $foo2, $bar);
+
+foreach my $algorithm (@algos) {
+    foreach my $base (@bases) {
+        foreach my $ref (@refs) {
+            $digests{ refaddr $ref }{ $base      }{ $algorithm   } =
+            $digests{ $base        }{ $algorithm }{ refaddr $ref } =
+                $ref->mo->checksum( algorithm => $algorithm, base => $base );
+        }
+    }
+}
+
+# All checksums of equivalent objects should be identical
+is_deeply( [ $digests{refaddr $foo} ], [ $digests{ refaddr $foo2 } ] );
+
+my %length = (
+    utf => { md5 => 16, sha1 => 20 },
+    64  => { md5 => 22, sha1 => 27 },
+    hex => { md5 => 32, sha1 => 40 },
+);
+
+# Checksums should have the expected character length
+# (this is mostly to test we're passing the options correctly)
+foreach my $algorithm (@algos) {
+    foreach my $base (@bases) {
+        is( length $_, $length{$base}{$algorithm} ) for values %{ $digests{$base}{$algorithm} };
+    }
+}
+
+# Method should work fine with non-blessed references and scalars
 my $ref  = { this => "is some reference" };
 my $ref2 = { this => "is some reference" };
 my $ref3 = [qw( this is some reference )];
