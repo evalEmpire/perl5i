@@ -104,7 +104,7 @@ false).
 
   my @diff = @array1->diff(\@array2);
 
-Will return the elements in @array2 which are not in @array1.
+Will return the elements in @array1 which are not in @array2.
 
 
 =head2 How do I get information about the current date?
