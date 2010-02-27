@@ -2,6 +2,7 @@
 use Test::More;
 use perl5i::latest;
 use Scalar::Util 'refaddr';
+use Test::Exception;
 
 my $foo  = bless {}, 'Foo';
 my $foo2 = bless {}, 'Foo';
@@ -11,6 +12,9 @@ ok $foo->mo->checksum;
 
 is $foo->mo->checksum,   $foo2->mo->checksum;
 isnt $foo->mo->checksum, $bar->mo->checksum;
+
+throws_ok { $foo->mo->checksum( algorithm => 'foo' ) } qr/^algorithm must be/;
+throws_ok { $foo->mo->checksum( base      => 'foo' ) } qr/^base must be/;
 
 my %digests;
 
