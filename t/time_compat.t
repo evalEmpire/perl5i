@@ -89,12 +89,13 @@ my $now = time();
 
 # Test times honor say and print
 {
-    # Due to a bug in Perl/Test::Output, the newline on say gets lost
+    # Due to a bug in 5.10's tie, the newline on say gets lost, but
+    # it will be back in 5.12.  So we can't test for it.
     stdout_like { time->say;   } qr/^\d+$/;
     stdout_like { time->print; } qr/^\d+$/;
 
     my $time = int rand 2**31;
     my $date = gmtime($time);
-    stdout_is { gmtime($time)->say;   } "$date";
-    stdout_is { gmtime($time)->print; } "$date";
+    stdout_like { gmtime($time)->say;   } qr/^\Q$date\E$/;
+    stdout_like { gmtime($time)->print; } "$date";
 }
