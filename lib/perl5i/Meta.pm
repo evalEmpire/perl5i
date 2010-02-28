@@ -143,7 +143,7 @@ Returns the underlying reference type of the $object.
 
     my $md5 = $object->mo->checksum( algorithm => 'md5' ); # 34929161b6c9b4fa776f59e242a7432b
 
-    $object->mo->checksum( algorithm => [md5|sha2], base => [hex|64|binary] );
+    $object->mo->checksum( algorithm => [md5|sha2], format => [hex|64|binary] );
 
 Get a digest of the object's contents. The object is dumped using
 L<Data::Dumper>; the resulting string is digested with either
@@ -157,10 +157,10 @@ L<Digest::SHA1> or L<Digest::MD5>.
 
 Can be either SHA1 (default), which uses L<Digest::SHA1>, or MD5, which uses L<Digest::MD5>.
 
-=item base
+=item format
 
 The character set of the resulting string, can be hex, 64, or binary. hex,
-the default, uses [0-9a-f]. Base 64 uses [a-Za-z0-9+/]. Binary will
+the default, uses [0-9a-f]. Format 64 uses [a-Za-z0-9+/]. Binary will
 return a 16 or 20 byte long binary string for md5 and sha1,
 respectively.
 

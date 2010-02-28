@@ -14,20 +14,20 @@ is $foo->mo->checksum,   $foo2->mo->checksum;
 isnt $foo->mo->checksum, $bar->mo->checksum;
 
 throws_ok { $foo->mo->checksum( algorithm => 'foo' ) } qr/^algorithm must be/;
-throws_ok { $foo->mo->checksum( base      => 'foo' ) } qr/^base must be/;
+throws_ok { $foo->mo->checksum( format    => 'foo' ) } qr/^format must be/;
 
 my %digests;
 
-my @bases = qw(hex 64 binary);
-my @algos = qw(md5 sha1);
-my @refs  = ( $foo, $foo2, $bar );
+my @formats = qw(hex 64 binary);
+my @algos   = qw(md5 sha1);
+my @refs    = ( $foo, $foo2, $bar );
 
 foreach my $algorithm (@algos) {
-    foreach my $base (@bases) {
+    foreach my $format (@formats) {
         foreach my $ref (@refs) {
-            $digests{ refaddr $ref }{$base}{$algorithm}
-              = $digests{$base}{$algorithm}{ refaddr $ref }
-              = $ref->mo->checksum( algorithm => $algorithm, base => $base );
+            $digests{ refaddr $ref }{$format}{$algorithm}
+              = $digests{$format}{$algorithm}{ refaddr $ref }
+              = $ref->mo->checksum( algorithm => $algorithm, format => $format );
         }
     }
 }
@@ -44,8 +44,8 @@ my %length = (
 # Checksums should have the expected character length
 # (this is mostly to test we're passing the options correctly)
 foreach my $algorithm (@algos) {
-    foreach my $base (@bases) {
-        is( length $_, $length{$base}{$algorithm} ) for values %{ $digests{$base}{$algorithm} };
+    foreach my $format (@formats) {
+        is( length $_, $length{$format}{$algorithm} ) for values %{ $digests{$format}{$algorithm} };
     }
 }
 

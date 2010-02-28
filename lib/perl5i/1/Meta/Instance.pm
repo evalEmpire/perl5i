@@ -72,13 +72,13 @@ sub checksum {
     $args{algorithm} //= 'sha1';
     $args{algorithm} =~ /^sha1|md5$/ or Carp::croak("algorithm must be either sha1 or md5\n");
 
-    $args{base} //= 'hex';
-    $args{base} =~ /^hex|64|binary$/ or Carp::croak("base must be either hex, 64 or binary\n");
+    $args{format} //= 'hex';
+    $args{format} =~ /^hex|64|binary$/ or Carp::croak("format must be either hex, 64 or binary\n");
 
     my %prefix = ( hex => 'hex', 64 => 'b64', binary => undef );
 
     my $module = 'Digest::' . uc $args{algorithm};
-    my $digest = defined $prefix{ $args{base} } ? $prefix{ $args{base} } . 'digest' : 'digest';
+    my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
 
     Module::Load::load($module);
     my $digestor = $module->new;
