@@ -69,9 +69,12 @@ of everything being an object.
 
 =head2 Is perl5i intended for production?
 
-Yes.  Once version 1.0.0 comes out the API will be stable.  It's
-already fairly well tested.  Its effects are mostly lexical and mostly
-compatible with Perl 5.
+Yes, the API is stable and its well tested.  Its effects are mostly
+lexical and incompatibilities are with obscure "features" that you're
+probably not using.
+
+Rather than reinventing the wheel, perl5i is mostly a wrapper around
+stable, well understood CPAN modules.  It avoids unstable magic.
 
 perl5i's interface is I<NOT> compatible between major versions, but
 fear not!  perl5i has an intentional backwards incompatibility plan so
