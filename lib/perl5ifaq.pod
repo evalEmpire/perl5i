@@ -39,6 +39,8 @@ And then you have to get it and remember to load it.  perl5i gives you
 C<try> and C<catch> that are always there, there's no excuse not to
 do it right.
 
+In some ways, perl5i is "The Best of CPAN" in code form.
+
 
 =head2 What's perl5i's relation to Perl 6?
 
@@ -47,6 +49,22 @@ perl5i steals liberally from Perl 6.
 perl5i is not intended as a competitor to Perl 6 nor an abandonment.
 But it's going to be a while before Perl 6 is production stable and
 we've got to get some work done before Christmas.
+
+
+=head2 What is perl5i's relation to Perl 5?
+
+perl5i is in some ways a release valve for the frustration surrounding
+Perl 5 development, particularly with regard to Perl 5's conservative
+backwards compatibility requirements.  Patching Perl 5 is also out of
+the league of most Perl programmers (and a lot of C programmers).
+Can't get a feature into Perl 5?  Put it in perl5i.
+
+Since it has a liberal compatibility policy, perl5i serves as a
+testing ground for new features.  It will let the community try out
+new concepts in the wild and see how it works out.  For example,
+autoboxing has been available for years but was rejected from incusion
+in Perl 5 in part because Perl 5 programmers do not grok the benefits
+of everything being an object.
 
 
 =head2 Is perl5i intended for production?
