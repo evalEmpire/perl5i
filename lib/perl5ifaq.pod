@@ -299,6 +299,11 @@ tagging.
 
 Or you can send mail to F<perl5i@googlegroups.com>.
 
+What is particularly useful to perl5i is to hear about problems you'd
+like solved.  Tell us about a simple problem that you had to write too
+much code to solve, or load too many modules, or that had too many
+caveats.
+
 Finally, if you just want to write some code, you can fork and work on
 it at L<http://github.com/schwern/perl5i>.  Full details on our
 patching policy can be read at
