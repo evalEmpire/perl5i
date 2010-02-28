@@ -79,6 +79,14 @@ sub dt_time () {
           return $dt1 eq $dt2;
       };
 
+    sub say {
+        CORE::say("$_[0]");
+    }
+
+    sub print {
+        CORE::print("$_[0]");
+    }
+
     sub from_epoch {
         my $class = shift;
 

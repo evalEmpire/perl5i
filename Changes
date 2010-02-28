@@ -1,6 +1,6 @@
 1.1.0
   New Features
-  * print() and say() now work on hashes.
+  * print() and say() now work on hashes, time(), localtime() and gmtime().
 
   Bugs
   * alias() was still being exported.
