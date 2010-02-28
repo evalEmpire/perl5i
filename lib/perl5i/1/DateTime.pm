@@ -30,6 +30,34 @@ sub dt_gmtime (;$) {
 }
 
 
+sub _get_datetime_timezone {
+    state $local_tzfile = "/etc/localtime";
+
+    # Always be sure to honor the TZ environment var
+    return "local" if $ENV{TZ};
+
+    # Work around a bug in DateTime::TimeZone on FreeBSD where it
+    # can't determine the time zone if /etc/localtime is not a link.
+    # Tzfile is also faster to do localtime calculations.
+    if( -e $local_tzfile ) {
+        # Could go through more effort to figure it out.  Meh.
+        my $tzname = "Local";
+        if( -l $local_tzfile ) {
+            if( my $real_tzfile = eval { readlink $local_tzfile } ) {
+                $tzname = $real_tzfile;
+            }
+        }
+        require DateTime::TimeZone::Tzfile;
+        my $tz = DateTime::TimeZone::Tzfile->new(
+            name     => $tzname,
+            filename => $local_tzfile
+        );
+        return $tz if $tz;
+    }
+
+    return "local";
+}
+
 ## no critic (Subroutines::ProhibitSubroutinePrototypes)
 sub dt_localtime (;$) {
     my $time = @_ ? shift : time;
@@ -39,6 +67,8 @@ sub dt_localtime (;$) {
     $mon++;
     $year += 1900;
 
+    state $tz = _get_datetime_timezone();
+
     require DateTime;
     return DateTime::y2038->new(
         year            => $year,
@@ -47,7 +77,7 @@ sub dt_localtime (;$) {
         hour            => $hour,
         minute          => $min,
         second          => $sec,
-        time_zone       => "local",
+        time_zone       => $tz,
         formatter       => "DateTime::Format::CTime"
     );
 }

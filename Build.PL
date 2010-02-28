@@ -20,6 +20,7 @@ my $builder = MyBuild->new(
         'CLASS'                   => '1.00',
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
+        'DateTime::TimeZone::Tzfile' => '0.002',
         'Time::y2038'             => '20100218',
         'Module::Load'            => '0.16',
         'Text::Wrap'              => '2009.0305',

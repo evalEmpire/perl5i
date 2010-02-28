@@ -4,6 +4,9 @@
 
   Bugs
   * alias() was still being exported.
+  * Work around DateTime::TimeZone not being able to determine the local
+    time zone on FreeBSD and possibly others.
+  * localtime() is less suseptable to the DateTime distant year DOS attack.
 
   Docs
   * Document that carp() and croak() are exported.
