@@ -145,9 +145,11 @@ Returns the underlying reference type of the $object.
 
     $object->mo->checksum( algorithm => [md5|sha2], format => [hex|64|binary] );
 
-Get a digest of the object's contents. The object is dumped using
-L<Data::Dumper>; the resulting string is digested with either
-L<Digest::SHA1> or L<Digest::MD5>.
+Get a digest of the object's contents. Two different objects can have
+the same checksum if their contents are identical. Likewise, a single
+object can have different checksums throughout its life cycle if it's
+mutable. This means its checksum will change if its internal state
+changes.
 
 =head3 options
 
