@@ -139,17 +139,20 @@ Returns the underlying reference type of the $object.
 
 =head2 checksum
 
-    my $sha = $object->mo->checksum; # 802ef5f8b8074a7a6868f29cdedb7196bed724e6
+    my $checksum = $object->mo->checksum;
+    my $md5    = $object->mo->checksum( algorithm => 'md5' );
+    my $base64 = $object->mo->checksum( format => 'base64' );
 
-    my $md5 = $object->mo->checksum( algorithm => 'md5' ); # 34929161b6c9b4fa776f59e242a7432b
+Get a digest of the object's contents, taking its class into account.
 
-    $object->mo->checksum( algorithm => [md5|sha2], format => [hex|64|binary] );
+Two different objects can have the same checksum if their contents
+are identical. Likewise, a single object can have different checksums
+throughout its life cycle if it's mutable. This means its checksum
+will change if its internal state changes.
 
-Get a digest of the object's contents. Two different objects can have
-the same checksum if their contents are identical. Likewise, a single
-object can have different checksums throughout its life cycle if it's
-mutable. This means its checksum will change if its internal state
-changes.
+For example,
+
+    $obj->mo->checksum( format => 'base64', algorithm => 'md5' );
 
 =head3 options
 
@@ -157,15 +160,15 @@ changes.
 
 =item algorithm
 
-Can be either SHA1 (default), which uses L<Digest::SHA1>, or MD5, which uses L<Digest::MD5>.
+The checksum algorithm.  Can be C<sha1> and C<md5>.
+
+Defaults to sha1.
 
 =item format
 
-The character set of the resulting string, can be hex, 64, or binary. hex,
-the default, uses [0-9a-f]. Format 64 uses [a-Za-z0-9+/]. Binary will
-return a 16 or 20 byte long binary string for md5 and sha1,
-respectively.
+The character set of the checksum, can be C<hex>, C<base64>, or
+C<binary>.
+
+Defaults to hex.
 
 =back
-
-For details, refer to the L<Digest::SHA1> or L<Digest::MD5> docs.

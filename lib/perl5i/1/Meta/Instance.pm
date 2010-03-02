@@ -7,6 +7,8 @@ require Scalar::Util;
 require overload;
 require Carp;
 
+use perl5i::1::autobox;
+
 use parent qw(perl5i::1::Meta);
 
 sub class {
@@ -69,13 +71,17 @@ sub untaint {
 sub checksum {
     my( $thing, %args ) = @_;
 
+    my $algorithms = [qw(sha1 md5)];
     $args{algorithm} //= 'sha1';
-    $args{algorithm} =~ /^sha1|md5$/ or Carp::croak("algorithm must be either sha1 or md5\n");
+    $args{algorithm} ~~ $algorithms or
+      Carp::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
 
+    my $format = [qw(hex base64 binary)];
     $args{format} //= 'hex';
-    $args{format} =~ /^hex|64|binary$/ or Carp::croak("format must be either hex, 64 or binary\n");
+    $args{format} ~~ $format or
+      Carp::croak("format must be @{[ $format->join(' or ') ]}");
 
-    my %prefix = ( hex => 'hex', 64 => 'b64', binary => undef );
+    my %prefix = ( hex => 'hex', base64 => 'b64', binary => undef );
 
     my $module = 'Digest::' . uc $args{algorithm};
     my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';

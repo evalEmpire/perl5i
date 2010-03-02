@@ -1,4 +1,5 @@
 #!/usr/bin/env perl
+
 use Test::More;
 use perl5i::latest;
 use Scalar::Util 'refaddr';
@@ -18,7 +19,7 @@ throws_ok { $foo->mo->checksum( format    => 'foo' ) } qr/^format must be/;
 
 my %digests;
 
-my @formats = qw(hex 64 binary);
+my @formats = qw(hex base64 binary);
 my @algos   = qw(md5 sha1);
 my @refs    = ( $foo, $foo2, $bar );
 
@@ -37,7 +38,7 @@ is_deeply( [ $digests{ refaddr $foo} ], [ $digests{ refaddr $foo2 } ] );
 
 my %length = (
     binary => { md5 => 16, sha1 => 20 },
-    64     => { md5 => 22, sha1 => 27 },
+    base64 => { md5 => 22, sha1 => 27 },
     hex    => { md5 => 32, sha1 => 40 },
 );
 
