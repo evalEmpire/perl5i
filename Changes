@@ -1,6 +1,7 @@
 1.1.0
   New Features
   * print() and say() now work on hashes, time(), localtime() and gmtime().
+  * $obj->mo->checksum will return a checksum for the contents of any object.
 
   Bugs
   * alias() was still being exported.
