@@ -342,6 +342,28 @@ whitespace.
 Will uppercase every word character that follows a wordbreak character.
 
 
+=head3 path2module()
+
+    my $module = $path->path2module;
+
+Given a relative $path it will return the Perl module this represents.
+For example,
+
+    "Foo/Bar.pm"->path2module;  # "Foo::Bar"
+
+It will throw an exception if given something which could not be a
+path to a Perl module.
+
+=head2 module2path()
+
+    my $path = $module->module2path;
+
+Will return the relative $path in which the Perl $module can be found.
+For example,
+
+    "Foo::Bar"->module2path;  # "Foo/Bar.pm"
+
+
 =head2 List Autoboxing
 
 All the functions from L<List::Util> and select ones from

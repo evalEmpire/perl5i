@@ -146,4 +146,29 @@ sub is_integer          { $_[0]->is_number && ((int($_[0]) - $_[0]) == 0) }
 *is_int = \&is_integer;
 sub is_decimal          { $_[0]->is_number && ((int($_[0]) - $_[0]) != 0) }
 
+
+sub path2module {
+    my $path = shift;
+
+    my($vol, $dirs, $file) = File::Spec->splitpath($path);
+    my @dirs = grep length, File::Spec->splitdir($dirs);
+
+    Carp::croak("'$path' does not look like a Perl module path")
+      if $file !~ m{\.pm$} or File::Spec->file_name_is_absolute($path);
+
+    $file =~ s{\.pm$}{};
+
+    return join "::", @dirs, $file;
+}
+
+
+sub module2path {
+    my $module = shift;
+
+    my @parts = split /::/, $module;
+    $parts[-1] .= ".pm";
+
+    return join "/", @parts;
+}
+
 1;
