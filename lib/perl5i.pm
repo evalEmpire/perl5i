@@ -16,7 +16,7 @@ sub import {
 perl5i will break compatibility in the future, you can't just "use perl5i".
 
 Instead, "use $Latest" which will guarantee compatibility with all
-feature supplied in that major version.
+features supplied in that major version.
 
 Type "perldoc perl5i" for details in the section "Using perl5i".
 END
