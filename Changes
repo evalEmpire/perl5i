@@ -1,4 +1,4 @@
-1.1.0
+1.1.0  Tue Mar  2 19:09:49 PST 2010
   New Features
   * print() and say() now work on hashes, time(), localtime() and gmtime().
   * $obj->mo->checksum will return a checksum for the contents of any object.

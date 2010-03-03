@@ -272,6 +272,25 @@ What it does
 
     Will uppercase every word character that follows a wordbreak character.
 
+    path2module()
+        my $module = $path->path2module;
+
+    Given a relative $path it will return the Perl module this represents.
+    For example,
+
+        "Foo/Bar.pm"->path2module;  # "Foo::Bar"
+
+    It will throw an exception if given something which could not be a path
+    to a Perl module.
+
+  module2path()
+        my $path = $module->module2path;
+
+    Will return the relative $path in which the Perl $module can be found.
+    For example,
+
+        "Foo::Bar"->module2path;  # "Foo/Bar.pm"
+
   List Autoboxing
     All the functions from List::Util and select ones from List::MoreUtils
     are all available as methods on unblessed arrays and array refs.
@@ -396,6 +415,9 @@ What it does
     STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
     encoding turned on. Consequently, if you want to output raw bytes to a
     file, such as outputting an image, you must set `binmode $fh'.
+
+  Carp
+    `croak' and `carp' from Carp are always available.
 
   English
     English gives English names to the punctuation variables; for instance,
