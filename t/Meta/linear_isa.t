@@ -3,8 +3,8 @@
 use perl5i::latest;
 use Test::More;
 
-is_deeply [UNIVERSAL->mo->linear_isa],    ["UNIVERSAL"];
-is_deeply [DoesNotExist->mo->linear_isa], [qw(DoesNotExist UNIVERSAL)];
+is_deeply [UNIVERSAL->mc->linear_isa],    ["UNIVERSAL"];
+is_deeply [DoesNotExist->mc->linear_isa], [qw(DoesNotExist UNIVERSAL)];
 
 # Set up a good ol diamond inheritance.
 {
@@ -21,8 +21,8 @@ is_deeply [DoesNotExist->mo->linear_isa], [qw(DoesNotExist UNIVERSAL)];
     package GrandParents;
 }
 
-is_deeply [Mom->mo->linear_isa],   [qw(Mom GrandParents UNIVERSAL)];
-is_deeply [Child->mo->linear_isa], [qw(Child Mom Dad GrandParents UNIVERSAL)]
-  or diag explain( [Child->mo->linear_isa] );
+is_deeply [Mom->mc->linear_isa],   [qw(Mom GrandParents UNIVERSAL)];
+is_deeply [Child->mc->linear_isa], [qw(Child Mom Dad GrandParents UNIVERSAL)]
+  or diag explain( [Child->mc->linear_isa] );
 
 done_testing();

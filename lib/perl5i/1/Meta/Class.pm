@@ -6,7 +6,7 @@ use warnings;
 use parent qw(perl5i::1::Meta);
 
 sub class {
-    return ${$_[0]};
+    return ref ${$_[0]} ? ref ${$_[0]} : ${$_[0]};
 }
 
 sub reftype {

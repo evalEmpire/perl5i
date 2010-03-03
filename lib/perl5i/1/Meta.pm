@@ -11,12 +11,16 @@ require perl5i::1::Meta::Instance;
 require perl5i::1::Meta::Class;
 
 sub UNIVERSAL::mo {
-    return perl5i::1::Meta->new($_[0]);
+    return perl5i::1::Meta->new($_[0], "Instance");
+}
+
+sub UNIVERSAL::mc {
+    return perl5i::1::Meta->new($_[0], "Class");
 }
 
 sub new {
-    my($class, $thing) = @_;
-    return bless \$thing, ref $thing ? "perl5i::1::Meta::Instance" : "perl5i::1::Meta::Class";
+    my(undef, $thing, $class) = @_;
+    return bless \$thing, "perl5i::1::Meta::$class";
 }
 
 sub ISA {
