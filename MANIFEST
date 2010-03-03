@@ -81,6 +81,7 @@ t/List-Util/minstr.t
 t/List-Util/reduce.t
 t/List-Util/shuffle.t
 t/List-Util/sum.t
+t/Meta/checksum.t
 t/Meta/class.t
 t/Meta/ISA.t
 t/Meta/linear_isa.t
@@ -89,8 +90,10 @@ t/Meta/super.t
 t/method_leaking.t
 t/modern_perl.t
 t/Module-Load.t
+t/module2path.t
 t/number.t
 t/perl5i.t
+t/say.t
 t/scalar.t
 t/taint.t
 t/time_compat.t
