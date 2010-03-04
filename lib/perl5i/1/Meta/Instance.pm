@@ -98,4 +98,13 @@ sub checksum {
     return $digestor->$digest;
 }
 
+
+sub is_equal {
+    my ($self, $other) = @_;
+    require perl5i::1::equal;
+
+    return perl5i::1::equal::are_equal(${$self}, $other);
+}
+
+
 1;
