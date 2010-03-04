@@ -172,3 +172,22 @@ C<binary>.
 Defaults to hex.
 
 =back
+
+=head2 is_equal
+
+    $object->mo->is_equal($other_object)
+
+Assess whether something is equal to something else, recurring over deep
+data structures and treating overloaded objects as numbers or strings
+when appropriate.
+
+Examples:
+
+    my $prices = { chair => 50, table => 300 };
+    my $other  = { chair => 50, table => [250, 255] };
+
+    say "They are equal" if $prices->mo->is_equal($other);
+
+
+    my $uri = URI->new("http://www.perl.org");
+    $uri->mo->is_equal("http://www.perl.org") # True
