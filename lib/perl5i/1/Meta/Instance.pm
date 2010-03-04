@@ -86,7 +86,7 @@ sub checksum {
     my $module = 'Digest::' . uc $args{algorithm};
     my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
 
-    Module::Load::load($module);
+    $module->require;
     my $digestor = $module->new;
 
     require Data::Dumper;

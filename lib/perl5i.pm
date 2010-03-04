@@ -284,20 +284,22 @@ Returns true if $thing is a decimal number.
     ".34"->is_decimal;          # true
     "point five"->is_decimal;   # false
 
-=head2 load()
+=head2 require
 
-    $module->load(@args);
-    $path->load(@args);
+    my $module = $module->require;
 
-A thin wrapper around C<Module::Load::load()>.  It will load a module
-from a scalar without requiring you to do funny things like C<eval
-require $module>.  It accepts both module names and file paths.
+Will C<require> the given $module.  This avoids funny things like
+C<eval qq[require $module] or die $@>.  It accepts only module names.
+
+On failure it will throw an exception, just like C<require>.  On a
+success it returns the $module.  This is mostly useful so that you can
+immediately call $module's C<import> method to emulate a C<use>.
 
     # like "use $module qw(foo bar);" if that worked
-    $module->load(qw(foo bar));
+    $module->require->import(qw(foo bar));
 
-Note that C<< $module->load >> does not import anything.  This may
-change in the future.
+    # like "use $module;" if that worked
+    $module->require->import;
 
 =head3 wrap()
 
@@ -556,12 +558,6 @@ objects.  They will all act like the core functions.
 C<gmtime()> and C<localtime()> will now safely work with dates beyond the
 year 2038 and before 1901 (the exact range is not defined, but it's
 well into a couple million years in either direction).
-
-
-=head2 Module::Load
-
-L<Module::Load> adds C<load> which will load a module from a scalar
-without requiring you to do funny things like C<eval require $module>.
 
 
 =head2 IO::Handle

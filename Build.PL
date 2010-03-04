@@ -22,7 +22,6 @@ my $builder = MyBuild->new(
         'DateTime::Format::Epoch' => '0.11',
         'DateTime::TimeZone::Tzfile' => '0.002',
         'Time::y2038'             => '20100218',
-        'Module::Load'            => '0.16',
         'Text::Wrap'              => '2009.0305',
         'Try::Tiny'               => '0.02',
         'autodie'                 => '1.999',
