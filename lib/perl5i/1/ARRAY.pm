@@ -20,6 +20,14 @@ sub first {
 
 }
 
+sub map {
+    my( $array, $code ) = @_;
+
+    my @result = CORE::map { $code->($_) } @$array;
+
+    return wantarray ? @result : \@result;
+}
+
 sub grep {
     my ( $array, $filter ) = @_;
 
