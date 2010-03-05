@@ -81,6 +81,7 @@ t/List-Util/minstr.t
 t/List-Util/reduce.t
 t/List-Util/shuffle.t
 t/List-Util/sum.t
+t/map.t
 t/Meta/checksum.t
 t/Meta/class.t
 t/Meta/ISA.t
@@ -93,6 +94,7 @@ t/Module-Load.t
 t/module2path.t
 t/number.t
 t/perl5i.t
+t/require.t
 t/say.t
 t/scalar.t
 t/taint.t
