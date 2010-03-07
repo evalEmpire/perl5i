@@ -79,7 +79,7 @@ sub mesh {
     return wantarray ? @mesh : \@mesh;
 }
 
-my $diff_two = sub {
+my $diff_two_deeply = sub {
     # Compare differences between two arrays.
     my ($c, $d) = @_;
 
@@ -89,6 +89,7 @@ my $diff_two = sub {
     # elements of $d. If not, it's unique, and has to be pushed into
     # $diff.
 
+    require perl5i::1::equal;
     require List::MoreUtils;
     foreach my $item (@$c) {
         unless (
@@ -102,6 +103,18 @@ my $diff_two = sub {
     return $diff;
 };
 
+my $diff_two_simply = sub {
+    my ($c, $d) = @_;
+
+    my $diff = [];
+
+    no warnings 'uninitialized';
+    my %seen = map { $_ => 1 } @$d;
+
+    my @diff = grep { not $seen{$_} } @$c;
+
+    return \@diff;
+};
 
 sub diff {
     my ($base, @rest) = @_;
@@ -109,7 +122,11 @@ sub diff {
         return wantarray ? @$base : $base;
     }
 
-    require perl5i::1::equal;
+    require List::MoreUtils;
+
+    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$base);
+
+    my $diff_two = $has_refs ? $diff_two_deeply : $diff_two_simply;
 
     # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
     # ssasign ... "
