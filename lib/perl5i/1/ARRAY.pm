@@ -138,9 +138,22 @@ sub diff {
 }
 
 
-my $intersect_two = sub {
+my $intersect_two_simply = sub {
+    my ($c, $d) = @_;
+
+    no warnings 'uninitialized';
+    my %seen = map { $_ => 1 } @$d;
+
+    my @intersect = grep { $seen{$_} } @$c;
+
+    return \@intersect;
+};
+
+my $intersect_two_deeply = sub {
     # Compare differences between two arrays.
     my ($c, $d) = @_;
+
+    require perl5i::1::equal;
 
     my $intersect = [];
 
@@ -168,7 +181,10 @@ sub intersect {
         return wantarray ? @$base : $base;
     }
 
-    require perl5i::1::equal;
+    require List::MoreUtils;
+    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$base);
+
+    my $intersect_two = $has_refs ? $intersect_two_deeply : $intersect_two_simply;
 
     # XXX If I use carp here, the exception is "bizarre copy of ARRAY in
     # ssasign ... "
