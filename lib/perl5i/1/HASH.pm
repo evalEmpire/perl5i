@@ -32,4 +32,93 @@ sub say {
     print join(" ", map { "$_ => $hash->{$_}" } keys %$hash), "\n";
 }
 
+my $common = sub {
+    # Return all things in first array that are also present in second.
+    my ($c, $d) = @_;
+
+    no warnings 'uninitialized';
+    my %seen = map { $_ => 1 } @$d;
+
+    my @common = grep { $seen{$_} } @$c;
+
+    return \@common;
+};
+
+sub diff {
+    my ($base, @rest) = @_;
+    unless (@rest) {
+        return wantarray ? %$base : $base;
+    }
+
+    die "Arguments must be hash references" if grep { ref $_ ne 'HASH' } @rest;
+
+    # make a copy so that we can delete kv pairs without modifying the
+    # original hashref.
+    my %base = %$base;
+
+    require perl5i::1::equal;
+
+    foreach my $hash (@rest) {
+
+        my $common_keys = $common->( [ keys %$base ], [ keys %$hash ] );
+
+        next unless @$common_keys;
+
+        # Keys are equal, are values also equal?
+        foreach my $key (@$common_keys) {
+            delete $base{$key} if perl5i::1::equal::are_equal( $base->{$key}, $hash->{$key} );
+        }
+
+    }
+
+    return wantarray ? %base : \%base;
+}
+
+my $different = sub {
+    # Return all things in first array that are not present in second.
+    my ($c, $d) = @_;
+
+    no warnings 'uninitialized';
+    my %seen = map { $_ => 1 } @$d;
+
+    my @different = grep { not $seen{$_} } @$c;
+
+    return \@different;
+};
+
+sub intersect {
+    my ($base, @rest) = @_;
+
+    unless (@rest) {
+        return wantarray ? %$base : $base;
+    }
+
+    die "Arguments must be hash references" if grep { ref $_ ne 'HASH' } @rest;
+
+    # make a copy so that we can delete kv pairs without modifying the
+    # original hashref.
+    my %base = %$base;
+
+    require perl5i::1::equal;
+
+    foreach my $hash (@rest) {
+
+        my $different_keys = $different->( [ keys %$base ], [ keys %$hash ] );
+
+        delete @base{@$different_keys};
+
+        return wantarray ? () : {} unless %base;
+
+        my $common_keys = $common->( [ keys %$base ], [ keys %$hash ] );
+
+        # Keys are equal, are values also equal?
+        foreach my $key (@$common_keys) {
+            delete $base{$key} unless perl5i::1::equal::are_equal( $base->{$key}, $hash->{$key} );
+        }
+
+    }
+
+    return wantarray ? %base : \%base;
+}
+
 1;
