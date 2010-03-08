@@ -28,7 +28,7 @@ my $builder = MyBuild->new(
         'autodie'                 => '1.999',
         # Needed for autodie :system
         'IPC::System::Simple' => '1.18',
-        'autobox::Core'       => '0.6',
+        'autobox::Core'       => '1.0',
         parent                => '0.221',
         'File::chdir'         => '0.1002',
         'autobox::dump'       => '20090426',
