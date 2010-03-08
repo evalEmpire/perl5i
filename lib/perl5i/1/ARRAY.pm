@@ -106,8 +106,6 @@ my $diff_two_deeply = sub {
 my $diff_two_simply = sub {
     my ($c, $d) = @_;
 
-    my $diff = [];
-
     no warnings 'uninitialized';
     my %seen = map { $_ => 1 } @$d;
 
