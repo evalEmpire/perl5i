@@ -105,7 +105,7 @@ use Scalar::Util qw(tainted);
     use Test::More;
     use Test::Exception;
 
-    use overload q[""] => sub { return ${$_[0]} };
+    use overload q[""] => sub { return ${$_[0]} }, fallback => 1;
 
     # Try it when its overloaded and tainted
     {
