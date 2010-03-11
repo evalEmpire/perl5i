@@ -19,10 +19,10 @@ use Test::More;
 {
     my %hash;
     my $val = $hash{key};
-    is_deeply %hash->keys, [], "hash key does not autoviv";
+    is_deeply scalar %hash->keys, [], "hash key does not autoviv";
 
     $val = $hash{key1}{key2};
-    is_deeply %hash->keys, [], "hash key does not autoviv";
+    is_deeply scalar %hash->keys, [], "hash key does not autoviv";
 }
 
 done_testing();
