@@ -59,11 +59,7 @@ ok $ref->mo->checksum;
 is $ref->mo->checksum,   $ref2->mo->checksum;
 isnt $ref->mo->checksum, $ref3->mo->checksum;
 
-TODO: {
-    todo_skip "No metaclass support for scalars yet", 2;
-
-    ok 42->mo->checksum;
-    isnt 42->mo->checksum, "foo"->mo->checksum;
-}
+ok 42->mo->checksum;
+isnt 42->mo->checksum, "foo"->mo->checksum;
 
 done_testing();

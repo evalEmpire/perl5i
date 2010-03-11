@@ -21,7 +21,7 @@ use Test::More;
 
 # Single inheritance
 {
-    is_deeply [Child->mo->ISA], ["Parent"];
+    is_deeply [Child->mc->ISA], ["Parent"];
 
     my $obj = Child->new;
     is_deeply [$obj->mo->ISA], ["Parent"];
@@ -38,6 +38,6 @@ use Test::More;
     our @ISA = qw(Foo Bar Baz);
 }
 
-is_deeply [Multiple->mo->ISA], [qw(Foo Bar Baz)];
+is_deeply [Multiple->mc->ISA], [qw(Foo Bar Baz)];
 
 done_testing();

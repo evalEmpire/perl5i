@@ -10,21 +10,21 @@ use perl5i::latest;
 use Test::More;
 
 my $obj = bless {}, "Foo";
-is $obj->mo->class, "Foo";
+is $obj->mc->class, "Foo";
 
-is 42->mo->class, 42;
+is 42->mc->class, 42;
 
 my @array;
-is @array->mo->class, "ARRAY";
+is @array->mc->class, "ARRAY";
 
 my %hash;
-is %hash->mo->class, "HASH";
+is %hash->mc->class, "HASH";
 
 my $ref = \42;
-is $ref->mo->class, "SCALAR";
+is $ref->mc->class, "SCALAR";
 
-is []->mo->class, "ARRAY";
+is []->mc->class, "ARRAY";
 
-is {}->mo->class, "HASH";
+is {}->mc->class, "HASH";
 
 done_testing();
