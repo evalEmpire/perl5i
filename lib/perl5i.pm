@@ -596,6 +596,15 @@ L<autovivification> fixes the bug/feature where this:
 Results in C<< $hash->{key1} >> coming into existence.  That will no longer
 happen.
 
+=head2 No indirect object syntax
+
+perl5i turns indirect object syntax, ie. C<new $obj>, into a compile
+time error.  Indirect object syntax is largely unnecessary and
+removing it avoids a number of ambiguous cases where Perl will
+mistakenly try to turn a function call into an indirect method call.
+
+See L<indirect> for details.
+
 =head2 want()
 
 C<want()> generalizes the mechanism of the wantarray function, allowing a

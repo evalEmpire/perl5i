@@ -24,6 +24,7 @@ our $Latest = perl5i::VERSION->latest;
 use parent 'autodie';
 use parent 'perl5i::1::autobox';
 use parent 'autovivification';
+use parent 'indirect';
 use parent 'utf8';
 use parent 'open';
 
@@ -51,6 +52,7 @@ sub import {
     # Have to call both or it won't work.
     perl5i::1::autobox::import($class);
     autovivification::unimport($class);
+    indirect::unimport($class, ":fatal");
     utf8::import($class);
 
     open::import($class, ":encoding(utf8)");
