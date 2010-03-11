@@ -168,12 +168,17 @@ details.
 
 =head2 How do I use a module from a variable?
 
-Call the L<load> method on that variable.
+Call the L<require> method on that variable.
 
     my $module = "Some::Module";
-    $module->load;
+    $module->require;
 
-See L<perl5i/load()> for details.
+If you want to import symbols, you can call import as well.
+
+    $module->require->import;
+
+See L<perl5i/require> for details.
+
 
 =head2 How do I strip whitespace off a string?
 

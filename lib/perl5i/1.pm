@@ -5,7 +5,6 @@ use 5.010;
 
 use strict;
 use warnings;
-use Module::Load;
 use IO::Handle;
 use Carp;
 use perl5i::1::DateTime;
@@ -121,7 +120,7 @@ sub load_in_caller {
     for my $spec (@modules) {
         my( $module, @args ) = @$spec;
 
-        load($module);
+        $module->require;
         ## no critic (BuiltinFunctions::ProhibitStringyEval)
         eval qq{
             package $caller;

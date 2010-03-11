@@ -112,9 +112,17 @@ sub is_tainted {
 }
 
 
-sub load {
-    require Module::Load;
-    goto &Module::Load::load;
+sub require {
+    my $error = do {
+        # Don't let them leak out or get reset
+        local($!,$@);
+        return $_[0] if eval { require $_[0]->module2path };
+        $@;
+    };
+
+    my($pack, $file, $line) = caller;
+    $error =~ s{ at .*? line .*?\.\n$}{ at $file line $line.\n};
+    die $error;
 }
 
 
