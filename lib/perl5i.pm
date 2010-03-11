@@ -475,6 +475,23 @@ It also works with nested hashes, although it won't attempt to merge
 array references or objects. For more information, look at the
 L<Hash::Merge::Simple> docs.
 
+=head3 diff()
+
+    my %staff    = ( bob => 42, martha => 35, timmy => 23 );
+    my %promoted = ( timmy => 23 );
+
+    %staff->diff(\%promoted); # { bob => 42, martha => 35 }
+
+Returns the key/value pairs present in the first hash that are not
+present in the subsequent hash arguments.
+
+=head3 intersect()
+
+    %staff->intersect(\%promoted); # { timmy => 23 }
+
+Returns the key/value pairs that are present simultaneously in all the
+hash arguments.
+
 =head2 caller()
 
 L<Perl6::Caller> causes C<caller> to return an object in scalar
