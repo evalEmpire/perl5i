@@ -22,6 +22,7 @@ lib/perl5i/1/ARRAY.pm
 lib/perl5i/1/autobox.pm
 lib/perl5i/1/CODE.pm
 lib/perl5i/1/DateTime.pm
+lib/perl5i/1/equal.pm
 lib/perl5i/1/HASH.pm
 lib/perl5i/1/Meta.pm
 lib/perl5i/1/Meta/Class.pm
@@ -57,6 +58,7 @@ t/dump/code.t
 t/dump/hash.t
 t/dump/scalar.t
 t/English.t
+t/equal.t
 t/everything_is_an_object.t
 t/File-stat.t
 t/flip.t
@@ -84,14 +86,15 @@ t/List-Util/sum.t
 t/map.t
 t/Meta/checksum.t
 t/Meta/class.t
+t/Meta/is-equal.t
 t/Meta/ISA.t
 t/Meta/linear_isa.t
 t/Meta/reftype.t
 t/Meta/super.t
 t/method_leaking.t
 t/modern_perl.t
-t/Module-Load.t
 t/module2path.t
+t/no_indirect.t
 t/number.t
 t/perl5i.t
 t/require.t
