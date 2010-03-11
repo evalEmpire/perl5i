@@ -1,11 +1,21 @@
-1.2.0
+2.0.0
   Incompatible Changes
   * In general, methods which return a list return an array in
     list context and an array ref in scalar context.  This enables
     chaining of autoboxed methods.
+  * $module->load() is now $module->require() with simpler semantics.
+    [github 107] [schwern]
+  * Indirect object syntax (ie. $obj = new Class) is now a compile time
+    syntax error.
+  * $thing->mo now always returns a meta instance object.  This allows
+    the meta object to DWIM on plain strings which previously would be
+    treated as classes and return the meta class object.
 
   New Features
   * $thing->mo->is_equal($other) universal equality method. [brunov]
+  * $thing->mc has been added to always return a meta class object.
+    This allows disambiguation when $thing could be considered a
+    class name.
 
   Fixes
   * Update dep on autovivification to one that works on 5.11 [schwern]
