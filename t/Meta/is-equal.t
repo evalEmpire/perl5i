@@ -15,13 +15,10 @@ use perl5i::latest;
         ok( !$things[$i]->mo->is_equal( $things[$_] ) ) for @others;
     }
 
-    TODO: {
-        todo_skip "waiting for branch mc merge", 7;
 
-        ok 42->mo->is_equal(42), "Number is equal to itself";
+    ok 42->mo->is_equal(42), "Number is equal to itself";
 
-        ok !42->mo->is_equal($_) for @things;
-    }
+    ok !42->mo->is_equal($_) for @things;
 }
 
 done_testing();
