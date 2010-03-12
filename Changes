@@ -21,7 +21,8 @@
   Fixes
   * Update dep on autovivification to one that works on 5.11 [schwern]
   * Update autobox::Core dep to clarify scalar vs list context returns.
-  * Fix taint test failing with Test::More 0.95_01.
+  * Fix taint test failing with Test::More 0.95_01. [schwern]
+  * Fix time compat test failing because of unknown time zones. [schwern]
 
   Optimizations
   * Optimize @array->intersect() and @array->diff() when @array contains no refs.

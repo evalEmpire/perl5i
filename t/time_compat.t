@@ -18,22 +18,29 @@ like localtime(), qr{
 my $beg = time();
 
 SKIP: {
-    # This conditional of "No tzset()" is stolen from ext/POSIX/t/time.t
-    skip "No tzset()", 1
-      if $^O eq "MacOS"
-          || $^O eq "VMS"
-          || $^O eq "cygwin"
-          || $^O eq "djgpp"
-          || $^O eq "MSWin32"
-          || $^O eq "dos"
-          || $^O eq "interix";
+    local $ENV{TZ};
+
+    # Two time zones, different and likely to exist
+    my $tz1 = "America/Los_Angeles";
+    my $tz2 = "America/Chicago";
+
+    # If the core localtime doesn't respond to TZ, we don't have to.
+    skip "localtime does not respect TZ env", 1
+      unless do {
+          # check that localtime respects changes to $ENV{TZ}
+          $ENV{TZ}  = $tz1;
+          my $hour  = (CORE::localtime($beg))[2];
+          $ENV{TZ}  = $tz2;
+          my $hour2 = (CORE::localtime($beg))[2];
+          $hour != $hour2;
+      };
 
     # check that localtime respects changes to $ENV{TZ}
-    $ENV{TZ} = "GMT-5";
-    my( $sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst ) = localtime($beg);
-    $ENV{TZ} = "GMT+5";
-    ( $sec, $min, my $hour2, $mday, $mon, $year, $wday, $yday, $isdst ) = localtime($beg);
-    isnt( $hour, $hour2, 'changes to $ENV{TZ} respected' );
+    $ENV{TZ}  = $tz1;
+    my $hour  = (localtime($beg))[2];
+    $ENV{TZ}  = $tz2;
+    my $hour2 = (localtime($beg))[2];
+    isnt $hour, $hour2, "localtime() honors TZ";
 }
 
 
