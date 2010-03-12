@@ -483,14 +483,15 @@ L<Hash::Merge::Simple> docs.
     %staff->diff(\%promoted); # { bob => 42, martha => 35 }
 
 Returns the key/value pairs present in the first hash that are not
-present in the subsequent hash arguments.
+present in the subsequent hash arguments.  Otherwise works as
+C<< @array->diff >>.
 
 =head3 intersect()
 
     %staff->intersect(\%promoted); # { timmy => 23 }
 
 Returns the key/value pairs that are present simultaneously in all the
-hash arguments.
+hash arguments.  Otherwise works as C<< @array->intersect >>.
 
 =head2 caller()
 
