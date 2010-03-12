@@ -16,6 +16,7 @@
   * $thing->mc has been added to always return a meta class object.
     This allows disambiguation when $thing could be considered a
     class name.
+  * new autoboxed methods: %hash->diff() and %hash->intersect() [brunov]
 
   Fixes
   * Update dep on autovivification to one that works on 5.11 [schwern]
