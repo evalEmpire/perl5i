@@ -2,13 +2,17 @@
 
 $new_version = shift || die "$0 <new version>\n";
 $old_version = $new_version - 1;
+
+# Copy the old version to the new version.
 run("cp lib/perl5i/$old_version.pm lib/perl5i/$new_version.pm");
 run("cp -r lib/perl5i/$old_version lib/perl5i/$new_version");
 
+# Change all instances of perl5i::$old to perl5i::$new, but leave the old files alone
 my $change_version = qq[perl -i -pe 's{perl5i::$old_version}{perl5i::$new_version}g'];
 run(qq[find lib/perl5i/$new_version -type f -print0 | xargs -0 $change_version]);
-run("$change_version lib/perl5i/{Meta,VERSION,latest}.pm lib/*.pm lib/*.pod");
+run("$change_version lib/perl5i/{Meta,VERSION,latest,$new_version}.pm lib/*.pm lib/*.pod");
 
+# Change the distribution version number to $new.0.0
 run(qq[perl -i -pe 's{v$old_version [.\\d]+}{v$new_version.0.0}x' lib/perl5i/VERSION.pm Build.PL]);
 
 sub run {

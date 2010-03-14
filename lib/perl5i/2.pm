@@ -1,5 +1,5 @@
 # vi: set ts=4 sw=4 ht=4 et :
-package perl5i::1;
+package perl5i::2;
 
 use 5.010;
 
@@ -7,12 +7,12 @@ use strict;
 use warnings;
 use IO::Handle;
 use Carp;
-use perl5i::1::DateTime;
+use perl5i::2::DateTime;
 use Want;
 use Try::Tiny;
-use perl5i::1::Meta;
+use perl5i::2::Meta;
 use Encode ();
-use perl5i::1::autobox;
+use perl5i::2::autobox;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -21,7 +21,7 @@ our $Latest = perl5i::VERSION->latest;
 
 # This works around their lexical nature.
 use parent 'autodie';
-use parent 'perl5i::1::autobox';
+use parent 'perl5i::2::autobox';
 use parent 'autovivification';
 use parent 'indirect';
 use parent 'utf8';
@@ -49,7 +49,7 @@ sub import {
     ) );
 
     # Have to call both or it won't work.
-    perl5i::1::autobox::import($class);
+    perl5i::2::autobox::import($class);
     autovivification::unimport($class);
     indirect::unimport($class, ":fatal");
     utf8::import($class);
