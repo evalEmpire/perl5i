@@ -29,6 +29,18 @@ lib/perl5i/1/Meta/Class.pm
 lib/perl5i/1/Meta/Instance.pm
 lib/perl5i/1/SCALAR.pm
 lib/perl5i/1/UNIVERSAL.pm
+lib/perl5i/2.pm
+lib/perl5i/2/ARRAY.pm
+lib/perl5i/2/autobox.pm
+lib/perl5i/2/CODE.pm
+lib/perl5i/2/DateTime.pm
+lib/perl5i/2/equal.pm
+lib/perl5i/2/HASH.pm
+lib/perl5i/2/Meta.pm
+lib/perl5i/2/Meta/Class.pm
+lib/perl5i/2/Meta/Instance.pm
+lib/perl5i/2/SCALAR.pm
+lib/perl5i/2/UNIVERSAL.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
 lib/perl5i/VERSION.pm
@@ -63,6 +75,8 @@ t/everything_is_an_object.t
 t/File-stat.t
 t/flip.t
 t/grep.t
+t/hash-diff.t
+t/hash-intersect.t
 t/hash-merge.t
 t/intersect.t
 t/io-handle.t
