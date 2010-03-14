@@ -1,10 +1,13 @@
 #!/usr/bin/env perl
 
+# Glassbox test of the internal are_equal function.
+
 use perl5i::latest;
 use Test::More;
 
+# Load the latest version of equal.pm and alias are_equal() to equal
+# for convenience
 {
-    no strict 'refs';
     my $equal_class = perl5i::VERSION->latest . "::equal";
     $equal_class->require;
 
