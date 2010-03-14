@@ -48,9 +48,6 @@ my $builder = MyBuild->new(
         'IPC::Open3'         => '0',
         'Test::Output'       => '0.16',
     },
-    configure_requires => {
-        'Module::Build' => '0.32',
-    },
 
     meta_merge => {
         resources => {
