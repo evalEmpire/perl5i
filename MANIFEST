@@ -22,7 +22,6 @@ lib/perl5i/1/ARRAY.pm
 lib/perl5i/1/autobox.pm
 lib/perl5i/1/CODE.pm
 lib/perl5i/1/DateTime.pm
-lib/perl5i/1/equal.pm
 lib/perl5i/1/HASH.pm
 lib/perl5i/1/Meta.pm
 lib/perl5i/1/Meta/Class.pm

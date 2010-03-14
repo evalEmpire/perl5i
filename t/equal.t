@@ -1,13 +1,15 @@
 #!/usr/bin/env perl
-use strict;
-use warnings;
+
+use perl5i::latest;
 use Test::More;
 
-use_ok 'perl5i::1::equal';
-
 {
-    no warnings;
-    *equal = *perl5i::1::equal::are_equal;
+    no strict 'refs';
+    my $equal_class = perl5i::VERSION->latest . "::equal";
+    $equal_class->require;
+
+    # autobox hijacks can() to look at the autobox SCALAR class
+    $equal_class->UNIVERSAL::can("are_equal")->alias("equal");
 }
 
 {
