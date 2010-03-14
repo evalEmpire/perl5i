@@ -51,3 +51,6 @@
 
 # Ignore our own dist dir
 ^perl5i-
+
+# Don't ship admin scripts
+^admin/

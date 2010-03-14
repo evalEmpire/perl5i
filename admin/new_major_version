@@ -1,0 +1,19 @@
+#!/usr/bin/perl
+
+$new_version = shift || die "$0 <new version>\n";
+$old_version = $new_version - 1;
+run("cp lib/perl5i/$old_version.pm lib/perl5i/$new_version.pm");
+run("cp -r lib/perl5i/$old_version lib/perl5i/$new_version");
+
+my $change_version = qq[perl -i -pe 's{perl5i::$old_version}{perl5i::$new_version}g'];
+run(qq[find lib/perl5i/$new_version -type f -print0 | xargs -0 $change_version]);
+run("$change_version lib/perl5i/{Meta,VERSION,latest}.pm lib/*.pm lib/*.pod");
+
+run(qq[perl -i -pe 's{v$old_version [.\\d]+}{v$new_version.0.0}x' lib/perl5i/VERSION.pm Build.PL]);
+
+sub run {
+    my @cmd = @_;
+    @cmd == 1 ? system $cmd[0] : system @cmd;
+    die "@cmd exited with $?" if $?;
+    return 1;
+}
