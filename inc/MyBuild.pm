@@ -1,5 +1,6 @@
 package MyBuild;
 
+use v5.10;
 use base 'Module::Build';
 
 # Override default 'code' action
@@ -74,6 +75,30 @@ sub ACTION_critic {
 
     print "Running perlcritic on @{[ scalar @files ]} files...\n";
     system( "perlcritic", @files );
+}
+
+# Check if the built in local/gmtime work for a reasonable set of
+# time.  Some systems fail at 2**47 or beyond, and a lot fail at year
+# 0, so those are good boundaries.
+# This allows us to avoid depending on Time::y2038 which is a bit
+# unreliable.
+sub needs_y2038 {
+    my $self = shift;
+
+    state $limits = {
+        # time             year
+        2**47-1         => 4461763,
+        -62135510400    => 1,
+    };
+
+    for my $time (keys %$limits) {
+        my $year = $limits->{$time};
+
+        return 1 if (gmtime($time))[5]    + 1900 != $year;
+        return 1 if (localtime($time))[5] + 1900 != $year;
+    }
+
+    return 0;
 }
 
 1;

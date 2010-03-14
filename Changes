@@ -10,6 +10,8 @@
   * $thing->mo now always returns a meta instance object.  This allows
     the meta object to DWIM on plain strings which previously would be
     treated as classes and return the meta class object.
+  * The guaranteed range of gm/localtime() has been reduced to avoid
+    depending on Time::y2038 if possible.
 
   New Features
   * $thing->mo->is_equal($other) universal equality method. [brunov]
@@ -23,6 +25,8 @@
   * Update autobox::Core dep to clarify scalar vs list context returns.
   * Fix taint test failing with Test::More 0.95_01. [schwern]
   * Fix time compat test failing because of unknown time zones. [schwern]
+  * Time::y2038 is only required if the built in time functions
+    are not up to task. [schwern]
 
   Optimizations
   * Optimize @array->intersect() and @array->diff() when @array contains no refs.

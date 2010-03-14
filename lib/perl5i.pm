@@ -573,9 +573,9 @@ objects.  They will all act like the core functions.
 
 =head2 Time::y2038
 
-C<gmtime()> and C<localtime()> will now safely work with dates beyond the
-year 2038 and before 1901 (the exact range is not defined, but it's
-well into a couple million years in either direction).
+C<gmtime()> and C<localtime()> will now safely work with dates beyond
+the year 2038 and before 1901.  The exact range is not defined, but we
+guarantee at least up to 2**47 and back to year 1.
 
 
 =head2 IO::Handle

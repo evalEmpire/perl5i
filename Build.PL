@@ -21,7 +21,6 @@ my $builder = MyBuild->new(
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
         'DateTime::TimeZone::Tzfile' => '0.002',
-        'Time::y2038'             => '20100218',
         'Text::Wrap'              => '2009.0305',
         'Try::Tiny'               => '0.02',
         'autodie'                 => '1.999',
@@ -84,5 +83,7 @@ my $builder = MyBuild->new(
     create_readme       => 1,
     create_license      => 1,
 );
+
+$builder->requires->{"Time::y2038"} = "20100218" if $builder->needs_y2038;
 
 $builder->create_build_script();
