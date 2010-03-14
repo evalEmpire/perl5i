@@ -223,19 +223,21 @@ What it does
         ".34"->is_decimal;          # true
         "point five"->is_decimal;   # false
 
-  load()
-        $module->load(@args);
-        $path->load(@args);
+  require
+        my $module = $module->require;
 
-    A thin wrapper around `Module::Load::load()'. It will load a module from
-    a scalar without requiring you to do funny things like `eval require
-    $module'. It accepts both module names and file paths.
+    Will `require' the given $module. This avoids funny things like `eval
+    qq[require $module] or die $@'. It accepts only module names.
+
+    On failure it will throw an exception, just like `require'. On a success
+    it returns the $module. This is mostly useful so that you can
+    immediately call $module's `import' method to emulate a `use'.
 
         # like "use $module qw(foo bar);" if that worked
-        $module->load(qw(foo bar));
+        $module->require->import(qw(foo bar));
 
-    Note that `$module->load' does not import anything. This may change in
-    the future.
+        # like "use $module;" if that worked
+        $module->require->import;
 
     wrap()
         my $wrapped = $string->wrap( width => $cols, separator => $sep );
@@ -392,6 +394,22 @@ What it does
     array references or objects. For more information, look at the
     Hash::Merge::Simple docs.
 
+    diff()
+        my %staff    = ( bob => 42, martha => 35, timmy => 23 );
+        my %promoted = ( timmy => 23 );
+
+        %staff->diff(\%promoted); # { bob => 42, martha => 35 }
+
+    Returns the key/value pairs present in the first hash that are not
+    present in the subsequent hash arguments. Otherwise works as
+    `@array->diff'.
+
+    intersect()
+        %staff->intersect(\%promoted); # { timmy => 23 }
+
+    Returns the key/value pairs that are present simultaneously in all the
+    hash arguments. Otherwise works as `@array->intersect'.
+
   caller()
     Perl6::Caller causes `caller' to return an object in scalar context.
 
@@ -461,10 +479,6 @@ What it does
     year 2038 and before 1901 (the exact range is not defined, but it's well
     into a couple million years in either direction).
 
-  Module::Load
-    Module::Load adds `load' which will load a module from a scalar without
-    requiring you to do funny things like `eval require $module'.
-
   IO::Handle
     Turns filehandles into objects so you can call methods on them. The
     biggest one is `autoflush' rather than mucking around with `$|' and
@@ -490,6 +504,14 @@ What it does
 
     Results in `$hash->{key1}' coming into existence. That will no longer
     happen.
+
+  No indirect object syntax
+    perl5i turns indirect object syntax, ie. `new $obj', into a compile time
+    error. Indirect object syntax is largely unnecessary and removing it
+    avoids a number of ambiguous cases where Perl will mistakenly try to
+    turn a function call into an indirect method call.
+
+    See indirect for details.
 
   want()
     `want()' generalizes the mechanism of the wantarray function, allowing a

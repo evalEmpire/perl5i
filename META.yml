@@ -80,6 +80,8 @@ provides:
     file: lib/perl5i/1/UNIVERSAL.pm
   perl5i::1::autobox:
     file: lib/perl5i/1/autobox.pm
+  perl5i::1::equal:
+    file: lib/perl5i/1/equal.pm
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
     version: v1.1.0
@@ -96,18 +98,16 @@ requires:
   IPC::System::Simple: 1.18
   List::MoreUtils: 0.22
   Modern::Perl: 1.03
-  Module::Load: 0.16
   Perl6::Caller: 0.100
   Taint::Util: 0.06
   Text::Wrap: 2009.0305
-  Time::y2038: 20100218
   Try::Tiny: 0.02
   Want: 0.18
-  autobox::Core: 0.6
+  autobox::Core: 1.0
   autobox::List::Util: 20090629
   autobox::dump: 20090426
   autodie: 1.999
-  autovivification: 0.04
+  autovivification: 0.05
   parent: 0.221
   perl: v5.10.0
   version: 0.77
