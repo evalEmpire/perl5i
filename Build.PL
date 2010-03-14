@@ -21,6 +21,7 @@ my $builder = MyBuild->new(
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
         'DateTime::TimeZone::Tzfile' => '0.002',
+        'Module::Load'            => '0.16',            # for perl5i::1
         'Text::Wrap'              => '2009.0305',
         'Try::Tiny'               => '0.02',
         'autodie'                 => '1.999',
