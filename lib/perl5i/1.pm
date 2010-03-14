@@ -5,6 +5,7 @@ use 5.010;
 
 use strict;
 use warnings;
+use Module::Load;
 use IO::Handle;
 use Carp;
 use perl5i::1::DateTime;
@@ -23,7 +24,6 @@ our $Latest = perl5i::VERSION->latest;
 use parent 'autodie';
 use parent 'perl5i::1::autobox';
 use parent 'autovivification';
-use parent 'indirect';
 use parent 'utf8';
 use parent 'open';
 
@@ -51,7 +51,6 @@ sub import {
     # Have to call both or it won't work.
     perl5i::1::autobox::import($class);
     autovivification::unimport($class);
-    indirect::unimport($class, ":fatal");
     utf8::import($class);
 
     open::import($class, ":encoding(utf8)");
@@ -120,7 +119,7 @@ sub load_in_caller {
     for my $spec (@modules) {
         my( $module, @args ) = @$spec;
 
-        $module->require;
+        load($module);
         ## no critic (BuiltinFunctions::ProhibitStringyEval)
         eval qq{
             package $caller;

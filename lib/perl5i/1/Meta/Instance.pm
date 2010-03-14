@@ -86,7 +86,7 @@ sub checksum {
     my $module = 'Digest::' . uc $args{algorithm};
     my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
 
-    $module->require;
+    Module::Load::load($module);
     my $digestor = $module->new;
 
     require Data::Dumper;
@@ -97,14 +97,5 @@ sub checksum {
     $digestor->add( $d->Dump );
     return $digestor->$digest;
 }
-
-
-sub is_equal {
-    my ($self, $other) = @_;
-    require perl5i::1::equal;
-
-    return perl5i::1::equal::are_equal(${$self}, $other);
-}
-
 
 1;
