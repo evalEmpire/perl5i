@@ -1,7 +1,7 @@
 package perl5i;
 
 ######################################
-# The real code is in perl5i::1      #
+# The real code is in perl5i::2      #
 # Please patch that                  #
 ######################################
 
@@ -32,7 +32,7 @@ perl5i - Fix as much of Perl 5 as possible in one pragma
 
 =head1 SYNOPSIS
 
-  use perl5i::1;
+  use perl5i::2;
 
   or
 
@@ -62,16 +62,16 @@ simply C<use perl5i>.  You must declare which major version of perl5i
 you are using.  You do this like so:
 
     # Use perl5i major version 1
-    use perl5i::1;
+    use perl5i::2;
 
-Thus the code you write with, for example, C<perl5i::1> will always
+Thus the code you write with, for example, C<perl5i::2> will always
 remain compatible even as perl5i moves on.
 
 If you want to be daring, you can C<use perl5i::latest> to get the
 latest version.
 
 If you want your module to depend on perl5i, you should depend on the
-versioned class.  For example, depend on C<perl5i::1> and not
+versioned class.  For example, depend on C<perl5i::2> and not
 C<perl5i>.
 
 See L</VERSIONING> for more information about perl5i's versioning
