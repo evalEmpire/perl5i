@@ -5,7 +5,6 @@ use 5.010;
 use strict;
 use warnings;
 require Carp;
-use autobox;
 use perl5i::2::autobox;
 
 sub title_case {
