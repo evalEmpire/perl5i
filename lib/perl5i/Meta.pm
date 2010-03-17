@@ -30,25 +30,47 @@ does.  You want to guarantee that every object responds to these meta
 methods the same way so there's no second-guessing.
 
 
+=head2 Meta Instance vs Meta Class
+
+Each object has a meta object for their instance, accessable with C<<
+$obj->mo >> and also a meta object for their class, accessable with
+C<< $obj->mc >>.  The meta instance can do most everything the meta
+class can, mc is provided mostly for disambiguation.
+
+The problem is this:
+
+    my $thing = "Foo";
+    say $thing->mo->class;
+
+In perl5i, everything is an object.  Do you want the class of $thing
+or do you want to treat $thing as a class name?  Its ambiguous.  So to
+disambiguate, use C<< $thing->mc >> when you mean $thing to be a class
+name and C<< $thing->mo >> when you mean it to be an object.
+
+For example, when writing a method which could be a class or could be
+an object be sure to use C<< $proto->mc->class >> to get the class
+name.
+
+    sub my_method {
+        my $proto = shift;  # could be an object, could be a class name
+        my $class = $proto->mc->class;
+        ....
+    }
+
+
 =head1 METHODS
 
 =head2 class
 
     my $class = $object->mo->class;
-    my $class = $class->mo->class;
+    my $class = $class->mc->class;
 
-Returns the class of the $object.
-
-When called as a class method, it will return the $class.
-
-Because of ambiguity, it cannot identify a SCALAR object.  It will
-instead treat it as a class method call.
-
+Returns the class of the $object or $class.
 
 =head2 ISA
 
     my @ISA = $object->mo->ISA;
-    my @ISA = $class->mo->ISA;
+    my @ISA = $class->mc->ISA;
 
 Returns the immediate parents of the C<$class> or C<$object>.
 
@@ -60,7 +82,7 @@ Essentially equivalent to:
 
 =head2 linear_isa
 
-    my @isa = $class->mo->linear_isa();
+    my @isa = $class->mc->linear_isa();
     my @isa = $object->mo->linear_isa();
 
 Returns the entire inheritance tree of the $class or $object as a list
@@ -77,7 +99,7 @@ This list includes the $class itself and includes UNIVERSAL.  For example:
 
 =head2 super
 
-    my @return = $class->mo->super(@args);
+    my @return = $class->mc->super(@args);
     my @return = $object->mo->super(@args);
 
 Call the parent of $class/$object's implementation of the current method.
