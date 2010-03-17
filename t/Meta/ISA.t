@@ -40,4 +40,6 @@ use Test::More;
 
 is_deeply [Multiple->mc->ISA], [qw(Foo Bar Baz)];
 
+is_deeply scalar Multiple->mc->ISA, [qw(Foo Bar Baz)], "scalar context";
+
 done_testing();

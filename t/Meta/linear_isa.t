@@ -25,4 +25,6 @@ is_deeply [Mom->mc->linear_isa],   [qw(Mom GrandParents UNIVERSAL)];
 is_deeply [Child->mc->linear_isa], [qw(Child Mom Dad GrandParents UNIVERSAL)]
   or diag explain( [Child->mc->linear_isa] );
 
+is_deeply scalar Mom->mc->linear_isa, [qw(Mom GrandParents UNIVERSAL)], "scalar context";
+
 done_testing();

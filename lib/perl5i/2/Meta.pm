@@ -27,7 +27,7 @@ sub ISA {
     my $class = $_[0]->class;
 
     no strict 'refs';
-    return @{$class.'::ISA'};
+    return wantarray ? @{$class.'::ISA'} : \@{$class.'::ISA'};
 }
 
 sub linear_isa {
@@ -38,7 +38,8 @@ sub linear_isa {
     my @extra;
     @extra = qw(UNIVERSAL) unless $class eq 'UNIVERSAL';
 
-    return @{mro::get_linear_isa($class)}, @extra;
+    my $isa = [@{mro::get_linear_isa($class)}, @extra];
+    return wantarray ? @$isa : $isa;
 }
 
 
