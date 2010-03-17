@@ -1,3 +1,8 @@
+2.0.1  Wed Mar 17 11:10:54 PDT 2010
+  Fixes
+  * Quick fix to handle not always having Time::y2038.
+
+
 2.0.0  Tue Mar 16 23:34:22 PDT 2010
   Incompatible Changes
   * In general, methods which return a list return an array in
