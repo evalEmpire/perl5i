@@ -1,4 +1,4 @@
-2.0.2
+2.0.2  Wed Mar 17 12:21:00 PDT 2010
   Build Fixes
   * Ensure non META.yml savy CPAN shells see the configure_requires
     for Module::Build.
