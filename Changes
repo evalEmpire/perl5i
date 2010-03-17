@@ -6,6 +6,8 @@
 
   Test Fixes
   * Don't run the v1 and v0 sanity tests unless Time::y2038 is installed.
+  * autobox 2.60 changed how isa() works and broke 42->isa("UNIVERSAL").
+    Will fix for real later.
 
 
 2.0.1  Wed Mar 17 11:10:54 PDT 2010
