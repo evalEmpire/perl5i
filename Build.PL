@@ -39,6 +39,7 @@ my $builder = MyBuild->new(
         "Taint::Util"         => '0.06',
         'Hash::Merge::Simple' => '0.04',
         'List::MoreUtils'     => '0.22',
+        indirect              => '0.19',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

@@ -2,6 +2,7 @@
   Fixes
   * Ensure non META.yml savy CPAN shells see the configure_requires
     for Module::Build.
+  * Forgot to require indirect.pm
 
 
 2.0.1  Wed Mar 17 11:10:54 PDT 2010
