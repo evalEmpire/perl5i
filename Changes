@@ -68,6 +68,8 @@
   * The guaranteed range of gm/localtime() has been reduced to avoid
     depending on Time::y2038 if possible.
   * $thing->perl is now $thing->mo->perl and works on everything.
+  * $thing->is_tainted, untaint and taint have been removed.
+    Please use $thing->mo->is_tainted and friends.
 
   New Features
   * $thing->mo->is_equal($other) universal equality method. [brunov]
@@ -77,6 +79,8 @@
   * new autoboxed methods: %hash->diff() and %hash->intersect() [brunov]
   * Added $thing->mo->dump to dump objects in multiple formats
     including YAML and JSON.
+  * $thing->mo->is_tainted, along with untaint and taint, are now callable
+    on everything to provide a unified interface.
 
   Fixes
   * Update dep on autovivification to one that works on 5.11 [schwern]

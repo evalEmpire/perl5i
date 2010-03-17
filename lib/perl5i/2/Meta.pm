@@ -11,6 +11,7 @@ require perl5i::2::Meta::Instance;
 require perl5i::2::Meta::Class;
 
 sub UNIVERSAL::mo {
+    # Be careful to pass through an alias, not a copy
     return perl5i::2::Meta::Instance->new($_[0]);
 }
 
@@ -19,8 +20,9 @@ sub UNIVERSAL::mc {
 }
 
 sub new {
-    my( $class, $thing ) = @_;
-    return bless \$thing, $class;
+    my $class = shift;
+    # Be careful to take a reference to an alias, not a copy
+    return bless \$_[0], $class;
 }
 
 sub ISA {

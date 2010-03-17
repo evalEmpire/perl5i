@@ -10,29 +10,29 @@ use Scalar::Util qw(tainted);
 
 # Check an already tainted global
 {
-    ok $^X->is_tainted;
+    ok $^X->mo->is_tainted;
 
-    $^X->untaint;
-    ok !$^X->is_tainted;
+    $^X->mo->untaint;
+    ok !$^X->mo->is_tainted;
     ok !tainted($^X);
 
-    $^X->taint;
-    ok $^X->is_tainted;
+    $^X->mo->taint;
+    ok $^X->mo->is_tainted;
     ok tainted($^X);
 }
 
 
 # Check a scalar
 {
-    my $foo = 42;
-    ok !$foo->is_tainted;
+    my $foo = "foo";
+    ok !$foo->mo->is_tainted;
 
-    $foo->taint;
-    ok $foo->is_tainted;
+    $foo->mo->taint;
+    ok $foo->mo->is_tainted;
     ok tainted($foo);  # just to be sure.
 
-    $foo->untaint;
-    ok !$foo->is_tainted;
+    $foo->mo->untaint;
+    ok !$foo->mo->is_tainted;
     ok !tainted($foo);  # just to be sure.
 }
 
@@ -42,14 +42,14 @@ use Scalar::Util qw(tainted);
 # possible due to how Taint::Util works and its not worth fixing.
 {
     my $foo = \42;
-    ok !$foo->is_tainted;
+    ok !$foo->mo->is_tainted;
 
-    $foo->untaint;  # does nothing
-    ok !$foo->is_tainted;
+    $foo->mo->untaint;  # does nothing
+    ok !$foo->mo->is_tainted;
     ok !tainted(\$foo);  # just to be sure.
 
-    throws_ok { $foo->taint; } qr/^Only scalars can normally be made tainted/;
-    ok !$foo->is_tainted;
+    throws_ok { $foo->mo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$foo->mo->is_tainted;
     ok !tainted(\$foo);  # just to be sure.
 }
 

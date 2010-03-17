@@ -84,33 +84,6 @@ sub wrap {
 }
 
 
-# untaint the scalar itself, not the reference
-sub untaint {
-    return $_[0]->mo->untaint if ref $_[0];
-
-    require Taint::Util;
-    Taint::Util::untaint($_[0]);
-    return 1;
-}
-
-
-# untaint the scalar itself, not the reference
-sub taint {
-    return $_[0]->mo->taint if ref $_[0];
-
-    require Taint::Util;
-    Taint::Util::taint($_[0]);
-    return 1;
-}
-
-# Could use the version in Meta but this removes the need to check
-# for overloading.
-sub is_tainted {
-    require Taint::Util;
-    return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
-}
-
-
 sub require {
     my $error = do {
         # Don't let them leak out or get reset
