@@ -20,6 +20,8 @@
     This allows disambiguation when $thing could be considered a
     class name.
   * new autoboxed methods: %hash->diff() and %hash->intersect() [brunov]
+  * Added $thing->mo->dump to dump objects in multiple formats
+    including YAML and JSON.
 
   Fixes
   * Update dep on autovivification to one that works on 5.11 [schwern]

@@ -197,3 +197,13 @@ Examples:
     my $dump = $object->mo->perl;
 
 Dumps the contents of the $object as Perl in a string, like Data::Dumper.
+
+=head2 dump
+
+    my $dump = $object->mo->dump( format => $format );
+
+Dumps the contents of the $object as a string in whatever format you like.
+
+Possible formats are yaml, json and perl.
+
+$format defaults to "perl" which is equivalent to C<< $object->mo->perl >>.

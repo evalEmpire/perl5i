@@ -124,4 +124,51 @@ sub perl {
     return $dumper->Dump;
 }
 
+
+sub dump {
+    my $self = shift;
+    my %args = @_;
+
+    my $format = $args{format} // "perl";
+    state $dumpers = {
+        json    => "_dump_as_json",
+        yaml    => "_dump_as_yaml",
+        perl    => "perl",
+    };
+
+    my $dumper = $dumpers->{$format};
+    Carp::croak "Unknown format '$format' for dump()" unless $dumper;
+
+    return $self->$dumper(%args);
+}
+
+
+sub _dump_as_json {
+    require JSON;
+    my $json = JSON->new
+                    ->utf8
+                    ->pretty
+                    ->allow_unknown
+                    ->allow_blessed
+                    ->convert_blessed;
+
+    # JSON doesn't seem to have an easy way to say
+    # "just dump objects as references please".  This is their
+    # recommended way to do it (yarf).
+    local *UNIVERSAL::TO_JSON = sub {
+        my $b_obj = B::svref_2object( $_[0] );
+        return  $b_obj->isa('B::HV') ? { %{ $_[0] } }
+              : $b_obj->isa('B::AV') ? [ @{ $_[0] } ]
+              : undef
+              ;
+    } unless defined &UNIVERSAL::TO_JSON;
+
+    return $json->encode(${$_[0]});
+}
+
+sub _dump_as_yaml {
+    require YAML::Any;
+    return YAML::Any::Dump(${$_[0]});
+}
+
 1;
