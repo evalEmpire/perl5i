@@ -191,3 +191,9 @@ Examples:
 
     my $uri = URI->new("http://www.perl.org");
     $uri->mo->is_equal("http://www.perl.org") # True
+
+=head2 perl
+
+    my $dump = $object->mo->perl;
+
+Dumps the contents of the $object as Perl in a string, like Data::Dumper.

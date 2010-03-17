@@ -12,6 +12,7 @@
     treated as classes and return the meta class object.
   * The guaranteed range of gm/localtime() has been reduced to avoid
     depending on Time::y2038 if possible.
+  * $thing->perl is now $thing->mo->perl and works on everything.
 
   New Features
   * $thing->mo->is_equal($other) universal equality method. [brunov]

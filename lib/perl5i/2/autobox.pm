@@ -14,7 +14,6 @@ require perl5i::2::CODE;
 # List::Util needs to be before Core to get the C version of sum
 use parent 'autobox::List::Util';
 use parent 'autobox::Core';
-use parent 'autobox::dump';
 
 sub import {
     my $class = shift;
@@ -25,7 +24,6 @@ sub import {
     );
     autobox::List::Util::import($class);
     autobox::Core::import($class);
-    autobox::dump::import($class);
 }
 
 1;

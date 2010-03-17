@@ -6,10 +6,10 @@ use Test::More tests => 4;
 my $str = "bar";
 my $num = 0.1;
 
-is eval "foo"->perl, "foo";
+is eval "foo"->mo->perl, "foo";
 
-is eval 5->perl, 5;
+is eval 5->mo->perl, 5;
 
-is eval $str->perl, $str;
+is eval $str->mo->perl, $str;
 
-is eval $num->perl, $num;
+is eval $num->mo->perl, $num;

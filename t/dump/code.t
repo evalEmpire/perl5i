@@ -8,7 +8,7 @@ use Test::More;
 sub code_dump_ok($$;$) {
     my( $code, $want, $name ) = @_;
 
-    my $ref = eval( $code->perl );
+    my $ref = eval( $code->mo->perl );
     ok( $ref, "dump eval'd" ) or do { diag $@; return; };
     is_deeply [ $ref->() ], $want, $name;
 }

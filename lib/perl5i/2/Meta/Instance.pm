@@ -1,5 +1,6 @@
 package perl5i::2::Meta::Instance;
 
+use v5.10;
 use strict;
 use warnings;
 
@@ -106,5 +107,21 @@ sub is_equal {
     return perl5i::2::equal::are_equal(${$self}, $other);
 }
 
+
+sub perl {
+    require Data::Dumper;
+
+    state $options = [qw(Terse Sortkeys Deparse)];
+
+    my $self = shift;
+    my $dumper = Data::Dumper->new([${$self}]);
+    for my $option (@$options) {
+        $dumper->$option(1);
+    }
+
+    $dumper->Indent(1);
+
+    return $dumper->Dump;
+}
 
 1;

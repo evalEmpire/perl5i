@@ -119,13 +119,6 @@ functionality without polluting the global namespace.
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
 be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
-=head3 perl()
-
-L<autobox::dump> defines a C<perl> method that returns L<Data::Dumper>
-style serialization of the results of the expression.  It should work
-on any scalar, list, hash or reference.
-
-
 =head2 alias()
 
     $scalar_reference->alias( @identifiers );
