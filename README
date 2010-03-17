@@ -2,7 +2,7 @@ NAME
     perl5i - Fix as much of Perl 5 as possible in one pragma
 
 SYNOPSIS
-      use perl5i::1;
+      use perl5i::2;
 
       or
 
@@ -28,16 +28,16 @@ Using perl5i
     are using. You do this like so:
 
         # Use perl5i major version 1
-        use perl5i::1;
+        use perl5i::2;
 
-    Thus the code you write with, for example, `perl5i::1' will always
+    Thus the code you write with, for example, `perl5i::2' will always
     remain compatible even as perl5i moves on.
 
     If you want to be daring, you can `use perl5i::latest' to get the latest
     version.
 
     If you want your module to depend on perl5i, you should depend on the
-    versioned class. For example, depend on `perl5i::1' and not `perl5i'.
+    versioned class. For example, depend on `perl5i::2' and not `perl5i'.
 
     See VERSIONING for more information about perl5i's versioning scheme.
 
@@ -76,11 +76,6 @@ What it does
 
     autobox::Core wraps a lot of Perl's built in functions so they can be
     called as methods on unblessed variables. `@a->pop' for example.
-
-    perl()
-    autobox::dump defines a `perl' method that returns Data::Dumper style
-    serialization of the results of the expression. It should work on any
-    scalar, list, hash or reference.
 
   alias()
         $scalar_reference->alias( @identifiers );
@@ -476,8 +471,8 @@ What it does
 
   Time::y2038
     `gmtime()' and `localtime()' will now safely work with dates beyond the
-    year 2038 and before 1901 (the exact range is not defined, but it's well
-    into a couple million years in either direction).
+    year 2038 and before 1901. The exact range is not defined, but we
+    guarantee at least up to 2**47 and back to year 1.
 
   IO::Handle
     Turns filehandles into objects so you can call methods on them. The

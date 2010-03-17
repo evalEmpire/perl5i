@@ -56,6 +56,7 @@ t/autobox.t
 t/autodie.t
 t/autovivification.t
 t/caller.t
+t/can.t
 t/carp.t
 t/center.t
 t/chdir.t
@@ -67,6 +68,7 @@ t/diff.t
 t/dump/array.t
 t/dump/code.t
 t/dump/hash.t
+t/dump/obj.t
 t/dump/scalar.t
 t/English.t
 t/equal.t
