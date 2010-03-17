@@ -1,3 +1,9 @@
+2.0.2
+  Fixes
+  * Ensure non META.yml savy CPAN shells see the configure_requires
+    for Module::Build.
+
+
 2.0.1  Wed Mar 17 11:10:54 PDT 2010
   Fixes
   * Quick fix to handle not always having Time::y2038.

@@ -48,6 +48,11 @@ my $builder = MyBuild->new(
         'IPC::Open3'         => '0',
         'Test::Output'       => '0.16',
     },
+    configure_requires => {
+        # MB's auto configure requires only puts it in the META.yml
+        # so some CPAN shells won't see it.
+        "Module::Build"      => '0.36',
+    },
 
     meta_merge => {
         resources => {
