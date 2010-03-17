@@ -40,6 +40,8 @@ my $builder = MyBuild->new(
         'Hash::Merge::Simple' => '0.04',
         'List::MoreUtils'     => '0.22',
         indirect              => '0.19',
+        'JSON'                => '2.17',
+        'YAML::Any'           => '0.70',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
