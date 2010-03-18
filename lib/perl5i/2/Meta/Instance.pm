@@ -156,6 +156,7 @@ sub _dump_as_json {
     # "just dump objects as references please".  This is their
     # recommended way to do it (yarf).
     local *UNIVERSAL::TO_JSON = sub {
+        require B;
         my $b_obj = B::svref_2object( $_[0] );
         return  $b_obj->isa('B::HV') ? { %{ $_[0] } }
               : $b_obj->isa('B::AV') ? [ @{ $_[0] } ]
