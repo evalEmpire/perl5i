@@ -42,6 +42,8 @@ my $builder = MyBuild->new(
         indirect              => '0.19',
         'JSON'                => '2.17',
         'YAML::Any'           => '0.70',
+        'Digest::SHA1'        => '2.09',
+        'Digest::MD5'         => '2.36',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

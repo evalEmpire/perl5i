@@ -1,4 +1,7 @@
 2.0.3
+  Build Fixes
+  * Forgot to require Digest::SHA1 for checksum()
+
   Fixes
   * Forgot to require B before using a B routine in the JSON dump.
 
