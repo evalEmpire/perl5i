@@ -1,0 +1,7 @@
+#!/usr/bin/perl
+
+my $version = shift;
+die "$0 <version>\n" unless $version;
+system qq[perl -i -pe 's{(dist_version \\s* => \\s*) \\S+ (.*)}{\$1"v$version",}x' Build.PL];
+system qq[perl -i -pe 's{v[.\\d]+}{v$version}' lib/perl5i/VERSION.pm];
+
