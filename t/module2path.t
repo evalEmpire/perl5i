@@ -2,8 +2,9 @@
 
 use perl5i::latest;
 
+use lib 't/lib';
 use Test::More;
-use Test::Exception;
+use Test::perl5i;
 
 
 # Test some simple symetrical conversions

@@ -49,7 +49,6 @@ my $builder = MyBuild->new(
         'ExtUtils::CBuilder' => '0.26',
         'Test::More'         => '0.88',
         'Test::Warn'         => '0.11',
-        'Test::Exception'    => '0.27',
         'IPC::Open3'         => '0',
         'Test::Output'       => '0.16',
     },

@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
-use Test::More;
-use Test::Exception;
+
 use perl5i::latest;
+
+use lib 't/lib';
+use Test::More;
+use Test::perl5i;
 
 my %hash = ( 1 => 'foo', 2 => 'bar', 3 => 'bar' );
 my $f;

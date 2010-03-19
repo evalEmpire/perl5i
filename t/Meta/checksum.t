@@ -1,9 +1,13 @@
 #!/usr/bin/env perl
 
-use Test::More;
 use perl5i::latest;
+
+use lib 't/lib';
+use Test::More;
+use Test::perl5i;
+
 use Scalar::Util 'refaddr';
-use Test::Exception;
+
 
 my $foo  = bless {}, 'Foo';
 my $foo2 = bless {}, 'Foo';

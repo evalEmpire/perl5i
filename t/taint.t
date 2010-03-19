@@ -1,11 +1,12 @@
 #!/usr/bin/perl -T
 
 use perl5i::latest;
+
+use lib 't/lib';
 use Test::More;
-use Test::Exception;
+use Test::perl5i;
 
 use Scalar::Util qw(tainted);
-
 
 # Check an already tainted global
 {
@@ -103,7 +104,7 @@ use Scalar::Util qw(tainted);
 {
     package Bar;
     use Test::More;
-    use Test::Exception;
+    use Test::perl5i;
 
     use overload q[""] => sub { return ${$_[0]} }, fallback => 1;
 

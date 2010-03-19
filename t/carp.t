@@ -1,12 +1,10 @@
 #!/usr/bin/perl
 
-use strict;
-use warnings;
-
 use perl5i::latest;
 
+use lib 't/lib';
 use Test::More;
-use Test::Exception;
+use Test::perl5i;
 use Test::Warn;
 
 warnings_like {

@@ -1,7 +1,10 @@
 #!/usr/bin/env perl
-use Test::More;
-use Test::Exception;
+
 use perl5i::latest;
+
+use lib 't/lib';
+use Test::More;
+use Test::perl5i;
 
 my @a = ( 0 .. 5 );
 my @b = ( 3 .. 8 );

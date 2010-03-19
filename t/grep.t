@@ -1,8 +1,10 @@
 #!/usr/bin/env perl
 
 use perl5i::latest;
+
+use lib 't/lib';
 use Test::More;
-use Test::Exception;
+use Test::perl5i;
 
 my @array = qw( foo bar baz );
 my $d;
