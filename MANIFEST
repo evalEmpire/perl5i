@@ -82,6 +82,7 @@ t/hash-merge.t
 t/intersect.t
 t/io-handle.t
 t/lexical.t
+t/lib/Test/perl5i.pm
 t/List-MoreUtils/all.t
 t/List-MoreUtils/any.t
 t/List-MoreUtils/false.t

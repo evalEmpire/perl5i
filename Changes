@@ -1,4 +1,4 @@
-2.0.3
+2.0.3  Fri Mar 19 13:57:37 PDT 2010
   Fixes
   * Forgot to require B before using a B routine in the JSON dump.
 
