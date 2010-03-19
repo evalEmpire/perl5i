@@ -54,3 +54,7 @@
 
 # Don't ship admin scripts
 ^admin/
+
+# Don't ship our motivational images
+^img/
+
