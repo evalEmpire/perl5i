@@ -4,8 +4,26 @@
     <title>perl5i</title>
 </head>
 <body>
+
+<script type="text/javascript">
+<!--
+ // Image randomizer
+ var images = [
+      'http://github.com/schwern/perl5i/raw/master/img/perl5i%20camel%20with%20a%20machine%20gun.jpg',
+      'http://github.com/schwern/perl5i/raw/master/img/Evil%20Magicians%20For%20A%20Better%20Perl.jpg',
+  ];
+
+  var pick = Math.floor(Math.random() * images.length);
+
+  document.write('<a href="http://github.com/schwern/perl5i"><img src="'+images[pick]+'"></a>')
+//-->
+</script>
+
+<noscript>
   <a href="http://github.com/schwern/perl5i">
-    <img src="http://github.com/schwern/perl5i/raw/master/img/perl5i%20camel%20with%20a%20machine%20gun.jpg" />
-  </a>
+   <img src="http://github.com/schwern/perl5i/raw/master/img/perl5i%20camel%20with%20a%20machine%20gun.jpg" />
+ </a>
+</noscript>
+
 </body>
 </html>
