@@ -1,6 +1,6 @@
 package MyBuild;
 
-use v5.10;
+use 5.010;
 use base 'Module::Build';
 
 # Override default 'code' action
