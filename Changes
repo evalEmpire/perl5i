@@ -2,6 +2,7 @@
   Fixes
   * Quiet a warning in DateTime.pm on systems where gmtime() returns
     undef for out of bound times.
+  * Fix the perl5i command line tool on stock OS X 5.10.0 [github 116]
 
 
 2.0.3  Fri Mar 19 13:57:37 PDT 2010
