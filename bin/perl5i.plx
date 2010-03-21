@@ -1,3 +1,3 @@
 #!/usr/bin/perl
 
-exec $^X, "-Mperl5i::latest", @ARGV;
+exec $^X, "-Mperl5i::cmd=$0", @ARGV;
