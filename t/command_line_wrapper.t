@@ -23,4 +23,6 @@ is `$perl5i "-Ilib" -e "say 'Hello'"`, "Hello\n", "Hello perl5i!";
 
 like `$perl5i "-Ilib" -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
-done_testing(4);
+like `$perl5i "-Ilib" -e '\$^X->say'`, qr/perl5i/, '$^X is perl5i';
+
+done_testing(5);

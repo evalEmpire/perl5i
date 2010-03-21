@@ -29,8 +29,13 @@ int main (int argc, char* argv[]) {
     int i;
     const char* perl_cmd = "%s";
     char* perl_args[argc+1];
-    perl_args[0] = argv[0];
-    perl_args[1] = "-Mperl5i::latest";
+    char* dash_m = (char *)malloc(sizeof(char) * (strlen(argv[0]) + 20));
+
+    strcat(dash_m, "-Mperl5i::cmd=");
+    strcat(dash_m, argv[0]);
+
+    perl_args[0] = (char *)perl_cmd;
+    perl_args[1] = dash_m;
 
     for( i = 1;  i < argc;  i++ ) {
         #if defined(WIN32)
