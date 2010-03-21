@@ -1,3 +1,9 @@
+2.0.4
+  Fixes
+  * Quiet a warning in DateTime.pm on systems where gmtime() returns
+    undef for out of bound times.
+
+
 2.0.3  Fri Mar 19 13:57:37 PDT 2010
   Fixes
   * Forgot to require B before using a B routine in the JSON dump.

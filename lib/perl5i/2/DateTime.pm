@@ -9,8 +9,8 @@ use warnings;
 # Determine if we need Time::y2038 and only load if necessary.
 # XXX This is a bit of a hack and should go into a config file.
 use constant NEEDS_y2038 => (
-    (((gmtime(2**47-1))[5]      + 1900) != 4461763) ||
-    (((gmtime(-62135510400))[5] + 1900) != 1)
+    ((((CORE::gmtime(2**47-1))[5] || 0)      + 1900) != 4461763) ||
+    ((((CORE::gmtime(-62135510400))[5] || 0) + 1900) != 1)
 );
 
 BEGIN {
