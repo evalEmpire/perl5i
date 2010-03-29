@@ -13,6 +13,8 @@ sub import { goto &{$Latest .'::import'} }
 
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 perl5i::latest - Use the latest version of perl5i

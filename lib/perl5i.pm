@@ -26,6 +26,8 @@ END
 
 __END__
 
+=encoding utf8
+
 =head1 NAME
 
 perl5i - Fix as much of Perl 5 as possible in one pragma

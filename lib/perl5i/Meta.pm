@@ -1,3 +1,5 @@
+=encoding utf8
+
 =head1 NAME
 
 perl5i::Meta - The perl5i meta object
