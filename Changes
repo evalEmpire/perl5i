@@ -4,6 +4,8 @@
     undef for out of bound times.
   * Fix the perl5i command line tool on stock OS X 5.10.0 [github 116]
   * Fix perl5i.bat on Windows.
+  * perl5i can load after List::MoreUtils (and thus things like Moose)
+    [github 127]
 
 
 2.0.3  Fri Mar 19 13:57:37 PDT 2010
