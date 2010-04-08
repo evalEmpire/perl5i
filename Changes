@@ -6,6 +6,8 @@
   * Fix perl5i.bat on Windows.
   * perl5i can load after List::MoreUtils (and thus things like Moose)
     [github 127]
+  * Fix is_integer() and is_decimal() for things like 1.0 and 1.
+    [github 123]
 
 
 2.0.3  Fri Mar 19 13:57:37 PDT 2010

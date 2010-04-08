@@ -149,9 +149,20 @@ require Scalar::Util;
 *is_number = \&Scalar::Util::looks_like_number;
 sub is_positive         { $_[0]->is_number && $_[0] > 0 }
 sub is_negative         { $_[0]->is_number && $_[0] < 0 }
-sub is_integer          { $_[0]->is_number && ((int($_[0]) - $_[0]) == 0) }
+sub is_integer          {
+    return 0 if !$_[0]->is_number;
+    return $_[0] =~ m{ ^[+-]? \d+ $}x;
+}
 *is_int = \&is_integer;
-sub is_decimal          { $_[0]->is_number && ((int($_[0]) - $_[0]) != 0) }
+sub is_decimal          {
+    return 0 if !$_[0]->is_number;
+
+    # Fast and reliable way to spot most decimals
+    return 1 if ((int($_[0]) - $_[0]) != 0);
+
+    # Final gate for tricky things like 1.0, 1. and .0
+    return $_[0] =~ m{^ [+-]? (?: \d+\.\d* | \.\d+ ) $}x;
+}
 
 
 sub path2module {

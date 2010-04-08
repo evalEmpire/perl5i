@@ -34,17 +34,24 @@ ok !0->is_negative,     "zero is not negative";
 ok !0->is_positive,     "zero is not positive";
 
 ok( 12->is_integer );
-ok( -12->is_integer );
+ok( (-12)->is_integer );
 ok( "+12"->is_integer );
 ok(!12.34->is_integer );
+ok(!"1.0"->is_integer );
+ok(!"1."->is_integer );
+ok( 0->is_integer );
 
 ok( 12->is_int );
 ok(!12.34->is_int );
 
 ok( 12.34->is_decimal );
 ok( ".34"->is_decimal );
+ok( "+1."->is_decimal );
+ok( "-.0"->is_decimal );
 ok( !12->is_decimal );
 ok(!'abc'->is_decimal );
+ok("1.0"->is_decimal);
+ok( !0->is_decimal );
 
 is( '123'->reverse, '321' );
 
