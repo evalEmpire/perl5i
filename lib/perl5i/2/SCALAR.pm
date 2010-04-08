@@ -172,6 +172,62 @@ sub is_decimal          {
     return $_[0] =~ m{^ [+-]? (?: \d+\.\d* | \.\d+ ) $}x;
 }
 
+sub group_digits {
+    my $self = shift;
+    my %opts = @_;
+
+    state $defaults = {
+        thousands_sep   => ",",
+        grouping        => 3,
+    };
+
+    my $sep      = $opts{seperator} // (_get_thousands_sep() || $defaults->{thousands_sep});
+    my $grouping = $opts{grouping}  // (_get_grouping()      || $defaults->{grouping});
+    return $self if $grouping == 0;
+
+    my $number = reverse $self;
+    $number =~ s/(\d{$grouping})(?=\d)(?!\d*\.)/$1$sep/g;
+    return reverse $number;
+}
+
+sub commify {
+    my $self = shift;
+    my %args = @_;
+
+    state $defaults = {
+        seperator   => ",",
+        grouping    => 3,
+    };
+
+    my $opts = $defaults->merge(\%args);
+
+    return $self->group_digits( %$opts );
+}
+
+
+sub _get_lconv {
+    return eval {
+        require POSIX;
+        POSIX::localeconv();
+    } || {};
+}
+
+sub _get_grouping {
+    my $lconv = _get_lconv;
+
+    if( $lconv->{grouping} ) {
+        return (unpack("C*", $lconv->{grouping}))[0];
+    }
+    else {
+        return;
+    }
+}
+
+sub _get_thousands_sep {
+    my $lconv = _get_lconv;
+    return $lconv->{thousands_sep};
+}
+
 
 sub path2module {
     my $path = shift;

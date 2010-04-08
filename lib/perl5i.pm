@@ -363,6 +363,52 @@ For example,
     "Foo::Bar"->module2path;  # "Foo/Bar.pm"
 
 
+=head3 group_digits
+
+    my $number_grouped     = $number->group_digits;
+    my $number_grouped     = $number->group_digits(%options);
+
+Turns a number like 1234567 into a string like 1,234,567 known as "digit grouping".
+
+It honors your current locale to determine the seperator and grouping.
+This can be overriden using C<%options>.
+
+=over 4
+
+=item separator
+
+The character used to separate groups.  Defaults to "thousands_sep" in
+your locale or "," if your locale doesn't specify.
+
+=item grouping
+
+How many numbers in a group?  Defaults to "grouping" in your locale or
+3 if your locale doesn't specify.
+
+Note: we don't honor the full grouping locale, its a wee bit too complicated.
+
+=back
+
+    1234->group_digits;                      # 1,234 (assuming US locale)
+    1234->group_digits( seperator => "." );  # 1.234
+
+
+=head3 commify
+
+    my $number_grouped = $number->commify;
+    my $number_grouped = $number->commify(%options);
+
+commify() is just like group_digits() but it is not locale aware.  It
+is useful when you want a predictable result regardless of the user's
+locale settings, but don't want to have to enter the options each time.
+
+C<< $number->commify >> is equivalent to
+C<< $number->group_digits( seperator => ",", grouping => 3 ) >>.
+
+    1234->commify;                      # 1,234
+    1234->commify( seperator => "." );  # 1.234
+
+
 =head2 List Autoboxing
 
 All the functions from L<List::Util> and select ones from
