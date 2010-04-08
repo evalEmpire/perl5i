@@ -208,9 +208,10 @@ Round to the nearest integer.
 
     my $new_number = $number->round_up;
 
-Rounds the $number up.
+Rounds the $number towards infinity.
 
-    2.45->round_up;  # 3
+    2.45->round_up;   # 3
+  (-2.45)->round_up;  # -2
 
 ceil() is a synonym for round_up().
 
@@ -221,9 +222,10 @@ ceil() is a synonym for round_up().
 
     my $new_number = $number->round_down;
 
-Rounds the $number down.
+Rounds the $number towards negative infinity.
 
-    2.45->round_down; # 2
+    2.45->round_down;  # 2
+  (-2.45)->round_down; # -3
 
 floor() is a synonyn for round_down().
 

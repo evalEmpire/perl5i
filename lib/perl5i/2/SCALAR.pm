@@ -141,8 +141,16 @@ require POSIX;
 *round_up   = \&ceil;
 *round_down = \&floor;
 sub round {
-    abs($_[0] - int($_[0])) < 0.5 ? round_down($_[0])
-                                  : round_up($_[0])
+    return 0 if $_[0] == 0;
+
+    if( $_[0]->is_positive ) {
+        abs($_[0] - int($_[0])) < 0.5 ? round_down($_[0])
+                                      : round_up($_[0])
+    }
+    else {
+        abs($_[0] - int($_[0])) < 0.5 ? round_up($_[0])
+                                      : round_down($_[0])
+    }
 }
 
 require Scalar::Util;
