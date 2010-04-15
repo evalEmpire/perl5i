@@ -197,5 +197,29 @@ sub intersect {
     return wantarray ? @$base : $base;
 }
 
+sub ltrim {
+    my ($array, $charset) = @_;
+
+    my @result = CORE::map { $_->ltrim($charset) } @$array;
+
+    return wantarray ? @result : \@result;
+}
+
+sub rtrim {
+    my ($array, $charset) = @_;
+
+    my @result = CORE::map { $_->rtrim($charset) } @$array;
+
+    return wantarray ? @result : \@result;
+}
+
+sub trim {
+    my ($array, $charset) = @_;
+
+    my @result = CORE::map { $_->trim($charset) } @$array;
+
+    return wantarray ? @result : \@result;
+}
+
 
 1;

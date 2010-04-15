@@ -429,6 +429,29 @@ As with C<diff()>, it works with any number of arrays, nested data
 structures of arbitrary depth, and handles overloaded objects
 graciously.
 
+=head3 ltrim()
+
+=head3 rtrim()
+
+=head3 trim()
+
+    my @trimmed = @list->trim;
+    my @trimmed = @list->trim($character_set);
+
+Trim whitespace from each element of an array.  ltrim() trims off the start of
+each element (left), rtrim() off the end (right) and trim() off both the start
+and end.
+
+    my @trimmed = [ '   foo', 'bar   ' ]->ltrim;  # [ 'foo', 'bar   ' ]
+    my @trimmed = [ '   foo', 'bar   ' ]->rtrim;  # [ '   foo', 'bar' ]
+    my @trimmed = [ '   foo', 'bar   ' ]->trim;   # [ 'foo', 'bar'    ]
+
+As with the scalar trim() methods, they all take an optional $character_set
+which will determine what characters should be trimmed.
+
+    my @trimmed = ['-> foo <-', '-> bar <-']->trim('-><'); # [' foo ', ' bar ']
+
+
 =head2 Hash Autoboxing
 
 =head3 flip()
