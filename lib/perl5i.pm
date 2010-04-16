@@ -438,9 +438,8 @@ graciously.
     my @trimmed = @list->trim;
     my @trimmed = @list->trim($character_set);
 
-Trim whitespace from each element of an array.  ltrim() trims off the start of
-each element (left), rtrim() off the end (right) and trim() off both the start
-and end.
+Trim whitespace from each element of an array.  Each works just like
+their scalar counterpart.
 
     my @trimmed = [ '   foo', 'bar   ' ]->ltrim;  # [ 'foo', 'bar   ' ]
     my @trimmed = [ '   foo', 'bar   ' ]->rtrim;  # [ '   foo', 'bar' ]
