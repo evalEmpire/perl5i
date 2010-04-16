@@ -65,7 +65,23 @@ is_deeply(
 is_deeply( scalar []->trim, [], 'Empty array trim' );
 
 # Context
-my @d = @a->trim;
-is( @d, 3, 'Returns array in list context' );
+is_deeply(
+    [@a->trim],
+    [ 'foo', 'bar', 'baz' ],
+    'Array trim, list context'
+);
+
+is_deeply(
+    [@a->ltrim],
+    [ 'foo', 'bar   ', 'baz   ' ],
+    'Left array trim, list context'
+);
+
+is_deeply(
+    [@a->rtrim],
+    [ '   foo', 'bar', '   baz' ],
+    'Right array trim, list context'
+);
+
 
 done_testing();
