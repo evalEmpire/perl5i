@@ -9,65 +9,63 @@ use Test::perl5i;
 my @a = ( '   foo', 'bar   ', '   baz   ' );
 my @b = ( '-->foo', 'bar<--', '-->baz<--' );
 
-my $d;
-
 # Default option
 is_deeply(
-    $d = @a->ltrim,
+    scalar @a->ltrim,
     [ 'foo', 'bar   ', 'baz   ' ],
     'Left array trim'
 );
 
 is_deeply(
-    $d = @a->rtrim,
+    scalar @a->rtrim,
     [ '   foo', 'bar', '   baz' ],
     'Right array trim'
 );
 
 is_deeply(
-    $d = @a->trim,
+    scalar @a->trim,
     [ 'foo', 'bar', 'baz' ],
     'Array trim'
 );
 
 # Character set argument
 is_deeply(
-    $d = @b->ltrim('-><'),
+    scalar @b->ltrim('-><'),
     [ 'foo', 'bar<--', 'baz<--' ],
     'Left array trim with argument'
 );
 
 is_deeply(
-    $d = @b->rtrim('-><'),
+    scalar @b->rtrim('-><'),
     [ '-->foo', 'bar', '-->baz' ],
     'Right array trim with argument'
 );
 
 is_deeply(
-    $d = @b->trim('-><'),
+    scalar @b->trim('-><'),
     [ 'foo', 'bar', 'baz' ],
     'Array trim with argument'
 );
 
 # Literal array ref
 is_deeply(
-    $d = [ '   foo', 'bar   ', '   baz   ' ]->trim,
+    scalar [ '   foo', 'bar   ', '   baz   ' ]->trim,
     [ 'foo', 'bar', 'baz' ],
     'Array ref trim'
 );
 
 # Chaining
 is_deeply(
-    $d = @a->ltrim->rtrim,
+    scalar @a->ltrim->rtrim,
     [ 'foo', 'bar', 'baz' ],
     'Chained trim'
 );
 
 # Empty array
-is_deeply( $d = []->trim, [], 'Empty array trim' );
+is_deeply( scalar []->trim, [], 'Empty array trim' );
 
 # Context
 my @d = @a->trim;
-is( scalar @d, 3, 'Returns array in list context' );
+is( @d, 3, 'Returns array in list context' );
 
 done_testing();
