@@ -15,6 +15,7 @@
 
   Test Fixes
   * Quiet the autodie test on Windows [github 126]
+  * Fix the quoting of command_line_wrapper.t for Windows [github 126]
 
 
 2.0.3  Fri Mar 19 13:57:37 PDT 2010
