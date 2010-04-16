@@ -1,4 +1,7 @@
-2.0.4
+2.0.4  Fri Apr 16 12:07:19 EEST 2010
+  New Features
+  * trim, ltrim and rtrim now work on arrays.  [github 121] (Nick Patch)
+
   Fixes
   * Quiet a warning in DateTime.pm on systems where gmtime() returns
     undef for out of bound times.
