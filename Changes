@@ -13,6 +13,9 @@
     [github 123]
   * Fix rounding of negative numbers. [github 118]
 
+  Test Fixes
+  * Quiet the autodie test on Windows [github 126]
+
 
 2.0.3  Fri Mar 19 13:57:37 PDT 2010
   Fixes
