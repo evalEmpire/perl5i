@@ -10,7 +10,7 @@ build_requires:
   Test::Warn: 0.11
 configure_requires:
   Module::Build: 0.36
-generated_by: 'Module::Build version 0.3603'
+generated_by: 'Module::Build version 0.3607'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -36,10 +36,10 @@ provides:
     file: lib/perl5i/2/DateTime.pm
   perl5i:
     file: lib/perl5i.pm
-    version: v2.0.3
+    version: v2.1.0
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v2.0.3
+    version: v2.1.0
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
   perl5i::0::DEFAULT:
@@ -58,7 +58,7 @@ provides:
     file: lib/perl5i/0/SCALAR.pm
   perl5i::1:
     file: lib/perl5i/1.pm
-    version: v2.0.3
+    version: v2.1.0
   perl5i::1::ARRAY:
     file: lib/perl5i/1/ARRAY.pm
   perl5i::1::CODE:
@@ -81,7 +81,7 @@ provides:
     file: lib/perl5i/1/autobox.pm
   perl5i::2:
     file: lib/perl5i/2.pm
-    version: v2.0.3
+    version: v2.1.0
   perl5i::2::ARRAY:
     file: lib/perl5i/2/ARRAY.pm
   perl5i::2::CODE:
@@ -106,10 +106,12 @@ provides:
     file: lib/perl5i/2/equal.pm
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v2.0.3
+    version: v2.1.0
+  perl5i::cmd:
+    file: lib/perl5i/cmd.pm
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v2.0.3
+    version: v2.1.0
 requires:
   CLASS: 1.00
   DateTime: 0.47
@@ -146,4 +148,4 @@ resources:
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
-version: v2.0.3
+version: v2.1.0

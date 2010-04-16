@@ -1,10 +1,10 @@
-2.0.4  Fri Apr 16 12:07:19 EEST 2010
+2.1.0  Fri Apr 16 12:15:10 EEST 2010
   New Features
   * trim, ltrim and rtrim now work on arrays.  [github 121] (Nick Patch)
 
   Fixes
   * Quiet a warning in DateTime.pm on systems where gmtime() returns
-    undef for out of bound times.
+    undef for out of bound times (mostly Windows).
   * Fix the perl5i command line tool on stock OS X 5.10.0 [github 116]
   * Fix perl5i.bat on Windows.
   * perl5i can load after List::MoreUtils (and thus things like Moose)

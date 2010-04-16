@@ -157,9 +157,10 @@ What it does
   ceil
         my $new_number = $number->round_up;
 
-    Rounds the $number up.
+    Rounds the $number towards infinity.
 
-        2.45->round_up;  # 3
+        2.45->round_up;   # 3
+      (-2.45)->round_up;  # -2
 
     ceil() is a synonym for round_up().
 
@@ -167,9 +168,10 @@ What it does
   floor
         my $new_number = $number->round_down;
 
-    Rounds the $number down.
+    Rounds the $number towards negative infinity.
 
-        2.45->round_down; # 2
+        2.45->round_down;  # 2
+      (-2.45)->round_down; # -3
 
     floor() is a synonyn for round_down().
 
@@ -349,6 +351,24 @@ What it does
     As with `diff()', it works with any number of arrays, nested data
     structures of arbitrary depth, and handles overloaded objects
     graciously.
+
+    ltrim()
+    rtrim()
+    trim()
+        my @trimmed = @list->trim;
+        my @trimmed = @list->trim($character_set);
+
+    Trim whitespace from each element of an array. Each works just like
+    their scalar counterpart.
+
+        my @trimmed = [ '   foo', 'bar   ' ]->ltrim;  # [ 'foo', 'bar   ' ]
+        my @trimmed = [ '   foo', 'bar   ' ]->rtrim;  # [ '   foo', 'bar' ]
+        my @trimmed = [ '   foo', 'bar   ' ]->trim;   # [ 'foo', 'bar'    ]
+
+    As with the scalar trim() methods, they all take an optional
+    $character_set which will determine what characters should be trimmed.
+
+        my @trimmed = ['-> foo <-', '-> bar <-']->trim('-><'); # [' foo ', ' bar ']
 
   Hash Autoboxing
     flip()

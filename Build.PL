@@ -12,7 +12,7 @@ my $builder = MyBuild->new(
     module_name => 'perl5i',
     license     => 'perl',
     dist_author => 'Michael G Schwern <schwern@pobox.com>',
-    dist_version => "v2.0.3",
+    dist_version => "v2.1.0",
 
     requires => {
         'perl'                    => '5.10.0',

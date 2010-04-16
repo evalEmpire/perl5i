@@ -40,6 +40,7 @@ lib/perl5i/2/Meta/Class.pm
 lib/perl5i/2/Meta/Instance.pm
 lib/perl5i/2/SCALAR.pm
 lib/perl5i/2/UNIVERSAL.pm
+lib/perl5i/cmd.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
 lib/perl5i/VERSION.pm
@@ -91,6 +92,7 @@ t/List-MoreUtils/minmax.t
 t/List-MoreUtils/none.t
 t/List-MoreUtils/true.t
 t/List-MoreUtils/uniq.t
+t/list-trim.t
 t/List-Util/first.t
 t/List-Util/max.t
 t/List-Util/maxstr.t
@@ -122,6 +124,7 @@ t/try-tiny.t
 t/utf8.t
 t/version_0/00_compile.t
 t/version_1/00_compile.t
+t/vs_listmoreutils.t
 t/Want.t
 t/wrap.t
 t/y2038.t
