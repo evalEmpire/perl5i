@@ -1,4 +1,4 @@
-2.1.1
+2.1.1  Tue Apr 27 21:34:04 PDT 2010
   Fixes
   * Upgrade dependency on autovivification so Regexp::Common works
     with perl5i. [github 32]
