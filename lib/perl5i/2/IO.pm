@@ -1,4 +1,4 @@
-package perl5i::IO;
+package perl5i::2::IO;
 
 use strict;
 use warnings;
