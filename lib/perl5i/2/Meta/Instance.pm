@@ -7,14 +7,14 @@ use warnings;
 require Scalar::Util;
 require overload;
 require Carp;
-use Object::ID;
 
 use perl5i::2::autobox;
 
 use parent qw(perl5i::2::Meta);
 
 sub id {
-    return object_id(ref ${$_[0]} ? ${$_[0]} : $_[0]);
+    require Object::ID;
+    return Object::ID::object_id(ref ${$_[0]} ? ${$_[0]} : $_[0]);
 }
 
 sub class {
