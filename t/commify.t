@@ -19,6 +19,19 @@ my @tests = (
     { have => 123456789,        want => "123456789",
       opts => { grouping => 0, separator => "," }
     },
+    { have => "123456789.987",        want => "123.456.789,987",
+      opts => { separator => ".", decimal_point => "," }
+    },
+    { have => "123456789",        want => "123.456.789",
+      opts => { separator => ".", decimal_point => "," }
+    },
+    # Preserve the trailing dot
+    { have => "123456789.",        want => "123.456.789,",
+      opts => { separator => ".", decimal_point => "," }
+    },
+    { have => "123456789.0",        want => "123.456.789,0",
+      opts => { separator => ".", decimal_point => "," }
+    },
     { have => 12345.678,        want => "12,345.678" },
     { have => 0,                want => "0" },
     { have => 0.12,             want => "0.12" },

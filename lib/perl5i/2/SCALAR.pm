@@ -170,13 +170,24 @@ sub group_digits {
     };
 
     my $is_money = $opts{currency};
-    my $sep      = $opts{separator} // (_get_thousands_sep($is_money) || $defaults->{thousands_sep});
-    my $grouping = $opts{grouping}  // (_get_grouping($is_money)      || $defaults->{grouping});
+    my $sep           = $opts{separator}     // (_get_from_locale("thousands_sep", $is_money)
+                                                 || $defaults->{thousands_sep});
+    my $grouping      = $opts{grouping}      // (_get_grouping($is_money)
+                                                 || $defaults->{grouping});
+    my $decimal_point = $opts{decimal_point} // (_get_from_locale("decimal_point", $is_money) 
+                                                 || $defaults->{decimal_point});
     return $self if $grouping == 0;
 
-    my $number = reverse $self;
-    $number =~ s/(\d{$grouping})(?=\d)(?!\d*\.)/$1$sep/g;
-    return reverse $number;
+    my($integer, $decimal) = split m{\.}, $self, 2;
+
+    $integer = reverse $integer;
+    $integer =~ s/(\d{$grouping})(?=\d)(?!\d*\.)/$1$sep/g;
+    $integer = reverse $integer;
+
+    my $number = $integer;
+    $number .= $decimal_point . $decimal if defined $decimal;
+
+    return $number;
 }
 
 sub commify {
@@ -186,6 +197,7 @@ sub commify {
     state $defaults = {
         separator       => ",",
         grouping        => 3,
+        decimal_point   => ".",
     };
 
     my $opts = $defaults->merge(\%args);
@@ -215,9 +227,9 @@ sub _get_grouping {
     }
 }
 
-sub _get_thousands_sep {
-    my $is_money = shift;
-    my $key = $is_money ? "mon_thousands_sep" : "thousands_sep";
+sub _get_from_locale {
+    my($key, $is_money) = @_;
+    $key = "mon_$key" if $is_money;
 
     my $lconv = _get_lconv;
     return $lconv->{$key};
