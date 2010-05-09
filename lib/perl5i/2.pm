@@ -69,8 +69,8 @@ sub import {
     # utf8ify @ARGV
     $_ = Encode::decode('utf8', $_) for @ARGV;
 
-
-    $^H{perl5i} = 1;
+    # Current lexically active major version of perl5i.
+    $^H{perl5i} = 2;
 
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
