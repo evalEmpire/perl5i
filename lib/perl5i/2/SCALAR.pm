@@ -84,6 +84,20 @@ sub wrap {
 }
 
 
+# Compatiblity wrappers. Remove in 3.0.
+sub untaint {
+    return $_[0]->mo->untaint;
+}
+
+sub taint {
+    return $_[0]->mo->taint;
+}
+
+sub is_tainted {
+    return $_[0]->mo->is_tainted;
+}
+
+
 sub require {
     my $error = do {
         # Don't let them leak out or get reset
