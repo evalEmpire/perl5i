@@ -366,7 +366,7 @@ For example,
 =head3 group_digits
 
     my $number_grouped     = $number->group_digits;
-    my $number_grouped     = $number->group_digits(%options);
+    my $number_grouped     = $number->group_digits(\%options);
 
 Turns a number like 1234567 into a string like 1,234,567 known as "digit grouping".
 
@@ -410,7 +410,7 @@ locale settings.  "mon_thousands_sep" instead of "thousands_sep" and
 =head3 commify
 
     my $number_grouped = $number->commify;
-    my $number_grouped = $number->commify(%options);
+    my $number_grouped = $number->commify(\%options);
 
 commify() is just like group_digits() but it is not locale aware.  It
 is useful when you want a predictable result regardless of the user's
@@ -420,7 +420,7 @@ C<%options> defaults to C<< ( separator => ",", grouping => 3, decimal_point => 
 Each key will be overriden individually.
 
     1234->commify;                      # 1,234
-    1234->commify( separator => "." );  # 1.234
+    1234->commify({ separator => "." });  # 1.234
 
 
 =head2 List Autoboxing

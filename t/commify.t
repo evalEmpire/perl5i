@@ -49,7 +49,7 @@ for my $test (@tests) {
     $opts_string =~ s/^\s*{//;
     $opts_string =~ s/}\s*$//;
 
-    is $have->commify(%$opts),          $want, "$have->commify($opts_string)";
+    is $have->commify($opts),          $want, "$have->commify($opts_string)";
 }
 
 
