@@ -24,10 +24,6 @@ my @tests = (
     { have => 0.12,             want => "0.12" },
 );
 
-my $default_opts = {
-    seperator   => ",",
-    grouping    => 3,
-};
 
 for my $test (@tests) {
     my $have = $test->{have};

@@ -370,7 +370,7 @@ For example,
 
 Turns a number like 1234567 into a string like 1,234,567 known as "digit grouping".
 
-It honors your current locale to determine the seperator and grouping.
+It honors your current locale to determine the separator and grouping.
 This can be overriden using C<%options>.
 
 NOTE: many systems do not have their numeric locales set properly
@@ -399,7 +399,7 @@ locale settings.  "mon_thousands_sep" instead of "thousands_sep" and
 =back
 
     1234->group_digits;                      # 1,234 (assuming US locale)
-    1234->group_digits( seperator => "." );  # 1.234
+    1234->group_digits( separator => "." );  # 1.234
 
 
 =head3 commify
@@ -412,10 +412,10 @@ is useful when you want a predictable result regardless of the user's
 locale settings, but don't want to have to enter the options each time.
 
 C<< $number->commify >> is equivalent to
-C<< $number->group_digits( seperator => ",", grouping => 3 ) >>.
+C<< $number->group_digits( separator => ",", grouping => 3, decimal_point => "." ) >>.
 
     1234->commify;                      # 1,234
-    1234->commify( seperator => "." );  # 1.234
+    1234->commify( separator => "." );  # 1.234
 
 
 =head2 List Autoboxing

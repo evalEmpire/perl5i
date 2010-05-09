@@ -166,10 +166,11 @@ sub group_digits {
     state $defaults = {
         thousands_sep   => ",",
         grouping        => 3,
+        decimal_point   => ".",
     };
 
     my $is_money = $opts{currency};
-    my $sep      = $opts{seperator} // (_get_thousands_sep($is_money) || $defaults->{thousands_sep});
+    my $sep      = $opts{separator} // (_get_thousands_sep($is_money) || $defaults->{thousands_sep});
     my $grouping = $opts{grouping}  // (_get_grouping($is_money)      || $defaults->{grouping});
     return $self if $grouping == 0;
 
@@ -183,8 +184,8 @@ sub commify {
     my %args = @_;
 
     state $defaults = {
-        seperator   => ",",
-        grouping    => 3,
+        separator       => ",",
+        grouping        => 3,
     };
 
     my $opts = $defaults->merge(\%args);
