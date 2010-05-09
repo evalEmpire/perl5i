@@ -69,10 +69,11 @@ name.
 
 Returns an identifer for $object.
 
-The identifier is guaranteed to be
+The identifier is guaranteed to be:
 
   * unique to the object for the life of the process
   * a true value
+  * independent of changes to the object's contents
 
 =head2 class
 
