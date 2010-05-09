@@ -373,6 +373,8 @@ Turns a number like 1234567 into a string like 1,234,567 known as "digit groupin
 It honors your current locale to determine the seperator and grouping.
 This can be overriden using C<%options>.
 
+NOTE: many systems do not have their numeric locales set properly
+
 =over 4
 
 =item separator
