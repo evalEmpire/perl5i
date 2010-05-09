@@ -20,6 +20,8 @@ my @tests = (
       opts => { grouping => 0, separator => "," }
     },
     { have => 12345.678,        want => "12,345.678" },
+    { have => 0,                want => "0" },
+    { have => 0.12,             want => "0.12" },
 );
 
 my $default_opts = {
