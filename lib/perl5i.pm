@@ -389,6 +389,13 @@ How many numbers in a group?  Defaults to "grouping" in your locale or
 
 Note: we don't honor the full grouping locale, its a wee bit too complicated.
 
+=item currency
+
+If true, it will treat the number as currency and use the monetary
+locale settings.  "mon_thousands_sep" instead of "thousands_sep" and
+"mon_grouping" instead of "grouping".
+
+
 =back
 
     1234->group_digits;                      # 1,234 (assuming US locale)

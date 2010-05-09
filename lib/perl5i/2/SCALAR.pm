@@ -168,8 +168,9 @@ sub group_digits {
         grouping        => 3,
     };
 
-    my $sep      = $opts{seperator} // (_get_thousands_sep() || $defaults->{thousands_sep});
-    my $grouping = $opts{grouping}  // (_get_grouping()      || $defaults->{grouping});
+    my $is_money = $opts{currency};
+    my $sep      = $opts{seperator} // (_get_thousands_sep($is_money) || $defaults->{thousands_sep});
+    my $grouping = $opts{grouping}  // (_get_grouping($is_money)      || $defaults->{grouping});
     return $self if $grouping == 0;
 
     my $number = reverse $self;
@@ -200,10 +201,13 @@ sub _get_lconv {
 }
 
 sub _get_grouping {
+    my $is_money = shift;
+    my $key = $is_money ? "mon_grouping" : "grouping";
+
     my $lconv = _get_lconv;
 
-    if( $lconv->{grouping} ) {
-        return (unpack("C*", $lconv->{grouping}))[0];
+    if( $lconv->{$key} ) {
+        return (unpack("C*", $lconv->{$key}))[0];
     }
     else {
         return;
@@ -211,8 +215,11 @@ sub _get_grouping {
 }
 
 sub _get_thousands_sep {
+    my $is_money = shift;
+    my $key = $is_money ? "mon_thousands_sep" : "thousands_sep";
+
     my $lconv = _get_lconv;
-    return $lconv->{thousands_sep};
+    return $lconv->{$key};
 }
 
 
