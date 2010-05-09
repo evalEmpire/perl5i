@@ -30,14 +30,14 @@ sub dt_gmtime (;$) {
     $year += 1900;
 
     require DateTime;
-    return DateTime::y2038->new(
+    return perl5i::2::DateTime::y2038->new(
         year            => $year,
         month           => $mon,
         day             => $mday,
         hour            => $hour,
         minute          => $min,
         second          => $sec,
-        formatter       => "DateTime::Format::CTime"
+        formatter       => "perl5i::2::DateTime::Format::CTime"
     );
 }
 
@@ -82,7 +82,7 @@ sub dt_localtime (;$) {
     state $tz = _get_datetime_timezone();
 
     require DateTime;
-    return DateTime::y2038->new(
+    return perl5i::2::DateTime::y2038->new(
         year            => $year,
         month           => $mon,
         day             => $mday,
@@ -90,7 +90,7 @@ sub dt_localtime (;$) {
         minute          => $min,
         second          => $sec,
         time_zone       => $tz,
-        formatter       => "DateTime::Format::CTime"
+        formatter       => "perl5i::2::DateTime::Format::CTime"
     );
 }
 
@@ -101,7 +101,7 @@ sub dt_time () {
     state $formatter = DateTime::Format::Epoch->new( epoch => DateTime->from_epoch( epoch => 0 ) );
 
     require DateTime;
-    return DateTime::time->from_epoch(
+    return perl5i::2::DateTime::time->from_epoch(
         epoch     => time,
         formatter => $formatter
     );
@@ -109,7 +109,7 @@ sub dt_time () {
 
 
 {
-    package DateTime::y2038;
+    package perl5i::2::DateTime::y2038;
 
     # Don't load DateTime until we need it.
     our @ISA = qw(DateTime);
@@ -169,9 +169,9 @@ sub dt_time () {
 
 {
 
-    package DateTime::time;
+    package perl5i::2::DateTime::time;
 
-    use parent -norequire, qw(DateTime::y2038);
+    use parent -norequire, qw(perl5i::2::DateTime::y2038);
 
     use overload
       "0+" => sub { $_[0]->epoch },
@@ -213,7 +213,7 @@ sub dt_time () {
 
 {
 
-    package DateTime::Format::CTime;
+    package perl5i::2::DateTime::Format::CTime;
 
     use CLASS;
 
