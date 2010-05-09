@@ -11,7 +11,7 @@ my @tests = (
     { have => "123456789.1234", want => "123,456,789.1234" },
     { have => -12345,           want => "-12,345" },
     { have => 123456789,        want => "123.456.789",
-      opts => { seperator => ".", grouping => 3 }
+      opts => { separator => ".", grouping => 3 }
     },
     { have => 123456789,        want => "1,23,45,67,89",
       opts => { grouping => 2, separator => "," }
