@@ -1,14 +1,14 @@
 2.2.0
   New Features
   * $thing->mo->is_tainted, along with untaint and taint, are now callable
-    on everything to provide a unified interface.
+    on everything to provide a unified interface. [github 89]
   * Added $number->commify and $number->group_digits to turn 1000 into 1,000.
     [github 128]
   * Added $obj->mo->id, a universal unique object identifier.
 
   Deprecation Warnings
   * $thing->is_tainted, untaint and taint will be removed in v3.
-    Please use $thing->mo->is_tainted and friends.
+    Please use $thing->mo->is_tainted and friends. [github 89]
 
   Bug Fixes
   * $class->can($method) now works as it should (previously autoboxing
