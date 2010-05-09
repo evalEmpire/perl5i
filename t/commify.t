@@ -19,6 +19,7 @@ my @tests = (
     { have => 123456789,        want => "123456789",
       opts => { grouping => 0, separator => "," }
     },
+    { have => 12345.678,        want => "12,345.678" },
 );
 
 my $default_opts = {
