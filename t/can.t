@@ -9,10 +9,8 @@ use Test::More;
 }
 
 my $class = "Foo";
-TODO: {
-    local $TODO = "autobox can() bug [github 112]";
-    ok $class->can("bar"),                  "autoboxing vs can()";
-}
+ok $class->can("bar"),                  "autoboxing vs can()";
+
 ok $class->UNIVERSAL::can("bar"),       "  no really, it should work";
 
 done_testing();

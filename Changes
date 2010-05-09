@@ -9,6 +9,10 @@
   * $thing->is_tainted, untaint and taint will be removed in v3.
     Please use $thing->mo->is_tainted and friends.
 
+  Bug Fixes
+  * $class->can($method) now works as it should (previously autoboxing
+    would interfere). [github 112]
+
 
 2.1.1  Tue Apr 27 21:34:04 PDT 2010
   Fixes
