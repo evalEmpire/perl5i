@@ -5,6 +5,7 @@ bin/perl5i.c.PL
 bin/perl5i.plx
 Build.PL
 Changes
+file_notes.txt
 inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
@@ -63,6 +64,7 @@ t/center.t
 t/chdir.t
 t/CLASS.t
 t/command_line_wrapper.t
+t/commify.t
 t/datetime.t
 t/die.t
 t/diff.t
@@ -104,6 +106,7 @@ t/List-Util/sum.t
 t/map.t
 t/Meta/checksum.t
 t/Meta/class.t
+t/Meta/id.t
 t/Meta/is-equal.t
 t/Meta/ISA.t
 t/Meta/linear_isa.t
