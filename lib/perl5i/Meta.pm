@@ -9,6 +9,7 @@ perl5i::Meta - The perl5i meta object
 
     use perl5i;
 
+    my $id      = $object->mo->id;
     my $class   = $object->mc->class;
     my $tainted = $object->mo->is_tainted;
     ...and so on...
@@ -61,6 +62,17 @@ name.
 
 
 =head1 METHODS
+
+=head2 id
+
+    my $id = $object->mo->id;
+
+Returns an identifer for $object.
+
+The identifier is guaranteed to be
+
+  * unique to the object for the life of the process
+  * a true value
 
 =head2 class
 
