@@ -14,6 +14,8 @@ use parent qw(perl5i::2::Meta);
 
 sub id {
     require Object::ID;
+
+    # Hash::FieldHash cannot handle non-references
     return Object::ID::object_id(ref ${$_[0]} ? ${$_[0]} : $_[0]);
 }
 
