@@ -1,3 +1,13 @@
+2.2.0
+  New Features
+  * $thing->mo->is_tainted, along with untaint and taint, are now callable
+    on everything to provide a unified interface.
+
+  Deprecation Warnings
+  * $thing->is_tainted, untaint and taint will be removed in v3.
+    Please use $thing->mo->is_tainted and friends.
+
+
 2.1.1  Tue Apr 27 21:34:04 PDT 2010
   Fixes
   * Upgrade dependency on autovivification so Regexp::Common works

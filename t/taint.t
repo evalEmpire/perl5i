@@ -10,29 +10,46 @@ use Scalar::Util qw(tainted);
 
 # Check an already tainted global
 {
+    note "Already tainted global";
+
+    ok $^X->mo->is_tainted;
+
+    $^X->mo->untaint;
+    ok !$^X->mo->is_tainted;
+    ok !tainted($^X);
+
+    $^X->mo->taint;
+    ok $^X->mo->is_tainted;
+    ok tainted($^X);
+}
+
+# Check 2.0 compat
+{
+    note "2.0 compat";
+
     ok $^X->is_tainted;
 
     $^X->untaint;
     ok !$^X->is_tainted;
-    ok !tainted($^X);
 
     $^X->taint;
     ok $^X->is_tainted;
-    ok tainted($^X);
 }
 
 
 # Check a scalar
 {
-    my $foo = 42;
-    ok !$foo->is_tainted;
+    note "simple scalar";
 
-    $foo->taint;
-    ok $foo->is_tainted;
+    my $foo = "foo";
+    ok !$foo->mo->is_tainted;
+
+    $foo->mo->taint;
+    ok $foo->mo->is_tainted;
     ok tainted($foo);  # just to be sure.
 
-    $foo->untaint;
-    ok !$foo->is_tainted;
+    $foo->mo->untaint;
+    ok !$foo->mo->is_tainted;
     ok !tainted($foo);  # just to be sure.
 }
 
@@ -41,21 +58,25 @@ use Scalar::Util qw(tainted);
 # Would be nice if we could un/taint the contents, but that's not
 # possible due to how Taint::Util works and its not worth fixing.
 {
-    my $foo = \42;
-    ok !$foo->is_tainted;
+    note "scalar ref";
 
-    $foo->untaint;  # does nothing
-    ok !$foo->is_tainted;
+    my $foo = \42;
+    ok !$foo->mo->is_tainted;
+
+    $foo->mo->untaint;  # does nothing
+    ok !$foo->mo->is_tainted;
     ok !tainted(\$foo);  # just to be sure.
 
-    throws_ok { $foo->taint; } qr/^Only scalars can normally be made tainted/;
-    ok !$foo->is_tainted;
+    throws_ok { $foo->mo->taint; } qr/^Only scalars can normally be made tainted/;
+    ok !$foo->mo->is_tainted;
     ok !tainted(\$foo);  # just to be sure.
 }
 
 
 # A regular hash cannot be tainted
 {
+    note "hash";
+
     my %foo;
     ok !%foo->mo->is_tainted;
 
@@ -71,6 +92,8 @@ use Scalar::Util qw(tainted);
 
 # A blessed hash ref object cannot be tainted
 {
+    note "blessed hash ref";
+
     my $obj = bless {}, "Foo";
     ok !$obj->mo->is_tainted;
 
@@ -85,6 +108,8 @@ use Scalar::Util qw(tainted);
 
 # A blessed scalar ref object cannot be untainted... though we could.
 {
+    note "blessed scalar ref";
+
     my $thing = 42;
     my $obj = bless \$thing, "Foo";
     ok !$obj->mo->is_tainted;
@@ -102,6 +127,8 @@ use Scalar::Util qw(tainted);
 # Since its stringified value is what's important to tainting,
 # we should check that.  But there's no way to reliably taint or untaint it.
 {
+    note "string overloaded object";
+
     package Bar;
     use Test::More;
     use Test::perl5i;
@@ -139,6 +166,8 @@ use Scalar::Util qw(tainted);
 # DateTime is notoriously picky about its overloading
 # In particular $date+0, the usual way to numify, will die.
 {
+    note "DateTime";
+
     require DateTime;
     my $date = DateTime->now;
 

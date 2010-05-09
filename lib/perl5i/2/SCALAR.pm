@@ -84,30 +84,17 @@ sub wrap {
 }
 
 
-# untaint the scalar itself, not the reference
+# Compatiblity wrappers. Remove in 3.0.
 sub untaint {
-    return $_[0]->mo->untaint if ref $_[0];
-
-    require Taint::Util;
-    Taint::Util::untaint($_[0]);
-    return 1;
+    return $_[0]->mo->untaint;
 }
 
-
-# untaint the scalar itself, not the reference
 sub taint {
-    return $_[0]->mo->taint if ref $_[0];
-
-    require Taint::Util;
-    Taint::Util::taint($_[0]);
-    return 1;
+    return $_[0]->mo->taint;
 }
 
-# Could use the version in Meta but this removes the need to check
-# for overloading.
 sub is_tainted {
-    require Taint::Util;
-    return ref $_[0] ? Taint::Util::tainted(${$_[0]}) : Taint::Util::tainted($_[0]);
+    return $_[0]->mo->is_tainted;
 }
 
 
