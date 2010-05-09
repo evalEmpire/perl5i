@@ -2,6 +2,7 @@
   New Features
   * $thing->mo->is_tainted, along with untaint and taint, are now callable
     on everything to provide a unified interface.
+  * Added $number->commify and $number->group_digits to turn 1000 into 1,000.
 
   Deprecation Warnings
   * $thing->is_tainted, untaint and taint will be removed in v3.
