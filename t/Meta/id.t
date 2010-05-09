@@ -43,10 +43,4 @@ for my $obj (@objs) {
     is $obj->mo->id, $id, "  second call the same";
 }
 
-for(1..3) {
-    my $obj = bless {}, "Foo";
-    note $obj;
-    id_ok $obj;
-}
-
 done_testing();
