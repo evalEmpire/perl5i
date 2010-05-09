@@ -741,7 +741,10 @@ And you can use it on the C<#!> line.
 
 =head1 BUGS
 
-Some parts are not lexical.
+Some parts are not lexical.  Some parts are package scoped.
+
+If you're going to use two versions of perl5i together, we do not
+currently recommend having them in the same package.
 
 See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
 
