@@ -2,6 +2,7 @@ package perl5i::cmd;
 
 # This is a shim for the perl5i command line utility to use.
 
+use strict;
 use parent 'perl5i::latest';
 
 sub import {

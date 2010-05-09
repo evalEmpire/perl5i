@@ -1,4 +1,6 @@
 package perl5i::2::equal;
+
+use strict;
 use perl5i::2::autobox;
 
 sub are_equal {
