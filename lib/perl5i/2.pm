@@ -9,13 +9,16 @@ use warnings;
 BEGIN {
     my $diesub = sub {
         my ( $sub, $mod ) = @_;
-        die( <<EOT ) unless ref($INC[-1]) && $INC[-1] != $sub;
+        die( <<EOT );
 Can't locate $mod in your Perl library.  You may need to install it
 from CPAN or another repository.  Your library paths are:
 @{[ map { "  $_\n" } @INC ]}
 EOT
-        @INC = grep { ref($_) && $_ != $sub } @INC;
-        push @INC => $sub;
+    };
+    push @INC => sub {
+        return if ref($INC[-1]) && $INC[-1] == $diesub;
+        @INC = grep { !(ref($_) && $_ == $diesub) } @INC;
+        push @INC => $diesub;
     };
     push @INC => $diesub;
 }
