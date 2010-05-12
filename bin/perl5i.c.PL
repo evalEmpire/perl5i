@@ -83,6 +83,8 @@ int main (int argc, char* argv[]) {
             exit(1);
         }
         FILE *fh = fdopen(fd, "w");
+        fprintf( fh, "$0 = '-e';\n" );
+        fprintf( fh, "#line 1 \"-e\"\n" );
         fprintf( fh, "%%s", program );
         fclose(fh);
 

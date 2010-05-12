@@ -28,6 +28,11 @@ like `$perl5i "-Ilib" -e "\$^X->say"`, qr/perl5i/, '$^X is perl5i';
 
 is `$perl5i -wle "print 'Hello'"`, "Hello\n", "compound -e";
 
+# Make sure it thinks its a one liner.
+is `$perl5i -e 'print \$0'`, "-e",      '$0 preserved';
+is `$perl5i -e 'print __LINE__'`, 1,    '__LINE__ preserved';
+is `$perl5i -e 'print __FILE__'`, "-e", '__FILE__ preserved';
+
 # Check it takes code from STDIN
 {
     use IPC::Open2;
