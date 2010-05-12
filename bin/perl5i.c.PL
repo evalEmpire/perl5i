@@ -38,16 +38,7 @@ int main (int argc, char* argv[]) {
     perl_args[1] = dash_m;
 
     for( i = 1;  i < argc;  i++ ) {
-        #if defined(WIN32)
-            /* Windows arguments aren't really a list but a single string,
-             * execv() fakes it, so we need to put the quotes back.
-             */
-            char* wrapped_arg = (char *)malloc( strlen(argv[i]) + 3 );
-            sprintf(wrapped_arg, "\"%%s\"", argv[i]);
-            perl_args[i+1] = wrapped_arg;
-        #else
-            perl_args[i+1] = argv[i];
-        #endif
+        perl_args[i+1] = argv[i];
     }
 
     /* Argument array must be terminated by a null */
