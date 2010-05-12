@@ -5,6 +5,24 @@ use 5.010;
 
 use strict;
 use warnings;
+
+BEGIN {
+    my $diesub = sub {
+        my ( $sub, $mod ) = @_;
+        die( <<EOT );
+Can't locate $mod in your Perl library.  You may need to install it
+from CPAN or another repository.  Your library paths are:
+@{[ map { "  $_\n" } @INC ]}
+EOT
+    };
+    push @INC => sub {
+        return if ref($INC[-1]) && $INC[-1] == $diesub;
+        @INC = grep { !(ref($_) && $_ == $diesub) } @INC;
+        push @INC => $diesub;
+    };
+    push @INC => $diesub;
+}
+
 use IO::Handle;
 use Carp;
 use perl5i::2::DateTime;
