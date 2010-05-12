@@ -26,6 +26,20 @@ like `$perl5i "-Ilib" -h`, qr/disable all warnings/, 'perl5i -h works as expecte
 
 like `$perl5i "-Ilib" -e "\$^X->say"`, qr/perl5i/, '$^X is perl5i';
 
+is `$perl5i -wle "print 'Hello'"`, "Hello\n", "compound -e";
+
+# Check it takes code from STDIN
+{
+    use IPC::Open2;
+    my($out, $in);
+    ok open2( $out, $in, $perl5i ), "open2";
+    print $in q[say "Hello"];
+    close $in;
+
+    is <$out>, "Hello\n", "reads code from stdin";
+}
+
+# And from a file
 {
     my($fh, $file) = tempfile;
     print $fh "say 'Hello';";
@@ -34,4 +48,4 @@ like `$perl5i "-Ilib" -e "\$^X->say"`, qr/perl5i/, '$^X is perl5i';
     is `perl5i $file`, "Hello\n", "program in a file";
 }
 
-done_testing(6);
+done_testing;
