@@ -5,6 +5,7 @@ use perl5i::latest;
 use Config;
 use ExtUtils::CBuilder;
 use File::Spec;
+use File::Temp qw(tempfile);
 
 use Test::More;
 
@@ -25,4 +26,12 @@ like `$perl5i "-Ilib" -h`, qr/disable all warnings/, 'perl5i -h works as expecte
 
 like `$perl5i "-Ilib" -e "\$^X->say"`, qr/perl5i/, '$^X is perl5i';
 
-done_testing(5);
+{
+    my($fh, $file) = tempfile;
+    print $fh "say 'Hello';";
+    close $fh;
+
+    is `perl5i $file`, "Hello\n", "program in a file";
+}
+
+done_testing(6);
