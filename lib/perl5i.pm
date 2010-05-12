@@ -725,6 +725,18 @@ of $@ and a nice syntax layer:
 
 See perldoc L<Try::Tiny> for details.
 
+=head2 Better load errors
+
+Most of us have learned the meaning of the dreaded "Can't locate Foo.pm in
+@INC". Admittedly though, it's not the most helpful of the error messages. In
+perl5i we provide a much friendlier error message.
+
+Example:
+
+    Can't locate My/Module.pm in your Perl library.  You may need to install it
+    from CPAN or another repository.  Your library paths are:
+        Indented list of paths, 1 per line...
+
 =head1 Command line program
 
 There is a perl5i command line program installed with perl5i (Windows
