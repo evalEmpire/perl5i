@@ -339,13 +339,6 @@ meta-object is more about things you want to do to every object but
 don't want to pollute the UNIVERSAL namespace with.
 
 
-=head2 Why doesn't perl5i use Module::That::Uses::Devel::Declare?
-
-At the time of this writing, Devel::Declare is not quite production
-safe.  There are many wonderful things which can be done with
-Devel::Declare and we are continually evaluating this position.
-
-
 =head2 perl5i has too many dependencies!
 
 That's not a question.  Eventually, perl5i will look into a bundling
