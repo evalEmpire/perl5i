@@ -19,6 +19,8 @@ printf $fh <<'END', $0, $perl_path, $tempdir;
  * Any changes here will be wiped out.  Edit it there instead.
  */
 
+#define DEBUG 0
+
 #include <unistd.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -50,7 +52,10 @@ int main (int argc, char* argv[]) {
         char *dash_e = strchr(argv[i], 'e');
 
         /* Its a one liner */
-        if( dash_e && (strchr(argv[i], '-') == argv[i]) )
+        if( dash_e && strcmp(dash_e, "e") == 0
+            && (strchr(argv[i], '-') == argv[i])
+            && (strchr(argv[i], 'M') != argv[i]+1)
+        )
         {
             saw_dash_e = 1;
 
