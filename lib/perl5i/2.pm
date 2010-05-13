@@ -49,7 +49,8 @@ sub import {
     load_in_caller( $caller => (
         ["CLASS"], ["File::chdir"],
         [English => qw(-no_match_vars)],
-        ["Want" => qw(want)], ["Try::Tiny"], ["Perl6::Caller"], ["Carp"]
+        ["Want" => qw(want)], ["Try::Tiny"], ["Perl6::Caller"], ["Carp"],
+        ['Block::NamedVar'],
     ) );
 
     # Have to call both or it won't work.
