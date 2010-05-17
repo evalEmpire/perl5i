@@ -22,7 +22,7 @@ sub UNIVERSAL::mc {
 sub new {
     my $class = shift;
     # Be careful to take a reference to an alias, not a copy
-    return bless \$_[0], $class;
+    return bless \\$_[0], $class;
 }
 
 sub ISA {
@@ -89,7 +89,7 @@ sub super {
 
     for (@isa) {
         my $code = $_->can($method);
-        @_ = ($$self, @_);
+        @_ = ($$$self, @_);
         goto &$code if $code;
     }
 

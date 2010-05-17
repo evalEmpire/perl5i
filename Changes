@@ -2,6 +2,8 @@
   Bug Fixes
   * Greatly reduced the amount of clashes when loading perl5i::1 and
     perl5i::2.
+  * Make meta objects on read only strings and numbers work with
+    non-threaded perls.
 
 
 2.2.0  Sun May  9 13:22:56 PDT 2010

@@ -16,15 +16,15 @@ sub id {
     require Object::ID;
 
     # Hash::FieldHash cannot handle non-references
-    return Object::ID::object_id(ref ${$_[0]} ? ${$_[0]} : $_[0]);
+    return Object::ID::object_id(ref ${${$_[0]}} ? ${${$_[0]}} : ${$_[0]});
 }
 
 sub class {
-    return ref ${$_[0]};
+    return ref ${${$_[0]}};
 }
 
 sub reftype {
-    return Scalar::Util::reftype(${$_[0]});
+    return Scalar::Util::reftype(${${$_[0]}});
 }
 
 
@@ -32,7 +32,7 @@ sub reftype {
 
 # Returns the code which will run when the object is used as a string
 my $has_string_overload = sub {
-    return overload::Method(${$_[0]}, q[""]) || overload::Method(${$_[0]}, q[0+])
+    return overload::Method(${${$_[0]}}, q[""]) || overload::Method(${${$_[0]}}, q[0+])
 };
 
 sub is_tainted {
@@ -40,16 +40,16 @@ sub is_tainted {
 
     require Taint::Util;
 
-    if( !ref ${$_[0]} ) {
+    if( !ref ${${$_[0]}} ) {
         # Its a plain scalar
-        return Taint::Util::tainted(${$_[0]});
+        return Taint::Util::tainted(${${$_[0]}});
     }
-    elsif( ref ${$_[0]} eq 'SCALAR' ) {
+    elsif( ref ${${$_[0]}} eq 'SCALAR' ) {
         # Unblessed scalar
         return Taint::Util::tainted(${${$_[0]}});
     }
     elsif( $code = $_[0]->$has_string_overload ) {
-        return Taint::Util::tainted( $code->(${$_[0]}) );
+        return Taint::Util::tainted( $code->(${${$_[0]}}) );
     }
     else {
         return 0;
@@ -62,9 +62,9 @@ sub is_tainted {
 sub taint {
     require Taint::Util;
 
-    if( !ref ${$_[0]} ) {
+    if( !ref ${${$_[0]}} ) {
         # Its a plain scalar
-        return Taint::Util::taint(${$_[0]});
+        return Taint::Util::taint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload ) {
         Carp::croak "Untainted overloaded objects cannot normally be made tainted" if
@@ -82,9 +82,9 @@ sub taint {
 sub untaint {
     require Taint::Util;
 
-    if( !ref ${$_[0]} ) {
+    if( !ref ${${$_[0]}} ) {
         # Its a plain scalar
-        return Taint::Util::untaint(${$_[0]});
+        return Taint::Util::untaint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload && $_[0]->is_tainted ) {
         Carp::croak "Tainted overloaded objects cannot normally be untainted";
@@ -132,7 +132,7 @@ sub is_equal {
     my ($self, $other) = @_;
     require perl5i::2::equal;
 
-    return perl5i::2::equal::are_equal(${$self}, $other);
+    return perl5i::2::equal::are_equal($$$self, $other);
 }
 
 
@@ -142,7 +142,7 @@ sub perl {
     state $options = [qw(Terse Sortkeys Deparse)];
 
     my $self = shift;
-    my $dumper = Data::Dumper->new([${$self}]);
+    my $dumper = Data::Dumper->new([$$$self]);
     for my $option (@$options) {
         $dumper->$option(1);
     }
@@ -192,12 +192,12 @@ sub _dump_as_json {
               ;
     } unless defined &UNIVERSAL::TO_JSON;
 
-    return $json->encode(${$_[0]});
+    return $json->encode(${${$_[0]}});
 }
 
 sub _dump_as_yaml {
     require YAML::Any;
-    return YAML::Any::Dump(${$_[0]});
+    return YAML::Any::Dump(${${$_[0]}});
 }
 
 1;
