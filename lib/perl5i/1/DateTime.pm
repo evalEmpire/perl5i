@@ -5,7 +5,20 @@ package perl5i::1::DateTime;
 use 5.010;
 use strict;
 use warnings;
-use Time::y2038;
+
+# Determine if we need Time::y2038 and only load if necessary.
+# XXX This is a bit of a hack and should go into a config file.
+use constant NEEDS_y2038 => (
+    ((((CORE::gmtime(2**47-1))[5] || 0)      + 1900) != 4461763) ||
+    ((((CORE::gmtime(-62135510400))[5] || 0) + 1900) != 1)
+);
+
+BEGIN {
+    if( NEEDS_y2038 ) {
+        require Time::y2038;
+        Time::y2038->import;
+    }
+}
 
 
 ## no critic (Subroutines::ProhibitSubroutinePrototypes)
@@ -120,32 +133,38 @@ sub dt_time () {
     sub from_epoch {
         my $class = shift;
 
-        require Time::y2038;
-        no warnings 'redefine';
-        local *CORE::GLOBAL::gmtime    = \&Time::y2038::gmtime;
-        local *CORE::GLOBAL::localtime = \&Time::y2038::localtime;
+        if( perl5i::1::DateTime::NEEDS_y2038 ) {
+            no warnings 'redefine';
+            local *CORE::GLOBAL::gmtime    = \&Time::y2038::gmtime;
+            local *CORE::GLOBAL::localtime = \&Time::y2038::localtime;
 
-        return $class->SUPER::from_epoch(@_);
+            return $class->SUPER::from_epoch(@_);
+        }
+        else {
+            return $class->SUPER::from_epoch(@_);
+        }
     }
 
 
     # Copy of DateTime's own epoch() function.
-    sub epoch {
-        my $self = shift;
+    if( perl5i::1::DateTime::NEEDS_y2038 ) {
+        *epoch = sub {
+            my $self = shift;
 
-        my $zone = $self->time_zone;
-        $self->set_time_zone("UTC");
+            my $zone = $self->time_zone;
+            $self->set_time_zone("UTC");
 
-        require Time::y2038;
-        my $time = Time::y2038::timegm(
-            $self->sec, $self->min, $self->hour, $self->mday,
-            $self->mon - 1,
-            $self->year - 1900,
-        );
+            require Time::y2038;
+            my $time = Time::y2038::timegm(
+                $self->sec, $self->min, $self->hour, $self->mday,
+                $self->mon - 1,
+                $self->year - 1900,
+            );
 
-        $self->set_time_zone($zone);
+            $self->set_time_zone($zone);
 
-        return $time;
+            return $time;
+        }
     }
 }
 
