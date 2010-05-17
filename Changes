@@ -1,3 +1,13 @@
+2.2.2  Mon May 17 16:34:52 PDT 2010
+  Bug Fixes
+  * Let perl5i::1 load without Time::y2038 if Perl is already y2038 safe
+    just like perl5i::2 does.
+
+  Test Fixes
+  * Possible failure of t/command_line_wrapper.t if perl5i isn't
+    already installed.
+
+
 2.2.1  Sun May 16 22:52:01 PDT 2010
   Bug Fixes
   * Greatly reduced the amount of clashes when loading perl5i::1 and
