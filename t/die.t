@@ -3,7 +3,7 @@
 use perl5i::latest;
 use Test::More;
 
-use File::Temp qw(tempfile);
+use File::Temp qw(tempdir tempfile);
 use IPC::Open3;
 
 sub run_code {
@@ -11,7 +11,8 @@ sub run_code {
 
     # IPC::Open3, or more specifically waitpid(), will hang on Windows
     # if we pass the code in on STDIN.  So use a temp file.
-    my($temp_fh, $tempfile) = tempfile;
+    my $dir = tempdir("perl5i-turd-XXXX", CLEANUP => 1, TMPDIR => 1);
+    my($temp_fh, $tempfile) = tempfile(DIR => $dir);
     print $temp_fh <<"END";
 use lib "lib";
 use perl5i::latest;
