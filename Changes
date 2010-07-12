@@ -1,4 +1,4 @@
-2.3.0
+2.3.0_01
   New Features
   * ngrep and nmap are like grep and map but you can name the $_ variable.
     (Chad)
@@ -7,6 +7,8 @@
   * "method" declares a method and does the "my $self = shift" for you.
     (Schwern)
   * "def" and "func" provide basic subroutine signatures. (Schwern)
+  * The error message upon not being able to load a module has been
+    improved for human readability. (Chad) [github 99]
 
   Test Fixes
   * Clean up dangling temp files. (Avar) [github 139]
