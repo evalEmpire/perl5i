@@ -111,6 +111,100 @@ C<mo> was chosen to avoid clashing with Moose's meta object.
 See L<perl5i::Meta> for complete details.
 
 
+=head2 Subroutine and Method Signatures
+
+perl5i makes it easier to declare what parameters a subroutine takes.
+
+    def add($this, $that) {
+        return $this + $that;
+    }
+
+    func hello($place) {
+        say "Hello, $place!\n";
+    }
+
+    method get($key) {
+        return $self->{$key};
+    }
+
+    method new($class: %args) {
+        return bless \%args, $class;
+    }
+
+C<def> and C<func> both define a subroutine as C<sub> does.  One of
+them will be deprecated in version 3 after its decided which folks
+prefer.
+
+The signature syntax is currently very simple.  The content will be
+assigned from @_.  This:
+
+    def add($this, $that) {
+        return $this + $that;
+    }
+
+is equivalent to:
+
+    sub add {
+        my($this, $that) = @_;
+        return $this + $that;
+    }
+
+C<method> defines a method.  This is the same as a subroutine, but the
+first argument, the I<invocant>, will be removed and made into
+C<$self>.
+
+    method get($key) {
+        return $self->{$key};
+    }
+
+    sub get {
+        my $self = shift;
+        my($key) = @_;
+        return $self->{$key};
+    }
+
+Methods have a special bit of syntax.  If the first item in the
+siganture is C<$var:> it will change the variable used to store the
+invocant.
+
+    method new($class: %args) {
+        return bless $class, \%args;
+    }
+
+is equivalent to:
+
+    sub new {
+        my $class = shift;
+        my %args = @_;
+        return bless $class, \%args;
+    }
+
+Guarantees include:
+
+  @_ will not be modified except by removing the invocant
+
+Future versions of perl5i will add to the signature syntax and
+capabilities.  Planned expansions include:
+
+  Signature validation
+  Signature documentation
+  Queryable signatures
+  Named parameters
+  Required parameters
+  Read only parameters
+  Aliased parameters
+  Anonymous method and function declaration
+  Variable method and function names
+  Parameter traits
+  Traditional prototypes
+
+See L<http://github.com/schwern/perl5i/issues/labels/syntax#issue/19> for
+more details about future expansions.
+
+The equivalencies above should only be taken for illustrative
+purposes, they are not guaranteed to be literally equivalent.
+
+
 =head2 Autoboxing
 
 L<autobox> allows methods to be defined for and called on most
