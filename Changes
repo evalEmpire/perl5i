@@ -1,4 +1,4 @@
-2.3.0_01
+2.3.0_01  Mon Jul 12 16:15:05 PDT 2010
   New Features
   * ngrep and nmap are like grep and map but you can name the $_ variable.
     (Chad) [github 36]

@@ -39,7 +39,9 @@ lib/perl5i/2/HASH.pm
 lib/perl5i/2/Meta.pm
 lib/perl5i/2/Meta/Class.pm
 lib/perl5i/2/Meta/Instance.pm
+lib/perl5i/2/RequireMessage.pm
 lib/perl5i/2/SCALAR.pm
+lib/perl5i/2/Signatures.pm
 lib/perl5i/2/UNIVERSAL.pm
 lib/perl5i/cmd.pm
 lib/perl5i/latest.pm
@@ -116,12 +118,15 @@ t/Meta/super.t
 t/method_leaking.t
 t/modern_perl.t
 t/module2path.t
+t/namedvar.t
 t/no_indirect.t
 t/number.t
 t/perl5i.t
 t/require.t
+t/require_message.t
 t/say.t
 t/scalar.t
+t/signatures.t
 t/taint.t
 t/time_compat.t
 t/try-tiny.t
