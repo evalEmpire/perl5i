@@ -1,8 +1,16 @@
 2.3.0
   New Features
   * ngrep and nmap are like grep and map but you can name the $_ variable.
+    (Chad)
   * nfor is like for but you can specify it to loop over any number of
-    elements at a time.
+    elements at a time. (Chad)
+  * "method" declares a method and does the "my $self = shift" for you.
+    (Schwern)
+  * "def" and "func" provide basic subroutine signatures. (Schwern)
+
+  Test Fixes
+  * Clean up dangling temp files. (Avar) [github 139]
+
 
 2.2.2  Mon May 17 16:34:52 PDT 2010
   Bug Fixes
