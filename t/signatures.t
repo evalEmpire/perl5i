@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-use perl5i::2::Signatures;
+use perl5i::2;
 use Test::More;
 
 # Test def
@@ -21,7 +21,8 @@ use Test::More;
 {
     {
         package Foo;
-        use perl5i::2::Signatures;
+        use perl5i::2;
+
         method new ($class: %args) {
             return bless \%args, $class;
         }
