@@ -1,3 +1,9 @@
+2.3.0
+  New Features
+  * ngrep and nmap are like grep and map but you can name the $_ variable.
+  * nfor is like for but you can specify it to loop over any number of
+    elements at a time.
+
 2.2.2  Mon May 17 16:34:52 PDT 2010
   Bug Fixes
   * Let perl5i::1 load without Time::y2038 if Perl is already y2038 safe
