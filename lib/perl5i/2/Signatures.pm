@@ -16,6 +16,8 @@ sub import {
     my %def_opts = %opts;
     delete $def_opts{invocant};
 
+    $DB::single = 1;
+
     # Define "method"
     $class->install_methodhandler(
       name => 'method',

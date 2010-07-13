@@ -179,6 +179,10 @@ is equivalent to:
         return bless $class, \%args;
     }
 
+Anonymous functions and methods work, too.
+
+    my $code = def($message) { say $message };
+
 Guarantees include:
 
   @_ will not be modified except by removing the invocant

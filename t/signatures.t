@@ -42,6 +42,20 @@ use Test::More;
 }
 
 
+# Anonymous
+{
+    my $code = def($this, @these) {
+        return $this, \@these;
+    };
+
+    is_deeply [$code->(42, 1, 2, 3)], [42, [1,2,3]];
+
+    my $method = method($arg) {
+        return $self, $arg;
+    };
+
+    is_deeply [Foo->$method(23)], ["Foo", 23];
+}
 
 
 done_testing();
