@@ -30,12 +30,13 @@
     # This should only be called once per object.
     our $AUTOLOAD;
     def AUTOLOAD {
+        my($method) = reverse split /::/, $AUTOLOAD;
+        return if $method eq 'DESTROY';
+
         my $self = $_[0];  # leave @_ alone
 
         # Upgrade to a real object
         $self->make_real;
-
-        my($method) = reverse split /::/, $AUTOLOAD;
 
         goto $self->can($method);
     }
@@ -83,7 +84,7 @@
     use perl5i::2;
 
     method new($class: %args) {
-        bless $class, \%args
+        bless \%args, $class;
     }
 
     sub make_real {}
