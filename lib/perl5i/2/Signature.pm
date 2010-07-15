@@ -6,12 +6,15 @@
 
     method new($class: %args) {
         my $proto = $args{proto} // '';
+        my $is_method = $args{is_method} // 0;
 
-        if( !$proto || $proto !~ /\S/ ) {
-            return perl5i::2::Signature::None->new( proto => $proto);
+        my $empty_proto = !$proto || $proto !~ /\S/;
+        if( $empty_proto ) {
+            return $is_method ? perl5i::2::Signature::Method::None->new( proto => $proto)
+                              : perl5i::2::Signature::Function::None->new( proto => $proto);
         }
         else {
-            return bless { proto => $proto }, $class;
+            return bless { proto => $proto, is_method => $is_method }, $class;
         }
     }
 
@@ -58,6 +61,24 @@
 
 
 {
+    package perl5i::2::Signature::Method::None;
+    use parent -norequire, 'perl5i::2::Signature::None';
+
+    sub invocant { return '$self' }
+    sub is_method { return 1 }
+}
+
+
+{
+    package perl5i::2::Signature::Function::None;
+    use parent -norequire, 'perl5i::2::Signature::None';
+
+    sub invocant  { return '' }
+    sub is_method { return 0 }
+}
+
+
+{
     package perl5i::2::Signature::Real;
     use perl5i::2;
 
@@ -68,7 +89,20 @@
     sub make_real {}
 
     method __parse_prototype {
-        my @args = split /\s*,\s*/, $self->{proto};
+        my $proto = $self->{proto}->trim;
+
+        if( $proto =~ s{^ (\$\w+) : \s*}{}x ) {
+            $self->{invocant} = $1 // '';
+        }
+        elsif( $self->is_method ) {
+            $self->{invocant} = '$self';
+        }
+        else {
+            $self->{invocant} = '';
+        }
+
+        my @args = split /\s*,\s*/, $proto;
+
         $self->{parameters}     = \@args;
         $self->{num_parameters} = @args;
     }
@@ -83,6 +117,14 @@
 
     method proto() {
         return $self->{proto};
+    }
+
+    method invocant() {
+        return $self->{invocant};
+    }
+
+    method is_method() {
+        return $self->{is_method};
     }
 }
 
