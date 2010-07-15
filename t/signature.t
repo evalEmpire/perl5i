@@ -23,9 +23,12 @@ use Test::More;
 # Signature
 {
     my $sig = perl5i::2::Signature->new( proto => '$foo' );
+    isa_ok $sig, "perl5i::2::Signature";
+
     is $sig->num_parameters, 1;
     is_deeply $sig->parameters, ['$foo'];
     is $sig->proto, '$foo';
+    isa_ok $sig, "perl5i::2::Signature::Real";
 
     $sig = perl5i::2::Signature->new( proto => '$foo , @bar' );
     is $sig->num_parameters, 2;
