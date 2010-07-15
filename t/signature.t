@@ -48,7 +48,7 @@ use Test::More;
     is_deeply $sig->parameters, ['$foo'];
     is $sig->proto, '$foo';
     isa_ok $sig, "perl5i::2::Signature::Real";
-    $sig->invocant, '';
+    is $sig->invocant, '';
     ok !$sig->is_method;
 }
 
@@ -59,7 +59,7 @@ use Test::More;
     is $sig->num_parameters, 2;
     is_deeply $sig->parameters, ['$foo', '@bar'];
     is $sig->proto, '$foo , @bar';
-    $sig->invocant, '';
+    is $sig->invocant, '';
     ok !$sig->is_method;
 }
 
@@ -70,7 +70,7 @@ use Test::More;
     is $sig->num_parameters, 2;
     is_deeply $sig->parameters, ['$foo', '@bar'];
     is $sig->proto, ' $foo , @bar ';  # an exact reproduction
-    $sig->invocant, '';
+    is $sig->invocant, '';
     ok !$sig->is_method;
 }
 
@@ -96,5 +96,19 @@ use Test::More;
     ok $sig->is_method;
 }
 
+
+# Try setting a signature on a code reference
+{
+    my $sig = perl5i::2::Signature->new( proto => '$arg', is_method => 1 );
+    my $echo = sub {
+        my $self = shift;
+        my($arg) = @_;
+
+        return $arg;
+    };
+
+    $echo->__set_signature($sig);
+    is $echo->signature, $sig;
+}
 
 done_testing;
