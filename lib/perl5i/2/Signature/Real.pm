@@ -27,16 +27,16 @@ method __parse_prototype {
 
     my @args = split /\s*,\s*/, $proto;
 
-    $self->{parameters}     = \@args;
-    $self->{num_parameters} = @args;
+    $self->{params}     = \@args;
+    $self->{num_params} = @args;
 }
 
-method num_parameters() {
-    return $self->{num_parameters};
+method num_params() {
+    return $self->{num_params};
 }
 
-method parameters() {
-    return $self->{parameters};
+method params() {
+    return $self->{params};
 }
 
 method proto() {

@@ -14,8 +14,8 @@ sub new {
     return bless { proto => $args{proto} }, $class;
 }
 
-sub num_parameters { 0 }
-sub parameters { return []; }
+sub num_params { 0 }
+sub params { return []; }
 sub make_real {}
 
 sub proto {
