@@ -580,6 +580,9 @@ whatever.
 
 A normal subroutine with no signature will get one at a time.
 
+If @array is not a multiple of the iteration (for example, @array has
+5 elements and you ask 2 at a time) the behavior is currently undefined.
+
 
 =head3 diff()
 
