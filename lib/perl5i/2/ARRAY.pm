@@ -5,6 +5,8 @@ use 5.010;
 use strict;
 use warnings;
 
+use Carp;
+
 use perl5i::2::autobox;
 
 # A foreach which honors the number of parameters in the signature
@@ -13,7 +15,8 @@ sub foreach {
 
     my $n = 1;
     if( my $sig = $code->signature ) {
-        $n = $sig->num_params || 1;
+        $n = $sig->num_params;
+        croak "Function passed to foreach takes no arguments" unless $n;
     }
 
     my $idx = 0;
