@@ -5,6 +5,7 @@ use warnings;
 
 use overload
   q[""] => sub { return $_[0]->as_string },
+  q[bool] => sub { 1 },  # always true, regardless of the actual signature string
   fallback => 1
 ;
 

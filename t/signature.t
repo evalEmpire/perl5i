@@ -10,6 +10,7 @@ use Test::More;
     is $sig->num_params, 0;
     is_deeply $sig->params, [];
     is $sig, "";
+    ok $sig;
     is $sig->invocant, '';
     ok !$sig->is_method;
 }
