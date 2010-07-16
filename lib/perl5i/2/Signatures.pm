@@ -89,7 +89,10 @@ sub set_signature {
     my $self = shift;
     my $code = shift;
 
-    my $sig = perl5i::2::Signature->new( proto => $self->{perl5i}{proto});
+    my $sig = perl5i::2::Signature->new(
+        proto => $self->{perl5i}{proto},
+        is_method => $self->{name} eq 'method' ? 1 : 0
+    );
     $code->__set_signature( $sig );
 
     return $sig;

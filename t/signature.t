@@ -137,6 +137,20 @@ use Test::More;
 }
 
 
+# An anon method
+{
+    my $echo = method ($arg) {
+    };
+
+    my $sig = $echo->signature;
+    isa_ok $sig, "perl5i::2::Signature";
+    ok $sig->proto, '$arg';
+    is $sig->num_parameters, 1;
+    is $sig->invocant, '$self';
+    ok $sig->is_method;
+}
+
+
 # A normal subroutine
 {
     my $code = sub { return @_ };
