@@ -560,6 +560,27 @@ order to allow chaining.
 
     @array->grep(sub{ $_->is_number })->sum->say;
 
+=head3 foreach()
+
+    @array->foreach( def($item) { ... } );
+
+Works like the built in C<foreach>, calls the code block for each
+element of @array passing it into the block.
+
+    @array->foreach( def($item) { say $item } );  # print each item
+
+It will pass in as many elements as the code block accepts.  This
+allows you to iterate through an array 2 at a time, or 3 or 4 or
+whatever.
+
+    my @names = ("Joe", "Smith", "Jim", "Dandy", "Jane", "Lane");
+    @names->foreach( def($fname, $lname) {
+        say "Person: $fname $lname";
+    });
+
+A normal subroutine with no signature will get one at a time.
+
+
 =head3 diff()
 
 Calculate the difference between two (or more) arrays:

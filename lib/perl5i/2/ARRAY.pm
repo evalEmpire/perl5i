@@ -7,6 +7,24 @@ use warnings;
 
 use perl5i::2::autobox;
 
+# A foreach which honors the number of parameters in the signature
+sub foreach {
+    my($array, $code) = @_;
+
+    my $n = 1;
+    if( my $sig = $code->signature ) {
+        $n = $sig->num_params || 1;
+    }
+
+    my $idx = 0;
+    do {
+        $code->(@{$array}[$idx..($idx+$n-1)]);
+        $idx += $n;
+    } while $idx <= $#{$array};
+
+    return;
+}
+
 sub first {
     my ( $array, $filter ) = @_;
 
