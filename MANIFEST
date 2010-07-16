@@ -41,11 +41,17 @@ lib/perl5i/2/Meta/Class.pm
 lib/perl5i/2/Meta/Instance.pm
 lib/perl5i/2/RequireMessage.pm
 lib/perl5i/2/SCALAR.pm
+lib/perl5i/2/Signature.pm
+lib/perl5i/2/Signature/Function/None.pm
+lib/perl5i/2/Signature/Method/None.pm
+lib/perl5i/2/Signature/None.pm
+lib/perl5i/2/Signature/Real.pm
 lib/perl5i/2/Signatures.pm
 lib/perl5i/2/UNIVERSAL.pm
 lib/perl5i/cmd.pm
 lib/perl5i/latest.pm
 lib/perl5i/Meta.pm
+lib/perl5i/Signature.pm
 lib/perl5i/VERSION.pm
 lib/perl5ifaq.pod
 LICENSE
@@ -126,6 +132,7 @@ t/require.t
 t/require_message.t
 t/say.t
 t/scalar.t
+t/signature.t
 t/signatures.t
 t/taint.t
 t/time_compat.t

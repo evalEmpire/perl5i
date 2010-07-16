@@ -132,6 +132,10 @@ What it does
             return bless $class, \%args;
         }
 
+    Anonymous functions and methods work, too.
+
+        my $code = def($message) { say $message };
+
     Guarantees include:
 
       @_ will not be modified except by removing the invocant
@@ -141,7 +145,6 @@ What it does
 
       Signature validation
       Signature documentation
-      Queryable signatures
       Named parameters
       Required parameters
       Read only parameters
@@ -157,6 +160,30 @@ What it does
     The equivalencies above should only be taken for illustrative purposes,
     they are not guaranteed to be literally equivalent.
 
+    Note that while all parameters are optional by default, the number of
+    parameters will eventually be enforced. For example, right now this will
+    work:
+
+        def add($this, $that) { return $this + $that }
+
+        say add(1,2,3);  # says 3
+
+    The extra argument is ignored. In future versions of perl5i this will be
+    a runtime error.
+
+    Signature Introspection
+    The signature of a subroutine defined with `def', `func' or `method' can
+    be queried by calling the `signature' method on the code reference.
+
+        func hello($greeting, $place) { say "$greeting, $place" }
+
+        my $code = \&hello;
+        say $code->signature->num_params;  # prints 2
+
+    Functions defined with `sub' will not have a signature.
+
+    See perl5i::Signature for more details.
+
   Autoboxing
     autobox allows methods to be defined for and called on most unblessed
     variables. This means you can call methods on ordinary strings, lists
@@ -166,7 +193,7 @@ What it does
     autobox::Core wraps a lot of Perl's built in functions so they can be
     called as methods on unblessed variables. `@a->pop' for example.
 
-  alias()
+    alias()
         $scalar_reference->alias( @identifiers );
         @alias->alias( @identifiers );
         %hash->alias( @identifiers );
@@ -237,13 +264,13 @@ What it does
 
         say "Hello"->center(4);        # "Hello";
 
-  round
+    round
         my $rounded_number = $number->round;
 
     Round to the nearest integer.
 
-  round_up
-  ceil
+    round_up
+    ceil
         my $new_number = $number->round_up;
 
     Rounds the $number towards infinity.
@@ -253,8 +280,8 @@ What it does
 
     ceil() is a synonym for round_up().
 
-  round_down
-  floor
+    round_down
+    floor
         my $new_number = $number->round_down;
 
     Rounds the $number towards negative infinity.
@@ -264,7 +291,7 @@ What it does
 
     floor() is a synonyn for round_down().
 
-  is_number
+    is_number
         $is_a_number = $thing->is_number;
 
     Returns true if $thing is a number understood by Perl.
@@ -273,21 +300,21 @@ What it does
         "12.34"->is_number;         # also true
         "eleven"->is_number;        # false
 
-  is_positive
+    is_positive
         $is_positive = $thing->is_positive;
 
     Returns true if $thing is a positive number.
 
     0 is not positive.
 
-  is_negative
+    is_negative
         $is_negative = $thing->is_negative;
 
     Returns true if $thing is a negative number.
 
     0 is not negative.
 
-  is_integer
+    is_integer
         $is_an_integer = $thing->is_integer;
 
     Returns true if $thing is an integer.
@@ -296,10 +323,10 @@ What it does
         12.34->is_integer;          # false
         "eleven"->is_integer;       # false
 
-  is_int
+    is_int
     A synonym for is_integer
 
-  is_decimal
+    is_decimal
         $is_a_decimal_number = $thing->is_decimal;
 
     Returns true if $thing is a decimal number.
@@ -309,7 +336,7 @@ What it does
         ".34"->is_decimal;          # true
         "point five"->is_decimal;   # false
 
-  require
+    require
         my $module = $module->require;
 
     Will `require' the given $module. This avoids funny things like `eval
@@ -371,7 +398,7 @@ What it does
     It will throw an exception if given something which could not be a path
     to a Perl module.
 
-  module2path()
+    module2path()
         my $path = $module->module2path;
 
     Will return the relative $path in which the Perl $module can be found.
@@ -562,6 +589,17 @@ What it does
 
     Returns the key/value pairs that are present simultaneously in all the
     hash arguments. Otherwise works as `@array->intersect'.
+
+  Code autoboxing
+    signature
+        my $sig = $code->signature;
+
+    You can query the signature of any code reference defined with `def',
+    `func' or `method'. See Signature Introspection.
+
+    If `$code' has a signature, returns an object representing `$code''s
+    signature. See perl5i::Signature for details. Otherwise it returns
+    nothing.
 
   caller()
     Perl6::Caller causes `caller' to return an object in scalar context.
