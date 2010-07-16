@@ -192,7 +192,6 @@ capabilities.  Planned expansions include:
 
   Signature validation
   Signature documentation
-  Queryable signatures
   Named parameters
   Required parameters
   Read only parameters
@@ -208,6 +207,33 @@ more details about future expansions.
 The equivalencies above should only be taken for illustrative
 purposes, they are not guaranteed to be literally equivalent.
 
+Note that while all parameters are optional by default, the number of
+parameters will eventually be enforced.  For example, right now this
+will work:
+
+    def add($this, $that) { return $this + $that }
+
+    say add(1,2,3);  # says 3
+
+The extra argument is ignored.  In future versions of perl5i this will
+be a runtime error.
+
+
+=head3 Signature Introspection
+
+The signature of a subroutine defined with C<def>, C<func> or
+C<method> can be queried by calling the C<signature> method on the
+code reference.
+
+    func hello($greeting, $place) { say "$greeting, $place" }
+
+    my $code = \&hello;
+    say $code->signature->num_params;  # prints 2
+
+Functions defined with C<sub> will not have a signature.
+
+See L<perl5i::Signature> for more details.
+
 
 =head2 Autoboxing
 
@@ -219,7 +245,7 @@ functionality without polluting the global namespace.
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
 be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
-=head2 alias()
+=head3 alias()
 
     $scalar_reference->alias( @identifiers );
     @alias->alias( @identifiers );
@@ -294,15 +320,15 @@ than C<< $string->length >> it will just return C<$string>.
 
     say "Hello"->center(4);        # "Hello";
 
-=head2 round
+=head3 round
 
     my $rounded_number = $number->round;
 
 Round to the nearest integer.
 
-=head2 round_up
+=head3 round_up
 
-=head2 ceil
+=head3 ceil
 
     my $new_number = $number->round_up;
 
@@ -314,9 +340,9 @@ Rounds the $number towards infinity.
 ceil() is a synonym for round_up().
 
 
-=head2 round_down
+=head3 round_down
 
-=head2 floor
+=head3 floor
 
     my $new_number = $number->round_down;
 
@@ -328,7 +354,7 @@ Rounds the $number towards negative infinity.
 floor() is a synonyn for round_down().
 
 
-=head2 is_number
+=head3 is_number
 
     $is_a_number = $thing->is_number;
 
@@ -338,7 +364,7 @@ Returns true if $thing is a number understood by Perl.
     "12.34"->is_number;         # also true
     "eleven"->is_number;        # false
 
-=head2 is_positive
+=head3 is_positive
 
     $is_positive = $thing->is_positive;
 
@@ -346,7 +372,7 @@ Returns true if $thing is a positive number.
 
 0 is not positive.
 
-=head2 is_negative
+=head3 is_negative
 
     $is_negative = $thing->is_negative;
 
@@ -354,7 +380,7 @@ Returns true if $thing is a negative number.
 
 0 is not negative.
 
-=head2 is_integer
+=head3 is_integer
 
     $is_an_integer = $thing->is_integer;
 
@@ -364,11 +390,11 @@ Returns true if $thing is an integer.
     12.34->is_integer;          # false
     "eleven"->is_integer;       # false
 
-=head2 is_int
+=head3 is_int
 
 A synonym for is_integer
 
-=head2 is_decimal
+=head3 is_decimal
 
     $is_a_decimal_number = $thing->is_decimal;
 
@@ -379,7 +405,7 @@ Returns true if $thing is a decimal number.
     ".34"->is_decimal;          # true
     "point five"->is_decimal;   # false
 
-=head2 require
+=head3 require
 
     my $module = $module->require;
 
@@ -451,7 +477,7 @@ For example,
 It will throw an exception if given something which could not be a
 path to a Perl module.
 
-=head2 module2path()
+=head3 module2path()
 
     my $path = $module->module2path;
 
@@ -669,6 +695,19 @@ C<< @array->diff >>.
 
 Returns the key/value pairs that are present simultaneously in all the
 hash arguments.  Otherwise works as C<< @array->intersect >>.
+
+=head2 Code autoboxing
+
+=head3 signature
+
+    my $sig = $code->signature;
+
+You can query the signature of any code reference defined with C<def>,
+C<func> or C<method>.  See L<Signature Introspection>.
+
+If C<$code> has a signature, returns an object representing C<$code>'s signature.  See
+L<perl5i::Signature> for details.  Otherwise it returns nothing.
+
 
 =head2 caller()
 
