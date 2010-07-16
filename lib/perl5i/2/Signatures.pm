@@ -41,7 +41,7 @@ sub parse_proto {
     $proto ||= '';
 
     # Save it for attaching to the code ref later
-    $self->{perl5i}{proto} = $proto;
+    $self->{perl5i}{signature} = $proto;
 
     $proto =~ s/[\r\n]//g;
     my $invocant = $self->{invocant};
@@ -90,7 +90,7 @@ sub set_signature {
     my $code = shift;
 
     my $sig = perl5i::2::Signature->new(
-        proto => $self->{perl5i}{proto},
+        signature => $self->{perl5i}{signature},
         is_method => $self->{name} eq 'method' ? 1 : 0
     );
     $code->__set_signature( $sig );

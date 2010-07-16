@@ -10,7 +10,7 @@ use perl5i::2::Signature::Function::None;
 # A proxy class to hold a method's signature until its actually used.
 
 use overload
-  q[""] => sub { return $_[0]->{proto} },
+  q[""] => sub { return $_[0]->as_string },
   fallback => 1
 ;
 
@@ -19,19 +19,23 @@ sub new {
     my $class = shift;
     my %args = @_;
 
-    my $proto = $args{proto} // '';
+    my $string = $args{signature} // '';
     my $is_method = $args{is_method} // 0;
 
-    my $empty_proto = !$proto || $proto !~ /\S/;
-    if( $empty_proto ) {
-        return $is_method ? perl5i::2::Signature::Method::None->new( proto => $proto)
-                          : perl5i::2::Signature::Function::None->new( proto => $proto);
+    my $no_params = !$string || $string !~ /\S/;
+    if( $no_params ) {
+        return $is_method ? perl5i::2::Signature::Method::None->new( signature => $string )
+                          : perl5i::2::Signature::Function::None->new( signature => $string );
     }
     else {
-        return bless { proto => $proto, is_method => $is_method }, $class;
+        return bless { signature => $string, is_method => $is_method }, $class;
     }
 }
 
+sub as_string {
+    my $self = shift;
+    return $self->{signature};
+}
 
 sub make_real {
     my $self = shift;
@@ -39,7 +43,7 @@ sub make_real {
     require perl5i::2::Signature::Real;
     bless $self, "perl5i::2::Signature::Real";
 
-    $self->__parse_prototype;
+    $self->__parse_signature;
 }
 
 # Upgrade to a real signature object

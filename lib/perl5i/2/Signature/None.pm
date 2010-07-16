@@ -4,23 +4,23 @@ use strict;
 use warnings;
 
 use overload
-  q[""] => sub { return $_[0]->{proto} },
+  q[""] => sub { return $_[0]->as_string },
   fallback => 1
 ;
 
 sub new {
     my $class = shift;
     my %args = @_;
-    return bless { proto => $args{proto} }, $class;
+    return bless { signature => $args{signature} }, $class;
 }
 
 sub num_params { 0 }
 sub params { return []; }
 sub make_real {}
 
-sub proto {
+sub as_string {
     my $self = shift;
-    return $self->{proto};
+    return $self->{signature};
 }
 
 1;

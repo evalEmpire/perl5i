@@ -2,7 +2,7 @@ package perl5i::2::Signature::Real;
 use perl5i::2;
 
 use overload
-  q[""] => sub { return $_[0]->{proto} },
+  q[""] => sub { return $_[0]->as_string },
   fallback => 1
 ;
 
@@ -12,10 +12,10 @@ method new($class: %args) {
 
 sub make_real () {}
 
-method __parse_prototype {
-    my $proto = $self->{proto}->trim;
+method __parse_signature {
+    my $string = $self->{signature}->trim;
     
-    if( $proto =~ s{^ (\$\w+) : \s*}{}x ) {
+    if( $string =~ s{^ (\$\w+) : \s*}{}x ) {
         $self->{invocant} = $1 // '';
     }
     elsif( $self->is_method ) {
@@ -25,7 +25,7 @@ method __parse_prototype {
         $self->{invocant} = '';
     }
 
-    my @args = split /\s*,\s*/, $proto;
+    my @args = split /\s*,\s*/, $string;
 
     $self->{params}     = \@args;
     $self->{num_params} = @args;
@@ -39,8 +39,8 @@ method params() {
     return $self->{params};
 }
 
-method proto() {
-    return $self->{proto};
+method as_string() {
+    return $self->{signature};
 }
 
 method invocant() {
