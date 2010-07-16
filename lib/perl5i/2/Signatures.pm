@@ -1,10 +1,10 @@
 package perl5i::2::Signatures;
 
-use v5.10;
-use strict;
-use warnings;
+use perl5i::2::autobox;
+use perl5i::2::Signature;
 
 use base q/Devel::Declare::MethodInstaller::Simple/;
+use Sub::Name;
 
 sub import {
     my $class = shift;
@@ -39,6 +39,10 @@ sub parse_proto {
     my $self = shift;
     my ($proto) = @_;
     $proto ||= '';
+
+    # Save it for attaching to the code ref later
+    $self->{perl5i}{proto} = $proto;
+
     $proto =~ s/[\r\n]//g;
     my $invocant = $self->{invocant};
 
@@ -50,6 +54,45 @@ sub parse_proto {
     $inject .= "my ($proto) = \@_;" if defined $proto and length $proto;
 
     return $inject;
+}
+
+
+sub code_for {
+    my ($self, $name) = @_;
+
+    if (defined $name) {
+        my $pkg = $self->get_curstash_name;
+        $name = join( '::', $pkg, $name )
+          unless( $name =~ /::/ );
+        return sub (&) {
+            my $code = shift;
+            # So caller() gets the subroutine name
+            no strict 'refs';
+            *{$name} = subname $name => $code;
+
+            $self->set_signature($code);
+
+            return;
+        };
+    } else {
+        return sub (&) {
+            my $code = shift;
+
+            $self->set_signature($code);
+            return $code;
+        };
+    }
+}
+
+
+sub set_signature {
+    my $self = shift;
+    my $code = shift;
+
+    my $sig = perl5i::2::Signature->new( proto => $self->{perl5i}{proto});
+    $code->__set_signature( $sig );
+
+    return $sig;
 }
 
 1;

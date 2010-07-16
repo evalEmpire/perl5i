@@ -111,4 +111,37 @@ use Test::More;
     is $echo->signature, $sig;
 }
 
+
+# And now bring it all together
+{
+    def echo($arg) {
+       return $arg; 
+    }
+
+    my $sig = (\&echo)->signature;
+    isa_ok $sig, "perl5i::2::Signature";
+    ok $sig->proto, '$arg';
+    is $sig->num_parameters, 1;
+}
+
+
+# An anon code ref
+{
+    my $echo = def ($arg) {
+    };
+
+    my $sig = $echo->signature;
+    isa_ok $sig, "perl5i::2::Signature";
+    ok $sig->proto, '$arg';
+    is $sig->num_parameters, 1;
+}
+
+
+# A normal subroutine
+{
+    my $code = sub { return @_ };
+
+    ok !$code->signature;
+}
+
 done_testing;
