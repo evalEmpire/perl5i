@@ -9,6 +9,12 @@ use perl5i::2::Signature::Function::None;
 
 # A proxy class to hold a method's signature until its actually used.
 
+use overload
+  q[""] => sub { return $_[0]->{proto} },
+  fallback => 1
+;
+
+
 sub new {
     my $class = shift;
     my %args = @_;

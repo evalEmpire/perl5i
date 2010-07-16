@@ -1,6 +1,11 @@
 package perl5i::2::Signature::Real;
 use perl5i::2;
 
+use overload
+  q[""] => sub { return $_[0]->{proto} },
+  fallback => 1
+;
+
 method new($class: %args) {
     bless \%args, $class;
 }

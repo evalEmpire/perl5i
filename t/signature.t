@@ -1,7 +1,6 @@
 #!/usr/bin/perl
 
-use perl5i::2;
-use perl5i::2::Signature;
+use perl5i::latest;
 use Test::More;
 
 # Empty signature
@@ -157,5 +156,18 @@ use Test::More;
 
     ok !$code->signature;
 }
+
+
+# Stringification
+{
+    my $proto = '$foo, $bar';
+    my $sig = perl5i::2::Signature->new( proto => $proto );
+    is $sig, $proto;
+
+    # Make it real.
+    is $sig->num_parameters, 2;
+    is $sig, $proto;
+}
+
 
 done_testing;
