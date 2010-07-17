@@ -1,6 +1,5 @@
 package perl5i::2::Signatures;
 
-use perl5i::2::autobox;
 use perl5i::2::Signature;
 
 use base q/Devel::Declare::MethodInstaller::Simple/;
@@ -60,6 +59,9 @@ sub parse_proto {
 sub code_for {
     my ($self, $name) = @_;
 
+    my $signature = $self->{perl5i}{signature};
+    my $is_method = $self->{invocant} ? 1 : 0;
+
     if (defined $name) {
         my $pkg = $self->get_curstash_name;
         $name = join( '::', $pkg, $name )
@@ -70,7 +72,11 @@ sub code_for {
             no strict 'refs';
             *{$name} = subname $name => $code;
 
-            $self->set_signature($code);
+            $self->set_signature(
+                code            => $code,
+                signature       => $signature,
+                is_method       => $is_method,
+            );
 
             return;
         };
@@ -78,7 +84,11 @@ sub code_for {
         return sub (&) {
             my $code = shift;
 
-            $self->set_signature($code);
+            $self->set_signature(
+                code            => $code,
+                signature       => $signature,
+                is_method       => $is_method,
+            );
             return $code;
         };
     }
@@ -87,13 +97,13 @@ sub code_for {
 
 sub set_signature {
     my $self = shift;
-    my $code = shift;
+    my %args = @_;
 
     my $sig = perl5i::2::Signature->new(
-        signature => $self->{perl5i}{signature},
-        is_method => $self->{name} eq 'method' ? 1 : 0
+        signature => $args{signature},
+        is_method => $args{is_method},
     );
-    $code->__set_signature( $sig );
+    perl5i::2::CODE::__set_signature($args{code}, $sig);
 
     return $sig;
 }
