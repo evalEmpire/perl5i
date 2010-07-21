@@ -256,7 +256,7 @@ Aliases a variable to a new global name.
 
     my $code = sub { 42 };
     $code->alias( "foo" );
-    print foo();        # prints 42
+    say foo();        # prints 42
 
 It will work on everything except scalar references.
 
@@ -277,7 +277,7 @@ qualified name for the alias.
     my $class = "Some::Class";
     my $name  = "foo";
     sub { 99 }->alias( $class, $name );
-    print Some::Class->foo;  # prints 99
+    say Some::Class->foo;  # prints 99
 
 If there is just one @identifier and it has no "::" in it, the current
 caller will be prepended.  C<< $thing->alias("name") >> is shorthand for

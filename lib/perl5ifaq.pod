@@ -237,7 +237,7 @@ The $CLASS variable and CLASS constant are exported by perl5i and it
 contains the name of the current class.
 
     CLASS->class_method(@args);
-    print "OMG! You're using class $CLASS.\n";
+    say "OMG! You're using class $CLASS.";
 
 See L<per5i/CLASS> for details.
 
@@ -258,7 +258,7 @@ before returning.  perl5i provides C<local $CWD> to accomplish this.
 
     chdir "/some/path";
     do_things();  # do_things operates in /some/path/some/subdir
-    print $CWD;   # prints /some/path
+    say $CWD;   # prints /some/path
 
 Even if the code in do_things() dies, it will still return to the
 original directory.
