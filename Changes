@@ -1,3 +1,9 @@
+2.3.0_03
+  Removed Features
+  * Remove ngrep, nmap and nfor.  Replaced by @array->foreach( def($x,$y) ) {}
+    and @array->map( def($x) {} );
+
+
 2.3.0_02  Thu Jul 15 19:13:22 PDT 2010
   New Features
   * Signature introspection, via $code->signature, for subroutines defined

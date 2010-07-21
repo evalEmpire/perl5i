@@ -931,52 +931,6 @@ of $@ and a nice syntax layer:
 
 See perldoc L<Try::Tiny> for details.
 
-=head2 Block::NamedVar
-
-L<Block::NamedVar> provides the 'ngrep', 'nmap', and 'nfor' keywords. These act
-like 'grep', 'map', and 'for', The difference is that you specify the names of
-the block variables. In the case of 'nfor' you can iterate over chunks of your
-list at a time.
-
-=head3 ngrep
-
-    # grep with lexical $x.
-    @list = ngrep my $x { $x =~ m/^[a-zA-Z]$/ } @stuff;
-
-    # grep with package variable $v
-    @list = ngrep our $v { $v =~ m/^[a-zA-Z]$/ } @stuff;
-
-    # grep with closure over existing $y
-    my $y;
-    @list = ngrep $y { $y =~ m/^[a-zA-Z]$/ } @stuff;
-
-=head3 nmap
-
-Behaves just like ngrep with lexical, package, or closure variables.
-
-    # map with lexical $x
-    @list = nmap my $x { "updated_$x" } @stuff;
-
-=head3 nfor
-
-Works like for, you can even use 'last' and 'next'.
-
-    # Iterate a hash taking key and value each pass:
-    nfor my ( $key, $value ) ( %a_hash ) {
-        next if $key eq "_hidden";
-        print $key, " = ", $value, "\n";
-        last if ...;
-    }
-
-    # Defaults to $a and $b:
-    nfor ( %a_hash ) {
-        print $a, " = ", $b, "\n";
-    }
-
-    # Iterate over 3 or more elements of the list per pass:
-    nfor my ( $x, $y, $z ) ( qw/a b c d e f/ ) {
-        # Will be run twice.
-    }
 
 =head2 Better load errors
 

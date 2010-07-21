@@ -46,7 +46,6 @@ my $builder = MyBuild->new(
         'Digest::SHA1'        => '2.09',
         'Digest::MD5'         => '2.36',
         'Object::ID'          => '0.1.0',
-        'Block::NamedVar'     => '0.006',
         "Devel::Declare::MethodInstaller::Simple"       => '0.006000',
     },
     build_requires => {
