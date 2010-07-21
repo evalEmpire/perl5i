@@ -138,7 +138,7 @@ prefer.
 The signature syntax is currently very simple.  The content will be
 assigned from @_.  This:
 
-    def add($this, $that) {
+    func add($this, $that) {
         return $this + $that;
     }
 
@@ -211,7 +211,7 @@ Note that while all parameters are optional by default, the number of
 parameters will eventually be enforced.  For example, right now this
 will work:
 
-    def add($this, $that) { return $this + $that }
+    func add($this, $that) { return $this + $that }
 
     say add(1,2,3);  # says 3
 
@@ -562,19 +562,19 @@ order to allow chaining.
 
 =head3 foreach()
 
-    @array->foreach( def($item) { ... } );
+    @array->foreach( func($item) { ... } );
 
 Works like the built in C<foreach>, calls the code block for each
 element of @array passing it into the block.
 
-    @array->foreach( def($item) { say $item } );  # print each item
+    @array->foreach( func($item) { say $item } );  # print each item
 
 It will pass in as many elements as the code block accepts.  This
 allows you to iterate through an array 2 at a time, or 3 or 4 or
 whatever.
 
     my @names = ("Joe", "Smith", "Jim", "Dandy", "Jane", "Lane");
-    @names->foreach( def($fname, $lname) {
+    @names->foreach( func($fname, $lname) {
         say "Person: $fname $lname";
     });
 
