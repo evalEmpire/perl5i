@@ -130,6 +130,18 @@ false).
 Will return the elements in @array1 which are not in @array2.
 
 
+=head2 How do I iterate through an array more than one at a time?
+
+Pass the C<foreach> method a function which takes more than one
+parameter.  C<foreach> will iterate over the appropriate number of
+items.
+
+  # Iterate two at a time.
+  @array->foreach( func($x,$y) { say "x: $x, y: $y" };
+
+See L<perl5i/foreach> for details.
+
+
 =head2 How do I get information about the current date?
 
 localtime(), gmtime() and time() all return L<DateTime> objects in
