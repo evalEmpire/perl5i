@@ -799,7 +799,7 @@ API Overview: (See L<Child> for more information)
 
 =item $child->kill($SIG)
 
-=item $child->read($BLOCKING)
+=item $child->read()
 
 =item $child->write( @MESSAGES )
 
