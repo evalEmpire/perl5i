@@ -766,6 +766,51 @@ a file, such as outputting an image, you must set C<< binmode $fh >>.
 
 C<croak> and C<carp> from L<Carp> are always available.
 
+=head2 Child
+
+L<Child> provides the C<child> function which is a better way to do forking.
+
+C<Child> creates and starts a child process, and returns a L<Child> object
+which is a better interface for managing the child process. The only required
+argument is a codeblock, which is called as a method on the L<Child> object.
+exit() is automatically called for you after the codeblock returns.
+
+    use Child qw/child/;
+    my $child = child {
+        my $self = shift;
+        ...
+    };
+
+You can also request a pipe for IPC:
+
+    use Child qw/child/;
+    my $child = child {
+        my $self = shift;
+        ...
+    } pipe => 1;
+
+API Overview: (See L<Child> for more information)
+
+=over 4
+
+=item $child->is_complete()
+
+=item $child->wait()
+
+=item $child->kill($SIG)
+
+=item $child->read($BLOCKING)
+
+=item $child->write( @MESSAGES )
+
+=item $child->say( @MESSAGES )
+
+=item $child->pid()
+
+=item $child->exit_status()
+
+=back
+
 =head2 English
 
 L<English> gives English names to the punctuation variables; for
