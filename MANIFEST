@@ -70,6 +70,7 @@ t/can.t
 t/carp.t
 t/center.t
 t/chdir.t
+t/Child.t
 t/CLASS.t
 t/command_line_wrapper.t
 t/commify.t
@@ -86,6 +87,7 @@ t/equal.t
 t/everything_is_an_object.t
 t/File-stat.t
 t/flip.t
+t/foreach.t
 t/grep.t
 t/hash-diff.t
 t/hash-intersect.t
@@ -124,7 +126,6 @@ t/Meta/super.t
 t/method_leaking.t
 t/modern_perl.t
 t/module2path.t
-t/namedvar.t
 t/no_indirect.t
 t/number.t
 t/perl5i.t
