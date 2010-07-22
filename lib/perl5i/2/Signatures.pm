@@ -103,6 +103,8 @@ sub set_signature {
         signature => $args{signature},
         is_method => $args{is_method},
     );
+
+    require perl5i::2::CODE;
     perl5i::2::CODE::__set_signature($args{code}, $sig);
 
     return $sig;

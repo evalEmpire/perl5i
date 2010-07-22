@@ -7,12 +7,11 @@ use warnings;
 
 use Carp;
 
+use perl5i::2::Signatures;
 use perl5i::2::autobox;
 
 # A foreach which honors the number of parameters in the signature
-sub foreach {
-    my($array, $code) = @_;
-
+func foreach($array, $code) {
     my $n = 1;
     if( my $sig = $code->signature ) {
         $n = $sig->num_params;
@@ -28,9 +27,7 @@ sub foreach {
     return;
 }
 
-sub first {
-    my ( $array, $filter ) = @_;
-
+func first($array, $filter) {
     # Deep recursion and segfault (lines 90 and 91 in first.t) if we use
     # the same elegant approach as in grep().
     if ( ref $filter eq 'Regexp' ) {
@@ -41,17 +38,13 @@ sub first {
 
 }
 
-sub map {
-    my( $array, $code ) = @_;
-
+func map( $array, $code ) {
     my @result = CORE::map { $code->($_) } @$array;
 
     return wantarray ? @result : \@result;
 }
 
-sub grep {
-    my ( $array, $filter ) = @_;
-
+func grep($array, $filter) {
     my @result = CORE::grep { $_ ~~ $filter } @$array;
 
     return wantarray ? @result : \@result;
