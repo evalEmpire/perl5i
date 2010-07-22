@@ -15,44 +15,53 @@ our $CLASS = 'Child';
 
 can_ok( __PACKAGE__, 'child' );
 
-my $one = child( sub { 1 });
-ok( !$one->ipc, "no ipc by default" );
-
-$one = child( sub { 1 }, pipe => 1 );
-ok( $one->ipc, "ipc by param" );
-
-$one = $CLASS->new( sub {
-    my $self = shift;
-    $self->say( "Have self" );
-    $self->say( "parent: " . $self->parent );
-    my $in = $self->read(1);
-    $self->say( $in );
-}, pipe => 1 );
-
-$one->start;
-is( $one->read(1), "Have self\n", "child has self" );
-is( $one->read(1), "parent: $$\n", "child has parent PID" );
 {
-    local $SIG{ALRM} = sub { die "non-blocking timeout" };
-    alarm 5;
-    ok( !$one->is_complete, "Not Complete" );
-    alarm 0;
+    my $child = child( sub { 1 });
+    ok( !$child->ipc, "no ipc by default" );
 }
-$one->say("XXX");
-is( $one->read(1), "XXX\n", "Full IPC" );
-ok( $one->wait, "wait" );
-ok( $one->is_complete, "Complete" );
-is( $one->exit_status, 0, "Exit clean" );
 
-$one = $CLASS->new( sub {
-    $SIG{INT} = sub { exit( 2 ) };
-    sleep 100;
-})->start;
+{
+    my $child = child( sub { 1 }, pipe => 1 );
+    ok( $child->ipc, "ipc by param" );
+}
 
-ok( $one->kill(2), "Send signal" );
-ok( !$one->wait, "wait" );
-ok( $one->is_complete, "Complete" );
-is( $one->exit_status, 2, "Exit 2" );
-ok( $one->unix_exit > 2, "Real exit" );
+{
+    my $child = $CLASS->new( sub {
+        my $self = shift;
+        $self->say( "Have self" );
+        $self->say( "parent: " . $self->parent );
+        my $in = $self->read(1);
+        $self->say( $in );
+    }, pipe => 1 );
+
+    $child->start;
+    is( $child->read(1), "Have self\n", "child has self" );
+    is( $child->read(1), "parent: $$\n", "child has parent PID" );
+
+    {
+        local $SIG{ALRM} = sub { die "non-blocking timeout" };
+        alarm 5;
+        ok( !$child->is_complete, "Not Complete" );
+        alarm 0;
+    }
+    $child->say("XXX");
+    is( $child->read(1), "XXX\n", "Full IPC" );
+    ok( $child->wait, "wait" );
+    ok( $child->is_complete, "Complete" );
+    is( $child->exit_status, 0, "Exit clean" );
+}
+
+{
+    my $child = $CLASS->new( sub {
+        $SIG{INT} = sub { exit( 2 ) };
+        sleep 100;
+    })->start;
+
+    ok( $child->kill(2), "Send signal" );
+    ok( !$child->wait, "wait" );
+    ok( $child->is_complete, "Complete" );
+    is( $child->exit_status, 2, "Exit 2" );
+    cmp_ok( $child->unix_exit, ">", 2, "Real exit" );
+}
 
 done_testing;
