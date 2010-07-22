@@ -13,7 +13,7 @@ use Test::More;
 {
     package Parent;
 
-    package Child;
+    package MyChild;
     our @ISA = qw(Parent);
     sub new { bless {}, $_[0] }
 }
@@ -21,9 +21,9 @@ use Test::More;
 
 # Single inheritance
 {
-    is_deeply [Child->mc->ISA], ["Parent"];
+    is_deeply [MyChild->mc->ISA], ["Parent"];
 
-    my $obj = Child->new;
+    my $obj = MyChild->new;
     is_deeply [$obj->mo->ISA], ["Parent"];
 }
 
