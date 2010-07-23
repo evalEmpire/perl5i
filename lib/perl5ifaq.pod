@@ -117,6 +117,8 @@ Here are some ways to do traditional Perl 5 things the perl5i way.
   $thing->is_positive;   # it's a positive number
   $thing->is_negative;   # it's a negative number
   $thing->is_integer;    # it's an integer, no decimal part
+  $thing->is_even;       # it's an even integer
+  $thing->is_odd;        # it's an odd integer
   $thing->is_decimal;    # it's a decimal number
 
 This will work even if $thing is a reference (they will all return
