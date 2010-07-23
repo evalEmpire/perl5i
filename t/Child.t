@@ -56,16 +56,17 @@ can_ok( __PACKAGE__, 'child' );
         $SIG{INT} = sub { exit( 2 ) };
         sleep 100;
     })->start;
+    sleep 1;
+
+    my $ret = eval { $child->say("XXX"); 1 };
+    ok( !$ret, "Died, no IPC" );
+    like( $@, qr/Child was created without IPC support./, "No IPC" );
 
     ok( $child->kill(2), "Send signal" );
     ok( !$child->wait, "wait" );
     ok( $child->is_complete, "Complete" );
-
-    TODO: {
-        local $TODO = 'exit status is coming out as 0';
-        is( $child->exit_status, 2, "Exit 2" );
-        cmp_ok( $child->unix_exit, ">", 2, "Real exit" );
-    }
+    is( $child->exit_status, 2, "Exit 2" );
+    cmp_ok( $child->unix_exit, '>', 2, "Real exit" );
 }
 
 done_testing;
