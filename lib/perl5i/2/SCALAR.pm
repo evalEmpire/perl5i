@@ -149,6 +149,8 @@ sub is_integer          {
     return $_[0] =~ m{ ^[+-]? \d+ $}x;
 }
 *is_int = \&is_integer;
+sub is_even             { $_[0]->is_integer && !($_[0] % 2) }
+sub is_odd              { $_[0]->is_integer && ($_[0] % 2) }
 sub is_decimal          {
     return 0 if !$_[0]->is_number;
 

@@ -380,6 +380,36 @@ Returns true if $thing is a negative number.
 
 0 is not negative.
 
+=head3 is_even
+
+    $is_even = $thing->is_even;
+
+Returns true if $thing is an even integer.
+
+    11->is_even;                # false
+    12->is_even;                # true
+    "11"->is_even;              # false
+    "12"->is_even;              # false
+    "-11"->is_even;             # false
+    "-12"->is_even;             # false
+    11.34->is_even;             # false
+    12.34->is_even;             # false
+
+=head3 is_odd
+
+    $is_odd = $thing->is_odd;
+
+Returns true if $thing is an odd integer.
+
+    11->is_odd;                 # true
+    12->is_odd;                 # false
+    "11"->is_odd;               # false
+    "12"->is_odd;               # false
+    "-11"->is_odd;              # false
+    "-12"->is_odd;              # false
+    11.34->is_odd;              # false
+    12.34->is_odd;              # false
+
 =head3 is_integer
 
     $is_an_integer = $thing->is_integer;
