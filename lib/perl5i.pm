@@ -800,44 +800,53 @@ C<croak> and C<carp> from L<Carp> are always available.
 
 L<Child> provides the C<child> function which is a better way to do forking.
 
-C<Child> creates and starts a child process, and returns a L<Child> object
-which is a better interface for managing the child process. The only required
-argument is a codeblock, which is called as a method on the L<Child> object.
-exit() is automatically called for you after the codeblock returns.
+C<child> creates and starts a child process, and returns an
+L<Child::Link::Proc> object which is a better interface for managing the child
+process. The only required argument is a codeblock, which is called in the new
+process. exit() is automatically called for you after the codeblock returns.
 
-    use Child qw/child/;
-    my $child = child {
-        my $self = shift;
+    my $proc = child {
+        my $parent = shift;
         ...
     };
 
 You can also request a pipe for IPC:
 
-    use Child qw/child/;
-    my $child = child {
-        my $self = shift;
+    my $proc = child {
+        my $parent = shift;
+
+        $parent->say("Message");
+        my $reply = $parent->read();
+
         ...
     } pipe => 1;
+
+    my $message = $proc->read();
+    $proc->say("reply");
 
 API Overview: (See L<Child> for more information)
 
 =over 4
 
-=item $child->is_complete()
+=item $proc->is_complete()
 
-=item $child->wait()
+=item $proc->wait()
 
-=item $child->kill($SIG)
+=item $proc->kill($SIG)
 
-=item $child->read()
+=item $proc->pid()
 
-=item $child->write( @MESSAGES )
+=item $proc->exit_status()
 
-=item $child->say( @MESSAGES )
+=item $parent->pid()
 
-=item $child->pid()
+=item $parent->detach()
 
-=item $child->exit_status()
+=item $proc_or_parent->read()
+
+=item $proc_or_parent->write( @MESSAGES )
+
+=item $proc_or_parent->say( @MESSAGES )
 
 =back
 

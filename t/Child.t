@@ -16,57 +16,56 @@ our $CLASS = 'Child';
 can_ok( __PACKAGE__, 'child' );
 
 {
-    my $child = child( sub { 1 });
-    ok( !$child->ipc, "no ipc by default" );
+    my $proc = child( sub { 1 });
+    ok( !$proc->ipc, "no ipc by default" );
 }
 
 {
-    my $child = child( sub { 1 }, pipe => 1 );
-    ok( $child->ipc, "ipc by param" );
+    my $proc = child( sub { 1 }, pipe => 1 );
+    ok( $proc->ipc, "ipc by param" );
 }
 
 {
-    my $child = $CLASS->new( sub {
-        my $self = shift;
-        $self->say( "Have self" );
-        $self->say( "parent: " . $self->parent );
-        my $in = $self->read(1);
-        $self->say( $in );
-    }, pipe => 1 );
+    my $proc = child {
+        my $parent = shift;
+        $parent->say( "Have parent" );
+        $parent->say( "parent: " . $parent->pid );
+        my $in = $parent->read(1);
+        $parent->say( $in );
+    } pipe => 1;
 
-    $child->start;
-    is( $child->read(1), "Have self\n", "child has self" );
-    is( $child->read(1), "parent: $$\n", "child has parent PID" );
+    is( $proc->read(1), "Have parent\n", "child has parent" );
+    is( $proc->read(1), "parent: $$\n", "child has parent PID" );
 
     {
         local $SIG{ALRM} = sub { die "non-blocking timeout" };
         alarm 5;
-        ok( !$child->is_complete, "Not Complete" );
+        ok( !$proc->is_complete, "Not Complete" );
         alarm 0;
     }
-    $child->say("XXX");
-    is( $child->read(1), "XXX\n", "Full IPC" );
-    ok( $child->wait, "wait" );
-    ok( $child->is_complete, "Complete" );
-    is( $child->exit_status, 0, "Exit clean" );
+    $proc->say("XXX");
+    is( $proc->read(1), "XXX\n", "Full IPC" );
+    ok( $proc->wait, "wait" );
+    ok( $proc->is_complete, "Complete" );
+    is( $proc->exit_status, 0, "Exit clean" );
 }
 
 {
-    my $child = $CLASS->new( sub {
+    my $proc = child {
         $SIG{INT} = sub { exit( 2 ) };
         sleep 100;
-    })->start;
+    };
     sleep 1;
 
-    my $ret = eval { $child->say("XXX"); 1 };
+    my $ret = eval { $proc->say("XXX"); 1 };
     ok( !$ret, "Died, no IPC" );
     like( $@, qr/Child was created without IPC support./, "No IPC" );
 
-    ok( $child->kill(2), "Send signal" );
-    ok( !$child->wait, "wait" );
-    ok( $child->is_complete, "Complete" );
-    is( $child->exit_status, 2, "Exit 2" );
-    cmp_ok( $child->unix_exit, '>', 2, "Real exit" );
+    ok( $proc->kill(2), "Send signal" );
+    ok( !$proc->wait, "wait" );
+    ok( $proc->is_complete, "Complete" );
+    is( $proc->exit_status, 2, "Exit 2" );
+    cmp_ok( $proc->unix_exit, '>', 2, "Real exit" );
 }
 
 done_testing;
