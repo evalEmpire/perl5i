@@ -18,7 +18,7 @@ use Test::More;
 {
    my @result;
    my @array = (1,2,3,4);
-   @array->foreach(def($a,$b) { push @result, $a.$b });
+   @array->foreach(func($a,$b) { push @result, $a.$b });
 
    is_deeply \@result, ["12","34"];
 }
@@ -29,7 +29,7 @@ use Test::More;
 {
    my @result;
    my @array = (1,2,3,4,5);
-   @array->foreach(def($a,$b) {
+   @array->foreach(func($a,$b) {
        $b //= '';
        push @result, $a.$b
    });
@@ -42,7 +42,7 @@ use Test::More;
 {
    my @result;
    my @array = (1,2,3,4,5);
-   ok !eval { @array->foreach(def() {}); 1 };
+   ok !eval { @array->foreach(func() {}); 1 };
    is $@, sprintf "Function passed to foreach takes no arguments at %s line %d\n",
                   __FILE__, __LINE__-2;
 }

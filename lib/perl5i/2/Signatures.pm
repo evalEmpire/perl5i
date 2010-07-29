@@ -25,12 +25,6 @@ sub import {
       %opts
     );
 
-    # Define "def"
-    $class->install_methodhandler(
-      name => 'def',
-      %def_opts
-    );
-
     # Define "func"
     $class->install_methodhandler(
       name => 'func',

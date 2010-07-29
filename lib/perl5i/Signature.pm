@@ -17,7 +17,7 @@ perl5i::Signature - Representing what parameters a subroutine accepts
 =head1 DESCRIPTION
 
 A Signature is a representation of what parameters a subroutine
-accepts.  Each subroutine defined with C<def>, C<func> or C<method>
+accepts.  Each subroutine defined with C<func> or C<method>
 will have a signature associated with it.  You can get at it by
 calling the C<signature> method on the code reference.  See
 L<perl5i/Signature Introspection> for more details.

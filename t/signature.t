@@ -117,7 +117,7 @@ use Test::More;
 
 # And now bring it all together
 {
-    def echo($arg) {
+    func echo($arg) {
        return $arg; 
     }
 
@@ -130,7 +130,7 @@ use Test::More;
 
 # An anon code ref
 {
-    my $echo = def ($arg) {
+    my $echo = func ($arg) {
     };
 
     my $sig = $echo->signature;

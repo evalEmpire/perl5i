@@ -3,12 +3,6 @@
 use perl5i::2;
 use Test::More;
 
-# Test def
-{
-    def add($this, $that) { return $this + $that }
-    is add(2, 3), 5;
-}
-
 
 # Test func
 {
@@ -44,7 +38,7 @@ use Test::More;
 
 # Anonymous
 {
-    my $code = def($this, @these) {
+    my $code = func($this, @these) {
         return $this, \@these;
     };
 

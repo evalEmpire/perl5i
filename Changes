@@ -5,6 +5,7 @@
     how many positional params a function takes. (Schwern)
   * Remove ngrep, nmap and nfor.  Replaced by @array->foreach( def($x,$y) ) {}
     and @array->map( def($x) {} );
+  * def has been removed.  Consensus is emerging for func.
 
   New Features
   * Added child() to make forking easier. [github 150] (Chad)
