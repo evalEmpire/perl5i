@@ -2,6 +2,10 @@ package perl5i::2::Signatures;
 
 use perl5i::2::Signature;
 
+# Can't load full autoboxing or signatures would not be available to the
+# autoboxed definitions
+use perl5i::2::CODE;
+
 use base q/Devel::Declare::MethodInstaller::Simple/;
 use Sub::Name;
 
@@ -99,12 +103,14 @@ sub set_signature {
     my $self = shift;
     my %args = @_;
 
-    my $sig = perl5i::2::Signature->new(
+    my $sig = perl5i::2::CODE::signature($args{code});
+    return $sig if $sig;
+
+    $sig = perl5i::2::Signature->new(
         signature => $args{signature},
         is_method => $args{is_method},
     );
 
-    require perl5i::2::CODE;
     perl5i::2::CODE::__set_signature($args{code}, $sig);
 
     return $sig;

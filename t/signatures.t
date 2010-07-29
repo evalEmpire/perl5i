@@ -58,4 +58,21 @@ use Test::More;
 }
 
 
+# Test an anonymous function keeps the same signature
+{
+    my %last;
+    for(1..3) {
+        my $code = func($this, $that) { return "$this, $that"; };
+
+        if( $last{code} ) {
+            is $code->signature->mo->id, $last{sig}->mo->id, "same signature";
+            is $code->mo->id, $last{code}->mo->id,           "same code ref";
+        }
+
+        $last{code} = $code;
+        $last{sig}  = $code->signature;
+    }
+}
+
+
 done_testing();

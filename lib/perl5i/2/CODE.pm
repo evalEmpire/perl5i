@@ -4,17 +4,17 @@ use 5.010;
 use strict;
 use warnings;
 
-use perl5i::2::Signatures;
+# Can't use sigantures here, Signatures needs CODE.
 
 use Hash::FieldHash qw(fieldhashes);
 fieldhashes \my(%Signatures);
 
-method __set_signature($signature) {
-    $Signatures{$self} = $signature;
+sub __set_signature {
+    $Signatures{$_[0]} = $_[1];
 }
 
-method signature() {
-    return $Signatures{$self};
+sub signature {
+    return $Signatures{$_[0]};
 }
 
 1;

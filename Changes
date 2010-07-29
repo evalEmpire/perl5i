@@ -11,6 +11,10 @@
   * @array->foreach now takes a function with variable arguments and DWIM
   * $number->is_even and is_odd [github 143] (Eric A. Zarko)
 
+  Bug Fixes
+  * Anonymous functions were getting a new signature each time they're
+    declared even though its the same code reference. (Schwern)
+
 
 2.3.0_02  Thu Jul 15 19:13:22 PDT 2010
   New Features
