@@ -28,11 +28,18 @@ method __parse_signature {
     my @args = split /\s*,\s*/, $string;
 
     $self->{params}     = \@args;
-    $self->{num_params} = @args;
+    $self->{positional_params} = \@args;
+    $self->{num_positional_params} = @args;
+
+    return;
 }
 
-method num_params() {
-    return $self->{num_params};
+method num_positional_params() {
+    return $self->{num_positional_params};
+}
+
+method positional_params() {
+    return $self->{positional_params};
 }
 
 method params() {

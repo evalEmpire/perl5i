@@ -1,5 +1,8 @@
 2.3.0_03
-  Removed Features
+  Incompatible Changes (only with this alpha series)
+  * Signature->num_params is now Signature->num_positional_params because
+    we'll add named params eventually and you generally only care about
+    how many positional params a function takes.
   * Remove ngrep, nmap and nfor.  Replaced by @array->foreach( def($x,$y) ) {}
     and @array->map( def($x) {} );
 

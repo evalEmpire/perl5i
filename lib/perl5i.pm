@@ -228,7 +228,7 @@ code reference.
     func hello($greeting, $place) { say "$greeting, $place" }
 
     my $code = \&hello;
-    say $code->signature->num_params;  # prints 2
+    say $code->signature->num_positional_params;  # prints 2
 
 Functions defined with C<sub> will not have a signature.
 

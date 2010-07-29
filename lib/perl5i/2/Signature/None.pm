@@ -15,7 +15,8 @@ sub new {
     return bless { signature => $args{signature} }, $class;
 }
 
-sub num_params { 0 }
+sub num_positional_params { 0 }
+sub positional_params { return []; }
 sub params { return []; }
 sub make_real {}
 
