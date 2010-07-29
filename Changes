@@ -2,9 +2,14 @@
   Incompatible Changes (only with this alpha series)
   * Signature->num_params is now Signature->num_positional_params because
     we'll add named params eventually and you generally only care about
-    how many positional params a function takes.
+    how many positional params a function takes. (Schwern)
   * Remove ngrep, nmap and nfor.  Replaced by @array->foreach( def($x,$y) ) {}
     and @array->map( def($x) {} );
+
+  New Features
+  * Added child() to make forking easier. [github 150] (Chad)
+  * @array->foreach now takes a function with variable arguments and DWIM
+  * $number->is_even and is_odd [github 143] (Eric A. Zarko)
 
 
 2.3.0_02  Thu Jul 15 19:13:22 PDT 2010
