@@ -1,3 +1,7 @@
+2.3.1  Fri Jul 30 18:14:38 PDT 2010
+  No changes from 2.3.0_03.
+
+
 2.3.0_03  Wed Jul 28 20:32:36 PDT 2010
   Incompatible Changes (only with this alpha series)
   * Signature->num_params is now Signature->num_positional_params because
