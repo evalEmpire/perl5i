@@ -1,3 +1,9 @@
+2.4.0
+  New Features
+  * You no longer have to put a true value at the end of a module.
+    Thanks to chocolateboy's true.pm!
+
+
 2.3.1  Fri Jul 30 18:14:38 PDT 2010
   No changes from 2.3.0_03.
 

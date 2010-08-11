@@ -17,6 +17,7 @@ use Try::Tiny;
 use perl5i::2::Meta;
 use Encode ();
 use perl5i::2::autobox;
+use true;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -55,6 +56,7 @@ sub import {
     ) );
 
     # Have to call both or it won't work.
+    true::import($class);
     perl5i::2::autobox::import($class);
     autovivification::unimport($class);
     indirect::unimport($class, ":fatal");
@@ -150,6 +152,4 @@ sub lstat {
     return CORE::lstat(@_) if wantarray;
     return File::stat::lstat(@_);
 }
-
-1;
 

@@ -948,6 +948,11 @@ of $@ and a nice syntax layer:
 See perldoc L<Try::Tiny> for details.
 
 
+=head2 true
+
+You no longer have to put a true value at the end of a module which uses perl5i.
+
+
 =head2 Better load errors
 
 Most of us have learned the meaning of the dreaded "Can't locate Foo.pm in
