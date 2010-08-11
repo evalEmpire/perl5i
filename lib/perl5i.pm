@@ -63,7 +63,7 @@ Because perl5i I<plans> to be incompatible in the future, you do not
 simply C<use perl5i>.  You must declare which major version of perl5i
 you are using.  You do this like so:
 
-    # Use perl5i major version 1
+    # Use perl5i major version 2
     use perl5i::2;
 
 Thus the code you write with, for example, C<perl5i::2> will always
