@@ -3,6 +3,11 @@
   * You no longer have to put a true value at the end of a module.
     Thanks to chocolateboy's true.pm!
 
+  Bug Fixes
+  * Bumped the dependency on indirect.pm to avoid a seg fault in
+    @{[ $x->$y ]} when $x and $y are undefined. [github 164]
+    Thanks to Tokuhiro Matsuno and Vincent Pit.
+
 
 2.3.1  Fri Jul 30 18:14:38 PDT 2010
   No changes from 2.3.0_03.
