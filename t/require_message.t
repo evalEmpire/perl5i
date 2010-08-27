@@ -20,4 +20,18 @@ qr/Can't locate Fake\/Thing\.pm in your Perl library\./,
 
 is( ref($INC[-1]), 'CODE' , "sub at end" );
 
+{
+    package NoFile;
+    sub foo { 42 }
+}
+
+lives_ok {
+    package Foo;
+    eval <<'    EOT' || die $@;
+    use perl5i::2;
+    use base 'NoFile';
+    1;
+    EOT
+} "same file base";
+
 done_testing;

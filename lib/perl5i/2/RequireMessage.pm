@@ -5,6 +5,7 @@ use warnings;
 # This is the sub that displays the message
 my $diesub = sub {
     my ( $sub, $mod ) = @_;
+    return if $^H{perl5i};
     die( <<EOT );
 Can't locate $mod in your Perl library.  You may need to install it
 from CPAN or another repository.  Your library paths are:
