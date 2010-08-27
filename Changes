@@ -1,7 +1,35 @@
-2.3.0_03
-  Removed Features
+2.4.0
+  New Features
+  * You no longer have to put a true value at the end of a module.
+    Thanks to chocolateboy's true.pm!
+
+  Bug Fixes
+  * Bumped the dependency on indirect.pm to avoid a seg fault in
+    @{[ $x->$y ]} when $x and $y are undefined. [github 164]
+    Thanks to Tokuhiro Matsuno and Vincent Pit.
+
+
+2.3.1  Fri Jul 30 18:14:38 PDT 2010
+  No changes from 2.3.0_03.
+
+
+2.3.0_03  Wed Jul 28 20:32:36 PDT 2010
+  Incompatible Changes (only with this alpha series)
+  * Signature->num_params is now Signature->num_positional_params because
+    we'll add named params eventually and you generally only care about
+    how many positional params a function takes. (Schwern)
   * Remove ngrep, nmap and nfor.  Replaced by @array->foreach( def($x,$y) ) {}
     and @array->map( def($x) {} );
+  * def has been removed.  Consensus is emerging for func.
+
+  New Features
+  * Added child() to make forking easier. [github 150] (Chad)
+  * @array->foreach now takes a function with variable arguments and DWIM
+  * $number->is_even and is_odd [github 143] (Eric A. Zarko)
+
+  Bug Fixes
+  * Anonymous functions were getting a new signature each time they're
+    declared even though its the same code reference. (Schwern)
 
 
 2.3.0_02  Thu Jul 15 19:13:22 PDT 2010

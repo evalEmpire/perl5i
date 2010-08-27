@@ -7,8 +7,9 @@ use Test::More;
 {
     my $sig = perl5i::2::Signature->new( signature => "" );
     isa_ok $sig, "perl5i::2::Signature::None";
-    is $sig->num_params, 0;
+    is $sig->num_positional_params, 0;
     is_deeply $sig->params, [];
+    is_deeply $sig->positional_params, [];
     is $sig, "";
     ok $sig;
     is $sig->invocant, '';
@@ -20,8 +21,9 @@ use Test::More;
 {
     my $sig = perl5i::2::Signature->new( signature => "  " );
     isa_ok $sig, "perl5i::2::Signature::None";
-    is $sig->num_params, 0;
+    is $sig->num_positional_params, 0;
     is_deeply $sig->params, [];
+    is_deeply $sig->positional_params, [];
     is $sig, "  ";
     is $sig->invocant, '';
     ok !$sig->is_method;
@@ -32,8 +34,9 @@ use Test::More;
 {
     my $sig = perl5i::2::Signature->new( signature => "  ", is_method => 1 );
     isa_ok $sig, "perl5i::2::Signature::None";
-    is $sig->num_params, 0;
+    is $sig->num_positional_params, 0;
     is_deeply $sig->params, [];
+    is_deeply $sig->positional_params, [];
     is $sig, "  ";
     is $sig->invocant, '$self';
     ok $sig->is_method;
@@ -44,7 +47,7 @@ use Test::More;
 {
     my $sig = perl5i::2::Signature->new( signature => '$foo' );
     isa_ok $sig, "perl5i::2::Signature";
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
     is_deeply $sig->params, ['$foo'];
     is $sig, '$foo';
     isa_ok $sig, "perl5i::2::Signature::Real";
@@ -56,7 +59,7 @@ use Test::More;
 # Two arg signature
 {
     my $sig = perl5i::2::Signature->new( signature => '$foo , @bar' );
-    is $sig->num_params, 2;
+    is $sig->num_positional_params, 2;
     is_deeply $sig->params, ['$foo', '@bar'];
     is $sig, '$foo , @bar';
     is $sig->invocant, '';
@@ -67,7 +70,7 @@ use Test::More;
 # With leading and trailing spaces
 {
     my $sig = perl5i::2::Signature->new( signature => ' $foo , @bar ' );
-    is $sig->num_params, 2;
+    is $sig->num_positional_params, 2;
     is_deeply $sig->params, ['$foo', '@bar'];
     is $sig, ' $foo , @bar ';  # an exact reproduction
     is $sig->invocant, '';
@@ -78,7 +81,7 @@ use Test::More;
 # With an invocant
 {
     my $sig = perl5i::2::Signature->new( signature => '$class: @bar', is_method => 1 );
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
     is_deeply $sig->params, ['@bar'];
     is $sig, '$class: @bar';
     is $sig->invocant, '$class';
@@ -89,7 +92,7 @@ use Test::More;
 # Method, implied invocant
 {
     my $sig = perl5i::2::Signature->new( signature => '@bar', is_method => 1 );
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
     is_deeply $sig->params, ['@bar'];
     is $sig, '@bar';
     is $sig->invocant, '$self';
@@ -114,26 +117,26 @@ use Test::More;
 
 # And now bring it all together
 {
-    def echo($arg) {
+    func echo($arg) {
        return $arg; 
     }
 
     my $sig = (\&echo)->signature;
     isa_ok $sig, "perl5i::2::Signature";
     ok $sig, '$arg';
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
 }
 
 
 # An anon code ref
 {
-    my $echo = def ($arg) {
+    my $echo = func ($arg) {
     };
 
     my $sig = $echo->signature;
     isa_ok $sig, "perl5i::2::Signature";
     ok $sig, '$arg';
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
 }
 
 
@@ -145,7 +148,7 @@ use Test::More;
     my $sig = $echo->signature;
     isa_ok $sig, "perl5i::2::Signature";
     ok $sig, '$arg';
-    is $sig->num_params, 1;
+    is $sig->num_positional_params, 1;
     is $sig->invocant, '$self';
     ok $sig->is_method;
 }
@@ -166,7 +169,7 @@ use Test::More;
     is $sig, $signature;
 
     # Make it real.
-    is $sig->num_params, 2;
+    is $sig->num_positional_params, 2;
     is $sig, $signature;
 }
 

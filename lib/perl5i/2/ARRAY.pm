@@ -14,7 +14,7 @@ use perl5i::2::autobox;
 func foreach($array, $code) {
     my $n = 1;
     if( my $sig = $code->signature ) {
-        $n = $sig->num_params;
+        $n = $sig->num_positional_params;
         croak "Function passed to foreach takes no arguments" unless $n;
     }
 

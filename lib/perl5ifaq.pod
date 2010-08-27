@@ -303,6 +303,19 @@ distributions to avoid cluttering the main dist.  If you depend on
 C<perl5i::2> then the CPAN shell will always be able to find it.
 
 
+=head2 How do I make perlcritic recognize perl5i?
+
+perl5i turns on strict and warnings, but by default perlcritic does
+not recognize this.  You can add perl5i to the default set of modules
+in your F<.perlcriticrc>.
+
+    [TestingAndDebugging::RequireUseWarnings]
+    equivalent_modules = perl5i::2
+
+    [TestingAndDebugging::RequireUseStrict]
+    equivalent_modules = perl5i::2
+
+
 =head1 perl5i Development
 
 =head2 Where can I find out more about perl5i?

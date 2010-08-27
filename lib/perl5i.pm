@@ -115,10 +115,6 @@ See L<perl5i::Meta> for complete details.
 
 perl5i makes it easier to declare what parameters a subroutine takes.
 
-    def add($this, $that) {
-        return $this + $that;
-    }
-
     func hello($place) {
         say "Hello, $place!\n";
     }
@@ -131,9 +127,8 @@ perl5i makes it easier to declare what parameters a subroutine takes.
         return bless \%args, $class;
     }
 
-C<def> and C<func> both define a subroutine as C<sub> does.  One of
-them will be deprecated in version 3 after its decided which folks
-prefer.
+C<func> and C<method> define subroutines as C<sub> does, with some
+extra conveniences.
 
 The signature syntax is currently very simple.  The content will be
 assigned from @_.  This:
@@ -181,7 +176,7 @@ is equivalent to:
 
 Anonymous functions and methods work, too.
 
-    my $code = def($message) { say $message };
+    my $code = func($message) { say $message };
 
 Guarantees include:
 
@@ -221,14 +216,13 @@ be a runtime error.
 
 =head3 Signature Introspection
 
-The signature of a subroutine defined with C<def>, C<func> or
-C<method> can be queried by calling the C<signature> method on the
-code reference.
+The signature of a subroutine defined with C<func> or C<method> can be
+queried by calling the C<signature> method on the code reference.
 
     func hello($greeting, $place) { say "$greeting, $place" }
 
     my $code = \&hello;
-    say $code->signature->num_params;  # prints 2
+    say $code->signature->num_positional_params;  # prints 2
 
 Functions defined with C<sub> will not have a signature.
 
@@ -386,29 +380,11 @@ Returns true if $thing is a negative number.
 
 Returns true if $thing is an even integer.
 
-    11->is_even;                # false
-    12->is_even;                # true
-    "11"->is_even;              # false
-    "12"->is_even;              # false
-    "-11"->is_even;             # false
-    "-12"->is_even;             # false
-    11.34->is_even;             # false
-    12.34->is_even;             # false
-
 =head3 is_odd
 
     $is_odd = $thing->is_odd;
 
 Returns true if $thing is an odd integer.
-
-    11->is_odd;                 # true
-    12->is_odd;                 # false
-    "11"->is_odd;               # false
-    "12"->is_odd;               # false
-    "-11"->is_odd;              # false
-    "-12"->is_odd;              # false
-    11.34->is_odd;              # false
-    12.34->is_odd;              # false
 
 =head3 is_integer
 
@@ -756,11 +732,12 @@ hash arguments.  Otherwise works as C<< @array->intersect >>.
 
     my $sig = $code->signature;
 
-You can query the signature of any code reference defined with C<def>,
-C<func> or C<method>.  See L<Signature Introspection>.
+You can query the signature of any code reference defined with C<func>
+or C<method>.  See L<Signature Introspection> for details.
 
-If C<$code> has a signature, returns an object representing C<$code>'s signature.  See
-L<perl5i::Signature> for details.  Otherwise it returns nothing.
+If C<$code> has a signature, returns an object representing C<$code>'s
+signature.  See L<perl5i::Signature> for details.  Otherwise it
+returns nothing.
 
 
 =head2 caller()
@@ -969,6 +946,11 @@ of $@ and a nice syntax layer:
         };
 
 See perldoc L<Try::Tiny> for details.
+
+
+=head2 true
+
+You no longer have to put a true value at the end of a module which uses perl5i.
 
 
 =head2 Better load errors

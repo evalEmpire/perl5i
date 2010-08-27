@@ -11,13 +11,13 @@ perl5i::Signature - Representing what parameters a subroutine accepts
     my $code = \&hello;
     my $signature = $code->signature;
 
-    say $signature->num_params;  # 2
+    say $signature->num_positional_params;  # 2
     say $signature->is_method;   # false
 
 =head1 DESCRIPTION
 
 A Signature is a representation of what parameters a subroutine
-accepts.  Each subroutine defined with C<def>, C<func> or C<method>
+accepts.  Each subroutine defined with C<func> or C<method>
 will have a signature associated with it.  You can get at it by
 calling the C<signature> method on the code reference.  See
 L<perl5i/Signature Introspection> for more details.
@@ -27,12 +27,6 @@ signature.
 
 =head1 METHODS
 
-=head2 num_params
-
-    my $num_params = $sig->num_params;
-
-The number of parameters the subroutine takes.
-
 =head2 params
 
     my $params = $sig->params;
@@ -40,6 +34,26 @@ The number of parameters the subroutine takes.
 An array ref of the parameters a subroutine takes in the order it
 takes them.  Currently they are just strings.  In the future they will
 be string overloaded objects.
+
+=head2 positional_params
+
+    my $params = $sig->positional_params;
+
+Like C<< $sig->params >> but it is just the positional parameters.
+
+In the future there will be named parameters.
+
+=head2 num_positional_params
+
+    my $num_positional_params = $sig->num_positional_params;
+
+The number of named parameters the subroutine takes.
+
+In the future there will be named parameters.  For the purposes of
+determining how many arguments a function takes, it is most useful to
+look just at the positional ones.
+
+This is mostly an optimization for C<< $sig->positional_params->size >>.
 
 =head2 as_string
 

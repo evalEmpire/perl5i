@@ -12,7 +12,7 @@ my $builder = MyBuild->new(
     module_name => 'perl5i',
     license     => 'perl',
     dist_author => 'Michael G Schwern <schwern@pobox.com>',
-    dist_version => "v2.3.0_02",
+    dist_version => "v2.3.1",
 
     requires => {
         'perl'                    => '5.10.0',
@@ -40,13 +40,14 @@ my $builder = MyBuild->new(
         "Taint::Util"         => '0.06',
         'Hash::Merge::Simple' => '0.04',
         'List::MoreUtils'     => '0.22',
-        indirect              => '0.20',
+        indirect              => '0.22',
         'JSON'                => '2.17',
         'YAML::Any'           => '0.70',
         'Digest::SHA1'        => '2.09',
         'Digest::MD5'         => '2.36',
         'Object::ID'          => '0.1.0',
         "Devel::Declare::MethodInstaller::Simple"       => '0.006000',
+        'true'                => '0.03',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

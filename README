@@ -71,10 +71,6 @@ What it does
   Subroutine and Method Signatures
     perl5i makes it easier to declare what parameters a subroutine takes.
 
-        def add($this, $that) {
-            return $this + $that;
-        }
-
         func hello($place) {
             say "Hello, $place!\n";
         }
@@ -87,13 +83,13 @@ What it does
             return bless \%args, $class;
         }
 
-    `def' and `func' both define a subroutine as `sub' does. One of them
-    will be deprecated in version 3 after its decided which folks prefer.
+    `func' and `method' define subroutines as `sub' does, with some extra
+    conveniences.
 
     The signature syntax is currently very simple. The content will be
     assigned from @_. This:
 
-        def add($this, $that) {
+        func add($this, $that) {
             return $this + $that;
         }
 
@@ -134,7 +130,7 @@ What it does
 
     Anonymous functions and methods work, too.
 
-        my $code = def($message) { say $message };
+        my $code = func($message) { say $message };
 
     Guarantees include:
 
@@ -164,7 +160,7 @@ What it does
     parameters will eventually be enforced. For example, right now this will
     work:
 
-        def add($this, $that) { return $this + $that }
+        func add($this, $that) { return $this + $that }
 
         say add(1,2,3);  # says 3
 
@@ -172,13 +168,13 @@ What it does
     a runtime error.
 
     Signature Introspection
-    The signature of a subroutine defined with `def', `func' or `method' can
-    be queried by calling the `signature' method on the code reference.
+    The signature of a subroutine defined with `func' or `method' can be
+    queried by calling the `signature' method on the code reference.
 
         func hello($greeting, $place) { say "$greeting, $place" }
 
         my $code = \&hello;
-        say $code->signature->num_params;  # prints 2
+        say $code->signature->num_positional_params;  # prints 2
 
     Functions defined with `sub' will not have a signature.
 
@@ -203,7 +199,7 @@ What it does
 
         my $code = sub { 42 };
         $code->alias( "foo" );
-        print foo();        # prints 42
+        say foo();        # prints 42
 
     It will work on everything except scalar references.
 
@@ -224,7 +220,7 @@ What it does
         my $class = "Some::Class";
         my $name  = "foo";
         sub { 99 }->alias( $class, $name );
-        print Some::Class->foo;  # prints 99
+        say Some::Class->foo;  # prints 99
 
     If there is just one @identifier and it has no "::" in it, the current
     caller will be prepended. `$thing->alias("name")' is shorthand for
@@ -313,6 +309,16 @@ What it does
     Returns true if $thing is a negative number.
 
     0 is not negative.
+
+    is_even
+        $is_even = $thing->is_even;
+
+    Returns true if $thing is an even integer.
+
+    is_odd
+        $is_odd = $thing->is_odd;
+
+    Returns true if $thing is an odd integer.
 
     is_integer
         $is_an_integer = $thing->is_integer;
@@ -467,6 +473,27 @@ What it does
 
         @array->grep(sub{ $_->is_number })->sum->say;
 
+    foreach()
+        @array->foreach( func($item) { ... } );
+
+    Works like the built in `foreach', calls the code block for each element
+    of @array passing it into the block.
+
+        @array->foreach( func($item) { say $item } );  # print each item
+
+    It will pass in as many elements as the code block accepts. This allows
+    you to iterate through an array 2 at a time, or 3 or 4 or whatever.
+
+        my @names = ("Joe", "Smith", "Jim", "Dandy", "Jane", "Lane");
+        @names->foreach( func($fname, $lname) {
+            say "Person: $fname $lname";
+        });
+
+    A normal subroutine with no signature will get one at a time.
+
+    If @array is not a multiple of the iteration (for example, @array has 5
+    elements and you ask 2 at a time) the behavior is currently undefined.
+
     diff()
     Calculate the difference between two (or more) arrays:
 
@@ -594,8 +621,8 @@ What it does
     signature
         my $sig = $code->signature;
 
-    You can query the signature of any code reference defined with `def',
-    `func' or `method'. See Signature Introspection.
+    You can query the signature of any code reference defined with `func' or
+    `method'. See Signature Introspection for details.
 
     If `$code' has a signature, returns an object representing `$code''s
     signature. See perl5i::Signature for details. Otherwise it returns
@@ -627,6 +654,47 @@ What it does
 
   Carp
     `croak' and `carp' from Carp are always available.
+
+  Child
+    Child provides the `child' function which is a better way to do forking.
+
+    `child' creates and starts a child process, and returns an
+    Child::Link::Proc object which is a better interface for managing the
+    child process. The only required argument is a codeblock, which is
+    called in the new process. exit() is automatically called for you after
+    the codeblock returns.
+
+        my $proc = child {
+            my $parent = shift;
+            ...
+        };
+
+    You can also request a pipe for IPC:
+
+        my $proc = child {
+            my $parent = shift;
+
+            $parent->say("Message");
+            my $reply = $parent->read();
+
+            ...
+        } pipe => 1;
+
+        my $message = $proc->read();
+        $proc->say("reply");
+
+    API Overview: (See Child for more information)
+
+    $proc->is_complete()
+    $proc->wait()
+    $proc->kill($SIG)
+    $proc->pid()
+    $proc->exit_status()
+    $parent->pid()
+    $parent->detach()
+    $proc_or_parent->read()
+    $proc_or_parent->write( @MESSAGES )
+    $proc_or_parent->say( @MESSAGES )
 
   English
     English gives English names to the punctuation variables; for instance,
@@ -729,49 +797,6 @@ What it does
             };
 
     See perldoc Try::Tiny for details.
-
-  Block::NamedVar
-    Block::NamedVar provides the 'ngrep', 'nmap', and 'nfor' keywords. These
-    act like 'grep', 'map', and 'for', The difference is that you specify
-    the names of the block variables. In the case of 'nfor' you can iterate
-    over chunks of your list at a time.
-
-    ngrep
-        # grep with lexical $x.
-        @list = ngrep my $x { $x =~ m/^[a-zA-Z]$/ } @stuff;
-
-        # grep with package variable $v
-        @list = ngrep our $v { $v =~ m/^[a-zA-Z]$/ } @stuff;
-
-        # grep with closure over existing $y
-        my $y;
-        @list = ngrep $y { $y =~ m/^[a-zA-Z]$/ } @stuff;
-
-    nmap
-    Behaves just like ngrep with lexical, package, or closure variables.
-
-        # map with lexical $x
-        @list = nmap my $x { "updated_$x" } @stuff;
-
-    nfor
-    Works like for, you can even use 'last' and 'next'.
-
-        # Iterate a hash taking key and value each pass:
-        nfor my ( $key, $value ) ( %a_hash ) {
-            next if $key eq "_hidden";
-            print $key, " = ", $value, "\n";
-            last if ...;
-        }
-
-        # Defaults to $a and $b:
-        nfor ( %a_hash ) {
-            print $a, " = ", $b, "\n";
-        }
-
-        # Iterate over 3 or more elements of the list per pass:
-        nfor my ( $x, $y, $z ) ( qw/a b c d e f/ ) {
-            # Will be run twice.
-        }
 
   Better load errors
     Most of us have learned the meaning of the dreaded "Can't locate Foo.pm
