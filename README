@@ -798,6 +798,10 @@ What it does
 
     See perldoc Try::Tiny for details.
 
+  true
+    You no longer have to put a true value at the end of a module which uses
+    perl5i.
+
   Better load errors
     Most of us have learned the meaning of the dreaded "Can't locate Foo.pm
     in @INC". Admittedly though, it's not the most helpful of the error

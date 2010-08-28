@@ -88,6 +88,7 @@ t/everything_is_an_object.t
 t/File-stat.t
 t/flip.t
 t/foreach.t
+t/github164.t
 t/grep.t
 t/hash-diff.t
 t/hash-intersect.t
@@ -96,6 +97,7 @@ t/intersect.t
 t/io-handle.t
 t/lexical.t
 t/lib/Test/perl5i.pm
+t/lib/ThisIsTrue.pm
 t/List-MoreUtils/all.t
 t/List-MoreUtils/any.t
 t/List-MoreUtils/false.t
@@ -137,6 +139,7 @@ t/signature.t
 t/signatures.t
 t/taint.t
 t/time_compat.t
+t/true.t
 t/try-tiny.t
 t/utf8.t
 t/version_0/00_compile.t

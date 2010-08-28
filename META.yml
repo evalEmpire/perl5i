@@ -36,10 +36,10 @@ provides:
     file: lib/perl5i/0/DateTime.pm
   perl5i:
     file: lib/perl5i.pm
-    version: v2.3.1
+    version: v2.4.0
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v2.3.1
+    version: v2.4.0
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
   perl5i::0::DEFAULT:
@@ -58,7 +58,7 @@ provides:
     file: lib/perl5i/0/SCALAR.pm
   perl5i::1:
     file: lib/perl5i/1.pm
-    version: v2.3.1
+    version: v2.4.0
   perl5i::1::ARRAY:
     file: lib/perl5i/1/ARRAY.pm
   perl5i::1::CODE:
@@ -81,7 +81,7 @@ provides:
     file: lib/perl5i/1/autobox.pm
   perl5i::2:
     file: lib/perl5i/2.pm
-    version: v2.3.1
+    version: v2.4.0
   perl5i::2::ARRAY:
     file: lib/perl5i/2/ARRAY.pm
   perl5i::2::CODE:
@@ -126,12 +126,12 @@ provides:
     file: lib/perl5i/2/equal.pm
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v2.3.1
+    version: v2.4.0
   perl5i::cmd:
     file: lib/perl5i/cmd.pm
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v2.3.1
+    version: v2.4.0
 requires:
   CLASS: 1.00
   Child: 0.007
@@ -162,9 +162,10 @@ requires:
   autobox::dump: 20090426
   autodie: 1.999
   autovivification: 0.06
-  indirect: 0.20
+  indirect: 0.22
   parent: 0.221
   perl: v5.10.0
+  true: 0.12
   version: 0.77
 resources:
   Chat: irc://irc.perl.org/#perl5i
@@ -172,4 +173,4 @@ resources:
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
-version: v2.3.1
+version: v2.4.0
