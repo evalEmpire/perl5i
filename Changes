@@ -7,6 +7,11 @@
   * Bumped the dependency on indirect.pm to avoid a seg fault in
     @{[ $x->$y ]} when $x and $y are undefined. [github 164]
     Thanks to Tokuhiro Matsuno and Vincent Pit.
+  * The improved error message for failing to load a module is now
+    a lexical feature.  This prevents it messing up things that
+    parse that error message, like base.pm.  This makes perl5i
+    play nice with Class::DBI amongst a lot of other things.
+    [github 165] (Chad)
 
 
 2.3.1  Fri Jul 30 18:14:38 PDT 2010
