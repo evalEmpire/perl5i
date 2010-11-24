@@ -1,7 +1,7 @@
-2.4.1
+2.4.1  Wed Nov 24 16:35:39 EST 2010
   Bug Fixes
   * The lexical nature of the improved error message was implemented
-    wrong. [github 99] (Schwern)
+    wrong and caused it to leak out or not work. [github 99] (Schwern)
 
 
 2.4.0  Fri Aug 27 19:18:45 PDT 2010

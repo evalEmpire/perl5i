@@ -1,3 +1,4 @@
+.DS_Store
 .perlcriticrc
 .perltidyrc
 bin/perl5i.bat.PL
