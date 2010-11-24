@@ -34,4 +34,15 @@ lives_ok {
     EOT
 } "same file base";
 
+
+{
+    no perl5i::latest;
+
+    throws_ok {
+        require Fake::Thing;
+    }
+    qr/^Can't locate Fake\/Thing\.pm in \@INC/,
+    "Special message turned off out of scope";
+}
+
 done_testing;

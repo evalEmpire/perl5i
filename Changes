@@ -1,3 +1,9 @@
+2.4.1
+  Bug Fixes
+  * The lexical nature of the improved error message was implemented
+    wrong. [github 99] (Schwern)
+
+
 2.4.0  Fri Aug 27 19:18:45 PDT 2010
   New Features
   * You no longer have to put a true value at the end of a module.
