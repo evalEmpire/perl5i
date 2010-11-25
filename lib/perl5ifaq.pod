@@ -237,7 +237,7 @@ Here's an example of Latin-1.
     binmode $fh, ":encoding(Latin-1)";
     print $fh $text;
 
-If UTF8 is not to you liking you can switch the default encoding of
+If UTF8 is not to your liking you can switch the default encoding of
 newly opened filehandles with the C<open> pragma.
 
     use open ":encoding(Latin-1)";  # new filehandles will be Latin-1
@@ -259,7 +259,7 @@ See L<per5i/CLASS> for details.
 
 Simply read $CWD.  See L<perl5i/File::chdir> for details.
 
-=head2 How do I temporary change the directory?
+=head2 How do I temporarily change the directory?
 
 If a function has to change directory, it's polite to change it back
 before returning.  perl5i provides C<local $CWD> to accomplish this.
@@ -369,7 +369,7 @@ don't want to pollute the UNIVERSAL namespace with.
 =head2 perl5i has too many dependencies!
 
 That's not a question.  Eventually, perl5i will look into a bundling
-solution to ease the dependency hell its rapidly descending into.  In
+solution to ease the dependency hell it's rapidly descending into.  In
 general we've favored using a CPAN module over writing it ourselves so
 maintenance can be distributed.
 
