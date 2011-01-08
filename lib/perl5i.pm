@@ -1034,7 +1034,7 @@ Copyright 2009-2010, Michael G Schwern <schwern@pobox.com>
 This program is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself.
 
-See F<http://www.perl.com/perl/misc/Artistic.html>
+See L<http://dev.perl.org/licenses/artistic.html>
 
 
 =head1 SEE ALSO
