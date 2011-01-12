@@ -44,6 +44,21 @@ sub linear_isa {
     return wantarray ? @$isa : $isa;
 }
 
+sub methods {
+    my $self = shift;
+    my $class = $self->class;
+
+    my %all_methods;
+    for my $class ($class->mc->linear_isa) {
+        my $sym_table = eval '\%'.$class.'::' || die $@;
+        for my $name (keys %$sym_table) {
+            next unless *{$sym_table->{$name}}{CODE};
+            $all_methods{$name} = $class;
+        }
+    }
+
+    return [keys %all_methods];
+}
 
 # A single place to put the "method not found" error.
 my $method_not_found = sub {
