@@ -46,11 +46,10 @@ sub linear_isa {
 
 sub methods {
     my $self = shift;
-    my $class = $self->class;
 
     my %all_methods;
-    for my $class ($class->mc->linear_isa) {
-        my $sym_table = eval '\%'.$class.'::' || die $@;
+    for my $class ($self->linear_isa) {
+        my $sym_table = $class->mc->symbol_table;
         for my $name (keys %$sym_table) {
             next unless *{$sym_table->{$name}}{CODE};
             $all_methods{$name} = $class;
@@ -58,6 +57,14 @@ sub methods {
     }
 
     return [keys %all_methods];
+}
+
+sub symbol_table {
+    my $self = shift;
+    my $class = $self->class;
+
+    no strict 'refs';
+    return \%{$class.'::'};
 }
 
 # A single place to put the "method not found" error.

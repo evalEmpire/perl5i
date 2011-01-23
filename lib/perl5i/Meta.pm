@@ -112,6 +112,17 @@ This list includes the $class itself and includes UNIVERSAL.  For example:
     my @isa = Child->mo->linear_isa();
 
 
+=head2 symbol_table
+
+    my $table = $class->mc->symbol_table;
+    my $table = $obj->mo->symbol_table;
+
+Returns the symbol table for the given $class or class of the $object.
+
+If you don't know what a symbol table... good.  If you really want to
+know, see L<perldata/Typeglobs and FileHandles>.
+
+
 =head2 super
 
     my @return = $class->mc->super(@args);
