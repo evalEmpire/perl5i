@@ -124,8 +124,10 @@ t/Meta/id.t
 t/Meta/is-equal.t
 t/Meta/ISA.t
 t/Meta/linear_isa.t
+t/Meta/methods.t
 t/Meta/reftype.t
 t/Meta/super.t
+t/Meta/symbol_table.t
 t/method_leaking.t
 t/modern_perl.t
 t/module2path.t
