@@ -2,6 +2,7 @@ package perl5i::2::Meta;
 
 use strict;
 use warnings;
+use v5.10.0;
 
 # Be very careful not to import anything.
 require Carp;
@@ -46,9 +47,25 @@ sub linear_isa {
 
 sub methods {
     my $self = shift;
+    my $opts = shift // {};
+    my $top = $self->class;
+
+    my %exclude;
+
+    state $defaults = {
+        with_UNIVERSAL       => 0,
+        just_mine            => 0,
+    };
+
+    $opts = { %$defaults, %$opts };
+    $exclude{UNIVERSAL} = !$opts->{with_UNIVERSAL};
+
+    my @classes = $opts->{just_mine} ? $self->class : $self->linear_isa;
 
     my %all_methods;
-    for my $class ($self->linear_isa) {
+    for my $class (@classes) {
+        next if $exclude{$class} && $class ne $top;
+
         my $sym_table = $class->mc->symbol_table;
         for my $name (keys %$sym_table) {
             next unless *{$sym_table->{$name}}{CODE};
@@ -56,7 +73,7 @@ sub methods {
         }
     }
 
-    return [keys %all_methods];
+    return wantarray ? keys %all_methods : [keys %all_methods];
 }
 
 sub symbol_table {
