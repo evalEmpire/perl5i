@@ -51,8 +51,8 @@ lib/perl5i/2/Signatures.pm
 lib/perl5i/2/UNIVERSAL.pm
 lib/perl5i/cmd.pm
 lib/perl5i/latest.pm
-lib/perl5i/Meta.pm
-lib/perl5i/Signature.pm
+lib/perl5i/Meta.pod
+lib/perl5i/Signature.pod
 lib/perl5i/VERSION.pm
 lib/perl5ifaq.pod
 LICENSE
