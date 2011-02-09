@@ -101,4 +101,21 @@ sub needs_y2038 {
     return 0;
 }
 
+# Build.PL creates its own MYMETA.yml because YAML::Tiny fails to parse the
+# delivered one correctly. This change to the data affects how MYMETA.yml
+# is created and makes sure it does so in a way that the resulting YAML
+# file will properly recognize true as the dependency, and not 1.
+
+sub write_metafile {
+    my $self = shift;
+    my ($metafile, $node) = @_;
+
+    my $true_version = delete $node->{requires}{true};
+    if ( $true_version ) {
+        $node->{requires}{"'true'"} = $true_version;
+    }
+
+    return $self->SUPER::write_metafile( $metafile, $node );
+}
+
 1;
