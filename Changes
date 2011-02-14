@@ -1,4 +1,8 @@
-2.5.2
+2.6.0
+  New Feature
+  * Added capture(), from Capture::Tiny, to capture output to STDOUT and
+    STDERR [github 178]
+
   Windows Fixes
   * Fix t/center.t (Myf White)
 

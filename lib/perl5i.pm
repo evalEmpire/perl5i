@@ -769,6 +769,51 @@ STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
 encoding turned on.  Consequently, if you want to output raw bytes to
 a file, such as outputting an image, you must set C<< binmode $fh >>.
 
+=head2 capture()
+
+    my($stdout, $stderr) = capture { ... } %options;
+    my $stdout = capture { ... } %options;
+
+C<capture()> lets you capture all output to C<STDOUT> and C<STDERR> in
+any block of code.
+
+    # $out = "Hello"
+    # $err = "Bye"
+    my($out, $err) = capture {
+        print "Hello";
+        print STDERR "Bye";
+    };
+
+If called in scalar context, it will only return C<STDOUT> and silence C<STDERR>.
+
+    # $out = "Hello"
+    my $out = capture {
+        print "Hello";
+        warn "oh god";
+    };
+
+C<capture> takes some options.
+
+=over 4
+
+=item B<tee>
+
+tee will cause output to be captured yet still printed.
+
+    my $out = capture { print "Hi" } tee => 1;
+
+=item B<merge>
+
+merge will merge C<STDOUT> and C<STDERR> into one variable.
+
+    # $out = "HiBye"
+    my $out = capture {
+        print "Hi";
+        print STDERR "Bye";
+    } merge => 1;
+
+=back
+
 =head2 Carp
 
 C<croak> and C<carp> from L<Carp> are always available.
