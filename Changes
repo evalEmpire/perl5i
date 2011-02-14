@@ -1,3 +1,8 @@
+2.5.2
+  Windows Fixes
+  * Fix t/center.t (Myf White)
+
+
 2.5.1  Fri, 28 Jan 2011 11:01:33 +1000
   Misc
   * Fix the META.yml file so the requirement on "true" is not

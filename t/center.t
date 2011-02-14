@@ -27,7 +27,7 @@ is( $hello->center(-1), 'hello',
 warning_like {
     is( $hello->center(undef), 'hello',
         '->center(undef)' );
-} qr/^Use of uninitialized value for size in center\(\) at .*center\.t line /;
+} qr/^Use of uninitialized value for size in center\(\) at \Q$0\E line /;
 
 is( "even"->center(6, "-"), '-even-',
     '->center(6, "-")' );
@@ -41,7 +41,7 @@ is( "even"->center(0, "-"), 'even',
 warning_like {
     is( $hello->center(10, "-=-"), '---hello--',
         '->center(undef)' );
-} qr/^'-=-' is longer than one character, using '-' instead at .*center\.t line /;
+} qr/^'-=-' is longer than one character, using '-' instead at \Q$0\E line /;
 
 # Test that center() always returns the correct length
 for my $size ($hello->length..20) {
