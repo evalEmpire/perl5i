@@ -16,35 +16,37 @@ for my $wrapper (qw(perl5i perl5i.bat)) {
     last if -e $perl5i;
 }
 my $perl5icmd = qq[$perl5i "-Ilib"];
+my @perl5icmd = ($perl5i, "-Ilib");
 
 ok -e $perl5i, "perl5i command line wrapper was built";
 
 ok system(qq[$perl5icmd -e 1]) == 0, "  and it runs";
 
-is `$perl5icmd -e "say 'Hello'"`, "Hello\n", "Hello perl5i!";
+is capture { system @perl5icmd, "-e", "say 'Hello'" }, "Hello\n", "Hello perl5i!";
 
 like `$perl5icmd -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
-like `$perl5icmd -e "\$^X->say"`, qr/perl5i/, '$^X is perl5i';
+like capture { system @perl5icmd, "-e", '$^X->say' }, qr/perl5i/, '$^X is perl5i';
 
-is `$perl5icmd -wle "print 'Hello'"`, "Hello\n", "compound -e";
+is capture { system @perl5icmd, '-wle', q[print 'Hello'] }, "Hello\n", "compound -e";
 
-is `$perl5icmd -Minteger -e "say 'Hello'"`, "Hello\n", "not fooled by -Module";
+is capture { system @perl5icmd, "-Minteger", "-e", q[say 'Hello'] }, "Hello\n",
+  "not fooled by -Module";
 
 # Make sure it thinks its a one liner.
-is `$perl5icmd -e 'print \$0'`, "-e",      '$0 preserved';
-is `$perl5icmd -e 'print __LINE__'`, 1,    '__LINE__ preserved';
-is `$perl5icmd -e 'print __FILE__'`, "-e", '__FILE__ preserved';
+is capture { system @perl5icmd, "-e", q[print $0] },       "-e",       '$0 preserved';
+is capture { system @perl5icmd, "-e", q[print __LINE__] }, 1,          '__LINE__ preserved';
+is capture { system @perl5icmd, "-e", q[print __FILE__] }, "-e",       '__FILE__ preserved';
 
 # Check it takes code from STDIN
 {
-    use IPC::Open2;
-    my($out, $in);
-    ok open2( $out, $in, $perl5icmd ), "open2";
-    print $in q[say "Hello"];
-    close $in;
+    my $out = capture {
+        open( my $in, "|-", $perl5icmd );
+        print $in qq[say "Hello"\n];
+        close $in;
+    };
 
-    is <$out>, "Hello\n", "reads code from stdin";
+    is $out, "Hello\n", "reads code from stdin";
 }
 
 # And from a file

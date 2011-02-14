@@ -5,6 +5,7 @@
 
   Windows Fixes
   * Fix t/center.t (Myf White)
+  * Fix t/command_line_wrapper.t
 
   New Docs
   * Added perl5ifaq entries for capturing output from a command using
