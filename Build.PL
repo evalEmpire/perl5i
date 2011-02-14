@@ -48,6 +48,7 @@ my $builder = MyBuild->new(
         'Object::ID'          => '0.1.0',
         "Devel::Declare::MethodInstaller::Simple"       => '0.006000',
         'true'                => '0.12',
+        'Capture::Tiny'       => '0.06',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
