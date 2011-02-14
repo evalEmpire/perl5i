@@ -289,6 +289,47 @@ Use C<try/catch>.
 See L<perl5i/Try::Tiny> for details.
 
 
+=head2 How do I get the output of C<system>?
+
+Use C<capture>.
+
+    my $output = capture {
+        system "command", "and", "some", "arguments";
+    };
+
+See L<perl5i/capture()>.
+
+
+=head2 How can I capture STDERR?
+
+Use C<capture>.
+
+    my($stdout, $stderr) = capture {
+        ...anything run in here will have STDOUT and STDERR captured.
+    };
+
+This will capture C<STDOUT> and C<STDERR> separately.  To capture them
+together in one variable, use the C<merge> option.
+
+    my $output = capture {
+        ...anything run in here will have STDOUT and STDERR captured...
+    } merge => 1;
+
+See L<perl5i/capture()>.
+
+
+=head2 How can I call backticks without shell processing?
+
+You can't.  What you can do instead is use C<capture> and C<system>
+with multiple arguments.
+
+    my $output = capture {
+        system $command, @options;
+    };
+
+See L<perl5i/capture()>.
+
+
 =head2 How do I make my distribution depend on perl5i?
 
 perl5i is not backwards compatible across major versions.  This is why

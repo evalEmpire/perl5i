@@ -6,6 +6,10 @@
   Windows Fixes
   * Fix t/center.t (Myf White)
 
+  New Docs
+  * Added perl5ifaq entries for capturing output from a command using
+    capture()
+
 
 2.5.1  Fri, 28 Jan 2011 11:01:33 +1000
   Misc
