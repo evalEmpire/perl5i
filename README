@@ -652,6 +652,44 @@ What it does
     encoding turned on. Consequently, if you want to output raw bytes to a
     file, such as outputting an image, you must set "binmode $fh".
 
+  capture()
+        my($stdout, $stderr) = capture { ... } %options;
+        my $stdout = capture { ... } %options;
+
+    "capture()" lets you capture all output to "STDOUT" and "STDERR" in any
+    block of code.
+
+        # $out = "Hello"
+        # $err = "Bye"
+        my($out, $err) = capture {
+            print "Hello";
+            print STDERR "Bye";
+        };
+
+    If called in scalar context, it will only return "STDOUT" and silence
+    "STDERR".
+
+        # $out = "Hello"
+        my $out = capture {
+            print "Hello";
+            warn "oh god";
+        };
+
+    "capture" takes some options.
+
+    tee tee will cause output to be captured yet still printed.
+
+            my $out = capture { print "Hi" } tee => 1;
+
+    merge
+        merge will merge "STDOUT" and "STDERR" into one variable.
+
+            # $out = "HiBye"
+            my $out = capture {
+                print "Hi";
+                print STDERR "Bye";
+            } merge => 1;
+
   Carp
     "croak" and "carp" from Carp are always available.
 

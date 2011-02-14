@@ -47,7 +47,7 @@ my $builder = MyBuild->new(
         'Digest::MD5'         => '2.36',
         'Object::ID'          => '0.1.0',
         "Devel::Declare::MethodInstaller::Simple"       => '0.006000',
-        'true'                => '0.12',
+        'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
     },
     build_requires => {

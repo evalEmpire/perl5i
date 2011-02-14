@@ -1,15 +1,18 @@
 2.6.0
-  New Feature
+  New Features
   * Added capture(), from Capture::Tiny, to capture output to STDOUT and
     STDERR [github 178]
 
   Windows Fixes
   * Fix t/center.t (Myf White)
-  * Fix t/command_line_wrapper.t
+  * Fix t/command_line_wrapper.t (Myf White)
 
   New Docs
   * Added perl5ifaq entries for capturing output from a command using
     capture()
+
+  Misc
+  * The dependency on true.pm will no longer confuse some YAML parsers.
 
 
 2.5.1  Fri, 28 Jan 2011 11:01:33 +1000
