@@ -3,13 +3,17 @@
   * Added capture(), from Capture::Tiny, to capture output to STDOUT and
     STDERR [github 178]
 
-  Windows Fixes
-  * Fix t/center.t (Myf White)
-  * Fix t/command_line_wrapper.t (Myf White)
-
   New Docs
   * Added perl5ifaq entries for capturing output from a command using
     capture()
+
+  Bug Fixes
+  * perl5i will no longer double encode @ARGV if it's loaded multiple times.
+    [github 176]
+
+  Windows Fixes
+  * Fix t/center.t (Myf White)
+  * Fix t/command_line_wrapper.t (Myf White)
 
   Misc
   * The dependency on true.pm will no longer confuse some YAML parsers.

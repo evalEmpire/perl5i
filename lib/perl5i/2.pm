@@ -84,7 +84,8 @@ sub import {
     (\&capture)->alias($caller, "capture");
 
     # utf8ify @ARGV
-    $_ = Encode::decode('utf8', $_) for @ARGV;
+    state $have_encoded_argv = 0;
+    _encode_argv() unless $have_encoded_argv++;
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
@@ -186,4 +187,9 @@ sub capture(&;@) {
 
     my $func = $captures->{$opts};
     return $func->($code);
+}
+
+sub _encode_argv {
+    $_ = Encode::decode('utf8', $_) for @ARGV;
+    return;
 }
