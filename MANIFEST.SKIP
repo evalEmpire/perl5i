@@ -58,3 +58,4 @@
 # Don't ship our motivational images
 ^img/
 
+^MYMETA\.json$

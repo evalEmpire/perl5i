@@ -58,16 +58,19 @@ lib/perl5ifaq.pod
 LICENSE
 MANIFEST			This list of files
 MANIFEST.SKIP
+META.json
 META.yml
 PATCHING
 README
 t/alias.t
 t/ARGV.t
+t/ARGV_twice.t
 t/autobox.t
 t/autodie.t
 t/autovivification.t
 t/caller.t
 t/can.t
+t/capture.t
 t/carp.t
 t/center.t
 t/chdir.t

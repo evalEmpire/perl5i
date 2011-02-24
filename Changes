@@ -1,4 +1,4 @@
-2.6.0
+2.6.0  Thu, 24 Feb 2011 11:23:25 +1100 
   New Features
   * Added capture(), from Capture::Tiny, to capture output to STDOUT and
     STDERR [github 178]

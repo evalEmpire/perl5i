@@ -10,7 +10,8 @@ build_requires:
   Test::Warn: 0.11
 configure_requires:
   Module::Build: 0.36
-generated_by: 'Module::Build version 0.3624'
+dynamic_config: 1
+generated_by: 'Module::Build version 0.3705, CPAN::Meta::Converter version 2.110440'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -30,108 +31,151 @@ no_index:
 provides:
   DateTime::Format::CTime:
     file: lib/perl5i/0/DateTime.pm
+    version: 0
   DateTime::time:
     file: lib/perl5i/0/DateTime.pm
+    version: 0
   DateTime::y2038:
     file: lib/perl5i/0/DateTime.pm
+    version: 0
   perl5i:
     file: lib/perl5i.pm
-    version: v2.5.1
+    version: v2.6.0
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v2.5.1
+    version: v2.6.0
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
+    version: 0
   perl5i::0::DEFAULT:
     file: lib/perl5i/0/DEFAULT.pm
+    version: 0
   perl5i::0::DateTime:
     file: lib/perl5i/0/DateTime.pm
+    version: 0
   perl5i::0::HASH:
     file: lib/perl5i/0/HASH.pm
+    version: 0
   perl5i::0::Meta:
     file: lib/perl5i/0/Meta.pm
+    version: 0
   perl5i::0::Meta::Class:
     file: lib/perl5i/0/Meta/Class.pm
+    version: 0
   perl5i::0::Meta::Instance:
     file: lib/perl5i/0/Meta/Instance.pm
+    version: 0
   perl5i::0::SCALAR:
     file: lib/perl5i/0/SCALAR.pm
+    version: 0
   perl5i::1:
     file: lib/perl5i/1.pm
-    version: v2.5.1
+    version: v2.6.0
   perl5i::1::ARRAY:
     file: lib/perl5i/1/ARRAY.pm
+    version: 0
   perl5i::1::CODE:
     file: lib/perl5i/1/CODE.pm
+    version: 0
   perl5i::1::DateTime:
     file: lib/perl5i/1/DateTime.pm
+    version: 0
   perl5i::1::HASH:
     file: lib/perl5i/1/HASH.pm
+    version: 0
   perl5i::1::Meta:
     file: lib/perl5i/1/Meta.pm
+    version: 0
   perl5i::1::Meta::Class:
     file: lib/perl5i/1/Meta/Class.pm
+    version: 0
   perl5i::1::Meta::Instance:
     file: lib/perl5i/1/Meta/Instance.pm
+    version: 0
   perl5i::1::SCALAR:
     file: lib/perl5i/1/SCALAR.pm
+    version: 0
   perl5i::1::UNIVERSAL:
     file: lib/perl5i/1/UNIVERSAL.pm
+    version: 0
   perl5i::1::autobox:
     file: lib/perl5i/1/autobox.pm
+    version: 0
   perl5i::2:
     file: lib/perl5i/2.pm
-    version: v2.5.1
+    version: v2.6.0
   perl5i::2::ARRAY:
     file: lib/perl5i/2/ARRAY.pm
+    version: 0
   perl5i::2::CODE:
     file: lib/perl5i/2/CODE.pm
+    version: 0
   perl5i::2::DateTime:
     file: lib/perl5i/2/DateTime.pm
+    version: 0
   perl5i::2::DateTime::Format::CTime:
     file: lib/perl5i/2/DateTime.pm
+    version: 0
   perl5i::2::DateTime::time:
     file: lib/perl5i/2/DateTime.pm
+    version: 0
   perl5i::2::DateTime::y2038:
     file: lib/perl5i/2/DateTime.pm
+    version: 0
   perl5i::2::HASH:
     file: lib/perl5i/2/HASH.pm
+    version: 0
   perl5i::2::Meta:
     file: lib/perl5i/2/Meta.pm
+    version: 0
   perl5i::2::Meta::Class:
     file: lib/perl5i/2/Meta/Class.pm
+    version: 0
   perl5i::2::Meta::Instance:
     file: lib/perl5i/2/Meta/Instance.pm
+    version: 0
   perl5i::2::RequireMessage:
     file: lib/perl5i/2/RequireMessage.pm
+    version: 0
   perl5i::2::SCALAR:
     file: lib/perl5i/2/SCALAR.pm
+    version: 0
   perl5i::2::Signature:
     file: lib/perl5i/2/Signature.pm
+    version: 0
   perl5i::2::Signature::Function::None:
     file: lib/perl5i/2/Signature/Function/None.pm
+    version: 0
   perl5i::2::Signature::Method::None:
     file: lib/perl5i/2/Signature/Method/None.pm
+    version: 0
   perl5i::2::Signature::None:
     file: lib/perl5i/2/Signature/None.pm
+    version: 0
   perl5i::2::Signature::Real:
     file: lib/perl5i/2/Signature/Real.pm
+    version: 0
   perl5i::2::Signatures:
     file: lib/perl5i/2/Signatures.pm
+    version: 0
   perl5i::2::UNIVERSAL:
     file: lib/perl5i/2/UNIVERSAL.pm
+    version: 0
   perl5i::2::autobox:
     file: lib/perl5i/2/autobox.pm
+    version: 0
   perl5i::2::equal:
     file: lib/perl5i/2/equal.pm
+    version: 0
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v2.5.1
+    version: v2.6.0
   perl5i::cmd:
     file: lib/perl5i/cmd.pm
+    version: 0
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v2.5.1
+    version: v2.6.0
 requires:
   CLASS: 1.00
   Capture::Tiny: 0.06
@@ -168,9 +212,9 @@ requires:
   true::VERSION: 0.16
   version: 0.77
 resources:
-  Chat: irc://irc.perl.org/#perl5i
-  MailingList: http://groups.google.com/group/perl5i
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
-version: v2.5.1
+  x_Chat: irc://irc.perl.org/#perl5i
+  x_MailingList: http://groups.google.com/group/perl5i
+version: v2.6.0

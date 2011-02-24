@@ -5,7 +5,7 @@ package perl5i::VERSION;
 use strict;
 use warnings;
 
-use version 0.77; our $VERSION = qv("v2.5.1");
+use version 0.77; our $VERSION = qv("v2.6.0");
 
 sub latest { "perl5i::2" };     # LATEST HERE (for automated update)
 
