@@ -99,4 +99,14 @@ note "UNIVERSAL still works"; {
 }
 
 
+# Fcntl has scalar refs in its symbol table probably due to some XS wackiness
+SKIP: {
+    note "Weird things in the symbol table";
+    skip "Need Fcntl", 1 unless eval { "Fcntl"->require };
+
+    my @methods = Fcntl->mc->methods({ just_mine => 1 });
+    can_ok "Fcntl", @methods;
+}
+
+
 done_testing;
