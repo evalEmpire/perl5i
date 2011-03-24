@@ -11,7 +11,7 @@ cover_db/
 nytprof*
 *.patch
 .DS_Store
-MYMETA.yml
+MYMETA.*
 *.o
 bin/perl5i
 bin/perl5i.c
