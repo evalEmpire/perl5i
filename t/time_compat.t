@@ -103,6 +103,6 @@ my $now = time();
 
     my $time = int rand 2**31;
     my $date = gmtime($time);
-    stdout_like { gmtime($time)->say;   } qr/^\Q$date\E$/;
-    stdout_is   { gmtime($time)->print; } "$date";
+    stdout_like { gmtime($time)->say;   } qr{^\Q$date\E$};
+    stdout_like { gmtime($time)->print; } qr{^\Q$date\E$};
 }

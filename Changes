@@ -3,6 +3,10 @@
   * methods() can handle modules like Fcntl with weird things in their
     symbol tables. [github 184]
 
+  Test Fixes
+  * Work around broken Test::Output 0.16_03 alpha that CPAN testers
+    are using.  See https://rt.cpan.org/Ticket/Display.html?id=66172
+
 
 2.6.0  Thu, 24 Feb 2011 11:23:25 +1100 
   New Features
