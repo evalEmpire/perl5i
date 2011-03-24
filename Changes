@@ -1,4 +1,4 @@
-2.6.1
+2.6.1  Thu, 24 Mar 2011 16:33:39 +1100
   Bug Fixes
   * methods() can handle modules like Fcntl with weird things in their
     symbol tables. [github 184]
