@@ -29,8 +29,7 @@ use parent 'autodie';
 use parent 'perl5i::2::autobox';
 use parent 'autovivification';
 use parent 'indirect';
-use parent 'utf8';
-use parent 'open';
+use parent 'utf8::all';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -60,10 +59,9 @@ sub import {
     perl5i::2::autobox::import($class);
     autovivification::unimport($class);
     indirect::unimport($class, ":fatal");
-    utf8::import($class);
 
-    open::import($class, ":encoding(utf8)");
-    open::import($class, ":std");
+    utf8::all::import($class);
+    (\&perl5i::latest::open)->alias($caller, 'open');
 
     # Export our gmtime() and localtime()
     (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
@@ -74,18 +72,11 @@ sub import {
     (\&stat)->alias( $caller, 'stat' );
     (\&lstat)->alias( $caller, 'lstat' );
 
-    # Export our open
-    (\&utf8_open)->alias($caller, 'open');
-
     # Export our fixed die
     (\&perl5i_die)->alias($caller, "die");
 
     # Export capture()
     (\&capture)->alias($caller, "capture");
-
-    # utf8ify @ARGV
-    state $have_encoded_argv = 0;
-    _encode_argv() unless $have_encoded_argv++;
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
@@ -96,24 +87,6 @@ sub import {
 }
 
 sub unimport { $^H{perl5i} = 0 }
-
-sub utf8_open(*;$@) {  ## no critic (Subroutines::ProhibitSubroutinePrototypes)
-    my $ret;
-    if( @_ == 1 ) {
-        $ret = CORE::open $_[0];
-    }
-    else {
-        $ret = CORE::open $_[0], $_[1], @_[2..$#_];
-    }
-
-    # Don't try to binmode an unopened filehandle
-    return $ret unless $ret;
-
-    my $h = (caller 1)[10];
-    binmode $_[0], ":encoding(utf8)" if $h->{perl5i};
-    return $ret;
-}
-
 
 # fix die so that it always returns 255
 sub perl5i_die {
@@ -187,9 +160,4 @@ sub capture(&;@) {
 
     my $func = $captures->{$opts};
     return $func->($code);
-}
-
-sub _encode_argv {
-    $_ = Encode::decode('utf8', $_) for @ARGV;
-    return;
 }
