@@ -83,6 +83,9 @@ sub import {
     # Export capture()
     (\&capture)->alias($caller, "capture");
 
+    # Export list()
+    (\&force_list_context)->alias($caller, 'list');
+
     # utf8ify @ARGV
     state $have_encoded_argv = 0;
     _encode_argv() unless $have_encoded_argv++;
@@ -187,6 +190,10 @@ sub capture(&;@) {
 
     my $func = $captures->{$opts};
     return $func->($code);
+}
+
+sub force_list_context(@) {
+    return @_;
 }
 
 sub _encode_argv {
