@@ -6,13 +6,19 @@ package perl5i;
 ######################################
 
 use strict;
+use parent 'perl5i::latest';
+
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest = perl5i::VERSION->latest;
 
 sub import {
-    require Carp;
-    Carp::croak(<<END);
+    if ($0 eq '-e') {
+        goto &perl5i::latest::import;
+    }
+    else {
+        require Carp;
+        Carp::croak(<<END);
 perl5i will break compatibility in the future, you can't just "use perl5i".
 
 Instead, "use $Latest" which will guarantee compatibility with all
@@ -20,6 +26,7 @@ features supplied in that major version.
 
 Type "perldoc perl5i" for details in the section "Using perl5i".
 END
+    }
 }
 
 1;
