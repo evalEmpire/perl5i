@@ -752,6 +752,12 @@ C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
+=head2 list()
+
+C<list> will force list context similar to how
+L<perlfunc/scalar|scalar> will force scalar context.
+
+
 =head2 utf8
 
 L<utf8> lets you put UTF8 encoded strings into your source code.
