@@ -78,6 +78,9 @@ sub import {
     # Export capture()
     (\&capture)->alias($caller, "capture");
 
+    # Export list()
+    (\&force_list_context)->alias($caller, 'list');
+
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
 
@@ -160,4 +163,9 @@ sub capture(&;@) {
 
     my $func = $captures->{$opts};
     return $func->($code);
+}
+
+
+sub force_list_context(@) {
+    return @_;
 }
