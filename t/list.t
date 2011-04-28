@@ -36,4 +36,10 @@ note 'list list'; {
     is_deeply $thing, scalar @list, 'force scalar context, even with list';
 }
 
+note 'wantarray'; {
+    my $code = sub { ok( wantarray, "list triggers wantarray" ); };
+
+    list $code->();
+}
+
 done_testing;
