@@ -59,4 +59,9 @@ is capture { system @perl5icmd, "-e", q[print __FILE__] }, "-e",       '__FILE__
     is `$perl5icmd $file`, "Hello\n", "program in a file";
 }
 
+# Check it doesn't have strict vars on
+is capture {system @perl5icmd, '-e', q($fun="yay"; say $fun;)}, "yay\n", 'no strict vars for perl5i';
+is capture {system ($^X, '-Ilib', '-Mperl5i::latest', '-e', q|$fun="yay"; say $fun;|)},
+    "yay\n", q{no strict vars for perl -Mperl5i::latest -e '...'};
+
 done_testing;

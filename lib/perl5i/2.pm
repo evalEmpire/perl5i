@@ -47,12 +47,20 @@ sub import {
     mro::set_mro( $caller, 'c3' );
 
     load_in_caller( $caller => (
-        ["CLASS"], ["File::chdir"],
-        [English => qw(-no_match_vars)],
-        ["Want" => qw(want)], ["Try::Tiny"], ["Perl6::Caller"], ["Carp"],
+        ['CLASS'],
+        ['File::chdir'],
+        ['English' => qw(-no_match_vars)],
+        ['Want' => qw(want)],
+        ['Try::Tiny'],
+        ['Perl6::Caller'],
+        ['Carp'],
         ['perl5i::2::Signatures'],
         ['Child' => qw(child)],
     ) );
+    # no strict vars for oneliners - GH #63
+    strict::unimport($class, 'vars')
+        if $class eq 'perl5i::cmd'
+        or $0 eq '-e';
 
     # Have to call both or it won't work.
     true::import($class);
