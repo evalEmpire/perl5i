@@ -49,6 +49,7 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006000',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
+        'utf8::all'           => '0.002',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
