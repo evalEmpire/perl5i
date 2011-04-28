@@ -77,7 +77,8 @@ Thus the code you write with, for example, C<perl5i::2> will always
 remain compatible even as perl5i moves on.
 
 If you want to be daring, you can C<use perl5i::latest> to get the
-latest version.
+latest version. This will automatically happen if the program is C<-e>.
+This lets you do slightly less typing for one-liners like C<perl -Mperl5i -e ...>
 
 If you want your module to depend on perl5i, you should depend on the
 versioned class.  For example, depend on C<perl5i::2> and not
@@ -1029,6 +1030,10 @@ And you can use it on the C<#!> line.
     #!/usr/bin/perl5i
 
     gmtime->year->say;
+
+If you write a one-liner without using this program, saying C<-Mperl5i> means
+C<-Mperl5i::latest>. Please see L</"Using perl5i"> and L</VERSIONING> for
+details.
 
 
 =head1 BUGS
