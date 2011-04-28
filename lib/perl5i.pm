@@ -846,29 +846,8 @@ You can also request a pipe for IPC:
     my $message = $proc->read();
     $proc->say("reply");
 
-API Overview: (See L<Child> for more information)
+See L<Child> for more information.
 
-=over 4
-
-=item $proc->is_complete()
-
-=item $proc->wait()
-
-=item $proc->kill($SIG)
-
-=item $proc->pid()
-
-=item $proc->exit_status()
-
-=item $parent->pid()
-
-=item $parent->detach()
-
-=item $proc_or_parent->read()
-
-=item $proc_or_parent->write( @MESSAGES )
-
-=item $proc_or_parent->say( @MESSAGES )
 
 =back
 
