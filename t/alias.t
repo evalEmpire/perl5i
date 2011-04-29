@@ -3,7 +3,7 @@
 use perl5i::latest;
 
 use Test::More;
-
+use Test::Warn;
 
 # Test name construction
 {
@@ -75,4 +75,13 @@ use Test::More;
 }
 
 
-done_testing();
+# No redefine warnings:
+{
+    sub egg { 42 }
+    sub ham { 10 }
+    warning_is {
+        (\&egg)->alias('ham');
+    } undef, 'no warning';
+}
+
+done_testing;
