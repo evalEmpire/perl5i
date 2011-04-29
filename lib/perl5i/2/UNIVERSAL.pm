@@ -10,13 +10,15 @@ require Carp;
 sub alias {
     my $self = shift;
 
-    Carp::croak("Not enough arguments given to alias()") unless @_;
+    Carp::croak('Not enough arguments given to alias()') unless @_;
 
     my @name = @_;
     unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;
 
-    my $name = join "::", @name;
+    my $name = join '::', @name;
 
+    # If this redefines something, assume the user wanted to
+    no warnings 'redefine';
     no strict 'refs';
     *{$name} = $self;
     return 1;
