@@ -6,13 +6,19 @@ package perl5i;
 ######################################
 
 use strict;
+use parent 'perl5i::latest';
+
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest = perl5i::VERSION->latest;
 
 sub import {
-    require Carp;
-    Carp::croak(<<END);
+    if ($0 eq '-e') {
+        goto &perl5i::latest::import;
+    }
+    else {
+        require Carp;
+        Carp::croak(<<END);
 perl5i will break compatibility in the future, you can't just "use perl5i".
 
 Instead, "use $Latest" which will guarantee compatibility with all
@@ -20,6 +26,7 @@ features supplied in that major version.
 
 Type "perldoc perl5i" for details in the section "Using perl5i".
 END
+    }
 }
 
 1;
@@ -70,7 +77,8 @@ Thus the code you write with, for example, C<perl5i::2> will always
 remain compatible even as perl5i moves on.
 
 If you want to be daring, you can C<use perl5i::latest> to get the
-latest version.
+latest version. This will automatically happen if the program is C<-e>.
+This lets you do slightly less typing for one-liners like C<perl -Mperl5i -e ...>
 
 If you want your module to depend on perl5i, you should depend on the
 versioned class.  For example, depend on C<perl5i::2> and not
@@ -1007,6 +1015,10 @@ And you can use it on the C<#!> line.
     #!/usr/bin/perl5i
 
     gmtime->year->say;
+
+If you write a one-liner without using this program, saying C<-Mperl5i> means
+C<-Mperl5i::latest>. Please see L</"Using perl5i"> and L</VERSIONING> for
+details.
 
 
 =head1 BUGS
