@@ -10,4 +10,8 @@ require_ok "perl5i";
 ok !eval "use perl5i";
 like $@, qr/perl5i will break compatibility/;
 
+# but -Mperl5i on the command line means -Mperl5i::latest, and it A-OK
+is capture {system ($^X, '-Ilib', '-Mperl5i', '-e', q|say 'OK!'|)},
+    "OK!\n", q{perl -Mperl5i -e '...' means -Mperl5i::latest};
+
 done_testing();
