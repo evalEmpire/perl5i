@@ -11,12 +11,13 @@ use parent 'perl5i::latest';
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest = perl5i::VERSION->latest;
+my $LatestVersion = perl5i::VERSION->latest_version;
 
 sub import {
     if ($0 eq '-e') {
         goto &perl5i::latest::import;
     }
-    else {
+    elsif ( @_ <= 1) {
         require Carp;
         Carp::croak(<<END);
 perl5i will break compatibility in the future, you can't just "use perl5i".
@@ -24,7 +25,30 @@ perl5i will break compatibility in the future, you can't just "use perl5i".
 Instead, "use $Latest" which will guarantee compatibility with all
 features supplied in that major version.
 
+Alternatively, you can "use perl51 version => $LatestVersion"
+
 Type "perldoc perl5i" for details in the section "Using perl5i".
+END
+    } else {
+        # even number of arguments + $class argument = odd number of arguments
+        unless (@_ % 2) { 
+            require Carp;
+            Carp::croak(<<END);
+number of arguments passed to 'use perl5i' should be even. 
+END
+        }
+        my ($class, %args) = @_;
+        my $version = $args{version};
+        if (defined $version) {
+            eval { require "perl5i/$version.pm" };
+            $@ or goto &{'perl5i::' . $version . '::import'};
+            require Carp;
+            Carp::croak(<<END);
+there is no version '$version' of perl5i: $. Latest version is $LatestVersion
+END
+        }
+        Carp::croak(<<END);
+arguments passed to 'use perl5i' should contain 'version'. E.g. : 'use perl5i version => $LatestVersion'
 END
     }
 }
@@ -72,6 +96,8 @@ you are using.  You do this like so:
 
     # Use perl5i major version 2
     use perl5i::2;
+    # Or
+    use perl5i version => 2;
 
 Thus the code you write with, for example, C<perl5i::2> will always
 remain compatible even as perl5i moves on.
