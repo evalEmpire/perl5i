@@ -51,7 +51,7 @@
             "DateTime::TimeZone::Tzfile" : "0.002",
             "Devel::Declare::MethodInstaller::Simple" : "0.006000",
             "Digest::MD5" : "2.36",
-            "Digest::SHA1" : "2.09",
+            "Digest::SHA" : "0",
             "File::chdir" : "0.1002",
             "Hash::Merge::Simple" : "0.04",
             "IPC::System::Simple" : "1.18",

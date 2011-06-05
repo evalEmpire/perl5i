@@ -84,6 +84,7 @@ sub checksum {
     my %prefix = ( hex => 'hex', base64 => 'b64', binary => undef );
 
     my $module = 'Digest::' . uc $args{algorithm};
+    $module = 'Digest::SHA' if $module eq 'Digest::SHA1'; # Use the core module - GH#196
     my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
 
     Module::Load::load($module);
