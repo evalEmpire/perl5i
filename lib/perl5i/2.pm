@@ -30,6 +30,7 @@ use parent 'perl5i::2::autobox';
 use parent 'autovivification';
 use parent 'indirect';
 use parent 'utf8::all';
+use parent 'bareword::filehandles';
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -67,6 +68,7 @@ sub import {
     perl5i::2::autobox::import($class);
     autovivification::unimport($class);
     indirect::unimport($class, ":fatal");
+    bareword::filehandles::unimport($class);
 
     utf8::all::import($class);
     (\&perl5i::latest::open)->alias($caller, 'open');
