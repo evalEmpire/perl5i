@@ -766,14 +766,23 @@ C<list> will force list context similar to how
 L<perlfunc/scalar|scalar> will force scalar context.
 
 
-=head2 utf8
+=head2 utf8::all
 
-L<utf8> lets you put UTF8 encoded strings into your source code.
-This means UTF8 variable and method names, strings and regexes.
+perl5i turns on L<utf8::all> which turns on all the Unicode features
+of Perl it can.
 
-It means strings will be treated as a set of characters rather than a
-set of bytes.  For example, C<length> will return the number of
-characters, not the number of bytes.
+Here is the current list, more may be turned on later.
+
+Bare strings in your source code are now UTF8.  This means UTF8
+variable and method names, strings and regexes.
+
+    my $message = "انا لا اتكلم العربيه";
+    my $τάδε    = "It's all Greek to me!";
+    sub fünkßhüñ { ... }
+
+Strings will be treated as a set of characters rather than a set of
+bytes.  For example, C<length> will return the number of characters,
+not the number of bytes.
 
     length("perl5i is MËTÁŁ");  # 15, not 18
 
