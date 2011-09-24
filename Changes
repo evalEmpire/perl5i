@@ -2,6 +2,7 @@
   Bug Fixes
   * Depend on a newer, more reliable version of Devel::Declare.  Lets perl5i work
     with Devel::REPL. [github 153]
+  * Depend on a newer indirect.pm to avoid leaks into eval on 5.10. [rt.cpan.org 64521]
 
 
 2.6.1  Thu, 24 Mar 2011 16:33:39 +1100
