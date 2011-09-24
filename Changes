@@ -1,3 +1,9 @@
+2.6.2
+  Bug Fixes
+  * Depend on a newer, more reliable version of Devel::Declare.  Lets perl5i work
+    with Devel::REPL. [github 153]
+
+
 2.6.1  Thu, 24 Mar 2011 16:33:39 +1100
   Bug Fixes
   * methods() can handle modules like Fcntl with weird things in their
