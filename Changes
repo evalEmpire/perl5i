@@ -4,6 +4,19 @@
     with Devel::REPL. [github 153]
   * Depend on a newer indirect.pm to avoid leaks into eval on 5.10. [rt.cpan.org 64521]
 
+  New Features
+  * Added a list() keyword to force list context.  Compliments scalar().
+    [github #169] (Mike Doherty)
+  * `strict vars` is now off for perl5i one-liners. [github #63] (Mike Doherty)
+  * alias() will no longer issue "subroutine redefined" warnings.
+    There was no way to make them honor "no warnings 'redefine'". [github #185]
+    (Mike Doherty)
+  * -Mperl5i now means -Mperl5i::latest rather than spitting at you.
+    [github #193] (Mike Doherty)
+
+  Doc Changes
+  * Removed unnecessarily detailed docs about Child.
+
   Misc
   * Delegate Unicode stuff to utf8::all. [github #190]
 
