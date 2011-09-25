@@ -26,3 +26,9 @@ is( '--> testme <--'->rtrim("-><"), '--> testme ' );
 is( '--> testme <--'->trim("-><"),  ' testme ' );
 
 is( ' --> testme <--'->trim("-><"),  ' --> testme ' );
+
+
+note "reverse"; {
+    my @list = "foo"->reverse;
+    is $list[0], "oof", "string->reverse always reverses the string";
+}

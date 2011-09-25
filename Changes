@@ -15,6 +15,8 @@
     (Mike Doherty)
   * -Mperl5i now means -Mperl5i::latest rather than spitting at you.
     [github #193] (Mike Doherty)
+  * $string->reverse now always reverses $string regardless of context.
+    [github #182]
 
   Doc Changes
   * Removed unnecessarily detailed docs about Child.

@@ -84,6 +84,12 @@ sub wrap {
 }
 
 
+# Always reverse the scalar, not a single element list.
+sub reverse {
+    return scalar CORE::reverse $_[0];
+}
+
+
 # Compatiblity wrappers. Remove in 3.0.
 sub untaint {
     return $_[0]->mo->untaint;
@@ -181,9 +187,9 @@ sub group_digits {
 
     my($integer, $decimal) = split m{\.}, $self, 2;
 
-    $integer = reverse $integer;
+    $integer = CORE::reverse $integer;
     $integer =~ s/(\d{$grouping})(?=\d)(?!\d*\.)/$1$sep/g;
-    $integer = reverse $integer;
+    $integer = CORE::reverse $integer;
 
     my $number = $integer;
     $number .= $decimal_point . $decimal if defined $decimal;

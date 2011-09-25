@@ -561,6 +561,15 @@ Each key will be overriden individually.
     1234->commify({ separator => "." });  # 1.234
 
 
+=head3 reverse
+
+    my $reverse = $string->reverse;
+
+Reverses a $string.
+
+Unlike Perl's reverse(), this always reverses the string regardless of context.
+
+
 =head2 List Autoboxing
 
 All the functions from L<List::Util> and select ones from
