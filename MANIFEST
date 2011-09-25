@@ -119,6 +119,7 @@ t/List-Util/minstr.t
 t/List-Util/reduce.t
 t/List-Util/shuffle.t
 t/List-Util/sum.t
+t/list.t
 t/load_together.t
 t/map.t
 t/Meta/checksum.t

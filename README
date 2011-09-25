@@ -34,7 +34,9 @@ Using perl5i
     remain compatible even as perl5i moves on.
 
     If you want to be daring, you can "use perl5i::latest" to get the latest
-    version.
+    version. This will automatically happen if the program is "-e". This
+    lets you do slightly less typing for one-liners like "perl -Mperl5i -e
+    ..."
 
     If you want your module to depend on perl5i, you should depend on the
     versioned class. For example, depend on "perl5i::2" and not "perl5i".
@@ -461,6 +463,14 @@ What it does
         1234->commify;                      # 1,234
         1234->commify({ separator => "." });  # 1.234
 
+   reverse
+        my $reverse = $string->reverse;
+
+    Reverses a $string.
+
+    Unlike Perl's reverse(), this always reverses the string regardless of
+    context.
+
   List Autoboxing
     All the functions from List::Util and select ones from List::MoreUtils
     are all available as methods on unblessed arrays and array refs.
@@ -636,13 +646,26 @@ What it does
     or $? which makes the exit code unpredictable. If you want to exit with
     a message and a special exit code, use "warn" then "exit".
 
-  utf8
-    utf8 lets you put UTF8 encoded strings into your source code. This means
-    UTF8 variable and method names, strings and regexes.
+  list()
+    "list" will force list context similar to how perlfunc/scalar will force
+    scalar context.
 
-    It means strings will be treated as a set of characters rather than a
-    set of bytes. For example, "length" will return the number of
-    characters, not the number of bytes.
+  utf8::all
+    perl5i turns on utf8::all which turns on all the Unicode features of
+    Perl it can.
+
+    Here is the current list, more may be turned on later.
+
+    Bare strings in your source code are now UTF8. This means UTF8 variable
+    and method names, strings and regexes.
+
+        my $message = "انا لا اتكلم العربيه";
+        my $τάδε    = "It's all Greek to me!";
+        sub fünkßhüñ { ... }
+
+    Strings will be treated as a set of characters rather than a set of
+    bytes. For example, "length" will return the number of characters, not
+    the number of bytes.
 
         length("perl5i is MËTÁŁ");  # 15, not 18
 
@@ -721,18 +744,7 @@ What it does
         my $message = $proc->read();
         $proc->say("reply");
 
-    API Overview: (See Child for more information)
-
-    $proc->is_complete()
-    $proc->wait()
-    $proc->kill($SIG)
-    $proc->pid()
-    $proc->exit_status()
-    $parent->pid()
-    $parent->detach()
-    $proc_or_parent->read()
-    $proc_or_parent->write( @MESSAGES )
-    $proc_or_parent->say( @MESSAGES )
+    See Child for more information.
 
   English
     English gives English names to the punctuation variables; for instance,
@@ -863,6 +875,10 @@ Command line program
 
         gmtime->year->say;
 
+    If you write a one-liner without using this program, saying "-Mperl5i"
+    means "-Mperl5i::latest". Please see "Using perl5i" and "VERSIONING" for
+    details.
+
 BUGS
     Some parts are not lexical. Some parts are package scoped.
 
@@ -926,4 +942,11 @@ SEE ALSO
     Some modules with similar purposes include: Modern::Perl, Common::Sense
 
     For a complete object declaration system, see Moose and MooseX::Declare.
+
+POD ERRORS
+    Hey! The above document had some coding errors, which are explained
+    below:
+
+    Around line 884:
+        =back without =over
 
