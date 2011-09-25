@@ -1,6 +1,6 @@
 package perl5i::2::Meta::Instance;
 
-use v5.10;
+use 5.010_000;
 use strict;
 use warnings;
 

@@ -2,7 +2,7 @@ package perl5i::2::Meta;
 
 use strict;
 use warnings;
-use v5.10.0;
+use 5.010_000;
 
 # Be very careful not to import anything.
 require Carp;

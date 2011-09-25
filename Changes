@@ -3,6 +3,8 @@
   * Depend on a newer, more reliable version of Devel::Declare.  Lets perl5i work
     with Devel::REPL. [github 153]
   * Depend on a newer indirect.pm to avoid leaks into eval on 5.10. [rt.cpan.org 64521]
+  * Quiet the overzealous "v-string in use/require non-portable" warning from
+    5.10.0. [github 174]
 
   New Features
   * Added a list() keyword to force list context.  Compliments scalar().
