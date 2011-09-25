@@ -4,6 +4,7 @@ use v5.10;
 use strict;
 use warnings;
 
+# Don't import anything that might be misinterpreted as a method
 require Scalar::Util;
 require overload;
 require Carp;
@@ -67,15 +68,15 @@ sub taint {
         return Taint::Util::taint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload ) {
-        Carp::croak "Untainted overloaded objects cannot normally be made tainted" if
+        Carp::croak("Untainted overloaded objects cannot normally be made tainted") if
           !$_[0]->is_tainted;
         return 1;
     }
     else {
-        Carp::croak "Only scalars can normally be made tainted";
+        Carp::croak("Only scalars can normally be made tainted");
     }
 
-    Carp::confess "Should not be reached";
+    Carp::confess("Should not be reached");
 }
 
 
@@ -87,13 +88,13 @@ sub untaint {
         return Taint::Util::untaint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload && $_[0]->is_tainted ) {
-        Carp::croak "Tainted overloaded objects cannot normally be untainted";
+        Carp::croak("Tainted overloaded objects cannot normally be untainted");
     }
     else {
         return 1;
     }
 
-    Carp::confess "Should never be reached";
+    Carp::confess("Should never be reached");
 }
 
 
@@ -167,7 +168,7 @@ sub dump {
     };
 
     my $dumper = $dumpers->{$format};
-    Carp::croak "Unknown format '$format' for dump()" unless $dumper;
+    Carp::croak("Unknown format '$format' for dump()") unless $dumper;
 
     return $self->$dumper(%args);
 }
