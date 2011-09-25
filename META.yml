@@ -206,6 +206,7 @@ requires:
   autobox::dump: 20090426
   autodie: 1.999
   autovivification: 0.06
+  bareword::filehandles: 0.003
   indirect: 0.22
   parent: 0.221
   perl: v5.10.0
