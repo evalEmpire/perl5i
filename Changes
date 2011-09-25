@@ -19,6 +19,8 @@
 
   Misc
   * Delegate Unicode stuff to utf8::all. [github #190]
+  * checksum() now using the core Digest::SHA module instead of
+    Digest::SHA1. [github #196] (Mike Doherty)
 
 
 2.6.1  Thu, 24 Mar 2011 16:33:39 +1100

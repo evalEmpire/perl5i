@@ -76,6 +76,8 @@ sub checksum {
     $args{algorithm} ~~ $algorithms or
       Carp::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
 
+    my $algorithm2module = { sha1 => "Digest::SHA", md5 => "Digest::MD5" };
+
     my $format = [qw(hex base64 binary)];
     $args{format} //= 'hex';
     $args{format} ~~ $format or
@@ -83,7 +85,7 @@ sub checksum {
 
     my %prefix = ( hex => 'hex', base64 => 'b64', binary => undef );
 
-    my $module = 'Digest::' . uc $args{algorithm};
+    my $module = $algorithm2module->{ $args{algorithm} };
     my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
 
     Module::Load::load($module);

@@ -105,6 +105,8 @@ sub checksum {
     $args{algorithm} ~~ $algorithms or
       Carp::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
 
+    state $algorithm2module = { sha1 => "Digest::SHA", md5 => "Digest::MD5" };
+
     state $format = [qw(hex base64 binary)];
     $args{format} //= 'hex';
     $args{format} ~~ $format or
@@ -112,7 +114,7 @@ sub checksum {
 
     state $prefix = { hex => 'hex', base64 => 'b64', binary => undef };
 
-    my $module = 'Digest::' . uc $args{algorithm};
+    my $module = $algorithm2module->{ $args{algorithm} };
     my $digest = defined $prefix->{ $args{format} } ? $prefix->{ $args{format} } . 'digest' : 'digest';
 
     $module->require;
