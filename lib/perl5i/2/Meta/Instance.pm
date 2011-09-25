@@ -100,20 +100,20 @@ sub untaint {
 sub checksum {
     my( $thing, %args ) = @_;
 
-    my $algorithms = [qw(sha1 md5)];
+    state $algorithms = [qw(sha1 md5)];
     $args{algorithm} //= 'sha1';
     $args{algorithm} ~~ $algorithms or
       Carp::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
 
-    my $format = [qw(hex base64 binary)];
+    state $format = [qw(hex base64 binary)];
     $args{format} //= 'hex';
     $args{format} ~~ $format or
       Carp::croak("format must be @{[ $format->join(' or ') ]}");
 
-    my %prefix = ( hex => 'hex', base64 => 'b64', binary => undef );
+    state $prefix = { hex => 'hex', base64 => 'b64', binary => undef };
 
     my $module = 'Digest::' . uc $args{algorithm};
-    my $digest = defined $prefix{ $args{format} } ? $prefix{ $args{format} } . 'digest' : 'digest';
+    my $digest = defined $prefix->{ $args{format} } ? $prefix->{ $args{format} } . 'digest' : 'digest';
 
     $module->require;
     my $digestor = $module->new;
