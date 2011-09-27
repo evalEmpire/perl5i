@@ -247,7 +247,7 @@ functionality without polluting the global namespace.
 L<autobox::Core> wraps a lot of Perl's built in functions so they can
 be called as methods on unblessed variables.  C<< @a->pop >> for example.
 
-=head3 alias()
+=head3 alias
 
     $scalar_reference->alias( @identifiers );
     @alias->alias( @identifiers );
@@ -304,7 +304,7 @@ This is basically a nicer way to say:
 
 perl5i adds some methods to scalars of its own.
 
-=head3 center()
+=head3 center
 
     my $centered_string = $string->center($length);
     my $centered_string = $string->center($length, $character);
@@ -436,7 +436,7 @@ immediately call $module's C<import> method to emulate a C<use>.
     # like "use $module;" if that worked
     $module->require->import;
 
-=head3 wrap()
+=head3 wrap
 
     my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
@@ -448,11 +448,11 @@ the newline character "\n".
 
 See L<Text::Wrap> for details.
 
-=head3 ltrim()
+=head3 ltrim
 
-=head3 rtrim()
+=head3 rtrim
 
-=head3 trim()
+=head3 trim
 
     my $trimmed = $string->trim;
     my $trimmed = $string->trim($character_set);
@@ -472,14 +472,14 @@ whitespace.
     my $string = '-> test <-'->trim('-><');  # ' test '   
 
 
-=head3 title_case()
+=head3 title_case
 
     my $name = 'joe smith'->title_case;   # Joe Smith
 
 Will uppercase every word character that follows a wordbreak character.
 
 
-=head3 path2module()
+=head3 path2module
 
     my $module = $path->path2module;
 
@@ -491,7 +491,7 @@ For example,
 It will throw an exception if given something which could not be a
 path to a Perl module.
 
-=head3 module2path()
+=head3 module2path
 
     my $path = $module->module2path;
 
@@ -583,7 +583,7 @@ order to allow chaining.
 
     @array->grep(sub{ $_->is_number })->sum->say;
 
-=head3 foreach()
+=head3 foreach
 
     @array->foreach( func($item) { ... } );
 
@@ -607,7 +607,7 @@ If @array is not a multiple of the iteration (for example, @array has
 5 elements and you ask 2 at a time) the behavior is currently undefined.
 
 
-=head3 diff()
+=head3 diff
 
 Calculate the difference between two (or more) arrays:
 
@@ -646,7 +646,7 @@ L<Path::Class>, etc.), it tries its best to treat them as strings or numbers.
     [ $uri ]->diff( [ $uri2 ] );                 # empty, they are equal
 
 
-=head3 intersect()
+=head3 intersect
 
     my @a = (1 .. 10);
     my @b = (5 .. 15);
@@ -660,11 +660,11 @@ As with C<diff()>, it works with any number of arrays, nested data
 structures of arbitrary depth, and handles overloaded objects
 graciously.
 
-=head3 ltrim()
+=head3 ltrim
 
-=head3 rtrim()
+=head3 rtrim
 
-=head3 trim()
+=head3 trim
 
     my @trimmed = @list->trim;
     my @trimmed = @list->trim($character_set);
@@ -696,7 +696,7 @@ Iterate through each key/value pair in a hash using a callback.
 Unlike the C<each> function, individual calls to each are guaranteed
 to iterate through the entirety of the hash.
 
-=head3 flip()
+=head3 flip
 
 Exchanges values for keys in a hash.
 
@@ -716,7 +716,7 @@ nested hashes.
     { foo => [ 'bar', 'baz' ] }->flip; # dies
 
 
-=head3 merge()
+=head3 merge
 
 Recursively merge two or more hashes together using L<Hash::Merge::Simple>.
 
@@ -737,7 +737,7 @@ It also works with nested hashes, although it won't attempt to merge
 array references or objects. For more information, look at the
 L<Hash::Merge::Simple> docs.
 
-=head3 diff()
+=head3 diff
 
     my %staff    = ( bob => 42, martha => 35, timmy => 23 );
     my %promoted = ( timmy => 23 );
@@ -748,7 +748,7 @@ Returns the key/value pairs present in the first hash that are not
 present in the subsequent hash arguments.  Otherwise works as
 C<< @array->diff >>.
 
-=head3 intersect()
+=head3 intersect
 
     %staff->intersect(\%promoted); # { timmy => 23 }
 
@@ -769,19 +769,19 @@ signature.  See L<perl5i::Signature> for details.  Otherwise it
 returns nothing.
 
 
-=head2 caller()
+=head2 caller
 
 L<Perl6::Caller> causes C<caller> to return an object in scalar
 context.
 
-=head2 die()
+=head2 die
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
-=head2 list()
+=head2 list
 
 C<list> will force list context similar to how
 L<perlfunc/scalar|scalar> will force scalar context.
@@ -813,7 +813,7 @@ STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
 encoding turned on.  Consequently, if you want to output raw bytes to
 a file, such as outputting an image, you must set C<< binmode $fh >>.
 
-=head2 capture()
+=head2 capture
 
     my($stdout, $stderr) = capture { ... } %options;
     my $stdout = capture { ... } %options;
