@@ -11,7 +11,7 @@ use perl5i::2::Signatures;
 use perl5i::2::autobox;
 
 # A foreach which honors the number of parameters in the signature
-func foreach($array, $code) {
+method foreach($code) {
     my $n = 1;
     if( my $sig = $code->signature ) {
         $n = $sig->num_positional_params;
@@ -20,32 +20,32 @@ func foreach($array, $code) {
 
     my $idx = 0;
     do {
-        $code->(@{$array}[$idx..($idx+$n-1)]);
+        $code->(@{$self}[$idx..($idx+$n-1)]);
         $idx += $n;
-    } while $idx <= $#{$array};
+    } while $idx <= $#{$self};
 
     return;
 }
 
-func first($array, $filter) {
+method first($filter) {
     # Deep recursion and segfault (lines 90 and 91 in first.t) if we use
     # the same elegant approach as in grep().
     if ( ref $filter eq 'Regexp' ) {
-        return List::Util::first( sub { $_ ~~ $filter }, @$array );
+        return List::Util::first( sub { $_ ~~ $filter }, @$self );
     }
 
-    return List::Util::first( sub { $filter->() }, @$array );
+    return List::Util::first( sub { $filter->() }, @$self );
 
 }
 
-func map( $array, $code ) {
-    my @result = CORE::map { $code->($_) } @$array;
+method map( $code ) {
+    my @result = CORE::map { $code->($_) } @$self;
 
     return wantarray ? @result : \@result;
 }
 
-func grep($array, $filter) {
-    my @result = CORE::grep { $_ ~~ $filter } @$array;
+method grep($filter) {
+    my @result = CORE::grep { $_ ~~ $filter } @$self;
 
     return wantarray ? @result : \@result;
 }
@@ -124,14 +124,14 @@ my $diff_two_simply = func($c, $d) {
     return \@diff;
 };
 
-func diff($base, @rest) {
+method diff(@rest) {
     unless (@rest) {
-        return wantarray ? @$base : $base;
+        return wantarray ? @$self : $self;
     }
 
     require List::MoreUtils;
 
-    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$base);
+    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$self);
 
     my $diff_two = $has_refs ? $diff_two_deeply : $diff_two_simply;
 
@@ -140,10 +140,10 @@ func diff($base, @rest) {
     die "Arguments must be array references" if grep { ref $_ ne 'ARRAY' } @rest;
 
     foreach my $array (@rest) {
-        $base = $diff_two->($base, $array);
+        $self = $diff_two->($self, $array);
     }
 
-    return wantarray ? @$base : $base;
+    return wantarray ? @$self : $self;
 }
 
 
@@ -179,13 +179,13 @@ my $intersect_two_deeply = func($c, $d) {
     return $intersect;
 };
 
-func intersect($base, @rest) {
+method intersect(@rest) {
     unless (@rest) {
-        return wantarray ? @$base : $base;
+        return wantarray ? @$self : $self;
     }
 
     require List::MoreUtils;
-    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$base);
+    my $has_refs = List::MoreUtils::any(sub { ref $_ }, @$self);
 
     my $intersect_two = $has_refs ? $intersect_two_deeply : $intersect_two_simply;
 
@@ -194,26 +194,26 @@ func intersect($base, @rest) {
     die "Arguments must be array references" if grep { ref $_ ne 'ARRAY' } @rest;
 
     foreach my $array (@rest) {
-        $base = $intersect_two->($base, $array);
+        $self = $intersect_two->($self, $array);
     }
 
-    return wantarray ? @$base : $base;
+    return wantarray ? @$self : $self;
 }
 
-func ltrim($array, $charset) {
-    my @result = CORE::map { $_->ltrim($charset) } @$array;
+method ltrim($charset) {
+    my @result = CORE::map { $_->ltrim($charset) } @$self;
 
     return wantarray ? @result : \@result;
 }
 
-func rtrim($array, $charset) {
-    my @result = CORE::map { $_->rtrim($charset) } @$array;
+method rtrim($charset) {
+    my @result = CORE::map { $_->rtrim($charset) } @$self;
 
     return wantarray ? @result : \@result;
 }
 
-func trim($array, $charset) {
-    my @result = CORE::map { $_->trim($charset) } @$array;
+method trim($charset) {
+    my @result = CORE::map { $_->trim($charset) } @$self;
 
     return wantarray ? @result : \@result;
 }
