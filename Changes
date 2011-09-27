@@ -6,6 +6,8 @@
   Doc Changes
   * Document the very useful %hash->each( func ($k, $v) { ... } ).
     [github 142]
+  * Add perl5ifaq entry: "How do I merge two hashes?"
+  * Add perl5ifaq entry: "How can I get the unique keys from multiple hashes?"
 
   Test Fixes
   * Updated tests for new version of Child. (Chad Granum)

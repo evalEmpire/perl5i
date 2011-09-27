@@ -132,6 +132,50 @@ false).
 Will return the elements in @array1 which are not in @array2.
 
 
+=head2 How do I merge two hashes?
+
+If you don't mind overwriting one hash, and want to do a shallow
+merge, then use a hash slice.
+
+    @hash1{ keys %hash2 } = values %hash2;
+
+If you want to do a shallow copy but want to preserve the original
+hashes, copy the first hash and then do the hash slice technique.
+
+    my %merged = %hash1;
+    @merged{ keys %hash2 } = values %hash2;
+
+If you want to do a recursive merge, merging any subhashes, use the
+C<merge> method.
+
+    my %hash1 = ( a => 1,   b => { foo => 23 } );
+    my %hash2 = ( a => 100, b => { bar => 42 } );
+
+    # %hash1 is now ( a => 100, b => { foo => 23, bar => 42 } )
+    %hash1->merge(\%hash2);
+
+
+=head2 How can I get the unique keys from multiple hashes?
+
+If the hashes are small, extract the keys into an array and use the
+C<uniq> method.
+
+    my @keys = (%hash1->keys, %hash2->keys);
+    my @uniq = @keys->uniq;
+
+If the hashes contain a lot of keys, you can save memory by not
+building the intermediate @keys.
+
+    my %seen;
+    for my $hash (\%hash1, \%hash2) {
+        $hash->each( func($key) {
+            $seen{$key} = 1;
+        });
+    }
+
+    my @uniq = %seen->keys;
+
+
 =head2 How do I iterate through an array more than one at a time?
 
 Pass the C<foreach> method a function which takes more than one
