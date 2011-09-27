@@ -302,7 +302,9 @@ This is basically a nicer way to say:
 
 =head2 Scalar Autoboxing
 
-perl5i adds some methods to scalars of its own.
+All of the methods provided by L<autobox::Core> are available from perl5i.
+
+in addition, perl5i adds some methods of its own.
 
 =head3 center
 
@@ -570,15 +572,17 @@ Reverses a $string.
 Unlike Perl's reverse(), this always reverses the string regardless of context.
 
 
-=head2 List Autoboxing
+=head2 Array Autoboxing
+
+The methods provided by L<autobox::Core/Array Methods> are available
+from perl5i.
 
 All the functions from L<List::Util> and select ones from
-L<List::MoreUtils> are all available as methods on unblessed arrays and array refs.
+L<List::MoreUtils> are all available as methods on unblessed arrays
+and array refs: first, max, maxstr, min, minstr, minmax, shuffle,
+reduce, sum, any, all, none, true, false, uniq and mesh.
 
-first, max, maxstr, min, minstr, minmax, shuffle, reduce, sum, any,
-all, none, true, false, uniq and mesh.
-
-The have all been altered to return array refs where applicable in
+They have all been altered to return array refs where applicable in
 order to allow chaining.
 
     @array->grep(sub{ $_->is_number })->sum->say;
@@ -684,6 +688,11 @@ which will determine what characters should be trimmed.
 
 =head2 Hash Autoboxing
 
+All of the methods provided by L<autobox::Core/Hash Methods> are
+available from perl5i.
+
+In addition...
+
 =head3 each
 
 Iterate through each key/value pair in a hash using a callback.
@@ -754,6 +763,7 @@ C<< @array->diff >>.
 
 Returns the key/value pairs that are present simultaneously in all the
 hash arguments.  Otherwise works as C<< @array->intersect >>.
+
 
 =head2 Code autoboxing
 
