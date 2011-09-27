@@ -5,7 +5,7 @@ use 5.010;
 use strict;
 use warnings;
 
-use Carp;
+require Carp;
 
 use perl5i::2::Signatures;
 use perl5i::2::autobox;
@@ -15,7 +15,7 @@ method foreach($code) {
     my $n = 1;
     if( my $sig = $code->signature ) {
         $n = $sig->num_positional_params;
-        croak "Function passed to foreach takes no arguments" unless $n;
+        Carp::croak("Function passed to foreach takes no arguments") unless $n;
     }
 
     my $idx = 0;
