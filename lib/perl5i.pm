@@ -794,7 +794,7 @@ C<exit>.
 =head2 list
 
 C<list> will force list context similar to how
-L<perlfunc/scalar|scalar> will force scalar context.
+L<scalar|perlfunc/scalar> will force scalar context.
 
 
 =head2 utf8::all
@@ -902,8 +902,6 @@ You can also request a pipe for IPC:
 
 See L<Child> for more information.
 
-
-=back
 
 =head2 English
 
