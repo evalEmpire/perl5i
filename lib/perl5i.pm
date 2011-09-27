@@ -686,12 +686,15 @@ which will determine what characters should be trimmed.
 
 =head3 each
 
-Interate through each key/value pair in a hash using a callback.
+Iterate through each key/value pair in a hash using a callback.
 
     my %things = ( foo => 23, bar => 42 );
     %things->each( func($k, $v) {
         say "Key: $k, Value: $v"
     });
+
+Unlike the C<each> function, individual calls to each are guaranteed
+to iterate through the entirety of the hash.
 
 =head3 flip()
 

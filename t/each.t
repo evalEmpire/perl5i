@@ -32,4 +32,17 @@ note "each with two args"; {
     is_deeply \%have, \%want;
 }
 
+
+note "each call is safe"; {
+    my %want = (foo => 23, bar => 42, baz => 99, biff => 66);
+
+    # Call each once on %want to start the iterator attached to %want
+    my($k,$v) = each %want;
+
+    my %have;
+    %want->each( func($k,$v) { $have{$k} = $v } );
+
+    is_deeply \%have, \%want;
+}
+
 done_testing;

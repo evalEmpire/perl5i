@@ -4,7 +4,22 @@ use 5.010;
 
 use strict;
 use warnings;
+
 require Carp;
+
+use perl5i::2::Signatures;
+
+method each($callback) {
+    # Reset the each() iterator
+    keys %$self;
+
+    my($k,$v);
+    while( ($k,$v) = CORE::each(%$self) ) {
+        $callback->($k,$v);
+    }
+
+    return;
+}
 
 sub flip {
     Carp::croak("Can't flip hash with references as values")

@@ -1,4 +1,8 @@
 2.8.1
+  New Features
+  * %hash->each() is guaranteed to iterate through the entire hash.
+    [github 142]
+
   Doc Changes
   * Document the very useful %hash->each( func ($k, $v) { ... } ).
     [github 142]
