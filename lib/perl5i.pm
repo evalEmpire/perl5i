@@ -511,7 +511,7 @@ For example,
 Turns a number like 1234567 into a string like 1,234,567 known as "digit grouping".
 
 It honors your current locale to determine the separator and grouping.
-This can be overriden using C<%options>.
+This can be overridden using C<%options>.
 
 NOTE: many systems do not have their numeric locales set properly
 
@@ -557,7 +557,7 @@ is useful when you want a predictable result regardless of the user's
 locale settings.
 
 C<%options> defaults to C<< ( separator => ",", grouping => 3, decimal_point => "." ) >>.
-Each key will be overriden individually.
+Each key will be overridden individually.
 
     1234->commify;                      # 1,234
     1234->commify({ separator => "." });  # 1.234

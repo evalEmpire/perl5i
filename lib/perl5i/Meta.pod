@@ -35,8 +35,8 @@ methods the same way so there's no second-guessing.
 
 =head2 Meta Instance vs Meta Class
 
-Each object has a meta object for their instance, accessable with C<<
-$obj->mo >> and also a meta object for their class, accessable with
+Each object has a meta object for their instance, accessible with C<<
+$obj->mo >> and also a meta object for their class, accessible with
 C<< $obj->mc >>.  The meta instance can do most everything the meta
 class can, mc is provided mostly for disambiguation.
 

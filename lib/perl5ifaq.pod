@@ -383,7 +383,7 @@ perl5i has changed.
 
 When depending on perl5i, depend on the specific major version.  That
 is, depend on C<perl5i::2> and not C<perl5i>.  This is because older
-versions will eventually be spun out into their own seperate
+versions will eventually be spun out into their own separate
 distributions to avoid cluttering the main dist.  If you depend on
 C<perl5i::2> then the CPAN shell will always be able to find it.
 
