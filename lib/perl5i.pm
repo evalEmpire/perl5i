@@ -684,6 +684,15 @@ which will determine what characters should be trimmed.
 
 =head2 Hash Autoboxing
 
+=head3 each
+
+Interate through each key/value pair in a hash using a callback.
+
+    my %things = ( foo => 23, bar => 42 );
+    %things->each( func($k, $v) {
+        say "Key: $k, Value: $v"
+    });
+
 =head3 flip()
 
 Exchanges values for keys in a hash.
