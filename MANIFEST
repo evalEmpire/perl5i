@@ -1,4 +1,3 @@
-.DS_Store
 .perlcriticrc
 .perltidyrc
 bin/perl5i.bat.PL
@@ -86,6 +85,7 @@ t/dump/code.t
 t/dump/hash.t
 t/dump/obj.t
 t/dump/scalar.t
+t/each.t
 t/English.t
 t/equal.t
 t/everything_is_an_object.t
@@ -99,6 +99,7 @@ t/hash-intersect.t
 t/hash-merge.t
 t/intersect.t
 t/io-handle.t
+t/is_module_name.t
 t/lexical.t
 t/lib/Test/perl5i.pm
 t/lib/ThisIsTrue.pm
@@ -148,6 +149,7 @@ t/taint.t
 t/time_compat.t
 t/true.t
 t/try-tiny.t
+t/uniq.t
 t/utf8.t
 t/version_0/00_compile.t
 t/version_1/00_compile.t

@@ -1,5 +1,5 @@
 
-#!start included /usr/local/perl/5.10.0/lib/5.10.0/ExtUtils/MANIFEST.SKIP
+#!start included /Users/schwern/perl5/perlbrew/perls/perl-5.14.1/lib/5.14.1/ExtUtils/MANIFEST.SKIP
 # Avoid version control files.
 \bRCS\b
 \bCVS\b
@@ -9,6 +9,12 @@
 \B\.git\b
 \B\.gitignore\b
 \b_darcs\b
+\B\.cvsignore$
+
+# Avoid VMS specific MakeMaker generated files
+\bDescrip.MMS$
+\bDESCRIP.MMS$
+\bdescrip.mms$
 
 # Avoid Makemaker generated and utility files.
 \bMANIFEST\.bak
@@ -22,6 +28,10 @@
 # Avoid Module::Build generated and utility files.
 \bBuild$
 \b_build/
+\bBuild.bat$
+\bBuild.COM$
+\bBUILD.COM$
+\bbuild.com$
 
 # Avoid temp and backup files.
 ~$
@@ -29,10 +39,24 @@
 \#$
 \b\.#
 \.bak$
+\.tmp$
+\.#
+\.rej$
 
-# Avoid Devel::Cover files.
+# Avoid OS-specific files/dirs
+# Mac OSX metadata
+\B\.DS_Store
+# Mac OSX SMB mount metadata files
+\B\._
+
+# Avoid Devel::Cover and Devel::CoverX::Covered files.
 \bcover_db\b
-#!end included /usr/local/perl/5.10.0/lib/5.10.0/ExtUtils/MANIFEST.SKIP
+\bcovered\b
+
+# Avoid MYMETA files
+^MYMETA\.
+#!end included /Users/schwern/perl5/perlbrew/perls/perl-5.14.1/lib/5.14.1/ExtUtils/MANIFEST.SKIP
+
 
 # Avoid Devel::NYTProf files
 ^nytprof
@@ -58,4 +82,6 @@
 # Don't ship our motivational images
 ^img/
 
-^MYMETA\.json$
+# Don't ship patch files
+\.patch$
+\.diff$
