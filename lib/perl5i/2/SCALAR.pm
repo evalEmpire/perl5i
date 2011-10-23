@@ -253,12 +253,33 @@ sub path2module {
 
     $file =~ s{\.pm$}{};
 
-    return join "::", @dirs, $file;
+    my $module = join "::", @dirs, $file;
+    Carp::croak("'$module' is not a valid module name") unless $module->is_module_name;
+
+    return $module;
+}
+
+
+sub is_module_name {
+    my $name = shift;
+
+    return 0 unless defined($name);
+
+    return 0 unless $name =~ qr{\A 
+                                [[:alpha:]_]            # Must start with an alpha or _
+                                [[:word:]]*             # Then any number of alpha numerics or _
+                                (?: :: [[:word:]]+ )*   # Then optional ::word's
+                                \z
+                              }x;
+
+    return 1;
 }
 
 
 sub module2path {
     my $module = shift;
+
+    Carp::croak("'$module' is not a valid module name") unless $module->is_module_name;
 
     my @parts = split /::/, $module;
     $parts[-1] .= ".pm";

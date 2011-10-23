@@ -7,12 +7,12 @@ use Test::More;
 use Test::perl5i;
 
 
-# Test some simple symetrical conversions
-{
+note "Test some simple symetrical conversions"; {
     my %mod2path = (
         CGI                 => "CGI.pm",
         "File::Spec"        => "File/Spec.pm",
         "A::B::C"           => "A/B/C.pm",
+        "å::1::2"           => "å/1/2.pm",
     );
 
     for my $mod (keys %mod2path) {
@@ -24,8 +24,7 @@ use Test::perl5i;
 }
 
 
-# Invalid module paths
-{
+note "Invalid module paths"; {
     my @bad_paths = (
         "/foo/bar/baz.pm",
         "Not/A/Module",
@@ -37,5 +36,17 @@ use Test::perl5i;
     }
 }
 
+
+note "Invalid module names"; {
+    my @bad_modules = (
+        "::tmp::owned",
+        "f/../../owned",
+        "/tmp::LOL::PWNED",
+    );
+
+    for my $module (@bad_modules) {
+        throws_ok { $module->module2path } qr/^'\Q$module\E' is not a valid module name/;
+    }
+}
 
 done_testing();
