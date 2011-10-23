@@ -3,8 +3,7 @@
 use perl5i::latest;
 use Test::More;
 
-# Test successful require
-{
+note "Successful require"; {
     local $!;
     local $@ = "hubba bubba";
 
@@ -19,8 +18,8 @@ use Test::More;
     ok defined &shellwords,         "  default import";
 }
 
-# And a failed on
-{
+
+note "Module doesn't exist"; {
     local $!;
     local @INC = qw(no thing);
     ok !eval { "I::Sure::Dont::Exist"->require; };
@@ -29,5 +28,12 @@ use Test::More;
               "I/Sure/Dont/Exist.pm", "no thing", __FILE__, __LINE__-3);
     ok !$!, "errno didn't leak out";
 }
+
+
+note "Invalid module name"; {
+    ok !eval { "/tmp::LOL::PWNED"->require };
+    like $@, qr{^'/tmp::LOL::PWNED' is not a valid module name };
+}
+
 
 done_testing;

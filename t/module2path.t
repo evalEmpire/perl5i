@@ -41,6 +41,7 @@ note "Invalid module names"; {
     my @bad_modules = (
         "::tmp::owned",
         "f/../../owned",
+        "/tmp::LOL::PWNED",
     );
 
     for my $module (@bad_modules) {
