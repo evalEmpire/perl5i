@@ -503,6 +503,16 @@ For example,
     "Foo::Bar"->module2path;  # "Foo/Bar.pm"
 
 
+=head3 is_module_name
+
+    my $is_valid = $string->is_module_name;
+
+Will return true if the $string is a valid module name.
+
+    "Foo::Bar"->is_module_name;  # true
+    "Foo/Bar"->is_module_name;   # false
+
+
 =head3 group_digits
 
     my $number_grouped     = $number->group_digits;
