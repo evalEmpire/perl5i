@@ -19,10 +19,10 @@ method foreach($code) {
     }
 
     my $idx = 0;
-    do {
+    while ( $idx <= $#{$self} ) {
         $code->(@{$self}[$idx..($idx+$n-1)]);
         $idx += $n;
-    } while $idx <= $#{$self};
+    }
 
     return;
 }
