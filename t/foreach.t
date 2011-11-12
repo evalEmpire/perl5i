@@ -4,6 +4,15 @@ use perl5i::latest;
 
 use Test::More;
 
+# Subroutine, empty array
+{
+    my @result;
+    my @array = ();
+    @array->foreach(sub { push @result, $_[0] });
+
+    is_deeply \@result, [];
+}
+
 # Subroutine, no signature
 {
     my @result;
