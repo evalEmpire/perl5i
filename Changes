@@ -1,4 +1,4 @@
-2.8.1
+2.9.0  Sun Oct 23 00:47:24 PDT 2011
   New Features
   * %hash->each() is guaranteed to iterate through the entire hash.
     [github 142]
