@@ -1,4 +1,4 @@
-2.9.1
+2.9.1  Fri Nov 11 16:13:32 PST 2011
   Bug Fixes
   * @empty_array->foreach(\&callback) would do the callback() once
     despite the array being empty. [github 211] (Andrew Parker)
