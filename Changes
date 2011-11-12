@@ -1,3 +1,9 @@
+2.9.1
+  Bug Fixes
+  * @empty_array->foreach(\&callback) would do the callback() once
+    despite the array being empty. [github 211] (Andrew Parker)
+
+
 2.9.0  Sun Oct 23 00:47:24 PDT 2011
   New Features
   * %hash->each() is guaranteed to iterate through the entire hash.
