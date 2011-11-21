@@ -12,15 +12,15 @@ our @EXPORT = qw(throws_ok dies_ok lives_ok);
 # and screws up Carp.
 # See http://www.xray.mpe.mpg.de/mailing-lists/perl5-porters/2010-03/msg00520.html
 # Could use Test::Exception::LessClever but that's not testing on Windows
-sub throws_ok(&$) {
-    my($code, $regex) = @_;
+sub throws_ok(&$;$) {
+    my($code, $regex, $name) = @_;
     my $lived = eval { $code->(); 1 };
     if( $lived ) {
-        fail;
+        fail($name);
         diag("It lived when it should have died");
     }
     my $tb = Test::More->builder;
-    return $tb->like($@, $regex);
+    return $tb->like($@, $regex, $name);
 }
 
 sub dies_ok(&;$) {
