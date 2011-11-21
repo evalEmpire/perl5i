@@ -1,8 +1,10 @@
 #!/usr/bin/perl
 
-use Test::More;
-use Test::Exception;
 use perl5i::latest;
+
+use lib 't/lib';
+use Test::More;
+use Test::perl5i;
 
 is( ref($INC[-1]), 'CODE', "Sub is at end" );
 push @INC => './.././';
