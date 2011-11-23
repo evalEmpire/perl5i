@@ -1,7 +1,10 @@
-2.9.2
+2.10.0
   Test Fixes
   * Removed a use of Test::Exception, which we don't depend on.
 
+  New Features
+  * %hash = @array->as_hash; will turn all the values in @array to
+    keys in %hash.
 
 2.9.1  Fri Nov 11 16:13:32 PST 2011
   Bug Fixes
