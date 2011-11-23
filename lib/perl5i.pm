@@ -622,17 +622,18 @@ If @array is not a multiple of the iteration (for example, @array has
 
 =head3 as_hash
 
-	%hash = @array->as_hash;
+    my %hash = @array->as_hash;
 
-This method returns an array with the original elements of @array mapped to 1.
-Its functionality is the exact same as:
+This method returns a %hash where each element of @array is a key.
+The values are all true.  Its functionality is similar to:
 
-	%hash = map{ $_ => 1 } @array;
+    my %hash = map { $_ => 1 } @array;
 
 Example usage:
 
-	my @array = ("a", "b", "c");
-	my %hash = @array->as_hash;
+    my @array = ("a", "b", "c");
+    my %hash = @array->as_hash;
+    say q[@array contains 'a'] if $hash{"a"};
 
 =head3 diff
 
