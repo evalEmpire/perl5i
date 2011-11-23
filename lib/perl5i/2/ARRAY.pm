@@ -45,7 +45,7 @@ method map( $code ) {
 }
 
 method as_hash{
-	my @result = map{ $_ => 1 } @$self;
+	my @result = CORE::map{ $_ => 1 } @$self;
 	return wantarray ? @result : \@result;
 }
 
