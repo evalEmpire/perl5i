@@ -44,6 +44,11 @@ method map( $code ) {
     return wantarray ? @result : \@result;
 }
 
+method as_hash{
+	my @result = CORE::map{ $_ => 1 } @$self;
+	return wantarray ? @result : \@result;
+}
+
 method grep($filter) {
     my @result = CORE::grep { $_ ~~ $filter } @$self;
 
