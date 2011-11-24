@@ -4,7 +4,7 @@
 
   New Features
   * %hash = @array->as_hash; will turn all the values in @array to
-    keys in %hash.
+    keys in %hash. [github 172]
 
 2.9.1  Fri Nov 11 16:13:32 PST 2011
   Bug Fixes
