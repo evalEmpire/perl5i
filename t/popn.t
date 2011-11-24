@@ -50,4 +50,12 @@ note "popn with arg > length of array"; {
     is_deeply \@newarray, \@newwant;
 }
 
+note "popn in scalar context"; {
+    my $array = [1,2,3,4,5];
+    my $new = $array->popn(3);
+
+    is_deeply $array, [1,2];
+    is_deeply $new, [3,4,5];
+}
+
 done_testing;

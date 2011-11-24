@@ -51,4 +51,12 @@ note "shiftn with arg > length of array"; {
     is_deeply \@newarray, \@newwant;
 }
 
+note "shiftn in scalar context"; {
+    my $array = [1,2,3,4,5];
+    my $new = $array->shiftn(3);
+
+    is_deeply $array, [4,5];
+    is_deeply $new, [1,2,3];
+}
+
 done_testing();
