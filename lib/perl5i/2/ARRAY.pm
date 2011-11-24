@@ -56,15 +56,27 @@ method grep($filter) {
 }
 
 method popn($times) {
-    $times = 0 unless ($times && $times > 0);
+    Carp::croak("popn() takes a single argument, the number of elements to pop")
+      unless defined $times;
+    Carp::croak("popn() does not take negative arguments")
+      if $times < 0;
+
+    # splice() will choke if you walk off the array, so rein it in
     $times = scalar(@$self) if ($times > scalar(@$self));
+
     my @result = splice(@$self, -$times, $times);
     return wantarray ? @result : \@result;
 }
 
 method shiftn($times) {
-    $times = 0 unless ($times && $times > 0);
+    Carp::croak("shiftn() takes a single argument, the number of elements to pop")
+      unless defined $times;
+    Carp::croak("shiftn() does not take negative arguments")
+      if $times < 0;
+
+    # splice() will choke if you walk off the array, so rein it in
     $times = scalar(@$self) if ($times > scalar(@$self));
+
     my @result = splice(@$self, 0, $times);
     return wantarray ? @result : \@result;
 }

@@ -1,28 +1,20 @@
 #!/usr/bin/perl
 
+use lib 't/lib';
 use perl5i::latest;
+use Test::perl5i;
 use Test::More;
 
 note "popn with no args"; {
     my @array = (1, 2, 3);
-    my @newarray = @array->popn();
-
-    my @want = (1, 2, 3);
-    my @newwant = ();
-
-    is_deeply \@array, \@want;
-    is_deeply \@newarray, \@newwant;
+    throws_ok { @array->popn(); }
+      qr{^\Qpopn() takes a single argument, the number of elements to pop};
 }
 
-note "popn with arg < 0"; {
+note "popn with negative arg"; {
     my @array = (1, 2, 3);
-    my @newarray = @array->popn(-20);
-
-    my @want = (1, 2, 3);
-    my @newwant = ();
-
-    is_deeply \@array, \@want;
-    is_deeply \@newarray, \@newwant;
+    throws_ok { @array->popn(-20); }
+      qr{^\Qpopn() does not take negative arguments at $0 line};
 }   
 
 note "popn with arg == 0"; {
