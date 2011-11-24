@@ -55,6 +55,20 @@ method grep($filter) {
     return wantarray ? @result : \@result;
 }
 
+method popn($times) {
+    $times = 0 unless ($times && $times > 0);
+    $times = scalar(@$self) if ($times > scalar(@$self));
+    my @result = splice(@$self, -$times, $times);
+    return wantarray ? @result : \@result;
+}
+
+method shiftn($times) {
+    $times = 0 unless ($times && $times > 0);
+    $times = scalar(@$self) if ($times > scalar(@$self));
+    my @result = splice(@$self, 0, $times);
+    return wantarray ? @result : \@result;
+}
+
 sub all {
     require List::MoreUtils;
     return &List::MoreUtils::all($_[1], @{$_[0]});
