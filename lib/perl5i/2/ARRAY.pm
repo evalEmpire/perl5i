@@ -57,11 +57,11 @@ method grep($filter) {
 
 method popn($times) {
     Carp::croak("popn() takes a single argument, the number of elements to pop")
-	unless defined $times;
+      unless defined $times;
     Carp::croak("popn() takes a numerical argument")
-	unless $times->is_integer;
+      unless $times->is_integer;
     Carp::croak("popn() does not take negative arguments")
-	if $times < 0;
+      if $times < 0;
 
     # splice() will choke if you walk off the array, so rein it in
     $times = scalar(@$self) if ($times > scalar(@$self));
@@ -74,7 +74,7 @@ method shiftn($times) {
     Carp::croak("shiftn() takes a single argument, the number of elements to pop")
       unless defined $times;
     Carp::croak("shiftn() takes a numerical argument")
-	unless $times->is_integer;
+      unless $times->is_integer;
     Carp::croak("shiftn() does not take negative arguments")
       if $times < 0;
 
