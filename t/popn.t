@@ -14,13 +14,13 @@ note "popn with no args"; {
 note "popn with negative arg"; {
     my @array = (1, 2, 3);
     throws_ok { @array->popn(-20); }
-      qr{^\Qpopn() takes a positive integer or zero at $0 line };
+      qr{^\Qpopn() takes a positive integer or zero, not '-20' at $0 line };
 }   
 
 note "popn with non-numerical argument"; {
     my @array = (1, 2, 3);
     throws_ok { @array->popn("rawr"); }
-    qr{^\Qpopn() takes a positive integer or zero at $0 line };
+    qr{^\Qpopn() takes a positive integer or zero, not 'rawr' at $0 line };
 }
 
 note "popn with arg == 0"; {

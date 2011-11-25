@@ -14,13 +14,13 @@ note "shiftn with no args"; {
 note "shiftn with negative arg"; {
     my @array = (1, 2, 3);
     throws_ok { @array->shiftn(-20); }
-      qr{^\Qshiftn() takes a positive integer or zero at $0 line };
+      qr{^\Qshiftn() takes a positive integer or zero, not '-20' at $0 line };
 }   
 
 note "shiftn with non-numerical argument"; {
     my @array = (1, 2, 3);
     throws_ok { @array->shiftn("meow"); }
-      qr{^\Qshiftn() takes a positive integer or zero at $0 line };
+      qr{^\Qshiftn() takes a positive integer or zero, not 'meow' at $0 line };
 }
 
 note "shiftn with arg == 0"; {
