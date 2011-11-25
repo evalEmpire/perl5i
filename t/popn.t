@@ -17,6 +17,12 @@ note "popn with negative arg"; {
       qr{^\Qpopn() does not take negative arguments at $0 line};
 }   
 
+note "popn with non-numerical argument"; {
+    my @array = (1, 2, 3);
+    throws_ok { @array->popn("rawr"); }
+    qr{^\Qpopn() takes a numerical argument};
+}
+
 note "popn with arg == 0"; {
     my @array = (1, 2, 3);
     my @newarray = @array->popn(0);

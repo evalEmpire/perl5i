@@ -17,6 +17,11 @@ note "shiftn with negative arg"; {
       qr{^\Qshiftn() does not take negative arguments at $0 line};
 }   
 
+note "shiftn with non-numerical argument"; {
+    my @array = (1, 2, 3);
+    throws_ok { @array->shiftn("meow"); }
+      qr{^\Qshiftn() takes a numerical argument};
+}
 
 note "shiftn with arg == 0"; {
     my @array = (1, 2, 3);
