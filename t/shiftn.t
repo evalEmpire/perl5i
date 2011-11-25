@@ -8,19 +8,19 @@ use Test::More;
 note "shiftn with no args"; {
     my @array = (1, 2, 3);
     throws_ok { @array->shiftn(); }
-      qr{^\Qshiftn() takes a single argument, the number of elements to pop};
+      qr{^\Qshiftn() takes the number of elements to shift at $0 line };
 }
 
 note "shiftn with negative arg"; {
     my @array = (1, 2, 3);
     throws_ok { @array->shiftn(-20); }
-      qr{^\Qshiftn() does not take negative arguments at $0 line};
+      qr{^\Qshiftn() takes a positive integer or zero at $0 line };
 }   
 
 note "shiftn with non-numerical argument"; {
     my @array = (1, 2, 3);
     throws_ok { @array->shiftn("meow"); }
-      qr{^\Qshiftn() takes a numerical argument};
+      qr{^\Qshiftn() takes a positive integer or zero at $0 line };
 }
 
 note "shiftn with arg == 0"; {

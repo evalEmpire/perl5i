@@ -8,19 +8,19 @@ use Test::More;
 note "popn with no args"; {
     my @array = (1, 2, 3);
     throws_ok { @array->popn(); }
-      qr{^\Qpopn() takes a single argument, the number of elements to pop};
+      qr{^\Qpopn() takes the number of elements to pop at $0 line };
 }
 
 note "popn with negative arg"; {
     my @array = (1, 2, 3);
     throws_ok { @array->popn(-20); }
-      qr{^\Qpopn() does not take negative arguments at $0 line};
+      qr{^\Qpopn() takes a positive integer or zero at $0 line };
 }   
 
 note "popn with non-numerical argument"; {
     my @array = (1, 2, 3);
     throws_ok { @array->popn("rawr"); }
-    qr{^\Qpopn() takes a numerical argument};
+    qr{^\Qpopn() takes a positive integer or zero at $0 line };
 }
 
 note "popn with arg == 0"; {
