@@ -674,6 +674,32 @@ L<Path::Class>, etc.), it tries its best to treat them as strings or numbers.
     [ $uri ]->diff( [ $uri2 ] );                 # empty, they are equal
 
 
+=head3 popn
+
+    my @newarray = @array->popn($n);
+
+L<Pops|perlfunc/pop> C<$n> values from the C<@array>.
+
+If C<$n> is greater than the length of C<@array>, it will return the
+whole C<@array>.  If C<$n> is 0, it will return an empty array.
+
+A negative C<$n> or non-integer is an error.
+
+    my @array = (1, 2, 3, 4, 5);
+    my @newarray = @array->popn(3); # (3, 4, 5)
+
+
+=head3 shiftn
+
+       my @newarray = @array->shiftn($n);
+
+Works like L<popn>, but it L<shifts|perlfunc/shift> off the front of
+the array instead of popping off the end.
+
+    my @array = (1, 2, 3, 4, 5);
+    my @newarray = @array->shiftn(3); # (1, 2, 3)
+
+
 =head3 intersect
 
     my @a = (1 .. 10);

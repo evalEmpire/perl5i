@@ -55,6 +55,32 @@ method grep($filter) {
     return wantarray ? @result : \@result;
 }
 
+method popn($times) {
+    Carp::croak("popn() takes the number of elements to pop")
+      unless defined $times;
+    Carp::croak("popn() takes a positive integer or zero, not '$times'")
+      unless $times->is_integer && ($times->is_positive or $times == 0);
+
+    # splice() will choke if you walk off the array, so rein it in
+    $times = scalar(@$self) if ($times > scalar(@$self));
+
+    my @result = splice(@$self, -$times, $times);
+    return wantarray ? @result : \@result;
+}
+
+method shiftn($times) {
+    Carp::croak("shiftn() takes the number of elements to shift")
+      unless defined $times;
+    Carp::croak("shiftn() takes a positive integer or zero, not '$times'")
+      unless $times->is_integer && ($times->is_positive or $times == 0);
+
+    # splice() will choke if you walk off the array, so rein it in
+    $times = scalar(@$self) if ($times > scalar(@$self));
+
+    my @result = splice(@$self, 0, $times);
+    return wantarray ? @result : \@result;
+}
+
 sub all {
     require List::MoreUtils;
     return &List::MoreUtils::all($_[1], @{$_[0]});

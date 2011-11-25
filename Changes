@@ -4,7 +4,10 @@
 
   New Features
   * %hash = @array->as_hash; will turn all the values in @array to
-    keys in %hash. [github 172]
+    keys in %hash. [github 172] (Prashan Dharmasena)
+  * @array->popn($n) and @array->shiftn() pop() and shift() multiple
+    elements off an array. [github 149] (Tanner Hobson)
+
 
 2.9.1  Fri Nov 11 16:13:32 PST 2011
   Bug Fixes
