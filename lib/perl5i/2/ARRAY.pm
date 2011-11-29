@@ -49,6 +49,28 @@ method as_hash{
     return wantarray ? %result : \%result;
 }
 
+
+method pick ( $num ){
+    my @result = ();
+    my %used = ();
+    for(my $i =0; $i<$num && $i<@$self; $i++){
+        my $rand = int(rand(@$self));
+        if(!(exists $used{$rand})){
+            @result->push(@$self[$rand]);
+            $used{$rand} = 1;
+        }else{
+            $i--;
+        }
+    }
+    return wantarray ? @result : \@result;
+}
+
+
+method pick_one() {
+    return @$self[int(rand(@$self))];
+}
+
+
 method grep($filter) {
     my @result = CORE::grep { $_ ~~ $filter } @$self;
 
