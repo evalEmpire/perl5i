@@ -50,24 +50,27 @@ method as_hash{
 }
 
 
-method pick ( $num ){
+method pick ( $num ) {
     my @result = ();
     my %used = ();
-    for(my $i =0; $i<$num && $i<@$self; $i++){
-        my $rand = int(rand(@$self));
-        if(!(exists $used{$rand})){
-            @result->push(@$self[$rand]);
+
+    for(my $i = 0; $i < $num && $i < @$self; $i++){
+        my $rand = int rand @$self;
+        if( !exists $used{$rand} ) {
+            @result->push( @$self[$rand] );
             $used{$rand} = 1;
-        }else{
+        }
+        else {
             $i--;
         }
     }
+
     return wantarray ? @result : \@result;
 }
 
 
 method pick_one() {
-    return @$self[int(rand(@$self))];
+    return @$self[int rand @$self];
 }
 
 
