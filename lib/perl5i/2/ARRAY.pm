@@ -50,21 +50,24 @@ method as_hash{
 }
 
 
-method pick ( $num ) {
-    my @result = ();
-    my %used = ();
-
-    for(my $i = 0; $i < $num && $i < @$self; $i++){
-        my $rand = int rand @$self;
-        if( !exists $used{$rand} ) {
-            @result->push( @$self[$rand] );
-            $used{$rand} = 1;
-        }
-        else {
-            $i--;
-        }
+method pick ( $num ){
+    if($num >= @$self){
+        my @result = List::Util::shuffle(@$self);
+        return wantarray ? @result : \@result;
     }
-
+    my $nPicked = 0;
+    my $nLeft = @$self;
+    my $rand = 0;
+    my @result = (1..$num);
+    for(my $i =0; $num > 0; $i++){
+        $rand = int(rand($nLeft));
+        if($rand < $num){
+            $result[$nPicked] = @$self[$i];
+            $nPicked++;
+            $num--;
+        }
+        $nLeft--;
+    }
     return wantarray ? @result : \@result;
 }
 
