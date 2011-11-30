@@ -55,18 +55,19 @@ method pick ( $num ){
         my @result = List::Util::shuffle(@$self);
         return wantarray ? @result : \@result;
     }
-    my $nPicked = 0;
-    my $nLeft = @$self;
-    my $rand = 0;
-    my @result = (1..$num);
-    for(my $i =0; $num > 0; $i++){
-        $rand = int(rand($nLeft));
+    my $num_picked = 0;
+    my $num_left = @$self;
+    my @result;
+    my $i=0;
+    while($num > 0){
+        my $rand = int(rand($num_left));
         if($rand < $num){
-            $result[$nPicked] = @$self[$i];
-            $nPicked++;
+            $result[$num_picked] = @$self[$i];
+            $num_picked++;
             $num--;
         }
-        $nLeft--;
+        $num_left--;
+        $i++;
     }
     return wantarray ? @result : \@result;
 }
