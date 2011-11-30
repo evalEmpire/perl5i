@@ -8,7 +8,7 @@ note 'pick method'; {
 
     my @rand = @array->pick(5);
     is @rand, 5;
-    my %rand_hash = @array->as_hash;
+    my %rand_hash = @rand->as_hash;
     my %expected_hash;
     foreach (@array){
         if(exists $rand_hash{$_}){
