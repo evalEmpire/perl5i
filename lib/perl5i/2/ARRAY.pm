@@ -51,19 +51,21 @@ method as_hash{
 
 
 method pick ( $num ){
+    Carp::croak("pick() takes the number of elements to pick")
+      unless defined $num;
+    Carp::croak("pick() takes a positive integer or zero, not '$num'")
+      unless $num->is_integer && ($num->is_positive or $num == 0);
     if($num >= @$self){
         my @result = List::Util::shuffle(@$self);
         return wantarray ? @result : \@result;
     }
-    my $num_picked = 0;
     my $num_left = @$self;
     my @result;
     my $i=0;
     while($num > 0){
         my $rand = int(rand($num_left));
         if($rand < $num){
-            $result[$num_picked] = @$self[$i];
-            $num_picked++;
+            push(@result, $self->[$i]);
             $num--;
         }
         $num_left--;
