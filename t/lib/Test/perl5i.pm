@@ -3,7 +3,7 @@ package Test::perl5i;
 use strict;
 use warnings;
 
-use Test::More;
+use Test::More ();
 
 use base qw(Exporter);
 our @EXPORT = qw(throws_ok dies_ok lives_ok);
@@ -14,17 +14,20 @@ our @EXPORT = qw(throws_ok dies_ok lives_ok);
 # Could use Test::Exception::LessClever but that's not testing on Windows
 sub throws_ok(&$;$) {
     my($code, $regex, $name) = @_;
+
+    my $tb = Test::More->builder;
+
     my $lived = eval { $code->(); 1 };
     if( $lived ) {
-        fail($name);
-        diag("It lived when it should have died");
+        $tb->ok(0, $name);
+        $tb->diag("It lived when it should have died");
     }
-    my $tb = Test::More->builder;
     return $tb->like($@, $regex, $name);
 }
 
 sub dies_ok(&;$) {
     my($code, $name) = @_;
+
     my $lived = eval { $code->(); 1 };
 
     my $tb = Test::More->builder;
