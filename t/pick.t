@@ -9,53 +9,55 @@ func pick_ok($array, $num) {
     my @rand = $array->pick($num);
     if($num <= @$array){
         is @rand, $num;
-    }else{
+    }
+    else{
         is @rand, @$array;
     }
-    my %arr_hash = @$array->as_hash;
-    foreach (@$array){
-        $arr_hash{$_} += 1;
+    ok is_subset($array, \@rand);
+}
+
+func is_subset($array, $sub){
+    my %arr_hash;
+    for my $val (@$array){
+        $arr_hash{$val}++;
     }
-    my %rand_hash = @rand->as_hash;
-    my %expected_hash;
-    foreach (@$array){
-        if(exists $rand_hash{$_}){
-            $rand_hash{$_} += 1;
-            $expected_hash{$_} = $arr_hash{$_};
-        }
+    for my $val (@$sub){
+        $arr_hash{$val}--;
+        return 0 if $arr_hash{$val} < 0;
     }
-    is_deeply \%rand_hash, \%expected_hash;
+    return 1;
 }
 
 func pick_one_ok($array){
-    isa_ok(\@$array->pick_one, "SCALAR");
     my $elem = @$array->pick_one;
-    my %hash = @$array->as_hash;
-    my $in_arr = exists $hash{$elem};
-    is $in_arr, 1;
+    ok @$array->as_hash->{$elem};
 }
 
-note 'pick method'; {
+note 'is_subset';{
+    ok !(is_subset([1,2,3,4] , [1,1,1]));
+    
+    ok !(is_subset([1,1,1,1] , [1,2]));
+    
+    ok is_subset([1,2,3,4] , [1,2]);
+}
+note 'pick()'; {
     my @arr = qw(a b c d e f g h i);
-    pick_ok(\@arr, 5);
-    pick_ok(\@arr, 9);
-    pick_ok(\@arr, 100);
-    pick_ok(\@arr, 0);
+    ok pick_ok(\@arr, 5);
+    
+    ok pick_ok(\@arr, 9);
+    
+    ok pick_ok(\@arr, 100);
+    
+    ok pick_ok(\@arr, 0);
 }
 
 note 'pick with undefined elements';{
-    my $x;
-    my $y;
-    my $z;
-    my @arr = ($x, $y, $z);
-    throws_ok { @arr->pick(3); }
-      qr{^\Qpick() does not allow undefined elements in the array };
+    ok pick_ok([undef,undef,undef] => 2);
 
 }
 
 note 'pick method with duplicate elements';{
-    my @arr = (1, 1, 2, 2, 3, 3);
-    pick_ok(\@arr, 6);
+    pick_ok([1,1,2,2,3,3] => 6);
 }
 
 note "pick with no args"; {
@@ -77,14 +79,11 @@ note "pick with non-numerical argument"; {
 }
 
 note "pick_one method";{
-    my @array = (1,2,3);
-    pick_one_ok(\@array);
-    @array = ("a","b","c");
-    pick_one_ok(\@array);
-    #my $x = undef;
-    #my $y = undef;
-    #@array = ($x, $y);
-    #pick_one_ok(\@array);
+    pick_one_ok([1,2,3,4,4]);
+        
+    pick_one_ok(["a","b","c","d","e"]);
+    
+    pick_one_ok([undef, undef, undef, undef]);
 }
  
 done_testing;
