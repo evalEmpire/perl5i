@@ -6,6 +6,7 @@ use Test::More;
 use Test::perl5i;
 
 func pick_ok($array, $num) {
+    local $Test::Builder::Level = $Test::Builder::Level +1;
     my @rand = $array->pick($num);
     if($num <= @$array){
         is @rand, $num;
@@ -13,24 +14,31 @@ func pick_ok($array, $num) {
     else{
         is @rand, @$array;
     }
-    ok is_subset($array, \@rand);
+    ok (is_subset($array, \@rand)) or diag sprintf <<END, explain $array, explain \@rand;
+set: %s
+subset: %s
+END
 }
 
 func is_subset($array, $sub){
     my %arr_hash;
     for my $val (@$array){
-        $arr_hash{$val}++;
+        $arr_hash{safe_key($val)}++;
     }
     for my $val (@$sub){
-        $arr_hash{$val}--;
-        return 0 if $arr_hash{$val} < 0;
+        $arr_hash{safe_key($val)}--;
+        return 0 if $arr_hash{safe_key($val)} < 0;
     }
     return 1;
 }
 
 func pick_one_ok($array){
     my $elem = @$array->pick_one;
-    ok @$array->as_hash->{$elem};
+    ok grep safe_key($elem), @$array;
+}
+
+func safe_key($val){
+    return defined $val ? $val : "__UNDEFINED__";
 }
 
 note 'is_subset';{
@@ -42,13 +50,13 @@ note 'is_subset';{
 }
 note 'pick()'; {
     my @arr = qw(a b c d e f g h i);
-    ok pick_ok(\@arr, 5);
+    pick_ok(\@arr, 5);
     
-    ok pick_ok(\@arr, 9);
+    pick_ok(\@arr, 9);
     
-    ok pick_ok(\@arr, 100);
+    pick_ok(\@arr, 100);
     
-    ok pick_ok(\@arr, 0);
+    pick_ok(\@arr, 0);
 }
 
 note 'pick with undefined elements';{
