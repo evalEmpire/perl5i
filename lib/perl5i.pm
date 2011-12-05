@@ -635,20 +635,29 @@ Example usage:
     my %hash = @array->as_hash;
     say q[@array contains 'a'] if $hash{"a"};
 
-=head3 pick and pick_one
+=head3 pick
 
     my @rand = @array->pick($someNumber);
-    my $otherRand = @array->pick_one;
 
 The pick() method returns a list of $someNumber elements in @array.
 If $someNumber is larger than the size of the list, it returns the entire list shuffled.
-The pick_one method returns one random element from @array. (not a list)
-
+This algorithm works by generating a random number that gives each element an equal chance of being picked.
 Example usage:
 
     my @array = (1, 2, 3, 4);
     my @rand = @array->pick(2);
-    my $r = @array->pick_one;
+
+=head3 pick_one
+
+    my $rand = @array->pick_one;
+
+The pick_one() method returns a random element in @array.  
+It is similar to @array->pick(1), except that it does not return a list.
+
+Example usage:
+
+    my @array = (1,2,3,4);
+    my $rand = @array->pick_one;
 
 =head3 diff
 
