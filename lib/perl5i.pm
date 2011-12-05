@@ -637,11 +637,11 @@ Example usage:
 
 =head3 pick
 
-    my @rand = @array->pick($someNumber);
+    my @rand = @array->pick($number);
 
-The pick() method returns a list of $someNumber elements in @array.
-If $someNumber is larger than the size of the list, it returns the entire list shuffled.
-This algorithm works by generating a random number that gives each element an equal chance of being picked.
+The pick() method returns a list of $number elements in @array.
+If $number is larger than the size of the list, it returns the entire list shuffled.
+
 Example usage:
 
     my @array = (1, 2, 3, 4);
