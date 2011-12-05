@@ -23,18 +23,21 @@ END
 func is_subset($array, $sub){
     my %arr_hash;
     for my $val (@$array){
-        $arr_hash{safe_key($val)}++;
+        $val = safe_key($val);
+        $arr_hash{$val}++;
     }
     for my $val (@$sub){
-        $arr_hash{safe_key($val)}--;
-        return 0 if $arr_hash{safe_key($val)} < 0;
+        $val = safe_key($val);
+        $arr_hash{$val}--;
+        return 0 if $arr_hash{$val} < 0;
     }
     return 1;
 }
 
 func pick_one_ok($array){
+    local $Test::Builder::Level = $Test::Builder::Level +1;
     my $elem = @$array->pick_one;
-    ok grep safe_key($elem), @$array;
+    ok grep safe_key($_) eq safe_key($elem), @$array;
 }
 
 func safe_key($val){
@@ -60,7 +63,7 @@ note 'pick()'; {
 }
 
 note 'pick with undefined elements';{
-    ok pick_ok([undef,undef,undef] => 2);
+    pick_ok([undef,undef,undef] => 2);
 
 }
 
