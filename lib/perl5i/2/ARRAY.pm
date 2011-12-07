@@ -49,8 +49,10 @@ method as_hash{
     return wantarray ? %result : \%result;
 }
 
-#   for the first position in the array, generate a random number that gives that element an n/N chance of being picked (where n is the number of elements to pick and N is the total array size);
-#   repeat for the rest of the array, each time altering the probability of the element being picked to reflect the number of elements picked so far and the number left. 
+# for the first position in the array, generate a random number that gives
+# that element an n/N chance of being picked (where n is the number of elements to pick and N is the total array size);
+# repeat for the rest of the array, each time altering the probability of
+# the element being picked to reflect the number of elements picked so far and the number left. 
 method pick ( $num ){
     Carp::croak("pick() takes the number of elements to pick")
       unless defined $num;
