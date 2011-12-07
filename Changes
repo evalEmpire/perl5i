@@ -7,6 +7,9 @@
     keys in %hash. [github 172] (Prashan Dharmasena)
   * @array->popn($n) and @array->shiftn() pop() and shift() multiple
     elements off an array. [github 149] (Tanner Hobson)
+  * @array->pick($n) and @array->pick_one will pick random elements
+    out of an @array, like picking cards from a deck.
+    [github 145] (Prashan Dharmasena)
 
 
 2.9.1  Fri Nov 11 16:13:32 PST 2011
