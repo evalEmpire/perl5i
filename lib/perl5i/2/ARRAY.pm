@@ -49,6 +49,44 @@ method as_hash{
     return wantarray ? %result : \%result;
 }
 
+
+method pick ( $num ){
+    Carp::croak("pick() takes the number of elements to pick")
+      unless defined $num;
+    Carp::croak("pick() takes a positive integer or zero, not '$num'")
+      unless $num->is_integer && ($num->is_positive or $num == 0);
+    
+    if($num >= @$self){
+        my @result = List::Util::shuffle(@$self);
+        return wantarray ? @result : \@result;
+    }
+    
+    # for the first position in the array, generate a random number that gives
+    # that element an n/N chance of being picked (where n is the number of elements to pick and N is the total array size);
+    # repeat for the rest of the array, each time altering the probability of
+    # the element being picked to reflect the number of elements picked so far and the number left. 
+    my $num_left = @$self;
+    my @result;
+    my $i=0;
+    while($num > 0){
+        my $rand = int(rand($num_left));
+        if($rand < $num){
+            push(@result, $self->[$i]);
+            $num--;
+        }
+        $num_left--;
+        $i++;
+    }
+    
+    return wantarray ? @result : \@result;
+}
+
+
+method pick_one() {
+    return @$self[int rand @$self];
+}
+
+
 method grep($filter) {
     my @result = CORE::grep { $_ ~~ $filter } @$self;
 

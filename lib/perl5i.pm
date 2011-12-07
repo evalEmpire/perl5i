@@ -635,6 +635,30 @@ Example usage:
     my %hash = @array->as_hash;
     say q[@array contains 'a'] if $hash{"a"};
 
+=head3 pick
+
+    my @rand = @array->pick($number);
+
+The pick() method returns a list of $number elements in @array.
+If $number is larger than the size of the list, it returns the entire list shuffled.
+
+Example usage:
+
+    my @array = (1, 2, 3, 4);
+    my @rand = @array->pick(2);
+
+=head3 pick_one
+
+    my $rand = @array->pick_one;
+
+The pick_one() method returns a random element in @array.  
+It is similar to @array->pick(1), except that it does not return a list.
+
+Example usage:
+
+    my @array = (1,2,3,4);
+    my $rand = @array->pick_one;
+
 =head3 diff
 
 Calculate the difference between two (or more) arrays:
