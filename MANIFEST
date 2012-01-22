@@ -5,7 +5,6 @@ bin/perl5i.c.PL
 bin/perl5i.plx
 Build.PL
 Changes
-file_notes.txt
 inc/MyBuild.pm
 INSTALL.SKIP
 lib/perl5i.pm
