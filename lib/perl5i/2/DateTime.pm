@@ -6,9 +6,6 @@ use 5.010;
 use strict;
 use warnings;
 
-use circular::require;
-use DateTime;
-
 # Determine if we need Time::y2038 and only load if necessary.
 # XXX This is a bit of a hack and should go into a config file.
 use constant NEEDS_y2038 => (
@@ -32,6 +29,7 @@ sub dt_gmtime (;$) {
     $mon++;
     $year += 1900;
 
+    require DateTime;
     return perl5i::2::DateTime::y2038->new(
         year            => $year,
         month           => $mon,

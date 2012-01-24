@@ -50,7 +50,6 @@ my $builder = MyBuild->new(
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
         'utf8::all'           => '0.002',
-        'circular::require'   => '0.09',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

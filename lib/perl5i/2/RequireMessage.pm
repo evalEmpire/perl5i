@@ -6,13 +6,8 @@ use warnings;
 my $diesub = sub {
     my ( $sub, $mod ) = @_;
 
-    my @caller;
-    my $count = 0;
-    @caller = caller($count++)
-        while !$caller[0] || $caller[0] eq 'circular::require';
-
-    return unless $caller[10]->{perl5i};
-
+    my $hints = (caller(0))[10];
+    return unless $hints->{perl5i};
     die( <<EOT );
 Can't locate $mod in your Perl library.  You may need to install it
 from CPAN or another repository.  Your library paths are:

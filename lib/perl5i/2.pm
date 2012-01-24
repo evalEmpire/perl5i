@@ -7,9 +7,6 @@ use strict;
 use warnings;
 
 #This should come first
-use circular::require;
-
-# A few of the following modules have cycles, so turn off detection for now.
 use perl5i::2::RequireMessage;
 
 use IO::Handle;
@@ -33,9 +30,6 @@ use parent 'perl5i::2::autobox';
 use parent 'autovivification';
 use parent 'indirect';
 use parent 'utf8::all';
-
-# Enable cycle detection.
-no circular::require;
 
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
@@ -97,9 +91,6 @@ sub import {
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
-
-    # enable cycle detection
-    circular::require->unimport();
 
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
