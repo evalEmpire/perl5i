@@ -96,5 +96,24 @@ note "pick_one method";{
     
     pick_one_ok([undef, undef, undef, undef]);
 }
+
+note "pick shuffles the result"; {
+    my $not_in_order = 0;
+    my @array = (1..10);
+
+    # Since @array is in ascending order, we should, eventually,
+    # get two picks where the first is larger than the second.
+    # There's a 50/50 chance for each pick, and with 1000 tries
+    # the odds of this failing are something like 1 in 1^300.
+    for(1..1000) {
+        my @picks = @array->pick(2);
+        next if $picks[0] < $picks[1];
+
+        $not_in_order = 1;
+        last;
+    }
+
+    ok $not_in_order;
+}
  
 done_testing;

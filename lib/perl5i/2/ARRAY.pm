@@ -77,7 +77,11 @@ method pick ( $num ){
         $num_left--;
         $i++;
     }
-    
+
+    # Don't return the picks in the same order as the original array
+    # Simulates what would happen if you shuffled first
+    @result = @result->shuffle;
+
     return wantarray ? @result : \@result;
 }
 
