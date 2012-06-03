@@ -143,7 +143,7 @@ It defaults to false.
 
 Returns the symbol table for the given $class or class of the $object.
 
-If you don't know what a symbol table... good.  If you really want to
+If you don't know what a symbol table is... good.  If you really want to
 know, see L<perldata/Typeglobs and FileHandles>.
 
 
