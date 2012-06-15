@@ -5,7 +5,7 @@ use warnings;
 use 5.010_000;
 
 # Be very careful not to import anything.
-require Carp;
+require Carp::Fix::1_25;
 require mro;
 
 require perl5i::2::Meta::Instance;
@@ -91,7 +91,7 @@ my $method_not_found = sub {
     my $class  = shift;
     my $method = shift;
 
-    Carp::croak(
+    Carp::Fix::1_25::croak(
         sprintf q[Can't locate object method "%s" via package "%s"],
         $method, $class
     );
@@ -116,11 +116,11 @@ sub super {
     my $class = $self->class;
 
     my $fq_method = $find_method->();
-    Carp::croak("super() called outside a method") unless $fq_method;
+    Carp::Fix::1_25::croak("super() called outside a method") unless $fq_method;
 
     my($parent, $method) = $fq_method =~ /^(.*)::(\w+)$/;
 
-    Carp::croak(
+    Carp::Fix::1_25::croak(
         sprintf qq["%s" is not a parent class of "%s"],
         $parent, $class
     ) unless $class->isa($parent);

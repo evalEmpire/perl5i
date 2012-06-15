@@ -10,6 +10,8 @@
   * @array->pick($n) and @array->pick_one will pick random elements
     out of an @array, like picking cards from a deck.
     [github 145] (Prashan Dharmasena)
+  * The Carp 1.25 formatting change has been smoothed over using
+    Carp::Fix::1_25.
 
 
 2.9.1  Fri Nov 11 16:13:32 PST 2011

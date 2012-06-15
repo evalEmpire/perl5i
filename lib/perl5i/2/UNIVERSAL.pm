@@ -5,12 +5,12 @@ package perl5i::2::UNIVERSAL;
 use strict;
 use warnings;
 
-require Carp;
+require Carp::Fix::1_25;
 
 sub alias {
     my $self = shift;
 
-    Carp::croak('Not enough arguments given to alias()') unless @_;
+    Carp::Fix::1_25::croak('Not enough arguments given to alias()') unless @_;
 
     my @name = @_;
     unshift @name, (caller)[0] unless @name > 1 or grep /::/, @name;

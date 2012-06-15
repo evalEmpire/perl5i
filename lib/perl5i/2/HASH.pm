@@ -5,7 +5,8 @@ use 5.010;
 use strict;
 use warnings;
 
-require Carp;
+# Don't accidentally turn carp/croak into methods.
+require Carp::Fix::1_25;
 
 use perl5i::2::Signatures;
 
@@ -22,7 +23,7 @@ method each($callback) {
 }
 
 sub flip {
-    Carp::croak("Can't flip hash with references as values")
+    Carp::Fix::1_25::croak("Can't flip hash with references as values")
         if grep { ref } values %{$_[0]};
 
     my %flipped = reverse %{$_[0]};

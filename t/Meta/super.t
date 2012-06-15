@@ -74,7 +74,7 @@ use Test::perl5i;
 {
     my $obj = Child->new;
     ok !eval { $obj->mo->super(); };
-    is $@, sprintf "super() called outside a method at $0 line %d\n", __LINE__ - 1;
+    is $@, sprintf "super() called outside a method at $0 line %d.\n", __LINE__ - 1;
 }
 
 
@@ -93,7 +93,7 @@ use Test::perl5i;
     package main;
 
     ok !eval { NotAParent->bar; };
-    is $@, sprintf qq["NotAParent" is not a parent class of "Child" at $0 line %d\n], __LINE__ - 6;
+    is $@, sprintf qq["NotAParent" is not a parent class of "Child" at $0 line %d.\n], __LINE__ - 6;
 }
 
 

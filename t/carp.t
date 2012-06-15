@@ -15,4 +15,7 @@ throws_ok {
     croak("bar");
 } qr/^bar/;
 
+eval { croak "wibble" };
+like $@, qr/^wibble at @{[ __FILE__ ]} line @{[ __LINE__ - 1 ]}.\n/;
+
 done_testing();

@@ -10,7 +10,7 @@ use warnings;
 use perl5i::2::RequireMessage;
 
 use IO::Handle;
-use Carp;
+use Carp::Fix::1_25;
 use perl5i::2::DateTime;
 use Want;
 use Try::Tiny;
@@ -53,7 +53,7 @@ sub import {
         ['Want' => qw(want)],
         ['Try::Tiny'],
         ['Perl6::Caller'],
-        ['Carp'],
+        ['Carp::Fix::1_25'],
         ['perl5i::2::Signatures'],
         ['Child' => qw(child)],
     ) );

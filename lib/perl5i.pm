@@ -17,8 +17,8 @@ sub import {
         goto &perl5i::latest::import;
     }
     else {
-        require Carp;
-        Carp::croak(<<END);
+        require Carp::Fix::1_25;
+        Carp::Fix::1_25::croak(<<END);
 perl5i will break compatibility in the future, you can't just "use perl5i".
 
 Instead, "use $Latest" which will guarantee compatibility with all
@@ -945,6 +945,9 @@ merge will merge C<STDOUT> and C<STDERR> into one variable.
 =head2 Carp
 
 C<croak> and C<carp> from L<Carp> are always available.
+
+The Carp message will always format consistently, smoothing over the
+backwards incompatible change in Carp 1.25.
 
 =head2 Child
 

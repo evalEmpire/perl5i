@@ -7,7 +7,7 @@ use warnings;
 # Don't import anything that might be misinterpreted as a method
 require Scalar::Util;
 require overload;
-require Carp;
+require Carp::Fix::1_25;
 
 use perl5i::2::autobox;
 
@@ -68,15 +68,15 @@ sub taint {
         return Taint::Util::taint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload ) {
-        Carp::croak("Untainted overloaded objects cannot normally be made tainted") if
+        Carp::Fix::1_25::croak("Untainted overloaded objects cannot normally be made tainted") if
           !$_[0]->is_tainted;
         return 1;
     }
     else {
-        Carp::croak("Only scalars can normally be made tainted");
+        Carp::Fix::1_25::croak("Only scalars can normally be made tainted");
     }
 
-    Carp::confess("Should not be reached");
+    Carp::Fix::1_25::confess("Should not be reached");
 }
 
 
@@ -88,13 +88,13 @@ sub untaint {
         return Taint::Util::untaint(${${$_[0]}});
     }
     elsif( $_[0]->$has_string_overload && $_[0]->is_tainted ) {
-        Carp::croak("Tainted overloaded objects cannot normally be untainted");
+        Carp::Fix::1_25::croak("Tainted overloaded objects cannot normally be untainted");
     }
     else {
         return 1;
     }
 
-    Carp::confess("Should never be reached");
+    Carp::Fix::1_25::confess("Should never be reached");
 }
 
 
@@ -104,14 +104,14 @@ sub checksum {
     state $algorithms = [qw(sha1 md5)];
     $args{algorithm} //= 'sha1';
     $args{algorithm} ~~ $algorithms or
-      Carp::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
+      Carp::Fix::1_25::croak("algorithm must be @{[ $algorithms->join(' or ' ) ]}");
 
     state $algorithm2module = { sha1 => "Digest::SHA", md5 => "Digest::MD5" };
 
     state $format = [qw(hex base64 binary)];
     $args{format} //= 'hex';
     $args{format} ~~ $format or
-      Carp::croak("format must be @{[ $format->join(' or ') ]}");
+      Carp::Fix::1_25::croak("format must be @{[ $format->join(' or ') ]}");
 
     state $prefix = { hex => 'hex', base64 => 'b64', binary => undef };
 
@@ -168,7 +168,7 @@ sub dump {
     };
 
     my $dumper = $dumpers->{$format};
-    Carp::croak("Unknown format '$format' for dump()") unless $dumper;
+    Carp::Fix::1_25::croak("Unknown format '$format' for dump()") unless $dumper;
 
     return $self->$dumper(%args);
 }

@@ -5,7 +5,8 @@ use 5.010;
 use strict;
 use warnings;
 
-require Carp;
+# Don't accidentally turn carp/croak into methods.
+require Carp::Fix::1_25;
 
 use perl5i::2::Signatures;
 use perl5i::2::autobox;
@@ -15,7 +16,7 @@ method foreach($code) {
     my $n = 1;
     if( my $sig = $code->signature ) {
         $n = $sig->num_positional_params;
-        Carp::croak("Function passed to foreach takes no arguments") unless $n;
+        Carp::Fix::1_25::croak("Function passed to foreach takes no arguments") unless $n;
     }
 
     my $idx = 0;
@@ -51,9 +52,9 @@ method as_hash{
 
 
 method pick ( $num ){
-    Carp::croak("pick() takes the number of elements to pick")
+    Carp::Fix::1_25::croak("pick() takes the number of elements to pick")
       unless defined $num;
-    Carp::croak("pick() takes a positive integer or zero, not '$num'")
+    Carp::Fix::1_25::croak("pick() takes a positive integer or zero, not '$num'")
       unless $num->is_integer && ($num->is_positive or $num == 0);
     
     if($num >= @$self){
@@ -98,9 +99,9 @@ method grep($filter) {
 }
 
 method popn($times) {
-    Carp::croak("popn() takes the number of elements to pop")
+    Carp::Fix::1_25::croak("popn() takes the number of elements to pop")
       unless defined $times;
-    Carp::croak("popn() takes a positive integer or zero, not '$times'")
+    Carp::Fix::1_25::croak("popn() takes a positive integer or zero, not '$times'")
       unless $times->is_integer && ($times->is_positive or $times == 0);
 
     # splice() will choke if you walk off the array, so rein it in
@@ -111,9 +112,9 @@ method popn($times) {
 }
 
 method shiftn($times) {
-    Carp::croak("shiftn() takes the number of elements to shift")
+    Carp::Fix::1_25::croak("shiftn() takes the number of elements to shift")
       unless defined $times;
-    Carp::croak("shiftn() takes a positive integer or zero, not '$times'")
+    Carp::Fix::1_25::croak("shiftn() takes a positive integer or zero, not '$times'")
       unless $times->is_integer && ($times->is_positive or $times == 0);
 
     # splice() will choke if you walk off the array, so rein it in

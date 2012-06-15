@@ -4,7 +4,7 @@ use 5.010;
 
 use strict;
 use warnings;
-require Carp;
+require Carp::Fix::1_25;
 use perl5i::2::autobox;
 
 sub title_case {
@@ -16,14 +16,14 @@ sub title_case {
 
 sub center {
     my ($string, $size, $char) = @_;
-    Carp::carp("Use of uninitialized value for size in center()") if !defined $size;
+    Carp::Fix::1_25::carp("Use of uninitialized value for size in center()") if !defined $size;
     $size //= 0;
     $char //= ' ';
 
     if (length $char > 1) {
         my $bad = $char;
         $char = substr $char, 0, 1;
-        Carp::carp("'$bad' is longer than one character, using '$char' instead");
+        Carp::Fix::1_25::carp("'$bad' is longer than one character, using '$char' instead");
     }
 
     my $len             = length $string;
@@ -119,7 +119,7 @@ sub require {
 
 
 sub alias {
-    Carp::croak(<<ERROR) if !ref $_[0];
+    Carp::Fix::1_25::croak(<<ERROR) if !ref $_[0];
 Due to limitations in autoboxing, scalars cannot be aliased.
 Sorry.  Use a scalar reference instead.
 ERROR
@@ -248,13 +248,13 @@ sub path2module {
     my($vol, $dirs, $file) = File::Spec->splitpath($path);
     my @dirs = grep length, File::Spec->splitdir($dirs);
 
-    Carp::croak("'$path' does not look like a Perl module path")
+    Carp::Fix::1_25::croak("'$path' does not look like a Perl module path")
       if $file !~ m{\.pm$} or File::Spec->file_name_is_absolute($path);
 
     $file =~ s{\.pm$}{};
 
     my $module = join "::", @dirs, $file;
-    Carp::croak("'$module' is not a valid module name") unless $module->is_module_name;
+    Carp::Fix::1_25::croak("'$module' is not a valid module name") unless $module->is_module_name;
 
     return $module;
 }
@@ -279,7 +279,7 @@ sub is_module_name {
 sub module2path {
     my $module = shift;
 
-    Carp::croak("'$module' is not a valid module name") unless $module->is_module_name;
+    Carp::Fix::1_25::croak("'$module' is not a valid module name") unless $module->is_module_name;
 
     my @parts = split /::/, $module;
     $parts[-1] .= ".pm";
