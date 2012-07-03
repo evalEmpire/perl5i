@@ -49,7 +49,7 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006007',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
-        'utf8::all'           => '0.002',
+        'utf8::all'           => '0.004',
         'Carp::Fix::1_25'     => '1.000000',
     },
     build_requires => {
