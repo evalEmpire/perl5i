@@ -1,4 +1,8 @@
 2.10.0
+  Bug Fixes
+  * Upgraded autodie dependency to fix automatic utf8 open.
+    [github #220] [github #218]
+
   Test Fixes
   * Removed a use of Test::Exception, which we don't depend on.
 
