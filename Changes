@@ -1,7 +1,4 @@
 2.10.0
-  Bug Fixes
-  * Restore utf8 for newly opened filehandles.
-
   Test Fixes
   * Removed a use of Test::Exception, which we don't depend on.
 
