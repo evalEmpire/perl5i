@@ -45,6 +45,7 @@
          "requires" : {
             "CLASS" : "1.00",
             "Capture::Tiny" : "0.06",
+            "Carp::Fix::1_25" : "1.000000",
             "Child" : "0.009",
             "DateTime" : "0.47",
             "DateTime::Format::Epoch" : "0.11",
@@ -70,7 +71,7 @@
             "autobox::Core" : "1.0",
             "autobox::List::Util" : "20090629",
             "autobox::dump" : "20090426",
-            "autodie" : "1.999",
+            "autodie" : "2.12",
             "autovivification" : "0.06",
             "indirect" : "0.24",
             "parent" : "0.221",
@@ -96,11 +97,11 @@
       },
       "perl5i" : {
          "file" : "lib/perl5i.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       },
       "perl5i::0" : {
          "file" : "lib/perl5i/0.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       },
       "perl5i::0::ARRAY" : {
          "file" : "lib/perl5i/0/ARRAY.pm",
@@ -136,7 +137,7 @@
       },
       "perl5i::1" : {
          "file" : "lib/perl5i/1.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       },
       "perl5i::1::ARRAY" : {
          "file" : "lib/perl5i/1/ARRAY.pm",
@@ -180,7 +181,7 @@
       },
       "perl5i::2" : {
          "file" : "lib/perl5i/2.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       },
       "perl5i::2::ARRAY" : {
          "file" : "lib/perl5i/2/ARRAY.pm",
@@ -268,7 +269,7 @@
       },
       "perl5i::VERSION" : {
          "file" : "lib/perl5i/VERSION.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       },
       "perl5i::cmd" : {
          "file" : "lib/perl5i/cmd.pm",
@@ -276,7 +277,7 @@
       },
       "perl5i::latest" : {
          "file" : "lib/perl5i/latest.pm",
-         "version" : "v2.9.1"
+         "version" : "v2.10.0"
       }
    },
    "release_status" : "stable",
@@ -293,5 +294,5 @@
       "x_Chat" : "irc://irc.perl.org/#perl5i",
       "x_MailingList" : "http://groups.google.com/group/perl5i"
    },
-   "version" : "v2.9.1"
+   "version" : "v2.10.0"
 }

@@ -63,6 +63,7 @@ README
 t/alias.t
 t/ARGV.t
 t/ARGV_twice.t
+t/as_hash.t
 t/autobox.t
 t/autodie.t
 t/autovivification.t
@@ -138,10 +139,13 @@ t/module2path.t
 t/no_indirect.t
 t/number.t
 t/perl5i.t
+t/pick.t
+t/popn.t
 t/require.t
 t/require_message.t
 t/say.t
 t/scalar.t
+t/shiftn.t
 t/signature.t
 t/signatures.t
 t/taint.t

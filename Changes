@@ -1,4 +1,4 @@
-2.10.0
+2.10.0  Sat Jul  7 11:57:01 PDT 2012
   Bug Fixes
   * Upgraded autodie dependency to fix automatic utf8 open.
     [github #220] [github #218]
