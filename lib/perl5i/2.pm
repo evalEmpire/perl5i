@@ -69,7 +69,7 @@ sub import {
     indirect::unimport($class, ":fatal");
 
     utf8::all::import($class);
-    (\&open)->alias($caller, "open");
+    (\&perl5i::latest::open)->alias($caller, 'open');
 
     # Export our gmtime() and localtime()
     (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
@@ -113,27 +113,6 @@ sub perl5i_die {
 
     local $! = 255;
     return CORE::die($error);
-}
-
-
-# This function must be called open() because autodie will decide what to do
-# with the exception based on the name of the function.
-sub open(*;$@) { ## no critic (Subroutines::ProhibitSubroutinePrototypes)
-    my $ret;
-    if ( @_ == 1 ) {
-        $ret = open $_[0];
-    } elsif ( @_ == 2 ) {
-        $ret = open $_[0], $_[1];
-    } else {
-        $ret = open $_[0], $_[1], @_[2..$#_];
-    }
-
-    # Don't try to binmode an unopened filehandle
-    return $ret unless $ret;
-
-    my $h = (caller 1)[10];
-    binmode $_[0], ":encoding(utf8)" if $h->{perl5i};
-    return $ret;
 }
 
 

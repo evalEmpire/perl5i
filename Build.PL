@@ -25,7 +25,7 @@ my $builder = MyBuild->new(
         'Module::Load'            => '0.16',            # for perl5i::1
         'Text::Wrap'              => '2009.0305',
         'Try::Tiny'               => '0.02',
-        'autodie'                 => '1.999',
+        'autodie'                 => '2.12',            # plays nice with open pragma
         'IPC::System::Simple' => '1.18',                # Needed for autodie :system
         'autobox'             => '2.70',
         'autobox::Core'       => '1.0',
@@ -49,7 +49,7 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006007',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
-        'utf8::all'           => '0.004',
+        'utf8::all'           => '0.002',
         'Carp::Fix::1_25'     => '1.000000',
     },
     build_requires => {

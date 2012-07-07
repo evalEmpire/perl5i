@@ -1,7 +1,7 @@
 #!perl
 
 use perl5i::latest;
-use Test::More;
+use Test::More "no_plan";
 
 ok !eval { open my $fh, "hlaglaghlaghlagh"; 1 };
 
@@ -12,17 +12,3 @@ if( $^O eq 'MSWin32' ) {
 } else {
     ok !eval { system "haljlkjadlkjflajdf"; 1; };
 }
-
-note "open() message formatting"; {
-    ok !eval { open my $fh, "i_do_not_exist"; 1 };
-    is $@->file, __FILE__;
-    is $@->line, __LINE__ - 2;
-    unlike $@, qr/perl5i/, "open error should not mention perl5i";
-
-    TODO: {
-        local $TODO = 'open function from autodie exception';
-        is $@->function, "open";
-    }
-}
-
-done_testing;
