@@ -171,7 +171,7 @@ siganture is C<$var:> it will change the variable used to store the
 invocant.
 
     method new($class: %args) {
-        return bless $class, \%args;
+        return bless \%args, $class;
     }
 
 is equivalent to:
@@ -179,7 +179,7 @@ is equivalent to:
     sub new {
         my $class = shift;
         my %args = @_;
-        return bless $class, \%args;
+        return bless \%args, $class;
     }
 
 Anonymous functions and methods work, too.
