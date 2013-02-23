@@ -21,7 +21,6 @@ our $Latest = perl5i::VERSION->latest;
 
 # This works around their lexical nature.
 use parent 'autodie';
-use parent 'indirect';
 use parent 'utf8::all';
 
 my %Features = (
@@ -66,6 +65,12 @@ my %Features = (
     'File::chdir' => sub {
         my ($class, $caller) = @_;
         load_in_caller($caller, ['File::chdir']);
+    },
+    indirect => sub {
+        my ($class, $caller) = @_;
+
+        require indirect;
+        indirect::unimport($class, ":fatal");
     },
     list => sub {
         my ($class, $caller) = @_;
@@ -133,7 +138,7 @@ sub import {
     my $caller = caller;
 
     # Have to call both or it won't work.
-    indirect::unimport($class, ":fatal");
+
 
     utf8::all::import($class);
     (\&perl5i::latest::open)->alias($caller, 'open');

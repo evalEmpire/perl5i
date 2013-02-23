@@ -43,3 +43,11 @@ TODO: {
     my $thing = [];
     ok !eval { []->isa("ARRAY"); };
 }
+
+
+# lexical no indirect
+{
+    package Some::Thing;
+    sub method { 42 }
+    ::is( method Some::Thing, 42 );
+}
