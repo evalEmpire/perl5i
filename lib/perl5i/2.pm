@@ -53,6 +53,21 @@ my %Features = (
         my ($class, $caller) = @_;
         load_in_caller($caller, ['File::chdir']);
     },
+    'Modern::Perl' => sub {
+        my ($class, $caller) = @_;
+
+        require Modern::Perl;
+        Modern::Perl->import;
+
+        # no strict vars for oneliners - GH #63
+        strict::unimport($class, 'vars')
+            if $class eq 'perl5i::cmd'
+            or $0 eq '-e';
+
+        # Modern::Perl won't pass this through to our caller.
+        require mro;
+        mro::set_mro($caller, 'c3');
+    },
     'Perl6::Caller' => sub {
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Perl6::Caller']);
@@ -86,23 +101,12 @@ my %Features = (
 sub import {
     my $class = shift;
 
-    require Modern::Perl;
-    Modern::Perl->import;
-
     my $caller = caller;
-
-    # Modern::Perl won't pass this through to our caller.
-    require mro;
-    mro::set_mro( $caller, 'c3' );
 
     load_in_caller( $caller => (
         ['Carp::Fix::1_25'],
         ['perl5i::2::Signatures'],
     ) );
-    # no strict vars for oneliners - GH #63
-    strict::unimport($class, 'vars')
-        if $class eq 'perl5i::cmd'
-        or $0 eq '-e';
 
     # Have to call both or it won't work.
     true::import($class);
