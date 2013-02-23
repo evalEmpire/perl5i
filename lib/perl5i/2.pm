@@ -17,6 +17,8 @@ use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 our $Latest = perl5i::VERSION->latest;
 
 my %Features = (
+    # A stub for autodie.  It's handled specially in import().
+    autodie => sub {},
     autobox => sub {
         my ($class, $caller) = @_;
 
@@ -142,18 +144,36 @@ use parent 'autodie';
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
     my $class = shift;
+    my %import = @_;
 
     my $caller = caller;
+
+    # Read the skip list and turn it into a hash
+    my $skips = delete $import{-skip} || [];
+    $skips = { map { $_ => 1 } @$skips };
+
+    # Any remaining import parameters are unknown
+    if( keys %import ) {
+        croak sprintf "Unknown parameters '%s' in import list",
+          join(", ", map { "$_ => $import{$_}" } keys %import);
+    }
+
+    # Check all the skipped features are valid
+    for my $f ( grep { !exists $Features{$_} } keys %$skips ) {
+        croak "Unknown feature '$f' in skip list";
+    }
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
 
-    for my $feature (values %Features) {
-        $feature->($class, $caller);
+    # Load all the features.
+    for my $feature (keys %Features) {
+        next if $skips->{$feature};
+        $Features{$feature}->($class, $caller);
     }
 
     # autodie needs a bit more convincing
-    if( 1 ) {
+    if( !$skips->{autodie} ) {
         @_ = ( $class, ":all" );
         goto &autodie::import;
     }
