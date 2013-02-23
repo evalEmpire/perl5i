@@ -21,11 +21,15 @@ our $Latest = perl5i::VERSION->latest;
 
 # This works around their lexical nature.
 use parent 'autodie';
-use parent 'perl5i::2::autobox';
 use parent 'indirect';
 use parent 'utf8::all';
 
 my %Features = (
+    autobox => sub {
+        my ($class, $caller) = @_;
+
+        perl5i::2::autobox::import($class);
+    },
     autovivification => sub {
         my ($class, $caller) = @_;
 
@@ -129,7 +133,6 @@ sub import {
     my $caller = caller;
 
     # Have to call both or it won't work.
-    perl5i::2::autobox::import($class);
     indirect::unimport($class, ":fatal");
 
     utf8::all::import($class);

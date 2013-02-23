@@ -36,3 +36,10 @@ TODO: {
     my $val = $hash->{key};
     is_deeply $hash, {}, "no autovivification is lexical";
 }
+
+
+# lexical autobox
+{
+    my $thing = [];
+    ok !eval { []->isa("ARRAY"); };
+}
