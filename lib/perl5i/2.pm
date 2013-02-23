@@ -11,9 +11,6 @@ use perl5i::2::RequireMessage;
 
 use IO::Handle;
 use Carp::Fix::1_25;
-use perl5i::2::DateTime;
-use Want;
-use Try::Tiny;
 use perl5i::2::Meta;
 use Encode ();
 use perl5i::2::autobox;
@@ -31,11 +28,63 @@ use parent 'autovivification';
 use parent 'indirect';
 use parent 'utf8::all';
 
+my %Features = (
+    capture => sub {
+        my($class, $caller) = @_;
+        (\&capture)->alias($caller, "capture");
+    },
+    Child => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['Child' => qw(child)]);
+    },
+    CLASS => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['CLASS']);
+    },
+    die => sub {
+        my ($class, $caller) = @_;
+        (\&perl5i_die)->alias($caller, "die");
+    },
+    English => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['English' => qw(-no_match_vars)]);
+    },
+    'File::chdir' => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['File::chdir']);
+    },
+    'Perl6::Caller' => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['Perl6::Caller']);
+    },
+    stat => sub {
+        my ($class, $caller) = @_;
+        require File::stat;
+        # Export our stat and lstat
+        (\&stat)->alias($caller, 'stat');
+        (\&lstat)->alias($caller, 'lstat');
+    },
+    time => sub {
+        my ($class, $caller) = @_;
+        require perl5i::2::DateTime;
+        # Export our gmtime() and localtime()
+        (\&perl5i::2::DateTime::dt_gmtime)->alias($caller, 'gmtime');
+        (\&perl5i::2::DateTime::dt_localtime)->alias($caller, 'localtime');
+        (\&perl5i::2::DateTime::dt_time)->alias($caller, 'time');
+    },
+    'Try::Tiny'   => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['Try::Tiny']);
+    },
+    Want => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['Want' => qw(want)]);
+    },
+);
+
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
     my $class = shift;
-
-    require File::stat;
 
     require Modern::Perl;
     Modern::Perl->import;
@@ -47,15 +96,8 @@ sub import {
     mro::set_mro( $caller, 'c3' );
 
     load_in_caller( $caller => (
-        ['CLASS'],
-        ['File::chdir'],
-        ['English' => qw(-no_match_vars)],
-        ['Want' => qw(want)],
-        ['Try::Tiny'],
-        ['Perl6::Caller'],
         ['Carp::Fix::1_25'],
         ['perl5i::2::Signatures'],
-        ['Child' => qw(child)],
     ) );
     # no strict vars for oneliners - GH #63
     strict::unimport($class, 'vars')
@@ -71,26 +113,15 @@ sub import {
     utf8::all::import($class);
     (\&perl5i::latest::open)->alias($caller, 'open');
 
-    # Export our gmtime() and localtime()
-    (\&{$Latest .'::DateTime::dt_gmtime'})->alias($caller, 'gmtime');
-    (\&{$Latest .'::DateTime::dt_localtime'})->alias($caller, 'localtime');
-    (\&{$Latest .'::DateTime::dt_time'})->alias($caller, 'time');
-
-    # Export our stat and lstat
-    (\&stat)->alias( $caller, 'stat' );
-    (\&lstat)->alias( $caller, 'lstat' );
-
-    # Export our fixed die
-    (\&perl5i_die)->alias($caller, "die");
-
-    # Export capture()
-    (\&capture)->alias($caller, "capture");
-
     # Export list()
     (\&force_list_context)->alias($caller, 'list');
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
+
+    for my $feature (values %Features) {
+        $feature->($class, $caller);
+    }
 
     # autodie needs a bit more convincing
     @_ = ( $class, ":all" );
