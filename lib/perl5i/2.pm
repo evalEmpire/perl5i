@@ -13,7 +13,6 @@ use IO::Handle;
 use Carp::Fix::1_25;
 use Encode ();
 use perl5i::2::autobox;
-use true;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -23,11 +22,19 @@ our $Latest = perl5i::VERSION->latest;
 # This works around their lexical nature.
 use parent 'autodie';
 use parent 'perl5i::2::autobox';
-use parent 'autovivification';
 use parent 'indirect';
 use parent 'utf8::all';
 
 my %Features = (
+    autovivification => sub {
+        my ($class, $caller) = @_;
+
+        # use parent 'autovivification';
+        require autovivification;
+
+        # no autovivification;
+        autovivification::unimport($class);
+    },
     capture => sub {
         my ($class, $caller) = @_;
         (\&capture)->alias($caller, "capture");
@@ -101,6 +108,10 @@ my %Features = (
         (\&perl5i::2::DateTime::dt_localtime)->alias($caller, 'localtime');
         (\&perl5i::2::DateTime::dt_time)->alias($caller, 'time');
     },
+    true => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['true']);
+    },
     'Try::Tiny' => sub {
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Try::Tiny']);
@@ -118,9 +129,7 @@ sub import {
     my $caller = caller;
 
     # Have to call both or it won't work.
-    true::import($class);
     perl5i::2::autobox::import($class);
-    autovivification::unimport($class);
     indirect::unimport($class, ":fatal");
 
     utf8::all::import($class);
@@ -218,3 +227,5 @@ sub capture(&;@) {
 sub force_list_context(@) {
     return @_;
 }
+
+1;

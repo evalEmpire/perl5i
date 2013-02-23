@@ -28,3 +28,11 @@ TODO: {
 {
     ok eval { open my $fh, "dlkfjal;kdj"; 1 } or diag $@;
 }
+
+
+# lexical autovivification
+{
+    my $hash;
+    my $val = $hash->{key};
+    is_deeply $hash, {}, "no autovivification is lexical";
+}
