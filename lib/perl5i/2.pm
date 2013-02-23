@@ -32,10 +32,8 @@ my %Features = (
     autovivification => sub {
         my ($class, $caller) = @_;
 
-        # use parent 'autovivification';
-        require autovivification;
-
         # no autovivification;
+        require autovivification;
         autovivification::unimport($class);
     },
     capture => sub {
@@ -69,6 +67,7 @@ my %Features = (
     indirect => sub {
         my ($class, $caller) = @_;
 
+        # no indirect ':fatal'
         require indirect;
         indirect::unimport($class, ":fatal");
     },
@@ -82,8 +81,9 @@ my %Features = (
     'Modern::Perl' => sub {
         my ($class, $caller) = @_;
 
+        # use Modern::Perl
         require Modern::Perl;
-        Modern::Perl->import;
+        Modern::Perl::import($caller);
 
         # no strict vars for oneliners - GH #63
         strict::unimport($class, 'vars')
@@ -104,6 +104,7 @@ my %Features = (
     },
     stat => sub {
         my ($class, $caller) = @_;
+
         require File::stat;
         # Export our stat and lstat
         (\&stat)->alias($caller, 'stat');
@@ -111,6 +112,7 @@ my %Features = (
     },
     time => sub {
         my ($class, $caller) = @_;
+
         require perl5i::2::DateTime;
         # Export our gmtime() and localtime()
         (\&perl5i::2::DateTime::dt_gmtime)->alias($caller, 'gmtime');
@@ -119,7 +121,10 @@ my %Features = (
     },
     true => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['true']);
+
+        # use true
+        require true;
+        true::import($class);
     },
     'Try::Tiny' => sub {
         my ($class, $caller) = @_;
