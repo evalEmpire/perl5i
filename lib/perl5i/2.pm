@@ -16,10 +16,6 @@ use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 our $Latest = perl5i::VERSION->latest;
 
-
-# This works around their lexical nature.
-use parent 'autodie';
-
 my %Features = (
     autobox => sub {
         my ($class, $caller) = @_;
@@ -140,6 +136,9 @@ my %Features = (
     },
 );
 
+# This is necessary for autodie to work and be lexical
+use parent 'autodie';
+
 ## no critic (Subroutines::RequireArgUnpacking)
 sub import {
     my $class = shift;
@@ -154,8 +153,10 @@ sub import {
     }
 
     # autodie needs a bit more convincing
-    @_ = ( $class, ":all" );
-    goto &autodie::import;
+    if( 1 ) {
+        @_ = ( $class, ":all" );
+        goto &autodie::import;
+    }
 }
 
 sub unimport { $^H{perl5i} = 0 }
