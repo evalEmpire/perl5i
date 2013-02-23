@@ -21,7 +21,6 @@ our $Latest = perl5i::VERSION->latest;
 
 # This works around their lexical nature.
 use parent 'autodie';
-use parent 'utf8::all';
 
 my %Features = (
     autobox => sub {
@@ -130,6 +129,13 @@ my %Features = (
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Try::Tiny']);
     },
+    'utf8::all' => sub {
+        my ($class, $caller) = @_;
+
+        # use utf8::all
+        require utf8::all;
+        utf8::all::import($class);
+    },
     Want => sub {
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Want' => qw(want)]);
@@ -145,7 +151,6 @@ sub import {
     # Have to call both or it won't work.
 
 
-    utf8::all::import($class);
     (\&perl5i::latest::open)->alias($caller, 'open');
 
     # Current lexically active major version of perl5i.
