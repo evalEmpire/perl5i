@@ -9,9 +9,7 @@ use warnings;
 #This should come first
 use perl5i::2::RequireMessage;
 
-use IO::Handle;
 use Carp::Fix::1_25;
-use Encode ();
 use perl5i::2::autobox;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
