@@ -6,7 +6,10 @@ use strict;
 use parent 'perl5i::latest';
 
 sub import {
-    my($class, $name) = @_;
+    my $class = $_[0];
+
+    # Remove the name from the import list before passing it along to perl5i.
+    my $name = splice(@_, 1, 1);
 
     # Make the program identify as perl5i
     $^X = $name;
