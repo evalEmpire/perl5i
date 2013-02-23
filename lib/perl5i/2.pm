@@ -148,11 +148,6 @@ sub import {
 
     my $caller = caller;
 
-    # Have to call both or it won't work.
-
-
-    (\&perl5i::latest::open)->alias($caller, 'open');
-
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
 
