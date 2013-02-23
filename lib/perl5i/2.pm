@@ -11,7 +11,6 @@ use perl5i::2::RequireMessage;
 
 use IO::Handle;
 use Carp::Fix::1_25;
-use perl5i::2::Meta;
 use Encode ();
 use perl5i::2::autobox;
 use true;
@@ -30,8 +29,12 @@ use parent 'utf8::all';
 
 my %Features = (
     capture => sub {
-        my($class, $caller) = @_;
+        my ($class, $caller) = @_;
         (\&capture)->alias($caller, "capture");
+    },
+    "Carp::Fix::1_25" => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ["Carp::Fix::1_25"]);
     },
     Child => sub {
         my ($class, $caller) = @_;
@@ -53,6 +56,13 @@ my %Features = (
         my ($class, $caller) = @_;
         load_in_caller($caller, ['File::chdir']);
     },
+    list => sub {
+        my ($class, $caller) = @_;
+        (\&force_list_context)->alias($caller, 'list');
+    },
+    Meta => sub {
+        require perl5i::2::Meta;
+    },
     'Modern::Perl' => sub {
         my ($class, $caller) = @_;
 
@@ -72,6 +82,10 @@ my %Features = (
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Perl6::Caller']);
     },
+    Signatures => sub {
+        my ($class, $caller) = @_;
+        load_in_caller($caller, ['perl5i::2::Signatures']);
+    },
     stat => sub {
         my ($class, $caller) = @_;
         require File::stat;
@@ -87,7 +101,7 @@ my %Features = (
         (\&perl5i::2::DateTime::dt_localtime)->alias($caller, 'localtime');
         (\&perl5i::2::DateTime::dt_time)->alias($caller, 'time');
     },
-    'Try::Tiny'   => sub {
+    'Try::Tiny' => sub {
         my ($class, $caller) = @_;
         load_in_caller($caller, ['Try::Tiny']);
     },
@@ -103,11 +117,6 @@ sub import {
 
     my $caller = caller;
 
-    load_in_caller( $caller => (
-        ['Carp::Fix::1_25'],
-        ['perl5i::2::Signatures'],
-    ) );
-
     # Have to call both or it won't work.
     true::import($class);
     perl5i::2::autobox::import($class);
@@ -116,9 +125,6 @@ sub import {
 
     utf8::all::import($class);
     (\&perl5i::latest::open)->alias($caller, 'open');
-
-    # Export list()
-    (\&force_list_context)->alias($caller, 'list');
 
     # Current lexically active major version of perl5i.
     $^H{perl5i} = 2;
