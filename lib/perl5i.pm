@@ -853,19 +853,19 @@ signature.  See L<perl5i::Signature> for details.  Otherwise it
 returns nothing.
 
 
-=head2 caller
+=head3 caller
 
 L<Perl6::Caller> causes C<caller> to return an object in scalar
 context.
 
-=head2 die
+=head3 die
 
 C<die> now always returns an exit code of 255 instead of trying to use
 C<$!> or C<$?> which makes the exit code unpredictable.  If you want
 to exit with a message and a special exit code, use C<warn> then
 C<exit>.
 
-=head2 list
+=head3 list
 
 C<list> will force list context similar to how
 L<scalar|perlfunc/scalar> will force scalar context.
@@ -897,7 +897,7 @@ STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
 encoding turned on.  Consequently, if you want to output raw bytes to
 a file, such as outputting an image, you must set C<< binmode $fh >>.
 
-=head2 capture
+=head3 capture
 
     my($stdout, $stderr) = capture { ... } %options;
     my $stdout = capture { ... } %options;
@@ -1073,7 +1073,7 @@ mistakenly try to turn a function call into an indirect method call.
 
 See L<indirect> for details.
 
-=head2 want()
+=head3 want
 
 C<want()> generalizes the mechanism of the wantarray function, allowing a
 function to determine the context it's being called in.  Want distinguishes
