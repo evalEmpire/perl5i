@@ -63,7 +63,7 @@ name.
 
 =head1 METHODS
 
-=head2 id
+=head3 id
 
     my $id = $object->mo->id;
 
@@ -75,14 +75,14 @@ The identifier is guaranteed to be:
   * a true value
   * independent of changes to the object's contents
 
-=head2 class
+=head3 class
 
     my $class = $object->mo->class;
     my $class = $class->mc->class;
 
 Returns the class of the $object or $class.
 
-=head2 ISA
+=head3 ISA
 
     my @ISA = $object->mo->ISA;
     my @ISA = $class->mc->ISA;
@@ -95,7 +95,7 @@ Essentially equivalent to:
     my @ISA = @{$class.'::ISA'};
 
 
-=head2 linear_isa
+=head3 linear_isa
 
     my @isa = $class->mc->linear_isa();
     my @isa = $object->mo->linear_isa();
@@ -112,7 +112,7 @@ This list includes the $class itself and includes UNIVERSAL.  For example:
     my @isa = Child->mo->linear_isa();
 
 
-=head2 methods
+=head3 methods
 
     my @methods = $class->mc->methods;
     my $methods = $class->mc->methods;
@@ -136,7 +136,7 @@ C<just_mine>, if true, returns only methods defined in the $class.
 It defaults to false.
 
 
-=head2 symbol_table
+=head3 symbol_table
 
     my $table = $class->mc->symbol_table;
     my $table = $obj->mo->symbol_table;
@@ -147,7 +147,7 @@ If you don't know what a symbol table is... good.  If you really want to
 know, see L<perldata/Typeglobs and FileHandles>.
 
 
-=head2 super
+=head3 super
 
     my @return = $class->mc->super(@args);
     my @return = $object->mo->super(@args);
@@ -159,7 +159,7 @@ class of the $object rather than the class in which the current method
 was declared.
 
 
-=head2 is_tainted
+=head3 is_tainted
 
     my $is_tainted = $object->mo->is_tainted;
 
@@ -171,7 +171,7 @@ String and numerically overloaded objects will check against their
 overloaded versions.
 
 
-=head2 taint
+=head3 taint
 
     $object->mo->taint;
 
@@ -187,7 +187,7 @@ themselves.  Generally this is applicable to string or numeric
 overloaded objects who can taint their overloaded value.
 
 
-=head2 untaint
+=head3 untaint
 
     $object->mo->untaint;
 
@@ -203,13 +203,13 @@ themselves.  Generally this is applicable to string or numeric
 overloaded objects who can untaint their overloaded value.
 
 
-=head2 reftype
+=head3 reftype
 
     my $reftype = $object->mo->reftype;
 
 Returns the underlying reference type of the $object.
 
-=head2 checksum
+=head3 checksum
 
     my $checksum = $object->mo->checksum;
     my $md5    = $object->mo->checksum( algorithm => 'md5' );
@@ -245,7 +245,7 @@ Defaults to hex.
 
 =back
 
-=head2 is_equal
+=head3 is_equal
 
     $object->mo->is_equal($other_object)
 
@@ -264,13 +264,13 @@ Examples:
     my $uri = URI->new("http://www.perl.org");
     $uri->mo->is_equal("http://www.perl.org") # True
 
-=head2 perl
+=head3 perl
 
     my $dump = $object->mo->perl;
 
 Dumps the contents of the $object as Perl in a string, like Data::Dumper.
 
-=head2 dump
+=head3 dump
 
     my $dump = $object->mo->dump( format => $format );
 
