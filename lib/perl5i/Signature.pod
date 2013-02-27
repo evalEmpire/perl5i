@@ -27,7 +27,7 @@ signature.
 
 =head1 METHODS
 
-=head2 params
+=head3 params
 
     my $params = $sig->params;
 
@@ -35,7 +35,7 @@ An array ref of the parameters a subroutine takes in the order it
 takes them.  Currently they are just strings.  In the future they will
 be string overloaded objects.
 
-=head2 positional_params
+=head3 positional_params
 
     my $params = $sig->positional_params;
 
@@ -43,7 +43,7 @@ Like C<< $sig->params >> but it is just the positional parameters.
 
 In the future there will be named parameters.
 
-=head2 num_positional_params
+=head3 num_positional_params
 
     my $num_positional_params = $sig->num_positional_params;
 
@@ -55,13 +55,13 @@ look just at the positional ones.
 
 This is mostly an optimization for C<< $sig->positional_params->size >>.
 
-=head2 as_string
+=head3 as_string
 
     my $params = $sig->as_string;
 
 The original signature string.
 
-=head2 invocant
+=head3 invocant
 
     my $invocant = $sig->invocant;
 
@@ -69,7 +69,7 @@ The invocant is the object or class a method is called on.
 C<invocant> will return the parameter which contains this, by default
 it is C<$self> on a method, and nothing a regular subroutine.
 
-=head2 is_method
+=head3 is_method
 
     my $is_method = $sig->is_method;
 
