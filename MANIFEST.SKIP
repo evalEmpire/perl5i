@@ -85,3 +85,7 @@
 # Don't ship patch files
 \.patch$
 \.diff$
+
+# Don't ship the test template
+t/00_TEST_TEMPLATE.t
+
