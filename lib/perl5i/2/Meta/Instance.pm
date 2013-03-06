@@ -138,7 +138,7 @@ sub is_equal {
     return perl5i::2::equal::are_equal($$$self, $other);
 }
 
-
+sub as_perl{shift->perl(@_)}
 sub perl {
     require Data::Dumper;
 
@@ -173,7 +173,7 @@ sub dump {
     return $self->$dumper(%args);
 }
 
-
+sub as_json { shift->_dump_as_json(@_)}
 sub _dump_as_json {
     require JSON;
     my $json = JSON->new
@@ -198,6 +198,7 @@ sub _dump_as_json {
     return $json->encode(${${$_[0]}});
 }
 
+sub as_yaml { shift->_dump_as_yaml(@_)}
 sub _dump_as_yaml {
     require YAML::Any;
     return YAML::Any::Dump(${${$_[0]}});
