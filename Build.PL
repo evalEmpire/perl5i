@@ -69,8 +69,6 @@ my $builder = MyBuild->new(
         resources => {
             repository  => 'http://github.com/schwern/perl5i/tree/master',
             bugtracker  => 'http://github.com/schwern/perl5i/issues',
-            MailingList => "http://groups.google.com/group/perl5i",
-            Chat        => "irc://irc.perl.org/#perl5i",
         },
         no_index => {
             file  => [qw(
