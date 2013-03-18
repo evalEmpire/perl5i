@@ -17,7 +17,7 @@ use perl5i::1::autobox;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
-our $Latest = perl5i::VERSION->latest;
+our $Latest = 'perl5i::1';
 
 
 # This works around their lexical nature.

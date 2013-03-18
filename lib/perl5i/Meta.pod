@@ -266,9 +266,25 @@ Examples:
 
 =head3 perl
 
-    my $dump = $object->mo->perl;
+Same as L<as_perl>.  For backwards compatibility.
+
+=head3 as_perl
+
+    my $dump = $object->mo->as_perl;
 
 Dumps the contents of the $object as Perl in a string, like Data::Dumper.
+
+=head3 as_json
+
+    my $json = $object->mo->as_json;
+
+Return the contents of the $object as JSON.
+
+=head3 as_yaml
+
+    my $json = $object->mo->as_yaml;
+
+Return the contents of the $object as YAML.
 
 =head3 dump
 
@@ -279,3 +295,5 @@ Dumps the contents of the $object as a string in whatever format you like.
 Possible formats are yaml, json and perl.
 
 $format defaults to "perl" which is equivalent to C<< $object->mo->perl >>.
+
+This is simply the long form of C<as_perl>, C<as_json> and C<as_yaml>.
