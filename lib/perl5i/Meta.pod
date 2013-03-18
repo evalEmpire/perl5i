@@ -270,6 +270,18 @@ Examples:
 
 Dumps the contents of the $object as Perl in a string, like Data::Dumper.
 
+=head3 json
+
+    my $json = $object->mo->json;
+
+Return the contents of the $object as JSON.
+
+=head3 yaml
+
+    my $json = $object->mo->yaml;
+
+Return the contents of the $object as YAML.
+
 =head3 dump
 
     my $dump = $object->mo->dump( format => $format );
