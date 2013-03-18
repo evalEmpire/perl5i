@@ -407,7 +407,8 @@ in your F<.perlcriticrc>.
 
 You can follow perl5i development on Twitter at L<http://twitter.com/perl5i>,
 our Github page at L<https://github.com/schwern/perl5i> and wiki at 
-L<https://github.com/schwern/perl5i/wiki>.
+L<https://github.com/schwern/perl5i/wiki>.  Discussions on IRC are on
+L<irc://irc.perl.org> on channel #perl5i.
 
 
 =head2 I have a great idea I want to add!  How can I help?

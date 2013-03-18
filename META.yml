@@ -218,4 +218,5 @@ resources:
   bugtracker: http://github.com/schwern/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
+  x_Chat: irc://irc.perl.org/#perl5i
 version: v2.11.0

@@ -1197,6 +1197,7 @@ See L<http://dev.perl.org/licenses/artistic.html>
 
 Repository:   L<http://github.com/schwern/perl5i/tree/master>
 Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
+IRC:          L<irc://irc.perl.org> on the #perl5i channel
 Wiki:         L<http://github.com/schwern/perl5i/wiki>
 Twitter:      L<http://twitter.com/perl5i>
 
