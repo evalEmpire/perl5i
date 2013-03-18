@@ -11,7 +11,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.36
 dynamic_config: 1
-generated_by: 'Module::Build version 0.38, CPAN::Meta::Converter version 2.112621'
+generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120630'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -40,10 +40,10 @@ provides:
     version: 0
   perl5i:
     file: lib/perl5i.pm
-    version: v2.10.0
+    version: v2.11.0
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v2.10.0
+    version: v2.11.0
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
     version: 0
@@ -70,7 +70,7 @@ provides:
     version: 0
   perl5i::1:
     file: lib/perl5i/1.pm
-    version: v2.10.0
+    version: v2.11.0
   perl5i::1::ARRAY:
     file: lib/perl5i/1/ARRAY.pm
     version: 0
@@ -103,7 +103,7 @@ provides:
     version: 0
   perl5i::2:
     file: lib/perl5i/2.pm
-    version: v2.10.0
+    version: v2.11.0
   perl5i::2::ARRAY:
     file: lib/perl5i/2/ARRAY.pm
     version: 0
@@ -169,13 +169,13 @@ provides:
     version: 0
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v2.10.0
+    version: v2.11.0
   perl5i::cmd:
     file: lib/perl5i/cmd.pm
     version: 0
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v2.10.0
+    version: v2.11.0
 requires:
   CLASS: 1.00
   Capture::Tiny: 0.06
@@ -189,6 +189,7 @@ requires:
   Digest::SHA: 5.45
   File::chdir: 0.1002
   Hash::Merge::Simple: 0.04
+  Hash::StoredIterator: 0.001
   IPC::System::Simple: 1.18
   JSON: 2.17
   List::MoreUtils: 0.22
@@ -219,4 +220,4 @@ resources:
   repository: http://github.com/schwern/perl5i/tree/master
   x_Chat: irc://irc.perl.org/#perl5i
   x_MailingList: http://groups.google.com/group/perl5i
-version: v2.10.0
+version: v2.11.0
