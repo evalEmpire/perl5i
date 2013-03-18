@@ -7,19 +7,12 @@ use warnings;
 
 # Don't accidentally turn carp/croak into methods.
 require Carp::Fix::1_25;
+require Hash::StoredIterator;
 
 use perl5i::2::Signatures;
 
 method each($callback) {
-    # Reset the each() iterator
-    keys %$self;
-
-    my($k,$v);
-    while( ($k,$v) = CORE::each(%$self) ) {
-        $callback->($k,$v);
-    }
-
-    return;
+    return Hash::StoredIterator::eech( $callback, $self );
 }
 
 sub flip {

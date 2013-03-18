@@ -12,7 +12,7 @@ my $builder = MyBuild->new(
     module_name => 'perl5i',
     license     => 'perl',
     dist_author => 'Michael G Schwern <schwern@pobox.com>',
-    dist_version => "v2.10.0",
+    dist_version => "v2.11.0",
 
     requires => {
         'perl'                    => '5.10.0',
@@ -51,6 +51,7 @@ my $builder = MyBuild->new(
         'Capture::Tiny'       => '0.06',
         'utf8::all'           => '0.002',
         'Carp::Fix::1_25'     => '1.000000',
+        'Hash::StoredIterator' => '0.001',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

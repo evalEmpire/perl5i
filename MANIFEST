@@ -82,6 +82,7 @@ t/die.t
 t/diff.t
 t/dump/array.t
 t/dump/code.t
+t/dump/formats.t
 t/dump/hash.t
 t/dump/obj.t
 t/dump/scalar.t

@@ -1,3 +1,20 @@
+2.11.0
+  Bug Fixes
+  * %hash->each({...}) iterator now uses Hash::StoredIterator
+    to ensure that it's safe to nest calls to each(), and to use
+    keys() and values() inside each() (Chad Granum)
+
+  Test Fixes
+  * Added new test template (Michael G. Schwern)
+
+  New Features
+  * ->mo->yaml and ->mo->json now allow you to dump a
+    meta-object as yaml or json respectively [github #230] (Ben 
+    Hengst)
+
+  Misc
+  * Fixed examples in the documentation (Tom Legrady)
+
 2.10.0  Sat Jul  7 11:57:01 PDT 2012
   Bug Fixes
   * Upgraded autodie dependency to fix automatic utf8 open.
