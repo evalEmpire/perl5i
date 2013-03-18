@@ -1,3 +1,8 @@
+2.11.1  Mon Mar 18 02:24:20 UTC 2013
+  Distribution Fixes
+  * Creating a new release with correct PAUSE permissions 
+    (Nóirín Plunkett)
+
 2.11.0  Mon Mar 18 02:24:20 UTC 2013
   Bug Fixes
   * %hash->each({...}) iterator now uses Hash::StoredIterator
