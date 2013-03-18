@@ -1,4 +1,4 @@
-2.11.0
+2.11.0  Mon Mar 18 02:24:20 UTC 2013
   Bug Fixes
   * %hash->each({...}) iterator now uses Hash::StoredIterator
     to ensure that it's safe to nest calls to each(), and to use
