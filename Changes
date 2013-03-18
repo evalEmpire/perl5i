@@ -1,10 +1,10 @@
-2.11.2
+2.11.2  Mon Mar 18 02:55:20 GMT 2013
   Distribution Fixes
   * perl5i::0 and perl5i::1 had internal packages outside the perl5i
     package which caused CPAN permissions problems.  This has been
     fixed.
 
-2.11.1  Mon Mar 18 02:24:20 UTC 2013
+2.11.1  Mon Mar 18 02:32:07 UTC 2013
   Distribution Fixes
   * Creating a new release with correct PAUSE permissions 
     (Nóirín Plunkett)

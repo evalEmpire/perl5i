@@ -84,25 +84,13 @@
       }
    },
    "provides" : {
-      "DateTime::Format::CTime" : {
-         "file" : "lib/perl5i/0/DateTime.pm",
-         "version" : 0
-      },
-      "DateTime::time" : {
-         "file" : "lib/perl5i/0/DateTime.pm",
-         "version" : 0
-      },
-      "DateTime::y2038" : {
-         "file" : "lib/perl5i/0/DateTime.pm",
-         "version" : 0
-      },
       "perl5i" : {
          "file" : "lib/perl5i.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       },
       "perl5i::0" : {
          "file" : "lib/perl5i/0.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       },
       "perl5i::0::ARRAY" : {
          "file" : "lib/perl5i/0/ARRAY.pm",
@@ -113,6 +101,18 @@
          "version" : 0
       },
       "perl5i::0::DateTime" : {
+         "file" : "lib/perl5i/0/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::0::DateTime::Format::CTime" : {
+         "file" : "lib/perl5i/0/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::0::DateTime::time" : {
+         "file" : "lib/perl5i/0/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::0::DateTime::y2038" : {
          "file" : "lib/perl5i/0/DateTime.pm",
          "version" : 0
       },
@@ -138,7 +138,7 @@
       },
       "perl5i::1" : {
          "file" : "lib/perl5i/1.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       },
       "perl5i::1::ARRAY" : {
          "file" : "lib/perl5i/1/ARRAY.pm",
@@ -149,6 +149,18 @@
          "version" : 0
       },
       "perl5i::1::DateTime" : {
+         "file" : "lib/perl5i/1/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::1::DateTime::Format::CTime" : {
+         "file" : "lib/perl5i/1/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::1::DateTime::time" : {
+         "file" : "lib/perl5i/1/DateTime.pm",
+         "version" : 0
+      },
+      "perl5i::1::DateTime::y2038" : {
          "file" : "lib/perl5i/1/DateTime.pm",
          "version" : 0
       },
@@ -182,7 +194,7 @@
       },
       "perl5i::2" : {
          "file" : "lib/perl5i/2.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       },
       "perl5i::2::ARRAY" : {
          "file" : "lib/perl5i/2/ARRAY.pm",
@@ -270,7 +282,7 @@
       },
       "perl5i::VERSION" : {
          "file" : "lib/perl5i/VERSION.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       },
       "perl5i::cmd" : {
          "file" : "lib/perl5i/cmd.pm",
@@ -278,7 +290,7 @@
       },
       "perl5i::latest" : {
          "file" : "lib/perl5i/latest.pm",
-         "version" : "v2.11.1"
+         "version" : "v2.11.2"
       }
    },
    "release_status" : "stable",
@@ -295,5 +307,5 @@
       "x_Chat" : "irc://irc.perl.org/#perl5i",
       "x_MailingList" : "http://groups.google.com/group/perl5i"
    },
-   "version" : "v2.11.1"
+   "version" : "v2.11.2"
 }
