@@ -152,9 +152,10 @@ sub round_to_nearest{
 
 sub round_to_precision{
     my ($number,$precision) = @_;
-    # NOTE: is there ever going to be a reason to have a negative or
-    # real number here? Should this be an exception?
-    my $pre = '1'. '0'x int(abs($precision));
+    my $used_precision = int(abs($precision));
+    Carp::Fix::1_25::croak('round_to_precision does not support non-positive non-integer values.')
+      unless $used_precision == $precision;
+    my $pre = '1'. '0'x $used_precision;
     return ($number*$pre)->round / $pre;
 }
 
