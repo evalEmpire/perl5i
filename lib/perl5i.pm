@@ -367,6 +367,25 @@ Rounds the $number towards negative infinity.
 
 floor() is a synonyn for round_down().
 
+=head3 round_to_nearest
+
+    my $new_number = $number->round_to_nearest($nearest);
+
+Rounds the $number to the closest $nearest.
+
+  13->round_to_nearest(5);     # 15
+  1.23->round_to_nearest(.05); # 1.25
+
+=head3 round_to_precision
+
+    my $new_number = $number->round_to_precision($precision);
+
+Rounds $number to $precision digits past the decimal point. The value of
+$precision is expected to be a positive integer, any other value will
+result in an exception.
+
+  5.625512332->round_to_precision(3); # 5.626
+  5.5->round_to_precision(10);        # 5.5
 
 =head3 is_number
 
