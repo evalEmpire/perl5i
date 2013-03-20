@@ -1,4 +1,8 @@
-2.11.3
+2.12.0
+  New Features
+  * Added the ability to skip loading certain features. [github #228]
+    (Michael G Schwern) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
+
   Doc Fixes
   * Document ->mo->as_yaml and ->mo->as_json [github #230] (Michael G. Schwern)
 
