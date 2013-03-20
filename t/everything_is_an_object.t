@@ -15,7 +15,9 @@ use Test::More;
 isa_ok "Foo", "UNIVERSAL";
 
 # autobox changed the way isa() works and now this fails
-# don't have time to deal with it right now.
-#ok 42->isa("UNIVERSAL"), "autoboxed things are objects";
+TODO: {
+    local $TODO = '42->isa("UNIVERSAL") and autobox conflict, see [github #114]';
+    ok 42->isa("UNIVERSAL"), "autoboxed things are objects";
+}
 
 done_testing();
