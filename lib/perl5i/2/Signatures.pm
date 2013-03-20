@@ -12,8 +12,8 @@ use Sub::Name;
 sub import {
     my $class = shift;
 
-    my %opts  = @_;
-    $opts{into}     ||= caller;
+    my %opts = @_;
+    $opts{into} ||= caller;
     $opts{invocant} ||= '$self';
 
     my %def_opts = %opts;
@@ -21,14 +21,14 @@ sub import {
 
     # Define "method"
     $class->install_methodhandler(
-      name => 'method',
-      %opts
+        name => 'method',
+        %opts
     );
 
     # Define "func"
     $class->install_methodhandler(
-      name => 'func',
-      %def_opts
+        name => 'func',
+        %def_opts
     );
 }
 
@@ -44,7 +44,7 @@ sub parse_proto {
     my $invocant = $self->{invocant};
 
     my $inject = '';
-    if( $invocant ) {
+    if ($invocant) {
         $invocant = $1 if $proto =~ s{^(\$\w+):\s*}{};
         $inject .= "my ${invocant} = shift;";
     }
@@ -53,51 +53,54 @@ sub parse_proto {
     return $inject;
 }
 
-
 sub code_for {
-    my ($self, $name) = @_;
+    my ( $self, $name ) = @_;
 
     my $signature = $self->{perl5i}{signature};
     my $is_method = $self->{invocant} ? 1 : 0;
 
-    if (defined $name) {
+    if ( defined $name ) {
         my $pkg = $self->get_curstash_name;
         $name = join( '::', $pkg, $name )
-          unless( $name =~ /::/ );
+            unless ( $name =~ /::/ );
         return sub (&) {
             my $code = shift;
+            ( undef, undef, my $end_line ) = caller();
             # So caller() gets the subroutine name
             no strict 'refs';
             *{$name} = subname $name => $code;
 
             $self->set_signature(
-                code            => $code,
-                signature       => $signature,
-                is_method       => $is_method,
+                code      => $code,
+                signature => $signature,
+                is_method => $is_method,
+                end_line  => $end_line,
             );
 
             return;
         };
-    } else {
+    }
+    else {
         return sub (&) {
             my $code = shift;
+            ( undef, undef, my $end_line ) = caller();
 
             $self->set_signature(
-                code            => $code,
-                signature       => $signature,
-                is_method       => $is_method,
+                code      => $code,
+                signature => $signature,
+                is_method => $is_method,
+                end_line  => $end_line,
             );
             return $code;
         };
     }
 }
 
-
 sub set_signature {
     my $self = shift;
     my %args = @_;
 
-    my $sig = perl5i::2::CODE::signature($args{code});
+    my $sig = perl5i::2::CODE::signature( $args{code} );
     return $sig if $sig;
 
     $sig = perl5i::2::Signature->new(
