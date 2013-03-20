@@ -105,7 +105,10 @@ sub set_signature {
         is_method => $args{is_method},
     );
 
-    perl5i::2::CODE::__set_signature($args{code}, $sig);
+    perl5i::2::CODE::__set_signature( $args{code}, $sig );
+
+    perl5i::2::CODE::__set_end_line( $args{code}, $args{end_line} )
+        if $args{end_line};
 
     return $sig;
 }
