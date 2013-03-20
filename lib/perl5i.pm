@@ -1135,6 +1135,26 @@ If you write a one-liner without using this program, saying C<-Mperl5i> means
 C<-Mperl5i::latest>. Please see L</"Using perl5i"> and L</VERSIONING> for
 details.
 
+=head1 C<import>
+
+This subroutine is called automatically, see L<perlfunc/import>.
+
+When you write an exporting module that itself uses perl5i, you may want to
+disable some features that perl5i exports because they conflict with the
+additional modules you load. For example, when you load L<TryCatch> which
+provides its own C<try> keyword (exported subroutine, really), Perl will
+show the mandatory warning L<perldiag/"Prototype mismatch: %s vs %s">.
+You can avoid the name clash by passing to C<import> a parameter pair,
+where the key is the string C<-skip> and the value is an arrayref of
+strings that describe features that are not going to be activated, e.g.:
+
+    use perl5i::latest -skip => [qw(Try::Tiny)];
+
+The feature strings are: C<autobox>, C<autodie>, C<autovivification>,
+C<capture>, C<Carp::Fix::1_25>, C<Child>, C<CLASS>, C<die>, C<English>,
+C<File::chdir>, C<indirect>, C<list>, C<Meta>, C<Modern::Perl>,
+C<Perl6::Caller>, C<Signatures>, C<stat>, C<time>, C<true>, C<Try::Tiny>,
+C<utf8::all>, C<Want>.
 
 =head1 BUGS
 

@@ -28,3 +28,26 @@ TODO: {
 {
     ok eval { open my $fh, "dlkfjal;kdj"; 1 } or diag $@;
 }
+
+
+# lexical autovivification
+{
+    my $hash;
+    my $val = $hash->{key};
+    is_deeply $hash, {}, "no autovivification is lexical";
+}
+
+
+# lexical autobox
+{
+    my $thing = [];
+    ok !eval { []->isa("ARRAY"); };
+}
+
+
+# lexical no indirect
+{
+    package Some::Thing;
+    sub method { 42 }
+    ::is( method Some::Thing, 42 );
+}
