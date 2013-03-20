@@ -1118,23 +1118,6 @@ Example:
     from CPAN or another repository.  Your library paths are:
         Indented list of paths, 1 per line...
 
-=head1 Command line program
-
-There is a perl5i command line program installed with perl5i (Windows
-users get perl5i.bat).  This is handy for writing one liners.
-
-    perl5i -e 'gmtime->year->say'
-
-And you can use it on the C<#!> line.
-
-    #!/usr/bin/perl5i
-
-    gmtime->year->say;
-
-If you write a one-liner without using this program, saying C<-Mperl5i> means
-C<-Mperl5i::latest>. Please see L</"Using perl5i"> and L</VERSIONING> for
-details.
-
 =head1 C<import>
 
 This subroutine is called automatically, see L<perlfunc/import>.
@@ -1155,6 +1138,23 @@ C<capture>, C<Carp::Fix::1_25>, C<Child>, C<CLASS>, C<die>, C<English>,
 C<File::chdir>, C<indirect>, C<list>, C<Meta>, C<Modern::Perl>,
 C<Perl6::Caller>, C<Signatures>, C<stat>, C<time>, C<true>, C<Try::Tiny>,
 C<utf8::all>, C<Want>.
+
+=head1 Command line program
+
+There is a perl5i command line program installed with perl5i (Windows
+users get perl5i.bat).  This is handy for writing one liners.
+
+    perl5i -e 'gmtime->year->say'
+
+And you can use it on the C<#!> line.
+
+    #!/usr/bin/perl5i
+
+    gmtime->year->say;
+
+If you write a one-liner without using this program, saying C<-Mperl5i> means
+C<-Mperl5i::latest>. Please see L</"Using perl5i"> and L</VERSIONING> for
+details.
 
 =head1 BUGS
 
