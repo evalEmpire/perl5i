@@ -52,6 +52,7 @@ my $builder = MyBuild->new(
         'utf8::all'           => '0.002',
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.001',
+        'Hash::FieldHash'     => '0.06',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
