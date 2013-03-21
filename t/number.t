@@ -28,8 +28,8 @@ is( 1.23->round_to_nearest(.05), 1.25);
 
 is( 5.625512332->round_to_precision(3), 5.626);
 is( 5.5->round_to_precision(10), 5.5);
-eval{5.5->round_to_precision(-10.3)};
-ok( $@ =~ m/^round_to_precision does not support non-positive non-integer values/);
+ok eval{5.5->round_to_precision(-10.3)};
+like( $@, m/^round_to_precision does not support non-positive non-integer values/);
 
 ok( 12->is_number );
 ok(!'FF'->is_number );
