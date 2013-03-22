@@ -1,6 +1,8 @@
 package perl5i::2::UNIVERSAL;
 
-# Methods which apply to all autoboxed objects
+# Methods which apply to all autoboxed objects.
+#
+# They do NOT apply to blessed objects.  That should go into perl5i::2::Meta::Instance.
 
 use strict;
 use warnings;

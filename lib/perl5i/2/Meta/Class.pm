@@ -1,5 +1,7 @@
 package perl5i::2::Meta::Class;
 
+# Methods here are for $thing->mc->method.
+
 use strict;
 use warnings;
 
