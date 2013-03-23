@@ -4,7 +4,7 @@
       "Michael G Schwern <schwern@pobox.com>"
    ],
    "dynamic_config" : 1,
-   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120630",
+   "generated_by" : "Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921",
    "license" : [
       "perl_5"
    ],
@@ -304,8 +304,7 @@
       "repository" : {
          "url" : "http://github.com/schwern/perl5i/tree/master"
       },
-      "x_Chat" : "irc://irc.perl.org/#perl5i",
-      "x_MailingList" : "http://groups.google.com/group/perl5i"
+      "x_Chat" : "irc://irc.perl.org/#perl5i"
    },
    "version" : "v2.11.2"
 }
