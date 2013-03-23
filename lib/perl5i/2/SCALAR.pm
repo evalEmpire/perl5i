@@ -287,4 +287,15 @@ sub module2path {
     return join "/", @parts;
 }
 
+
+# On the first call, load Path::Tiny and replace our path() with
+# Path::Tiny::path() so we don't try to load it again.
+# Shaves about 1/6 off the call time.
+sub path {
+    require Path::Tiny;
+    no warnings 'redefine';
+    *path = \&Path::Tiny::path;
+    goto &Path::Tiny::path;
+}
+
 1;
