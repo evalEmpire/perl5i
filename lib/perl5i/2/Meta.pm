@@ -7,9 +7,11 @@ use 5.010_000;
 # Be very careful not to import anything.
 require Carp::Fix::1_25;
 require mro;
+require Scalar::Util;
 
 require perl5i::2::Meta::Instance;
 require perl5i::2::Meta::Class;
+
 
 sub UNIVERSAL::mo {
     # Be careful to pass through an alias, not a copy
@@ -140,5 +142,13 @@ sub super {
 
     $class->$method_not_found($method);
 }
+
+sub is_ref {
+    my $self = shift;
+    ref $self ? 1 : 0;
+}
+
+sub is_blessed { Scalar::Util::blessed shift; }
+sub is_object { Scalar::Util::blessed shift; }
 
 1;
