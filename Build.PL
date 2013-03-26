@@ -46,13 +46,14 @@ my $builder = MyBuild->new(
         'Digest::SHA'         => '5.45',
         'Digest::MD5'         => '2.36',
         'Object::ID'          => '0.1.0',
-        "Devel::Declare::MethodInstaller::Simple"       => '0.006007',
+        "Devel::Declare::MethodInstaller::Simple"       => '0.006009',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
         'utf8::all'           => '0.002',
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.001',
         'Scalar::Util'        => '1.25',
+        'Hash::FieldHash'     => '0.06',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
@@ -71,7 +72,6 @@ my $builder = MyBuild->new(
         resources => {
             repository  => 'http://github.com/schwern/perl5i/tree/master',
             bugtracker  => 'http://github.com/schwern/perl5i/issues',
-            MailingList => "http://groups.google.com/group/perl5i",
             Chat        => "irc://irc.perl.org/#perl5i",
         },
         no_index => {

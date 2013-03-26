@@ -11,7 +11,7 @@ build_requires:
 configure_requires:
   Module::Build: 0.36
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120630'
+generated_by: 'Module::Build version 0.4003, CPAN::Meta::Converter version 2.120921'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -228,5 +228,5 @@ resources:
   license: http://dev.perl.org/licenses/
   repository: http://github.com/schwern/perl5i/tree/master
   x_Chat: irc://irc.perl.org/#perl5i
-  x_MailingList: http://groups.google.com/group/perl5i
 version: v2.11.2
+

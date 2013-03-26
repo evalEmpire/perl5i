@@ -1,5 +1,7 @@
 package perl5i::2::Meta::Instance;
 
+# Methods here are for $thing->mo->method.
+
 use 5.010_000;
 use strict;
 use warnings;
