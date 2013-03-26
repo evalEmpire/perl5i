@@ -113,6 +113,13 @@ the object which were previously over complicated.  For example...
     # the reference type of the object
     my $reftype = $obj->mo->reftype;
 
+    # test to see if object is a reference
+    print 'is ref' if $obj->is_ref;
+
+    # test to see if object is a blessed object
+    print 'is object' if $obj->is_object
+    print 'is blessed' if $obj->is_blessed
+
 A meta object is used to avoid polluting the global method space.
 C<mo> was chosen to avoid clashing with Moose's meta object.
 

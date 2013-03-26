@@ -108,5 +108,14 @@ SKIP: {
     can_ok "Fcntl", @methods;
 }
 
+note "meta scalar utils: issue #42"; {
+    ok []->mo->is_ref, q{is_ref};
+    my $obj = bless {}, 'THING';
+    ok $obj->mo->is_object, q{is_object};
+    ok $obj->mo->is_blessed, q{is_blessed};
+    ok $obj->isa('THING'), q{isa thing};
+    ok $obj->isa('HASH'), q{isa HASH};
+}
+
 
 done_testing;

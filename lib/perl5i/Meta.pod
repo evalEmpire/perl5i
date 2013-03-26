@@ -264,6 +264,25 @@ Examples:
     my $uri = URI->new("http://www.perl.org");
     $uri->mo->is_equal("http://www.perl.org") # True
 
+
+=head3 is_ref 
+
+  $object->mo->is_ref;
+
+Return boolean value based on if mo->reftype exists.
+
+=head3 is_object
+
+  $object->mo->is_object
+
+Return boolean value based on if $object is a blessed reference.
+
+=head3 is_blessed
+
+  $object->mo->is_blessed
+
+Return boolean value based on if $object is a blessed reference.
+
 =head3 perl
 
 Same as L<as_perl>.  For backwards compatibility.
