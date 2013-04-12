@@ -21,7 +21,6 @@ use Test::More;
     sub parent2 {}
 }
 
-
 note "methods of a class with no parent"; {
     my $class = "My::Parent";
 
@@ -108,5 +107,69 @@ SKIP: {
     can_ok "Fcntl", @methods;
 }
 
+{
+    package My::MixedDefs;
+    use perl5i::latest;
+
+    sub    as_sub    {}
+    func   as_func   {}
+    method as_method {}
+}
+{
+    package My::MixedDefs::Child;
+    our @ISA = qw(My::MixedDefs);
+    use perl5i::latest;
+
+    sub    as_sub2    {}
+    func   as_func2   {}
+    method as_method2 {}
+}
+
+
+note "func gets filtered out of methods list"; {
+    my( @methods, @expected, @not_expected );
+
+    my $class = "My::MixedDefs";
+
+    @methods      = $class->mc->methods;
+    @expected     = qw( as_method as_sub );
+    @not_expected = qw( as_func inexistant );
+    is_deeply
+      scalar @methods->intersect( [ @expected, @not_expected ] )->sort,
+      scalar @expected->sort,
+      'on a class';
+
+    my $obj = bless {}, $class;
+
+    @methods      = $obj->mo->methods;
+    @expected     = qw( as_method as_sub );
+    @not_expected = qw( as_func inexistant );
+    is_deeply
+      scalar @methods->intersect( [ @expected, @not_expected ] )->sort,
+      scalar @expected->sort,
+      'on an object';
+
+    $class = "My::MixedDefs::Child";
+
+    @methods      = $class->mc->methods;
+    @expected     = qw( as_method as_sub as_method2 as_sub2 );
+    @not_expected = qw( as_func as_func2 inexistant );
+    is_deeply
+      scalar @methods->intersect( [ @expected, @not_expected ] )->sort,
+      scalar @expected->sort,
+      'on a child class';
+
+    $obj = bless {}, $class;
+
+    @methods      = $obj->mo->methods;
+    @expected     = qw( as_method as_sub as_method2 as_sub2 );
+    @not_expected = qw( as_func as_func2 inexistant );
+    is_deeply
+      scalar @methods->intersect( [ @expected, @not_expected ] )->sort,
+      scalar @expected->sort,
+      'on a child object';
+
+    can_ok( $class, 'as_func'); # sanity check
+}
 
 done_testing;
