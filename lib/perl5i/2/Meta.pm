@@ -104,6 +104,7 @@ my $find_method = sub {
     my $height = 2;
     do {
         $method = (caller($height))[3];
+        print STDERR "find_method: height $height, method $method\n";
         $height++;
     } until( !defined $method or $method ne '(eval)' );
 
