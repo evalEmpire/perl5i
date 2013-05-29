@@ -23,9 +23,7 @@ note "Module doesn't exist"; {
     local $!;
     local @INC = qw(no thing);
     ok !eval { "I::Sure::Dont::Exist"->require; };
-    is $@,
-      sprintf(qq[Can't locate %s in \@INC (\@INC contains: %s) at %s line %d.\n],
-              "I/Sure/Dont/Exist.pm", "no thing", __FILE__, __LINE__-3);
+    like $@, qr[^Can't locate I/Sure/Dont/Exist\.pm in \@INC.*\(\@INC contains: no thing\) at ];
     ok !$!, "errno didn't leak out";
 }
 
