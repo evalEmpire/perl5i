@@ -5,11 +5,15 @@
 
   Doc Fixes
   * Document ->mo->as_yaml and ->mo->as_json [github #230] (Michael G. Schwern)
+  * Remove references to the defunct mailing list [github #235] (Michael G. Schwern)
+  * Add references to the wiki and Twitter [github #235] (Michael G. Schwern)
 
   Distribution Fixes
   * Require a newer, safer version of Devel::Declare. [github #181] (Michael G Schwern)
     (Ben Hengst)
   * Forgot to explicitly depend on Hash::FieldHash. (Michael G Schwern)
+  * Upgrade Hash::StoredIterator to avoid 5.12, 5.14 and 5.18 failures.
+    (Michael G Schwern) (Chad Granum)
 
 
 2.11.2  Mon Mar 18 02:55:20 GMT 2013
