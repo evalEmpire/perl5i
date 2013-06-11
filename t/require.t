@@ -23,12 +23,13 @@ note "Module doesn't exist"; {
     local $!;
     local @INC = qw(no thing);
     ok !eval { "I::Sure::Dont::Exist"->require; };
-    is $@,
-      sprintf(qq[Can't locate %s in \@INC (\@INC contains: %s) at %s line %d.\n],
-              "I/Sure/Dont/Exist.pm", "no thing", __FILE__, __LINE__-3);
+    my $pat = q[^Can't locate I/Sure/Dont/Exist\.pm in \@INC];
+    $pat .= q[(?: \(you may need to install the I::Sure::Dont::Exist module\))?]; 
+    $pat .= sprintf(' \(@INC contains: no thing\) at %s line %d\.$',
+                    __FILE__, __LINE__-4);
+    like $@, qr/$pat/;
     ok !$!, "errno didn't leak out";
 }
-
 
 note "Invalid module name"; {
     ok !eval { "/tmp::LOL::PWNED"->require };
