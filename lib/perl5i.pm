@@ -306,6 +306,16 @@ All of the methods provided by L<autobox::Core> are available from perl5i.
 
 in addition, perl5i adds some methods of its own.
 
+=head3 path
+
+    my $object = $path->path;
+
+Creates a L<Path::Tiny> $object for the given file or directory $path.
+
+    my $path = "/foo/bar/baz.txt"->path;
+    my $content = $path->slurp;
+
+
 =head3 center
 
     my $centered_string = $string->center($length);
