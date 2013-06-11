@@ -2,6 +2,7 @@ package perl5i::1::Meta::Instance;
 
 use strict;
 use warnings;
+no if $] > 5.018000, warnings => 'experimental::smartmatch';
 
 require Scalar::Util;
 require overload;
