@@ -1,4 +1,4 @@
-2.12.0
+2.12.0  Mon Jun 10 18:09:31 PDT 2013
   New Features
   * Added the ability to skip loading certain features. [github #228]
     (Michael G Schwern) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
@@ -7,7 +7,7 @@
   * Quiet "smartmatch is experimental" warnings in 5.18. [github #261]
     (Chuck Adams)
 
-  Doc Fixes
+  Doc Changes
   * Document ->mo->as_yaml and ->mo->as_json [github #230] (Michael G. Schwern)
   * Remove references to the defunct mailing list [github #235] (Michael G. Schwern)
   * Add references to the wiki and Twitter [github #235] (Michael G. Schwern)
