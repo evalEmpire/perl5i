@@ -3,10 +3,17 @@
   * Added the ability to skip loading certain features. [github #228]
     (Michael G Schwern) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
 
+  Bug Fixes
+  * Quiet "smartmatch is experimental" warnings in 5.18. [github #261]
+    (Chuck Adams)
+
   Doc Fixes
   * Document ->mo->as_yaml and ->mo->as_json [github #230] (Michael G. Schwern)
   * Remove references to the defunct mailing list [github #235] (Michael G. Schwern)
   * Add references to the wiki and Twitter [github #235] (Michael G. Schwern)
+
+  Test Fixes
+  * Test fixes for 5.18. [github #264] [github #262] (Chuck Adams) (Michael G Schwern)
 
   Distribution Fixes
   * Require a newer, safer version of Devel::Declare. [github #181] (Michael G Schwern)
