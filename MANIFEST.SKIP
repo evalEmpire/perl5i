@@ -89,3 +89,5 @@
 # Don't ship the test template
 t/00_TEST_TEMPLATE.t
 
+# Don't ship Travis-CI config
+^\.travis\.yml
