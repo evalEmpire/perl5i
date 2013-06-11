@@ -5,6 +5,7 @@
 use Test::More 'no_plan';
 use Test::Warn;
 use perl5i::latest;
+no if $] >= 5.018000, warnings => 'experimental::smartmatch';
 
 # strict?
 {
