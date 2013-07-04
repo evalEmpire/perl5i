@@ -51,7 +51,7 @@ my $builder = MyBuild->new(
         'Capture::Tiny'       => '0.06',
         'utf8::all'           => '0.002',
         'Carp::Fix::1_25'     => '1.000000',
-        'Hash::StoredIterator' => '0.005',
+        'Hash::StoredIterator' => '0.007',
         'Hash::FieldHash'     => '0.06',
         'Path::Tiny'          => '0.016',
     },

@@ -12,7 +12,7 @@ require Hash::StoredIterator;
 use perl5i::2::Signatures;
 
 method each($callback) {
-    return Hash::StoredIterator::eech( $callback, $self );
+    return Hash::StoredIterator::hmap( $callback, $self );
 }
 
 sub flip {
