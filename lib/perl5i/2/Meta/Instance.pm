@@ -1,8 +1,11 @@
 package perl5i::2::Meta::Instance;
 
+# Methods here are for $thing->mo->method.
+
 use 5.010_000;
 use strict;
 use warnings;
+no if $] >= 5.018000, warnings => 'experimental::smartmatch';
 
 # Don't import anything that might be misinterpreted as a method
 require Scalar::Util;

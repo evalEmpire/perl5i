@@ -953,6 +953,26 @@ What it does
         from CPAN or another repository.  Your library paths are:
             Indented list of paths, 1 per line...
 
+Turning off features
+        use perl5i::2 -skip => \@features_to_skip;
+
+    While perl5i is intended as a curated collection of modules, its
+    possible you might not want certain features. Features can be turned off
+    in your scope by using "-skip".
+
+    For example, this will skip loading Try::Tiny.
+
+        use perl5i::latest -skip => [qw(Try::Tiny)];
+
+    Why would you do this? You might want to use a different try/catch
+    module such as TryCatch which provides its own "try" and "catch".
+
+    The feature strings are: "autobox", "autodie", "autovivification",
+    "capture", "Carp::Fix::1_25", "Child", "CLASS", "die", "English",
+    "File::chdir", "indirect", "list", "Meta", "Modern::Perl",
+    "Perl6::Caller", "Signatures", "stat", "time", "true", "Try::Tiny",
+    "utf8::all", "Want".
+
 Command line program
     There is a perl5i command line program installed with perl5i (Windows
     users get perl5i.bat). This is handy for writing one liners.
@@ -978,8 +998,7 @@ BUGS
     See <http://github.com/schwern/perl5i/issues/labels/bug> for a complete
     list.
 
-    Please report bugs at <http://github.com/schwern/perl5i/issues/> or
-    email <mailto:perl5i@googlegroups.com>.
+    Please report bugs at <http://github.com/schwern/perl5i/issues/>.
 
 VERSIONING
     perl5i follows the Semantic Versioning policy, <http://semver.org>. In
@@ -1024,8 +1043,9 @@ LICENSE
 
 SEE ALSO
     Repository: <http://github.com/schwern/perl5i/tree/master> Issues/Bugs:
-    <http://github.com/schwern/perl5i/issues> IRC: irc.perl.org on the
-    #perl5i channel Mailing List: <http://groups.google.com/group/perl5i/>
+    <http://github.com/schwern/perl5i/issues> IRC: <irc://irc.perl.org> on
+    the #perl5i channel Wiki: <http://github.com/schwern/perl5i/wiki>
+    Twitter: <http://twitter.com/perl5i>
 
     Frequently Asked Questions about perl5i: perl5ifaq
 

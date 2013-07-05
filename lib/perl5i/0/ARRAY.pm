@@ -4,6 +4,7 @@ use 5.010;
 
 use strict;
 use warnings;
+no if $] >= 5.018000, warnings => 'experimental::smartmatch';
 
 sub ARRAY::first {
     my ( $array, $filter ) = @_;

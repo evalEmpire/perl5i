@@ -306,6 +306,16 @@ All of the methods provided by L<autobox::Core> are available from perl5i.
 
 in addition, perl5i adds some methods of its own.
 
+=head3 path
+
+    my $object = $path->path;
+
+Creates a L<Path::Tiny> $object for the given file or directory $path.
+
+    my $path = "/foo/bar/baz.txt"->path;
+    my $content = $path->slurp;
+
+
 =head3 center
 
     my $centered_string = $string->center($length);
@@ -1186,8 +1196,7 @@ currently recommend having them in the same package.
 
 See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
 
-Please report bugs at L<http://github.com/schwern/perl5i/issues/> or
-email L<mailto:perl5i@googlegroups.com>.
+Please report bugs at L<http://github.com/schwern/perl5i/issues/>.
 
 
 =head1 VERSIONING
@@ -1239,8 +1248,9 @@ See L<http://dev.perl.org/licenses/artistic.html>
 
 Repository:   L<http://github.com/schwern/perl5i/tree/master>
 Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
-IRC:          irc.perl.org on the #perl5i channel
-Mailing List: L<http://groups.google.com/group/perl5i/>
+IRC:          L<irc://irc.perl.org> on the #perl5i channel
+Wiki:         L<http://github.com/schwern/perl5i/wiki>
+Twitter:      L<http://twitter.com/perl5i>
 
 Frequently Asked Questions about perl5i: L<perl5ifaq>
 
