@@ -54,6 +54,7 @@ lib/perl5i/Signature.pod
 lib/perl5i/VERSION.pm
 lib/perl5ifaq.pod
 LICENSE
+local-lib-rc
 MANIFEST			This list of files
 MANIFEST.SKIP
 META.json
@@ -149,6 +150,7 @@ t/scalar.t
 t/shiftn.t
 t/signature.t
 t/signatures.t
+t/skip.t
 t/taint.t
 t/time_compat.t
 t/true.t

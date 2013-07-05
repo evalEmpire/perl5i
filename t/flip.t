@@ -6,14 +6,14 @@ use lib 't/lib';
 use Test::More;
 use Test::perl5i;
 
-my %hash = ( 1 => 'foo', 2 => 'bar', 3 => 'bar' );
+my %hash = ( 1 => 'foo', 2 => 'bar' );
 my $f;
 
-is_deeply( $f = %hash->flip, { foo => 1, bar => 3 } );
+is_deeply( $f = %hash->flip, { foo => 1, bar => 2 } );
 
 my %f = %hash->flip;
 
-is_deeply( \%f, { foo => 1, bar => 3 }, "Returns hash in list context" );
+is_deeply( \%f, { foo => 1, bar => 2 }, "Returns hash in list context" );
 
 my %nested = ( 1 => { foo => 'bar' }, 2 => 'bar' );
 

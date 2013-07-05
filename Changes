@@ -1,10 +1,27 @@
-2.12.0
+2.12.0  Mon Jun 10 18:09:31 PDT 2013
   New Features
   * Added the ability to skip loading certain features. [github #228]
     (Michael G Schwern) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
 
-  Doc Fixes
+  Bug Fixes
+  * Quiet "smartmatch is experimental" warnings in 5.18. [github #261]
+    (Chuck Adams)
+
+  Doc Changes
   * Document ->mo->as_yaml and ->mo->as_json [github #230] (Michael G. Schwern)
+  * Remove references to the defunct mailing list [github #235] (Michael G. Schwern)
+  * Add references to the wiki and Twitter [github #235] (Michael G. Schwern)
+
+  Test Fixes
+  * Test fixes for 5.18. [github #264] [github #262] (Chuck Adams) (Michael G Schwern)
+
+  Distribution Fixes
+  * Require a newer, safer version of Devel::Declare. [github #181] (Michael G Schwern)
+    (Ben Hengst)
+  * Forgot to explicitly depend on Hash::FieldHash. (Michael G Schwern)
+  * Upgrade Hash::StoredIterator to avoid 5.12, 5.14 and 5.18 failures.
+    (Michael G Schwern) (Chad Granum)
+
 
 2.11.2  Mon Mar 18 02:55:20 GMT 2013
   Distribution Fixes
@@ -12,10 +29,12 @@
     package which caused CPAN permissions problems.  This has been
     fixed. (Michael G. Schwern)
 
+
 2.11.1  Mon Mar 18 02:32:07 UTC 2013
   Distribution Fixes
   * Creating a new release with correct PAUSE permissions 
     (Nóirín Plunkett)
+
 
 2.11.0  Mon Mar 18 02:24:20 UTC 2013
   Bug Fixes
@@ -33,6 +52,7 @@
 
   Misc
   * Fixed examples in the documentation (Tom Legrady)
+
 
 2.10.0  Sat Jul  7 11:57:01 PDT 2012
   Bug Fixes

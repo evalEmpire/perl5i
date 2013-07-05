@@ -405,8 +405,10 @@ in your F<.perlcriticrc>.
 
 =head2 Where can I find out more about perl5i?
 
-You can follow perl5i development on Twitter at L<http://twitter.com/perl5i>
-and we have discussions on IRC.  Connect to irc.perl.org and join #perl5i.
+You can follow perl5i development on Twitter at L<http://twitter.com/perl5i>,
+our Github page at L<https://github.com/schwern/perl5i> and wiki at 
+L<https://github.com/schwern/perl5i/wiki>.  Discussions on IRC are on
+L<irc://irc.perl.org> on channel #perl5i.
 
 
 =head2 I have a great idea I want to add!  How can I help?
@@ -415,8 +417,6 @@ Wonderful!  Let us know.  The best way is to create an issue in the
 issue tracker at L<http://github.com/schwern/perl5i/issues>.  Think of
 it less as an issue tracker and more of a web forum with great
 tagging.
-
-Or you can send mail to F<perl5i@googlegroups.com>.
 
 What is particularly useful to perl5i is to hear about problems you'd
 like solved.  Tell us about a simple problem that you had to write too
