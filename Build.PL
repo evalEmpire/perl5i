@@ -70,8 +70,8 @@ my $builder = MyBuild->new(
 
     meta_merge => {
         resources => {
-            repository  => 'http://github.com/schwern/perl5i/tree/master',
-            bugtracker  => 'http://github.com/schwern/perl5i/issues',
+            repository  => 'http://github.com/evalEmpire/perl5i/tree/master',
+            bugtracker  => 'http://github.com/evalEmpire/perl5i/issues',
             Chat        => "irc://irc.perl.org/#perl5i",
         },
         no_index => {

@@ -4,7 +4,7 @@ For the really impatient:
 -------------------------
 
 * Rule 1:  When in doubt, open a ticket.
-  http://github.com/schwern/perl5i/issues
+  http://github.com/evalEmpire/perl5i/issues
 
   Found a bug?  Not sure if its a bug or a weird feature?  Have an idea?
   Found something unpleasent?  Had trouble using something?  Open a ticket.
@@ -31,7 +31,7 @@ Here's the preferred way to make a patch:
 
 1) Put an issue in the tracker for your problem.  Then it can be
    discussed before you put a whole lot of effort into it.
-   http://github.com/schwern/perl5i/issues
+   http://github.com/evalEmpire/perl5i/issues
 
 1a) If its a bug, report the bug BEFORE work on it.  This ensures the
     bug gets reported.  Mention that you're working on it.
@@ -41,7 +41,7 @@ Here's the preferred way to make a patch:
 
 2) You can either work from the CPAN version or the repository.
    We'd prefer you worked from the repository.
-   http://github.com/schwern/perl5i
+   http://github.com/evalEmpire/perl5i
 
 2a) Ideally, make a fork on github and work on that.
 

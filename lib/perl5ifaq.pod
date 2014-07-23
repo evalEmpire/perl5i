@@ -406,15 +406,15 @@ in your F<.perlcriticrc>.
 =head2 Where can I find out more about perl5i?
 
 You can follow perl5i development on Twitter at L<http://twitter.com/perl5i>,
-our Github page at L<https://github.com/schwern/perl5i> and wiki at 
-L<https://github.com/schwern/perl5i/wiki>.  Discussions on IRC are on
+our Github page at L<https://github.com/evalEmpire/perl5i> and wiki at 
+L<https://github.com/evalEmpire/perl5i/wiki>.  Discussions on IRC are on
 L<irc://irc.perl.org> on channel #perl5i.
 
 
 =head2 I have a great idea I want to add!  How can I help?
 
 Wonderful!  Let us know.  The best way is to create an issue in the
-issue tracker at L<http://github.com/schwern/perl5i/issues>.  Think of
+issue tracker at L<http://github.com/evalEmpire/perl5i/issues>.  Think of
 it less as an issue tracker and more of a web forum with great
 tagging.
 
@@ -424,9 +424,9 @@ much code to solve, or load too many modules, or that had too many
 caveats.
 
 Finally, if you just want to write some code, you can fork and work on
-it at L<http://github.com/schwern/perl5i>.  Full details on our
+it at L<http://github.com/evalEmpire/perl5i>.  Full details on our
 patching policy can be read at
-L<http://github.com/schwern/perl5i/raw/master/PATCHING>.
+L<http://github.com/evalEmpire/perl5i/raw/master/PATCHING>.
 
 We'd like to hear from you.  Don't worry if you're doing it right,
 come talk with us.

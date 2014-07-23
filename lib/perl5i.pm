@@ -60,7 +60,7 @@ effect.
 
 Please add to this imaginary world and help make it real, either by
 telling me what Perl looks like in your imagination
-(F<http://github.com/schwern/perl5i/issues>) or make a fork (forking on
+(F<http://github.com/evalEmpire/perl5i/issues>) or make a fork (forking on
 github is like a branch you control) and implement it yourself.
 
 
@@ -204,7 +204,7 @@ capabilities.  Planned expansions include:
   Parameter traits
   Traditional prototypes
 
-See L<http://github.com/schwern/perl5i/issues/labels/syntax#issue/19> for
+See L<http://github.com/evalEmpire/perl5i/issues/labels/syntax#issue/19> for
 more details about future expansions.
 
 The equivalencies above should only be taken for illustrative
@@ -1176,9 +1176,9 @@ Some parts are not lexical.  Some parts are package scoped.
 If you're going to use two versions of perl5i together, we do not
 currently recommend having them in the same package.
 
-See L<http://github.com/schwern/perl5i/issues/labels/bug> for a complete list.
+See L<http://github.com/evalEmpire/perl5i/issues/labels/bug> for a complete list.
 
-Please report bugs at L<http://github.com/schwern/perl5i/issues/>.
+Please report bugs at L<http://github.com/evalEmpire/perl5i/issues/>.
 
 
 =head1 VERSIONING
@@ -1228,10 +1228,10 @@ See L<http://dev.perl.org/licenses/artistic.html>
 
 =head1 SEE ALSO
 
-Repository:   L<http://github.com/schwern/perl5i/tree/master>
-Issues/Bugs:  L<http://github.com/schwern/perl5i/issues>
+Repository:   L<http://github.com/evalEmpire/perl5i/>
+Issues/Bugs:  L<http://github.com/evalEmpire/perl5i/issues>
 IRC:          L<irc://irc.perl.org> on the #perl5i channel
-Wiki:         L<http://github.com/schwern/perl5i/wiki>
+Wiki:         L<http://github.com/evalEmpire/perl5i/wiki>
 Twitter:      L<http://twitter.com/perl5i>
 
 Frequently Asked Questions about perl5i: L<perl5ifaq>

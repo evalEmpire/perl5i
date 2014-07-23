@@ -5,7 +5,7 @@
 # Test files should ideally be about one method or group of methods,
 # or a single, complicated bug.
 #
-# See https://github.com/schwern/perl5i/wiki/Coding-Standards
+# See https://github.com/evalEmpire/perl5i/wiki/Coding-Standards
 
 use perl5i::latest;
 use Test::Most;
