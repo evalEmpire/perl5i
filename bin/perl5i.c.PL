@@ -42,7 +42,7 @@ int main (int argc, char* argv[]) {
     char* program;
     int saw_dash_e = 0;
 
-    strcat(dash_m, "-Mperl5i::cmd=");
+    strcpy(dash_m, "-Mperl5i::cmd=");
     strcat(dash_m, argv[0]);
 
     perl_args[0] = (char *)perl_cmd;
@@ -52,10 +52,11 @@ int main (int argc, char* argv[]) {
         char *dash_e = strchr(argv[i], 'e');
 
         /* Its a one liner */
-        if( dash_e && strcmp(dash_e, "e") == 0
+        if( dash_e
+	    && dash_e > argv[i]
+	    && *(dash_e-1) == '-'
             && (strchr(argv[i], '-') == argv[i])
-            && (strchr(argv[i], 'M') != argv[i]+1)
-        )
+            )
         {
             saw_dash_e = 1;
 
