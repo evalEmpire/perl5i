@@ -10,6 +10,7 @@ require mro;
 
 require perl5i::2::Meta::Instance;
 require perl5i::2::Meta::Class;
+use perl5i::2::autobox;
 
 sub UNIVERSAL::mo {
     # Be careful to pass through an alias, not a copy
@@ -70,7 +71,9 @@ sub methods {
         for my $name (keys %$sym_table) {
             my $glob = $sym_table->{$name};
             next unless ref \$glob eq "GLOB";
-            next unless *{$glob}{CODE};
+            next unless my $code = *{$glob}{CODE};
+            my $sig = $code->signature;
+            next if $sig and !$sig->is_method;
             $all_methods{$name} = $class;
         }
     }
