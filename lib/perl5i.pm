@@ -64,6 +64,35 @@ telling me what Perl looks like in your imagination
 github is like a branch you control) and implement it yourself.
 
 
+=head1 Rationale
+
+Changing perl 5 core is a slow and difficult process.
+Perl 5 aims to be compatible with ancient versions which means it is
+mostly stuck with design, decisions and defaults made way back in
+the 90's.
+
+There are modules in CPAN to solve or ease many of those issues but
+many people don't know about them or don't know which ones to use.
+
+Documentation and books are updated slowly and don't usually keep up;
+this information becomes some sort of community knowledge, invisible
+from the wider audience.
+
+Even if you know a solution, having to decide everytime which
+module to use and enable it individually might be enough for you to
+give up and just do things the old way.
+
+Perl5i brings all this community knowledge in a coherent way, in
+something like 'the best of CPAN', enabled with a single command.
+
+You don't need to know all it does nor how it does it, you just
+C<use perl5i::2> on your code and you automatically get a modern
+environment, with perl defaults, problems and inconsistencies fixed.
+
+You can refer beginers to perl5i and they can benefit from it without
+needing to become a perl guru first.
+
+
 =head1 Using perl5i
 
 Because perl5i I<plans> to be incompatible in the future, you do not
