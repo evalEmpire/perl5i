@@ -1,8 +1,13 @@
-2.13.0
+2.13.0  Wed Jul 23 11:51:53 PDT 2014
   New Features
   * $scalar->path will return a Path::Tiny object using the contents
     of $scalar.  Makes working with files much, much easier.
     [github #229] [github #247] (Michael G Schwern)
+
+  Distribution Changes
+  * The project has moved to the evalEmpire organization to allow
+    broader project admin options. http://github.com/evalEmpire/perl5i
+    (Michael G Schwern)
 
   Doc Changes
   * Added a project rationale. [github #252] [github #226]

@@ -140,6 +140,7 @@ t/modern_perl.t
 t/module2path.t
 t/no_indirect.t
 t/number.t
+t/path/base.t
 t/perl5i.t
 t/pick.t
 t/popn.t

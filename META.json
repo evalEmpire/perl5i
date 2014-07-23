@@ -63,7 +63,7 @@
             "Modern::Perl" : "1.03",
             "Module::Load" : "0.16",
             "Object::ID" : "v0.1.0",
-            "Path::Tiny" : "0.016",
+            "Path::Tiny" : "0.036",
             "Perl6::Caller" : "0.100",
             "Taint::Util" : "0.06",
             "Text::Wrap" : "2009.0305",
@@ -88,11 +88,11 @@
    "provides" : {
       "perl5i" : {
          "file" : "lib/perl5i.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       },
       "perl5i::0" : {
          "file" : "lib/perl5i/0.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       },
       "perl5i::0::ARRAY" : {
          "file" : "lib/perl5i/0/ARRAY.pm"
@@ -129,7 +129,7 @@
       },
       "perl5i::1" : {
          "file" : "lib/perl5i/1.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       },
       "perl5i::1::ARRAY" : {
          "file" : "lib/perl5i/1/ARRAY.pm"
@@ -172,7 +172,7 @@
       },
       "perl5i::2" : {
          "file" : "lib/perl5i/2.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       },
       "perl5i::2::ARRAY" : {
          "file" : "lib/perl5i/2/ARRAY.pm"
@@ -239,14 +239,14 @@
       },
       "perl5i::VERSION" : {
          "file" : "lib/perl5i/VERSION.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       },
       "perl5i::cmd" : {
          "file" : "lib/perl5i/cmd.pm"
       },
       "perl5i::latest" : {
          "file" : "lib/perl5i/latest.pm",
-         "version" : "v2.12.0"
+         "version" : "v2.13.0"
       }
    },
    "release_status" : "stable",
@@ -262,5 +262,5 @@
       },
       "x_chat" : "irc://irc.perl.org/#perl5i"
    },
-   "version" : "v2.12.0"
+   "version" : "v2.13.0"
 }
