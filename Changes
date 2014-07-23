@@ -1,3 +1,16 @@
+2.13.0
+  New Features
+  * $scalar->path will return a Path::Tiny object using the contents
+    of $scalar.  Makes working with files much, much easier.
+    [github #229] [github #247] (Michael G Schwern)
+
+  Bug Fixes
+  * Fixed a crash if the perl5i command line is fed a null byte.
+    [github #269] [github #273] (Reini Urban) (Lars Dɪᴇᴄᴋᴏᴡ 迪拉斯)
+  * Stop using deprecated Hash::StoreIterator::eech().
+    [github #270] (Chad Granum)
+
+
 2.12.0  Mon Jun 10 18:09:31 PDT 2013
   New Features
   * Added the ability to skip loading certain features. [github #228]
