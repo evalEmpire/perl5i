@@ -127,10 +127,7 @@ my %Features = (
     },
     'utf8::all' => sub {
         my ($class, $caller) = @_;
-
-        # use utf8::all
-        require utf8::all;
-        utf8::all::import($class);
+        load_in_caller($caller, ['utf8::all']);
     },
     Want => sub {
         my ($class, $caller) = @_;
