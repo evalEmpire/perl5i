@@ -49,11 +49,12 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006009',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
-        'utf8::all'           => '0.002',
+        'utf8::all'           => '0.013',               # @ARGV change
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.007',
         'Hash::FieldHash'     => '0.06',
         'Path::Tiny'          => '0.036',
+        'Import::Into'        => '1.002003',            # loads the module
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',

@@ -1,3 +1,12 @@
+2.13.1
+  Distribution Changes
+  * Upgrade utf8::all requirement to get consistent @ARGV behavior.
+
+  Bug Fixes
+  * Change how we import utf8::all so @ARGV is translated appropriately.
+    [github #279] (Paul Howarth)
+
+
 2.13.0  Wed Jul 23 11:51:53 PDT 2014
   New Features
   * $scalar->path will return a Path::Tiny object using the contents
