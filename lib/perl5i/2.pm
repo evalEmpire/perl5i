@@ -118,6 +118,7 @@ my %Features = (
     'utf8::all' => sub {
         my ($class, $caller) = @_;
         utf8::all->import::into($caller);
+        "feature"->unimport::out_of($caller, "unicode_eval") if $^V >= v5.16.0;
     },
     Want => sub {
         my ($class, $caller) = @_;
