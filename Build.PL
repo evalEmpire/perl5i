@@ -22,16 +22,20 @@ my $builder = MyBuild->new(
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
         'DateTime::TimeZone::Tzfile' => '0.002',
-        'Module::Load'            => '0.16',            # for perl5i::1
+        # for perl5i::1
+        'Module::Load'            => '0.16',
         'Text::Wrap'              => '2009.0305',
         'Try::Tiny'               => '0.02',
-        'autodie'                 => '2.12',            # plays nice with open pragma
-        'IPC::System::Simple' => '1.18',                # Needed for autodie :system
+        # plays nice with open pragma, Debian stable version
+        'autodie'                 => '2.12',
+        # Needed for autodie :system
+        'IPC::System::Simple' => '1.18',
         'autobox'             => '2.80',
         'autobox::Core'       => '1.0',
         parent                => '0.221',
         'File::chdir'         => '0.1002',
-        'autobox::dump'       => '20090426',            # for perl5i::1
+        # for perl5i::1
+        'autobox::dump'       => '20090426',
         'autobox::List::Util' => '20090629',
         'Want'                => '0.18',
         'autovivification'    => '0.06',
@@ -49,12 +53,13 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006009',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
-        'utf8::all'           => '0.013',               # @ARGV change
+        # Change to how @ARGV is handled, wraps glob and <>.
+        'utf8::all'           => '0.015',
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.007',
         'Hash::FieldHash'     => '0.06',
         'Path::Tiny'          => '0.036',
-        'Import::Into'        => '1.002003',            # loads the module
+        'Import::Into'        => '1.002003',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
