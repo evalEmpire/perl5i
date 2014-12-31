@@ -11,6 +11,7 @@ use perl5i::2::RequireMessage;
 
 use Carp::Fix::1_25;
 use perl5i::2::autobox;
+use Import::Into;
 
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
@@ -21,15 +22,11 @@ my %Features = (
     autodie => sub {},
     autobox => sub {
         my ($class, $caller) = @_;
-
-        perl5i::2::autobox::import($class);
+        perl5i::2::autobox->import::into($caller);
     },
     autovivification => sub {
         my ($class, $caller) = @_;
-
-        # no autovivification;
-        require autovivification;
-        autovivification::unimport($class);
+        autovivification->unimport::out_of($caller);
     },
     capture => sub {
         my ($class, $caller) = @_;
@@ -37,15 +34,15 @@ my %Features = (
     },
     "Carp::Fix::1_25" => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ["Carp::Fix::1_25"]);
+        Carp::Fix::1_25->import::into($caller);
     },
     Child => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['Child' => qw(child)]);
+        Child->import::into( $caller => qw(child) );
     },
     CLASS => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['CLASS']);
+        CLASS->import::into( $caller );
     },
     die => sub {
         my ($class, $caller) = @_;
@@ -53,18 +50,15 @@ my %Features = (
     },
     English => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['English' => qw(-no_match_vars)]);
+        English->import::into( $caller => qw(-no_match_vars) );
     },
     'File::chdir' => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['File::chdir']);
+        File::chdir->import::into( $caller );
     },
     indirect => sub {
         my ($class, $caller) = @_;
-
-        # no indirect ':fatal'
-        require indirect;
-        indirect::unimport($class, ":fatal");
+        indirect->unimport::out_of($caller, ":fatal");
     },
     list => sub {
         my ($class, $caller) = @_;
@@ -77,8 +71,7 @@ my %Features = (
         my ($class, $caller) = @_;
 
         # use Modern::Perl
-        require Modern::Perl;
-        Modern::Perl::import($caller);
+        Modern::Perl->import::into($caller);
 
         # no strict vars for oneliners - GH #63
         strict::unimport($class, 'vars')
@@ -91,11 +84,11 @@ my %Features = (
     },
     'Perl6::Caller' => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['Perl6::Caller']);
+        Perl6::Caller->import::into($caller);
     },
     Signatures => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['perl5i::2::Signatures']);
+        perl5i::2::Signatures->import::into($caller);
     },
     stat => sub {
         my ($class, $caller) = @_;
@@ -116,25 +109,20 @@ my %Features = (
     },
     true => sub {
         my ($class, $caller) = @_;
-
-        # use true
-        require true;
-        true::import($class);
+        true->import::into($caller);
     },
     'Try::Tiny' => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['Try::Tiny']);
+        Try::Tiny->import::into($caller);
     },
     'utf8::all' => sub {
         my ($class, $caller) = @_;
-
-        # use utf8::all
-        require utf8::all;
-        utf8::all::import($class);
+        utf8::all->import::into($caller);
+        "feature"->unimport::out_of($caller, "unicode_eval") if $^V >= v5.16.0;
     },
     Want => sub {
         my ($class, $caller) = @_;
-        load_in_caller($caller, ['Want' => qw(want)]);
+        Want->import::into( $caller => qw(want) );
     },
 );
 
@@ -195,26 +183,6 @@ sub perl5i_die {
 
     local $! = 255;
     return CORE::die($error);
-}
-
-
-sub load_in_caller {
-    my $caller  = shift;
-    my @modules = @_;
-
-    for my $spec (@modules) {
-        my( $module, @args ) = @$spec;
-
-        $module->require;
-        ## no critic (BuiltinFunctions::ProhibitStringyEval)
-        eval qq{
-            package $caller;
-            \$module->import(\@args);
-            1;
-        } or die "Error while perl5i loaded $module => @args: $@";
-    }
-
-    return;
 }
 
 
