@@ -73,6 +73,10 @@ my $builder = MyBuild->new(
         # so some CPAN shells won't see it.
         "Module::Build"      => '0.36',
     },
+    recommends => {
+        # Significant performance improvements
+        autodie         => '2.26',
+    },
 
     meta_merge => {
         resources => {
