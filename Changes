@@ -1,10 +1,14 @@
-2.13.1
+2.13.1  Thu Jan  1 20:14:59 PST 2015
   Distribution Changes
   * Upgrade utf8::all requirement to get consistent @ARGV behavior.
+  * The latest autodie is recommended for load time and memory usage
+    improvements. [github #284]
 
   Bug Fixes
   * Change how we import utf8::all so @ARGV is translated appropriately.
     [github #279] (Paul Howarth)
+  * Update autobox to avoid segfaults during global destruction.
+    [github #283] [rt.cpan.org 71777] (Michael Schwern)
 
 
 2.13.0  Wed Jul 23 11:51:53 PDT 2014

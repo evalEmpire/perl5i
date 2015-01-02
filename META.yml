@@ -11,7 +11,7 @@ build_requires:
 configure_requires:
   Module::Build: '0.36'
 dynamic_config: 1
-generated_by: 'Module::Build version 0.4205, CPAN::Meta::Converter version 2.141520'
+generated_by: 'Module::Build version 0.421, CPAN::Meta::Converter version 2.142060'
 license: perl
 meta-spec:
   url: http://module-build.sourceforge.net/META-spec-v1.4.html
@@ -31,10 +31,10 @@ no_index:
 provides:
   perl5i:
     file: lib/perl5i.pm
-    version: v2.13.0
+    version: v2.13.1
   perl5i::0:
     file: lib/perl5i/0.pm
-    version: v2.13.0
+    version: v2.13.1
   perl5i::0::ARRAY:
     file: lib/perl5i/0/ARRAY.pm
   perl5i::0::DEFAULT:
@@ -59,7 +59,7 @@ provides:
     file: lib/perl5i/0/SCALAR.pm
   perl5i::1:
     file: lib/perl5i/1.pm
-    version: v2.13.0
+    version: v2.13.1
   perl5i::1::ARRAY:
     file: lib/perl5i/1/ARRAY.pm
   perl5i::1::CODE:
@@ -88,7 +88,7 @@ provides:
     file: lib/perl5i/1/autobox.pm
   perl5i::2:
     file: lib/perl5i/2.pm
-    version: v2.13.0
+    version: v2.13.1
   perl5i::2::ARRAY:
     file: lib/perl5i/2/ARRAY.pm
   perl5i::2::CODE:
@@ -133,12 +133,14 @@ provides:
     file: lib/perl5i/2/equal.pm
   perl5i::VERSION:
     file: lib/perl5i/VERSION.pm
-    version: v2.13.0
+    version: v2.13.1
   perl5i::cmd:
     file: lib/perl5i/cmd.pm
   perl5i::latest:
     file: lib/perl5i/latest.pm
-    version: v2.13.0
+    version: v2.13.1
+recommends:
+  autodie: '2.26'
 requires:
   CLASS: '1.00'
   Capture::Tiny: '0.06'
@@ -155,6 +157,7 @@ requires:
   Hash::Merge::Simple: '0.04'
   Hash::StoredIterator: '0.007'
   IPC::System::Simple: '1.18'
+  Import::Into: '1.002003'
   JSON: '2.17'
   List::MoreUtils: '0.22'
   Modern::Perl: '1.03'
@@ -167,7 +170,7 @@ requires:
   Try::Tiny: '0.02'
   Want: '0.18'
   YAML::Any: '0.70'
-  autobox: '2.70'
+  autobox: '2.80'
   autobox::Core: '1.0'
   autobox::List::Util: '20090629'
   autobox::dump: '20090426'
@@ -177,11 +180,11 @@ requires:
   parent: '0.221'
   perl: v5.10.0
   true::VERSION: '0.16'
-  utf8::all: '0.002'
+  utf8::all: '0.015'
   version: '0.77'
 resources:
-  Chat: irc://irc.perl.org/#perl5i
+  IRC: irc://irc.perl.org/#perl5i
   bugtracker: http://github.com/evalEmpire/perl5i/issues
   license: http://dev.perl.org/licenses/
   repository: http://github.com/evalEmpire/perl5i/tree/master
-version: v2.13.0
+version: v2.13.1
