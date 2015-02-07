@@ -23,6 +23,7 @@ sub ACTION_code {
 
         my $obj_file = $b->compile(
             source               => 'bin/perl5i.c',
+            extra_compiler_flags => $self->extra_compiler_flags,
         );
         my $exe_file = $b->link_executable(objects => $obj_file);
 
