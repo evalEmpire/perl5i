@@ -39,7 +39,7 @@ int main (int argc, char* argv[]) {
     const char* perl_cmd = "%s";
     char* perl_args[argc+1];
     char* dash_m = (char *)malloc(sizeof(char) * (strlen(argv[0]) + 20));
-    char* program;
+    char* program = "";
     int saw_dash_e = 0;
 
     strcpy(dash_m, "-Mperl5i::cmd=");
@@ -56,6 +56,7 @@ int main (int argc, char* argv[]) {
 	    && dash_e > argv[i]
 	    && *(dash_e-1) == '-'
             && (strchr(argv[i], '-') == argv[i])
+            && i+1 < argc
             )
         {
             saw_dash_e = 1;
@@ -70,8 +71,8 @@ int main (int argc, char* argv[]) {
             }
 
             /* Skip the next argument, its the program */
-            program = argv[i+1];
             i++;
+            program = argv[i];
             continue;
         }
 

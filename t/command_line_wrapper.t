@@ -64,4 +64,21 @@ is capture {system @perl5icmd, '-e', q($fun="yay"; say $fun;)}, "yay\n", 'no str
 is capture {system ($^X, '-Ilib', '-Mperl5i::latest', '-e', q|$fun="yay"; say $fun;|)},
     "yay\n", q{no strict vars for perl -Mperl5i::latest -e '...'};
 
+# It acts like Perl when given weird arguments.
+{
+    # We expect these system calls to return non-zero
+    no autodie "system";
+
+    my %tests = (
+        "-e with no code"       => ["-e"],
+        "null byte"             => ["\\000", "-e"],
+    );
+
+    %tests->each(func($test_name,$args) {
+        is capture {system @perl5icmd, $args},
+           capture {system $^X,        $args},
+           $test_name;
+    });
+}
+
 done_testing;
