@@ -158,7 +158,7 @@ requires:
   Hash::StoredIterator: '0.007'
   IPC::System::Simple: '1.18'
   Import::Into: '1.002003'
-  JSON: '2.17'
+  JSON::Maybe::XS: '1.003005'
   List::MoreUtils: '0.22'
   Modern::Perl: '1.03'
   Module::Load: '0.16'

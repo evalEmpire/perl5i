@@ -21,8 +21,8 @@ is_deeply eval $obj->mo->dump, $hash;
 is_deeply eval $obj->mo->dump( format => "perl" ), $hash;
 
 {
-    use JSON;
-    is_deeply from_json( $obj->mo->dump( format => "json" ) ), $hash;
+    use JSON::MaybeXS;
+    is_deeply decode_json( $obj->mo->dump( format => "json" ) ), $hash;
 }
 
 {

@@ -17,8 +17,8 @@ is_deeply eval %h->mo->perl, \%h;
 is_deeply eval $ref->mo->perl, $ref;
 
 {
-    use JSON;
-    is_deeply from_json( %h->mo->dump( format => "json" ) ), \%h;
+    use JSON::MaybeXS;
+    is_deeply decode_json( %h->mo->dump( format => "json" ) ), \%h;
 }
 
 {
