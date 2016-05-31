@@ -1,6 +1,8 @@
 package perl5i::latest;
 
 use strict;
+use warnings;
+
 use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
 
 my $Latest;

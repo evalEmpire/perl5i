@@ -1,4 +1,6 @@
 package perl5i::2::Signatures;
+use strict;
+use warnings;
 
 use perl5i::2::Signature;
 

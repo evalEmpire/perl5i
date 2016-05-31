@@ -60,6 +60,7 @@ my $builder = MyBuild->new(
         'Hash::FieldHash'     => '0.06',
         'Path::Tiny'          => '0.036',
         'Import::Into'        => '1.002003',
+        'Sub::Name'           => '0',
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
@@ -67,6 +68,7 @@ my $builder = MyBuild->new(
         'Test::Warn'         => '0.11',
         'IPC::Open3'         => '0',
         'Test::Output'       => '0.16',
+        'Test::Most'         => '0',        
     },
     configure_requires => {
         # MB's auto configure requires only puts it in the META.yml

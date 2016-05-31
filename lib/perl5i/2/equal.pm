@@ -1,6 +1,7 @@
 package perl5i::2::equal;
 
 use strict;
+use warnings;
 no if $] >= 5.018000, warnings => 'experimental::smartmatch';
 
 use perl5i::2::autobox;
