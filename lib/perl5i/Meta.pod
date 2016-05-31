@@ -67,7 +67,7 @@ name.
 
     my $id = $object->mo->id;
 
-Returns an identifer for $object.
+Returns an identifier for $object.
 
 The identifier is guaranteed to be:
 

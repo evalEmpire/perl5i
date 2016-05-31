@@ -825,7 +825,7 @@ Exchanges values for keys in a hash.
     my %things = ( foo => 1, bar => 2, baz => 5 );
     my %flipped = %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
 
-If there is more than one occurence of a certain value, any one of the
+If there is more than one occurrence of a certain value, any one of the
 keys may end up as the value.  This is because of the random ordering
 of hash keys.
 

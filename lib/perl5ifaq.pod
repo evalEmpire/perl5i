@@ -28,7 +28,7 @@ warnings>, C<use autodie>, C<use autobox>, C<use List::Util>, C<use
 DateTime>.
 
 Not only does this cause you to litter your code with a dozen use
-statements, it also requires tribal knowledge not neccessarily
+statements, it also requires tribal knowledge not necessarily
 available to the new programmer.  To use Perl 5 well requires an
 experienced Perl programmer looking over your shoulder, giving you
 advice.
