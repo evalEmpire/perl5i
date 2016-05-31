@@ -177,8 +177,8 @@ sub dump {
 }
 
 sub as_json {
-    require JSON;
-    my $json = JSON->new
+    require JSON::MaybeXS;
+    my $json = JSON::MaybeXS->new
                     ->utf8
                     ->pretty
                     ->allow_unknown
