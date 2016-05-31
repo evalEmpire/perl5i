@@ -61,7 +61,6 @@ my $builder = MyBuild->new(
         'Path::Tiny'          => '0.036',
         'Import::Into'        => '1.002003',
         'Sub::Name'           => '0',
-        'Time::y2038'         => '0',        
     },
     build_requires => {
         'ExtUtils::CBuilder' => '0.26',
