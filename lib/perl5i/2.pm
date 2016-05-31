@@ -188,12 +188,12 @@ sub perl5i_die {
 
 # File::stat does not play nice in list context
 sub stat {
-    return CORE::stat(@_) if wantarray;
+    return CORE::stat($_[0]) if wantarray;
     return File::stat::stat(@_);
 }
 
 sub lstat {
-    return CORE::lstat(@_) if wantarray;
+    return CORE::lstat($_[0]) if wantarray;
     return File::stat::lstat(@_);
 }
 
