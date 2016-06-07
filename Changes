@@ -1,3 +1,22 @@
+2.13.2  Mon Jun  6 16:59:45 PDT 2016
+  Bug Fixes
+  * Prevent `perl5i -e` from segfaulting (Michael G Schwern) [github #269]
+  * Fix stat() and lstat() for Perl 5.24 (Slaven Rezic) [github #291]
+
+  Doc Changes
+  * Spelling fixes from Debian (gregor herrmann) [github #294]
+  * "siganture" typo fixes (mohawk2) [github #295]
+
+  Build Changes
+  * extra_compiler_flags are passed through when building the perl5i
+    executable (Michael G Schwern)
+
+  Other
+  * Kwalitee fixups (Nikolay Mishin) [github #289]
+  * Now testing against Perl 5.22 (viviparous) [github #292]
+  * Now using JSON::MaybeXS instead of JSON (Lee Johnson) [github #288]
+
+
 2.13.1  Thu Jan  1 20:14:59 PST 2015
   Distribution Changes
   * Upgrade utf8::all requirement to get consistent @ARGV behavior.

@@ -1,21 +1,25 @@
 NAME
+
     perl5i - Fix as much of Perl 5 as possible in one pragma
 
 SYNOPSIS
+
       use perl5i::2;
-
+    
       or
-
+    
       $ perl5i your_script.pl
 
 DESCRIPTION
+
     Perl 5 has a lot of warts. There's a lot of individual modules and
-    techniques out there to fix those warts. perl5i aims to pull the best of
-    them together into one module so you can turn them on all at once.
+    techniques out there to fix those warts. perl5i aims to pull the best
+    of them together into one module so you can turn them on all at once.
 
     This includes adding features, changing existing core functions and
     changing defaults. It will likely not be 100% backwards compatible with
-    Perl 5, though it will be 99%, perl5i will try to have a lexical effect.
+    Perl 5, though it will be 99%, perl5i will try to have a lexical
+    effect.
 
     Please add to this imaginary world and help make it real, either by
     telling me what Perl looks like in your imagination
@@ -23,12 +27,13 @@ DESCRIPTION
     github is like a branch you control) and implement it yourself.
 
 Rationale
+
     Changing perl 5 core is a slow and difficult process. Perl 5 aims to be
     compatible with ancient versions which means it is mostly stuck with
     design, decisions and defaults made way back in the 90's.
 
-    There are modules in CPAN to solve or ease many of those issues but many
-    people don't know about them or don't know which ones to use.
+    There are modules in CPAN to solve or ease many of those issues but
+    many people don't know about them or don't know which ones to use.
 
     Documentation and books are updated slowly and don't usually keep up;
     this information becomes some sort of community knowledge, invisible
@@ -41,77 +46,80 @@ Rationale
     Perl5i brings all this community knowledge in a coherent way, in
     something like 'the best of CPAN', enabled with a single command.
 
-    You don't need to know all it does nor how it does it, you just "use
-    perl5i::2" on your code and you automatically get a modern environment,
+    You don't need to know all it does nor how it does it, you just use
+    perl5i::2 on your code and you automatically get a modern environment,
     with perl defaults, problems and inconsistencies fixed.
 
     You can refer beginers to perl5i and they can benefit from it without
     needing to become a perl guru first.
 
 Using perl5i
-    Because perl5i *plans* to be incompatible in the future, you do not
-    simply "use perl5i". You must declare which major version of perl5i you
+
+    Because perl5i plans to be incompatible in the future, you do not
+    simply use perl5i. You must declare which major version of perl5i you
     are using. You do this like so:
 
         # Use perl5i major version 2
         use perl5i::2;
 
-    Thus the code you write with, for example, "perl5i::2" will always
-    remain compatible even as perl5i moves on.
+    Thus the code you write with, for example, perl5i::2 will always remain
+    compatible even as perl5i moves on.
 
-    If you want to be daring, you can "use perl5i::latest" to get the latest
-    version. This will automatically happen if the program is "-e". This
-    lets you do slightly less typing for one-liners like "perl -Mperl5i -e
-    ..."
+    If you want to be daring, you can use perl5i::latest to get the latest
+    version. This will automatically happen if the program is -e. This lets
+    you do slightly less typing for one-liners like perl -Mperl5i -e ...
 
     If you want your module to depend on perl5i, you should depend on the
-    versioned class. For example, depend on "perl5i::2" and not "perl5i".
+    versioned class. For example, depend on perl5i::2 and not perl5i.
 
     See "VERSIONING" for more information about perl5i's versioning scheme.
 
 What it does
+
     perl5i enables each of these modules and adds/changes these functions.
     We'll provide a brief description here, but you should look at each of
     their documentation for full details.
 
-  The Meta Object
+ The Meta Object
+
     Every object (and everything is an object) now has a meta object
     associated with it. Using the meta object you can ask things about the
     object which were previously over complicated. For example...
 
         # the object's class
         my $class = $obj->mo->class;
-
+    
         # its parent classes
         my @isa = $obj->mo->isa;
-
+    
         # the complete inheritance hierarchy
         my @complete_isa = $obj->mo->linear_isa;
-
+    
         # the reference type of the object
         my $reftype = $obj->mo->reftype;
 
-    A meta object is used to avoid polluting the global method space. "mo"
+    A meta object is used to avoid polluting the global method space. mo
     was chosen to avoid clashing with Moose's meta object.
 
     See perl5i::Meta for complete details.
 
-  Subroutine and Method Signatures
+ Subroutine and Method Signatures
+
     perl5i makes it easier to declare what parameters a subroutine takes.
 
         func hello($place) {
             say "Hello, $place!\n";
         }
-
+    
         method get($key) {
             return $self->{$key};
         }
-
+    
         method new($class: %args) {
             return bless \%args, $class;
         }
 
-    "func" and "method" define subroutines as "sub" does, with some extra
+    func and method define subroutines as sub does, with some extra
     conveniences.
 
     The signature syntax is currently very simple. The content will be
@@ -128,21 +136,22 @@ What it does
             return $this + $that;
         }
 
-    "method" defines a method. This is the same as a subroutine, but the
-    first argument, the *invocant*, will be removed and made into $self.
+    method defines a method. This is the same as a subroutine, but the
+    first argument, the invocant, will be removed and made into $self.
 
         method get($key) {
             return $self->{$key};
         }
-
+    
         sub get {
             my $self = shift;
             my($key) = @_;
             return $self->{$key};
         }
 
-    Methods have a special bit of syntax. If the first item in the signature
-    is $var: it will change the variable used to store the invocant.
+    Methods have a special bit of syntax. If the first item in the
+    signature is $var: it will change the variable used to store the
+    invocant.
 
         method new($class: %args) {
             return bless \%args, $class;
@@ -178,46 +187,49 @@ What it does
       Parameter traits
       Traditional prototypes
 
-    See <http://github.com/evalEmpire/perl5i/issues/labels/syntax#issue/19>
+    See http://github.com/evalEmpire/perl5i/issues/labels/syntax#issue/19
     for more details about future expansions.
 
     The equivalencies above should only be taken for illustrative purposes,
     they are not guaranteed to be literally equivalent.
 
     Note that while all parameters are optional by default, the number of
-    parameters will eventually be enforced. For example, right now this will
-    work:
+    parameters will eventually be enforced. For example, right now this
+    will work:
 
         func add($this, $that) { return $this + $that }
-
+    
         say add(1,2,3);  # says 3
 
-    The extra argument is ignored. In future versions of perl5i this will be
-    a runtime error.
+    The extra argument is ignored. In future versions of perl5i this will
+    be a runtime error.
 
-   Signature Introspection
-    The signature of a subroutine defined with "func" or "method" can be
-    queried by calling the "signature" method on the code reference.
+  Signature Introspection
+
+    The signature of a subroutine defined with func or method can be
+    queried by calling the signature method on the code reference.
 
         func hello($greeting, $place) { say "$greeting, $place" }
-
+    
         my $code = \&hello;
         say $code->signature->num_positional_params;  # prints 2
 
-    Functions defined with "sub" will not have a signature.
+    Functions defined with sub will not have a signature.
 
     See perl5i::Signature for more details.
 
-  Autoboxing
+ Autoboxing
+
     autobox allows methods to be defined for and called on most unblessed
     variables. This means you can call methods on ordinary strings, lists
     and hashes! It also means perl5i can add a lot of functionality without
     polluting the global namespace.
 
     autobox::Core wraps a lot of Perl's built in functions so they can be
-    called as methods on unblessed variables. "@a->pop" for example.
+    called as methods on unblessed variables. @a->pop for example.
 
-   alias
+  alias
+
         $scalar_reference->alias( @identifiers );
         @alias->alias( @identifiers );
         %hash->alias( @identifiers );
@@ -251,15 +263,15 @@ What it does
         say Some::Class->foo;  # prints 99
 
     If there is just one @identifier and it has no "::" in it, the current
-    caller will be prepended. "$thing->alias("name")" is shorthand for
-    "$thing->alias(CLASS, "name")"
+    caller will be prepended. $thing->alias("name") is shorthand for
+    $thing->alias(CLASS, "name")
 
     Due to limitations in autobox, non-reference scalars cannot be aliased.
     Alias a scalar ref instead.
 
         my $thing = 23;
         $thing->alias("foo");  # error
-
+    
         my $thing = \23;
         $thing->alias("foo");  # $foo is now aliased to $thing
 
@@ -268,12 +280,14 @@ What it does
         no strict 'refs';
         *{$package . '::'. $name} = $reference;
 
-  Scalar Autoboxing
+ Scalar Autoboxing
+
     All of the methods provided by autobox::Core are available from perl5i.
 
     in addition, perl5i adds some methods of its own.
 
-   path
+  path
+
         my $object = $path->path;
 
     Creates a Path::Tiny $object for the given file or directory $path.
@@ -281,7 +295,8 @@ What it does
         my $path = "/foo/bar/baz.txt"->path;
         my $content = $path->slurp;
 
-   center
+  center
+
         my $centered_string = $string->center($length);
         my $centered_string = $string->center($length, $character);
 
@@ -293,18 +308,21 @@ What it does
         say "Hello"->center(10);        # "   Hello  ";
         say "Hello"->center(10, '-');   # "---Hello--";
 
-    "center()" will never truncate $string. If $length is less than
-    "$string->length" it will just return $string.
+    center() will never truncate $string. If $length is less than
+    $string->length it will just return $string.
 
         say "Hello"->center(4);        # "Hello";
 
-   round
+  round
+
         my $rounded_number = $number->round;
 
     Round to the nearest integer.
 
-   round_up
-   ceil
+  round_up
+
+  ceil
+
         my $new_number = $number->round_up;
 
     Rounds the $number towards infinity.
@@ -314,8 +332,10 @@ What it does
 
     ceil() is a synonym for round_up().
 
-   round_down
-   floor
+  round_down
+
+  floor
+
         my $new_number = $number->round_down;
 
     Rounds the $number towards negative infinity.
@@ -325,7 +345,8 @@ What it does
 
     floor() is a synonyn for round_down().
 
-   is_number
+  is_number
+
         $is_a_number = $thing->is_number;
 
     Returns true if $thing is a number understood by Perl.
@@ -334,31 +355,36 @@ What it does
         "12.34"->is_number;         # also true
         "eleven"->is_number;        # false
 
-   is_positive
+  is_positive
+
         $is_positive = $thing->is_positive;
 
     Returns true if $thing is a positive number.
 
     0 is not positive.
 
-   is_negative
+  is_negative
+
         $is_negative = $thing->is_negative;
 
     Returns true if $thing is a negative number.
 
     0 is not negative.
 
-   is_even
+  is_even
+
         $is_even = $thing->is_even;
 
     Returns true if $thing is an even integer.
 
-   is_odd
+  is_odd
+
         $is_odd = $thing->is_odd;
 
     Returns true if $thing is an odd integer.
 
-   is_integer
+  is_integer
+
         $is_an_integer = $thing->is_integer;
 
     Returns true if $thing is an integer.
@@ -367,10 +393,12 @@ What it does
         12.34->is_integer;          # false
         "eleven"->is_integer;       # false
 
-   is_int
+  is_int
+
     A synonym for is_integer
 
-   is_decimal
+  is_decimal
+
         $is_a_decimal_number = $thing->is_decimal;
 
     Returns true if $thing is a decimal number.
@@ -380,23 +408,25 @@ What it does
         ".34"->is_decimal;          # true
         "point five"->is_decimal;   # false
 
-   require
+  require
+
         my $module = $module->require;
 
-    Will "require" the given $module. This avoids funny things like "eval
-    qq[require $module] or die $@". It accepts only module names.
+    Will require the given $module. This avoids funny things like eval
+    qq[require $module] or die $@. It accepts only module names.
 
-    On failure it will throw an exception, just like "require". On a success
+    On failure it will throw an exception, just like require. On a success
     it returns the $module. This is mostly useful so that you can
-    immediately call $module's "import" method to emulate a "use".
+    immediately call $module's import method to emulate a use.
 
         # like "use $module qw(foo bar);" if that worked
         $module->require->import(qw(foo bar));
-
+    
         # like "use $module;" if that worked
         $module->require->import;
 
-   wrap
+  wrap
+
         my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
     Wraps $string to width $cols, breaking lines at word boundries using
@@ -407,9 +437,12 @@ What it does
 
     See Text::Wrap for details.
 
-   ltrim
-   rtrim
-   trim
+  ltrim
+
+  rtrim
+
+  trim
+
         my $trimmed = $string->trim;
         my $trimmed = $string->trim($character_set);
 
@@ -422,16 +455,18 @@ What it does
 
     They all take an optional $character_set which will determine what
     characters should be trimmed. It follows regex character set syntax so
-    "A-Z" will trim everything from A to Z. Defaults to "\s", whitespace.
+    A-Z will trim everything from A to Z. Defaults to \s, whitespace.
 
-        my $string = '-> test <-'->trim('-><');  # ' test '
+        my $string = '-> test <-'->trim('-><');  # ' test '   
 
-   title_case
+  title_case
+
         my $name = 'joe smith'->title_case;   # Joe Smith
 
     Will uppercase every word character that follows a wordbreak character.
 
-   path2module
+  path2module
+
         my $module = $path->path2module;
 
     Given a relative $path it will return the Perl module this represents.
@@ -442,7 +477,8 @@ What it does
     It will throw an exception if given something which could not be a path
     to a Perl module.
 
-   module2path
+  module2path
+
         my $path = $module->module2path;
 
     Will return the relative $path in which the Perl $module can be found.
@@ -450,7 +486,8 @@ What it does
 
         "Foo::Bar"->module2path;  # "Foo/Bar.pm"
 
-   is_module_name
+  is_module_name
+
         my $is_valid = $string->is_module_name;
 
     Will return true if the $string is a valid module name.
@@ -458,12 +495,13 @@ What it does
         "Foo::Bar"->is_module_name;  # true
         "Foo/Bar"->is_module_name;   # false
 
-   group_digits
+  group_digits
+
         my $number_grouped     = $number->group_digits;
         my $number_grouped     = $number->group_digits(\%options);
 
-    Turns a number like 1234567 into a string like 1,234,567 known as "digit
-    grouping".
+    Turns a number like 1234567 into a string like 1,234,567 known as
+    "digit grouping".
 
     It honors your current locale to determine the separator and grouping.
     This can be overridden using %options.
@@ -471,29 +509,34 @@ What it does
     NOTE: many systems do not have their numeric locales set properly
 
     separator
-        The character used to separate groups. Defaults to "thousands_sep"
-        in your locale or "," if your locale doesn't specify.
+
+      The character used to separate groups. Defaults to "thousands_sep" in
+      your locale or "," if your locale doesn't specify.
 
     decimal_point
-        The decimal point character. Defaults to "decimal_point" in your
-        locale or "." if your locale does not specify.
+
+      The decimal point character. Defaults to "decimal_point" in your
+      locale or "." if your locale does not specify.
 
     grouping
-        How many numbers in a group? Defaults to "grouping" in your locale
-        or 3 if your locale doesn't specify.
 
-        Note: we don't honor the full grouping locale, its a wee bit too
-        complicated.
+      How many numbers in a group? Defaults to "grouping" in your locale or
+      3 if your locale doesn't specify.
+
+      Note: we don't honor the full grouping locale, its a wee bit too
+      complicated.
 
     currency
-        If true, it will treat the number as currency and use the monetary
-        locale settings. "mon_thousands_sep" instead of "thousands_sep" and
-        "mon_grouping" instead of "grouping".
+
+      If true, it will treat the number as currency and use the monetary
+      locale settings. "mon_thousands_sep" instead of "thousands_sep" and
+      "mon_grouping" instead of "grouping".
 
         1234->group_digits;                      # 1,234 (assuming US locale)
         1234->group_digits( separator => "." );  # 1.234
 
-   commify
+  commify
+
         my $number_grouped = $number->commify;
         my $number_grouped = $number->commify(\%options);
 
@@ -501,13 +544,14 @@ What it does
     useful when you want a predictable result regardless of the user's
     locale settings.
 
-    %options defaults to "( separator => ",", grouping => 3, decimal_point
-    => "." )". Each key will be overridden individually.
+    %options defaults to ( separator => ",", grouping => 3, decimal_point
+    => "." ). Each key will be overridden individually.
 
         1234->commify;                      # 1,234
         1234->commify({ separator => "." });  # 1.234
 
-   reverse
+  reverse
+
         my $reverse = $string->reverse;
 
     Reverses a $string.
@@ -515,7 +559,8 @@ What it does
     Unlike Perl's reverse(), this always reverses the string regardless of
     context.
 
-  Array Autoboxing
+ Array Autoboxing
+
     The methods provided by "Array Methods" in autobox::Core are available
     from perl5i.
 
@@ -529,10 +574,11 @@ What it does
 
         @array->grep(sub{ $_->is_number })->sum->say;
 
-   foreach
+  foreach
+
         @array->foreach( func($item) { ... } );
 
-    Works like the built in "foreach", calls the code block for each element
+    Works like the built in foreach, calls the code block for each element
     of @array passing it into the block.
 
         @array->foreach( func($item) { say $item } );  # print each item
@@ -550,7 +596,8 @@ What it does
     If @array is not a multiple of the iteration (for example, @array has 5
     elements and you ask 2 at a time) the behavior is currently undefined.
 
-   as_hash
+  as_hash
+
         my %hash = @array->as_hash;
 
     This method returns a %hash where each element of @array is a key. The
@@ -564,7 +611,8 @@ What it does
         my %hash = @array->as_hash;
         say q[@array contains 'a'] if $hash{"a"};
 
-   pick
+  pick
+
         my @rand = @array->pick($number);
 
     The pick() method returns a list of $number elements in @array. If
@@ -576,7 +624,8 @@ What it does
         my @array = (1, 2, 3, 4);
         my @rand = @array->pick(2);
 
-   pick_one
+  pick_one
+
         my $rand = @array->pick_one;
 
     The pick_one() method returns a random element in @array. It is similar
@@ -587,18 +636,19 @@ What it does
         my @array = (1,2,3,4);
         my $rand = @array->pick_one;
 
-   diff
+  diff
+
     Calculate the difference between two (or more) arrays:
 
         my @a = ( 1, 2, 3 );
         my @b = ( 3, 4, 5 );
-
+    
         my @diff_a = @a->diff(\@b) # [ 1, 2 ]
         my @diff_b = @b->diff(\@a) # [ 4, 5 ]
 
     Diff returns all elements in array @a that are not present in array @b.
-    Item order is not considered: two identical elements in both arrays will
-    be recognized as such disregarding their index.
+    Item order is not considered: two identical elements in both arrays
+    will be recognized as such disregarding their index.
 
         [ qw( foo bar ) ]->diff( [ qw( bar foo ) ] ) # empty, they are equal
 
@@ -620,11 +670,12 @@ What it does
 
         my $uri  = URI->new("http://www.perl.com");
         my $uri2 = URI->new("http://www.perl.com");
-
+    
         [ $uri ]->diff( [ "http://www.perl.com" ] ); # empty, they are equal
         [ $uri ]->diff( [ $uri2 ] );                 # empty, they are equal
 
-   popn
+  popn
+
         my @newarray = @array->popn($n);
 
     Pops $n values from the @array.
@@ -637,7 +688,8 @@ What it does
         my @array = (1, 2, 3, 4, 5);
         my @newarray = @array->popn(3); # (3, 4, 5)
 
-   shiftn
+  shiftn
+
            my @newarray = @array->shiftn($n);
 
     Works like popn, but it shifts off the front of the array instead of
@@ -646,22 +698,26 @@ What it does
         my @array = (1, 2, 3, 4, 5);
         my @newarray = @array->shiftn(3); # (1, 2, 3)
 
-   intersect
+  intersect
+
         my @a = (1 .. 10);
         my @b = (5 .. 15);
-
+    
         my @intersection = @a->intersect(\@b) # [ 5 .. 10 ];
 
     Performs intersection between arrays, returning those elements that are
     present in all of the argument arrays simultaneously.
 
-    As with "diff()", it works with any number of arrays, nested data
+    As with diff(), it works with any number of arrays, nested data
     structures of arbitrary depth, and handles overloaded objects
     graciously.
 
-   ltrim
-   rtrim
-   trim
+  ltrim
+
+  rtrim
+
+  trim
+
         my @trimmed = @list->trim;
         my @trimmed = @list->trim($character_set);
 
@@ -677,13 +733,15 @@ What it does
 
         my @trimmed = ['-> foo <-', '-> bar <-']->trim('-><'); # [' foo ', ' bar ']
 
-  Hash Autoboxing
+ Hash Autoboxing
+
     All of the methods provided by "Hash Methods" in autobox::Core are
     available from perl5i.
 
     In addition...
 
-   each
+  each
+
     Iterate through each key/value pair in a hash using a callback.
 
         my %things = ( foo => 23, bar => 42 );
@@ -691,16 +749,17 @@ What it does
             say "Key: $k, Value: $v"
         });
 
-    Unlike the "each" function, individual calls to each are guaranteed to
+    Unlike the each function, individual calls to each are guaranteed to
     iterate through the entirety of the hash.
 
-   flip
+  flip
+
     Exchanges values for keys in a hash.
 
         my %things = ( foo => 1, bar => 2, baz => 5 );
         my %flipped = %things->flip; # { 1 => foo, 2 => bar, 5 => baz }
 
-    If there is more than one occurence of a certain value, any one of the
+    If there is more than one occurrence of a certain value, any one of the
     keys may end up as the value. This is because of the random ordering of
     hash keys.
 
@@ -712,19 +771,21 @@ What it does
 
         { foo => [ 'bar', 'baz' ] }->flip; # dies
 
-   merge
-    Recursively merge two or more hashes together using Hash::Merge::Simple.
+  merge
+
+    Recursively merge two or more hashes together using
+    Hash::Merge::Simple.
 
         my $a = { a => 1 };
         my $b = { b => 2, c => 3 };
-
+    
         $a->merge($b); # { a => 1, b => 2, c => 3 }
 
     For conflicting keys, rightmost precedence is used:
 
         my $a = { a => 1 };
         my $b = { a => 100, b => 2};
-
+    
         $a->merge($b); # { a => 100, b => 2 }
         $b->merge($a); # { a => 1,   b => 2 }
 
@@ -732,46 +793,54 @@ What it does
     array references or objects. For more information, look at the
     Hash::Merge::Simple docs.
 
-   diff
+  diff
+
         my %staff    = ( bob => 42, martha => 35, timmy => 23 );
         my %promoted = ( timmy => 23 );
-
+    
         %staff->diff(\%promoted); # { bob => 42, martha => 35 }
 
     Returns the key/value pairs present in the first hash that are not
     present in the subsequent hash arguments. Otherwise works as
-    "@array->diff".
+    @array->diff.
 
-   intersect
+  intersect
+
         %staff->intersect(\%promoted); # { timmy => 23 }
 
     Returns the key/value pairs that are present simultaneously in all the
-    hash arguments. Otherwise works as "@array->intersect".
+    hash arguments. Otherwise works as @array->intersect.
 
-  Code autoboxing
-   signature
+ Code autoboxing
+
+  signature
+
         my $sig = $code->signature;
 
-    You can query the signature of any code reference defined with "func" or
-    "method". See "Signature Introspection" for details.
+    You can query the signature of any code reference defined with func or
+    method. See "Signature Introspection" for details.
 
     If $code has a signature, returns an object representing $code's
     signature. See perl5i::Signature for details. Otherwise it returns
     nothing.
 
-   caller
-    Perl6::Caller causes "caller" to return an object in scalar context.
+  caller
 
-   die
-    "die" now always returns an exit code of 255 instead of trying to use $!
+    Perl6::Caller causes caller to return an object in scalar context.
+
+  die
+
+    die now always returns an exit code of 255 instead of trying to use $!
     or $? which makes the exit code unpredictable. If you want to exit with
-    a message and a special exit code, use "warn" then "exit".
+    a message and a special exit code, use warn then exit.
 
-   list
-    "list" will force list context similar to how scalar will force scalar
+  list
+
+    list will force list context similar to how scalar will force scalar
     context.
 
-  utf8::all
+ utf8::all
+
     perl5i turns on utf8::all which turns on all the Unicode features of
     Perl it can.
 
@@ -785,7 +854,7 @@ What it does
         sub fünkßhüñ { ... }
 
     Strings will be treated as a set of characters rather than a set of
-    bytes. For example, "length" will return the number of characters, not
+    bytes. For example, length will return the number of characters, not
     the number of bytes.
 
         length("perl5i is MËTÁŁ");  # 15, not 18
@@ -794,14 +863,15 @@ What it does
 
     STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
     encoding turned on. Consequently, if you want to output raw bytes to a
-    file, such as outputting an image, you must set "binmode $fh".
+    file, such as outputting an image, you must set binmode $fh.
 
-   capture
+  capture
+
         my($stdout, $stderr) = capture { ... } %options;
         my $stdout = capture { ... } %options;
 
-    "capture()" lets you capture all output to "STDOUT" and "STDERR" in any
-    block of code.
+    capture() lets you capture all output to STDOUT and STDERR in any block
+    of code.
 
         # $out = "Hello"
         # $err = "Bye"
@@ -810,8 +880,8 @@ What it does
             print STDERR "Bye";
         };
 
-    If called in scalar context, it will only return "STDOUT" and silence
-    "STDERR".
+    If called in scalar context, it will only return STDOUT and silence
+    STDERR.
 
         # $out = "Hello"
         my $out = capture {
@@ -819,31 +889,36 @@ What it does
             warn "oh god";
         };
 
-    "capture" takes some options.
+    capture takes some options.
 
-    tee tee will cause output to be captured yet still printed.
+    tee
 
-            my $out = capture { print "Hi" } tee => 1;
+      tee will cause output to be captured yet still printed.
+
+          my $out = capture { print "Hi" } tee => 1;
 
     merge
-        merge will merge "STDOUT" and "STDERR" into one variable.
 
-            # $out = "HiBye"
-            my $out = capture {
-                print "Hi";
-                print STDERR "Bye";
-            } merge => 1;
+      merge will merge STDOUT and STDERR into one variable.
 
-  Carp
-    "croak" and "carp" from Carp are always available.
+          # $out = "HiBye"
+          my $out = capture {
+              print "Hi";
+              print STDERR "Bye";
+          } merge => 1;
+
+ Carp
+
+    croak and carp from Carp are always available.
 
     The Carp message will always format consistently, smoothing over the
     backwards incompatible change in Carp 1.25.
 
-  Child
-    Child provides the "child" function which is a better way to do forking.
+ Child
 
-    "child" creates and starts a child process, and returns an
+    Child provides the child function which is a better way to do forking.
+
+    child creates and starts a child process, and returns an
     Child::Link::Proc object which is a better interface for managing the
     child process. The only required argument is a codeblock, which is
     called in the new process. exit() is automatically called for you after
@@ -858,104 +933,116 @@ What it does
 
         my $proc = child {
             my $parent = shift;
-
+    
             $parent->say("Message");
             my $reply = $parent->read();
-
+    
             ...
         } pipe => 1;
-
+    
         my $message = $proc->read();
         $proc->say("reply");
 
     See Child for more information.
 
-  English
+ English
+
     English gives English names to the punctuation variables; for instance,
-    "<$@"> is also "<$EVAL_ERROR">. See perlvar for details.
+    <$@> is also <$EVAL_ERROR>. See perlvar for details.
 
     It does not load the regex variables which affect performance.
-    $PREMATCH, $MATCH, and $POSTMATCH will not exist. See the "p" modifier
-    in perlre for a better alternative.
+    $PREMATCH, $MATCH, and $POSTMATCH will not exist. See the p modifier in
+    perlre for a better alternative.
 
-  Modern::Perl
-    Modern::Perl turns on strict and warnings, enables all the 5.10 features
-    like "given/when", "say" and "state", and enables C3 method resolution
-    order.
+ Modern::Perl
 
-  CLASS
-    Provides "CLASS" and $CLASS alternatives to "__PACKAGE__".
+    Modern::Perl turns on strict and warnings, enables all the 5.10
+    features like given/when, say and state, and enables C3 method
+    resolution order.
 
-  File::chdir
+ CLASS
+
+    Provides CLASS and $CLASS alternatives to __PACKAGE__.
+
+ File::chdir
+
     File::chdir gives you $CWD representing the current working directory
-    and it's assignable to "chdir". You can also localize it to safely chdir
+    and it's assignable to chdir. You can also localize it to safely chdir
     inside a scope.
 
-  File::stat
-    File::stat causes "stat" to return an object in scalar context.
+ File::stat
 
-  DateTime
-    "time", "localtime", and "gmtime" are replaced with DateTime objects.
-    They will all act like the core functions.
+    File::stat causes stat to return an object in scalar context.
+
+ DateTime
+
+    time, localtime, and gmtime are replaced with DateTime objects. They
+    will all act like the core functions.
 
         # Sat Jan 10 13:37:04 2004
         say scalar gmtime(2**30);
-
+    
         # 2004
         say gmtime(2**30)->year;
-
+    
         # 2009 (when this was written)
         say time->year;
 
-  Time::y2038
-    "gmtime()" and "localtime()" will now safely work with dates beyond the
+ Time::y2038
+
+    gmtime() and localtime() will now safely work with dates beyond the
     year 2038 and before 1901. The exact range is not defined, but we
     guarantee at least up to 2**47 and back to year 1.
 
-  IO::Handle
+ IO::Handle
+
     Turns filehandles into objects so you can call methods on them. The
-    biggest one is "autoflush" rather than mucking around with $| and
-    "select".
+    biggest one is autoflush rather than mucking around with $| and select.
 
         $fh->autoflush(1);
 
-  autodie
-    autodie causes system and file calls which can fail ("open", "system",
-    and "chdir", for example) to die when they fail. This means you don't
-    have to put "or die" at the end of every system call, but you do have to
-    wrap it in an "eval" block if you want to trap the failure.
+ autodie
+
+    autodie causes system and file calls which can fail (open, system, and
+    chdir, for example) to die when they fail. This means you don't have to
+    put or die at the end of every system call, but you do have to wrap it
+    in an eval block if you want to trap the failure.
 
     autodie's default error messages are pretty smart.
 
     All of autodie will be turned on.
 
-  autovivification
+ autovivification
+
     autovivification fixes the bug/feature where this:
 
         $hash = {};
         $hash->{key1}{key2};
 
-    Results in "$hash->{key1}" coming into existence. That will no longer
+    Results in $hash->{key1} coming into existence. That will no longer
     happen.
 
-  No indirect object syntax
-    perl5i turns indirect object syntax, ie. "new $obj", into a compile time
+ No indirect object syntax
+
+    perl5i turns indirect object syntax, ie. new $obj, into a compile time
     error. Indirect object syntax is largely unnecessary and removing it
     avoids a number of ambiguous cases where Perl will mistakenly try to
     turn a function call into an indirect method call.
 
     See indirect for details.
 
-   want
-    "want()" generalizes the mechanism of the wantarray function, allowing a
+  want
+
+    want() generalizes the mechanism of the wantarray function, allowing a
     function to determine the context it's being called in. Want
     distinguishes not just scalar v. array context, but void, lvalue,
     rvalue, boolean, reference context, and more. See perldoc Want for full
     details.
 
-  Try::Tiny
-    Try::Tiny gives support for try/catch blocks as an alternative to "eval
-    BLOCK". This allows correct error handling with proper localization of
+ Try::Tiny
+
+    Try::Tiny gives support for try/catch blocks as an alternative to eval
+    BLOCK. This allows correct error handling with proper localization of
     $@ and a nice syntax layer:
 
             # handle errors with a catch handler
@@ -964,7 +1051,7 @@ What it does
             } catch {
                     warn "caught error: $_";
             };
-
+    
             # just silence errors
             try {
                     die "foo";
@@ -972,11 +1059,13 @@ What it does
 
     See perldoc Try::Tiny for details.
 
-  true
-    You no longer have to put a true value at the end of a module which uses
-    perl5i.
+ true
 
-  Better load errors
+    You no longer have to put a true value at the end of a module which
+    uses perl5i.
+
+ Better load errors
+
     Most of us have learned the meaning of the dreaded "Can't locate Foo.pm
     in @INC". Admittedly though, it's not the most helpful of the error
     messages. In perl5i we provide a much friendlier error message.
@@ -988,54 +1077,57 @@ What it does
             Indented list of paths, 1 per line...
 
 Turning off features
+
         use perl5i::2 -skip => \@features_to_skip;
 
     While perl5i is intended as a curated collection of modules, its
-    possible you might not want certain features. Features can be turned off
-    in your scope by using "-skip".
+    possible you might not want certain features. Features can be turned
+    off in your scope by using -skip.
 
     For example, this will skip loading Try::Tiny.
 
         use perl5i::latest -skip => [qw(Try::Tiny)];
 
     Why would you do this? You might want to use a different try/catch
-    module such as TryCatch which provides its own "try" and "catch".
+    module such as TryCatch which provides its own try and catch.
 
-    The feature strings are: "autobox", "autodie", "autovivification",
-    "capture", "Carp::Fix::1_25", "Child", "CLASS", "die", "English",
-    "File::chdir", "indirect", "list", "Meta", "Modern::Perl",
-    "Perl6::Caller", "Signatures", "stat", "time", "true", "Try::Tiny",
-    "utf8::all", "Want".
+    The feature strings are: autobox, autodie, autovivification, capture,
+    Carp::Fix::1_25, Child, CLASS, die, English, File::chdir, indirect,
+    list, Meta, Modern::Perl, Perl6::Caller, Signatures, stat, time, true,
+    Try::Tiny, utf8::all, Want.
 
 Command line program
+
     There is a perl5i command line program installed with perl5i (Windows
     users get perl5i.bat). This is handy for writing one liners.
 
         perl5i -e 'gmtime->year->say'
 
-    And you can use it on the "#!" line.
+    And you can use it on the #! line.
 
         #!/usr/bin/perl5i
-
+    
         gmtime->year->say;
 
-    If you write a one-liner without using this program, saying "-Mperl5i"
-    means "-Mperl5i::latest". Please see "Using perl5i" and "VERSIONING" for
+    If you write a one-liner without using this program, saying -Mperl5i
+    means -Mperl5i::latest. Please see "Using perl5i" and "VERSIONING" for
     details.
 
 BUGS
+
     Some parts are not lexical. Some parts are package scoped.
 
     If you're going to use two versions of perl5i together, we do not
     currently recommend having them in the same package.
 
-    See <http://github.com/evalEmpire/perl5i/issues/labels/bug> for a
+    See http://github.com/evalEmpire/perl5i/issues/labels/bug for a
     complete list.
 
-    Please report bugs at <http://github.com/evalEmpire/perl5i/issues/>.
+    Please report bugs at http://github.com/evalEmpire/perl5i/issues/.
 
 VERSIONING
-    perl5i follows the Semantic Versioning policy, <http://semver.org>. In
+
+    perl5i follows the Semantic Versioning policy, http://semver.org. In
     short...
 
     Versions will be of the form X.Y.Z.
@@ -1051,16 +1143,17 @@ VERSIONING
     internal change.
 
 NOTES
+
     Inspired by chromatic's Modern::Perl and in particular
-    http://www.modernperlbooks.com/mt/2009/04/ugly-perl-a-lesson-in-the-impo
-    rtance-of-language-design.html.
+    http://www.modernperlbooks.com/mt/2009/04/ugly-perl-a-lesson-in-the-importance-of-language-design.html.
 
     I totally didn't come up with the "Perl 5 + i" joke. I think it was
     Damian Conway.
 
 THANKS
-    Thanks to our contributors: Chas Owens, Darian Patrick, rjbs, chromatic,
-    Ben Hengst, Bruno Vecchi and anyone else I've forgotten.
+
+    Thanks to our contributors: Chas Owens, Darian Patrick, rjbs,
+    chromatic, Ben Hengst, Bruno Vecchi and anyone else I've forgotten.
 
     Thanks to Flavian and Matt Trout for their signature and Devel::Declare
     work.
@@ -1068,22 +1161,25 @@ THANKS
     Thanks to all the CPAN authors upon whom this builds.
 
 LICENSE
+
     Copyright 2009-2010, Michael G Schwern <schwern@pobox.com>
 
     This program is free software; you can redistribute it and/or modify it
     under the same terms as Perl itself.
 
-    See <http://dev.perl.org/licenses/artistic.html>
+    See http://dev.perl.org/licenses/artistic.html
 
 SEE ALSO
-    Repository: <http://github.com/evalEmpire/perl5i/> Issues/Bugs:
-    <http://github.com/evalEmpire/perl5i/issues> IRC: <irc://irc.perl.org>
-    on the #perl5i channel Wiki: <http://github.com/evalEmpire/perl5i/wiki>
-    Twitter: <http://twitter.com/perl5i>
+
+    Repository: http://github.com/evalEmpire/perl5i/ Issues/Bugs:
+    http://github.com/evalEmpire/perl5i/issues IRC: irc://irc.perl.org on
+    the #perl5i channel Wiki: http://github.com/evalEmpire/perl5i/wiki
+    Twitter: http://twitter.com/perl5i
 
     Frequently Asked Questions about perl5i: perl5ifaq
 
     Some modules with similar purposes include: Modern::Perl, Common::Sense
 
-    For a complete object declaration system, see Moose and MooseX::Declare.
+    For a complete object declaration system, see Moose and
+    MooseX::Declare.
 
