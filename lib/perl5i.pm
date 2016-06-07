@@ -196,7 +196,7 @@ C<$self>.
     }
 
 Methods have a special bit of syntax.  If the first item in the
-siganture is C<$var:> it will change the variable used to store the
+signature is C<$var:> it will change the variable used to store the
 invocant.
 
     method new($class: %args) {

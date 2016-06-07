@@ -141,7 +141,7 @@ What it does
             return $self->{$key};
         }
 
-    Methods have a special bit of syntax. If the first item in the siganture
+    Methods have a special bit of syntax. If the first item in the signature
     is $var: it will change the variable used to store the invocant.
 
         method new($class: %args) {

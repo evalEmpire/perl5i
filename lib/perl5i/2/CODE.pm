@@ -4,7 +4,7 @@ use 5.010;
 use strict;
 use warnings;
 
-# Can't use sigantures here, Signatures needs CODE.
+# Can't use signatures here, Signatures needs CODE.
 
 use Hash::FieldHash qw(fieldhashes);
 fieldhashes \my(%Signatures);
