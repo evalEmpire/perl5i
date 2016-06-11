@@ -102,7 +102,7 @@ my $builder = MyBuild->new(
     },
 
     PL_files => {
-        'bin/perl5i.c.PL'       => 'bin/perl5i.c',
+        'bin/perl5i.h.PL'       => 'bin/perl5i.h',
         'bin/perl5i.bat.PL'     => 'bin/perl5i.bat',
     },
 
