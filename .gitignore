@@ -18,3 +18,4 @@ bin/perl5i.h
 bin/perl5i.bat
 .prove
 *.swp
+*.dSYM/
