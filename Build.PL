@@ -18,7 +18,8 @@ my $builder = MyBuild->new(
         'perl'                    => '5.10.0',
         'Modern::Perl'            => '1.03',
         'CLASS'                   => '1.00',
-        'Child'                   => '0.009',
+        # Windows fixes
+        'Child'                   => '0.013',
         'DateTime'                => '0.47',
         'DateTime::Format::Epoch' => '0.11',
         'DateTime::TimeZone::Tzfile' => '0.002',
@@ -52,9 +53,10 @@ my $builder = MyBuild->new(
         'Object::ID'          => '0.1.0',
         "Devel::Declare::MethodInstaller::Simple"       => '0.006009',
         'true::VERSION'       => '0.16',
-        'Capture::Tiny'       => '0.06',
-        # 0.018 fixes utf8 + threads (and fork emulation on Windows)
-        'utf8::all'           => '0.018',
+        # Various Windows fixes
+        'Capture::Tiny'       => '0.32',
+        # Fixes utf8 + threads (and fork emulation on Windows)
+        'utf8::all'           => '0.015',
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.007',
         'Hash::FieldHash'     => '0.06',

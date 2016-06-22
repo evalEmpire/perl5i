@@ -936,6 +936,13 @@ STDOUT, STDIN, STDERR and all newly opened filehandles will have UTF8
 encoding turned on.  Consequently, if you want to output raw bytes to
 a file, such as outputting an image, you must set C<< binmode $fh >>.
 
+
+=head2 Capture::Tiny
+
+perl5i can capture the output of C<STDOUT> and C<STDERR> using
+L<Capture::Tiny>. perl5i rolls most of L<Capture::Tiny>'s
+functionality into one function, C<capture()>.
+
 =head3 capture
 
     my($stdout, $stderr) = capture { ... } %options;
@@ -980,6 +987,7 @@ merge will merge C<STDOUT> and C<STDERR> into one variable.
     } merge => 1;
 
 =back
+
 
 =head2 Carp
 
