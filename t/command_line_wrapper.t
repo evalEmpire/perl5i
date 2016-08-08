@@ -28,6 +28,10 @@ like `$perl5icmd -h`, qr/disable all warnings/, 'perl5i -h works as expected';
 
 like capture { system @perl5icmd, "-e", '$^X->say' }, qr/perl5i/, '$^X is perl5i';
 
+is capture { system @perl5icmd, "-e", 'say @ARGV', 'foo', 'bar' }, "foobar\n", "-e with args";
+
+is capture { system @perl5icmd, "-e", 'func foo() { say 42 } foo()' }, "42\n", "-e with Devel::Declare";
+
 is capture { system @perl5icmd, '-wle', q[print 'Hello'] }, "Hello\n", "compound -e";
 
 is capture { system @perl5icmd, "-Minteger", "-e", q[say 'Hello'] }, "Hello\n",

@@ -63,7 +63,7 @@
 
 # Don't ship perl5i
 ^bin/perl5i$
-^bin/perl5i.c$
+^bin/perl5i.h$
 ^bin/perl5i.bat$
 
 # Ignore C object files
