@@ -53,8 +53,8 @@ my $builder = MyBuild->new(
         "Devel::Declare::MethodInstaller::Simple"       => '0.006009',
         'true::VERSION'       => '0.16',
         'Capture::Tiny'       => '0.06',
-        # Change to how @ARGV is handled, wraps glob and <>.
-        'utf8::all'           => '0.015',
+        # 0.018 fixes utf8 + threads (and fork emulation on Windows)
+        'utf8::all'           => '0.018',
         'Carp::Fix::1_25'     => '1.000000',
         'Hash::StoredIterator' => '0.007',
         'Hash::FieldHash'     => '0.06',
