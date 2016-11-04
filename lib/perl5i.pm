@@ -481,7 +481,7 @@ immediately call $module's C<import> method to emulate a C<use>.
 
     my $wrapped = $string->wrap( width => $cols, separator => $sep );
 
-Wraps $string to width $cols, breaking lines at word boundries using
+Wraps $string to width $cols, breaking lines at word boundaries using
 separator $sep.
 
 If no width is given, $cols defaults to 76. Default line separator is
