@@ -294,4 +294,13 @@ method trim($charset) {
 }
 
 
+method transpose($fill){
+    $fill //= ' ';
+    my @parts = $self->map(sub{$_->mo->reftype?$_:[split //]});
+    my @results = map{my $i=$_; [map{$_->[$i] || $fill} @parts]->join('')} 0..$#parts;
+    use Data::Dumper;
+    warn Dumper(\@parts,\@results);
+    return wantarray ? @results : \@results;
+}
+
 1;

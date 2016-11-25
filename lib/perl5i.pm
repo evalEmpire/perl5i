@@ -798,6 +798,24 @@ which will determine what characters should be trimmed.
 
     my @trimmed = ['-> foo <-', '-> bar <-']->trim('-><'); # [' foo ', ' bar ']
 
+=head3 transpose
+
+  my @transposed = @list->transpose;
+  my @transposed = @list->transpose($fill_character);
+
+Treat @list as though it is comprised as rows and columns, flip the
+columns and rows:
+
+  my @transposed = ['AAA','BBB','123']->transpose; # ['AB1','AB2','AB3']
+
+If the length of string are unmatched then each 'blank' is filed with
+$fill_character who's default value is a single space.
+
+  my @transposed = ['AAA','BB' ,'C','1234']->transpose;      # ['ABC1','AB 2','A  3','   4']
+  my @transposed = ['AAA','BB' ,'C','1234']->transpose('_'); # ['ABC1','AB_2','A__3','___4']
+
+
+
 
 =head2 Hash Autoboxing
 
