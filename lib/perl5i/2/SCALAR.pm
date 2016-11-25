@@ -62,7 +62,6 @@ sub rtrim {
 
 sub trim {
     my $charset = $_[1];
-
     return rtrim(ltrim($_[0], $charset), $charset);
 }
 
@@ -144,6 +143,20 @@ sub round {
         abs($_[0] - int($_[0])) < 0.5 ? round_up($_[0])
                                       : round_down($_[0])
     }
+}
+
+sub round_to_nearest{
+    my ($number,$nearest) = @_;
+    return ($number/$nearest)->round * $nearest;
+}
+
+sub round_to_precision{
+    my ($number,$precision) = @_;
+    my $used_precision = int(abs($precision));
+    Carp::Fix::1_25::croak('round_to_precision does not support non-positive non-integer values.')
+      unless $used_precision == $precision;
+    my $pre = '1'. '0'x $used_precision;
+    return ($number*$pre)->round / $pre;
 }
 
 require Scalar::Util;
