@@ -70,8 +70,18 @@ sub methods {
         my $sym_table = $class->mc->symbol_table;
         for my $name (keys %$sym_table) {
             my $glob = $sym_table->{$name};
-            next unless ref \$glob eq "GLOB";
-            next unless my $code = *{$glob}{CODE};
+            my $code;
+            if (ref $glob) {
+                if (ref $glob ne 'CODE') { # constant
+                    $all_methods{$name} = $class;
+                    next;
+                }
+                $code = $glob;
+            }
+            else {
+                next unless ref \$glob eq "GLOB";
+                next unless $code = *{$glob}{CODE};
+            }
             my $sig = $code->signature;
             next if $sig and !$sig->is_method;
             $all_methods{$name} = $class;

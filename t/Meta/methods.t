@@ -172,4 +172,12 @@ note "func gets filtered out of methods list"; {
     can_ok( $class, 'as_func'); # sanity check
 }
 
+note "constants count as methods, regardless of how they came to be"; {
+    { package Foo; use constant a => 1; sub b () { 2 } }
+    is_deeply
+      scalar "Foo"->mc->methods->sort,
+      scalar [qw[ a b ]]->sort,
+      "constants count as methods";
+}
+
 done_testing;
