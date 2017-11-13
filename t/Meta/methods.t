@@ -173,10 +173,15 @@ note "func gets filtered out of methods list"; {
 }
 
 note "constants count as methods, regardless of how they came to be"; {
-    { package Foo; use constant a => 1; sub b () { 2 } }
+    {
+        package Foo;
+        use constant a => 1;
+        sub b () { 2 }
+        sub c () { 3 } () = \&c;
+    }
     is_deeply
       scalar "Foo"->mc->methods->sort,
-      scalar [qw[ a b ]]->sort,
+      scalar [qw[ a b c ]]->sort,
       "constants count as methods";
 }
 
