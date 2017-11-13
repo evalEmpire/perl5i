@@ -39,6 +39,7 @@ lib/perl5i/2/HASH.pm
 lib/perl5i/2/Meta.pm
 lib/perl5i/2/Meta/Class.pm
 lib/perl5i/2/Meta/Instance.pm
+lib/perl5i/2/MethodInfo.pm
 lib/perl5i/2/RequireMessage.pm
 lib/perl5i/2/SCALAR.pm
 lib/perl5i/2/Signature.pm
