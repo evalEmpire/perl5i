@@ -47,6 +47,8 @@ sub linear_isa {
 }
 
 sub methods {
+    require perl5i::2::MethodInfo;
+
     my $self = shift;
     my $opts = shift // {};
     my $top = $self->class;
@@ -73,7 +75,9 @@ sub methods {
             my $code;
             if (ref $glob) {
                 if (ref $glob ne 'CODE') { # constant
-                    $all_methods{$name} = $class;
+                    $all_methods{$name} =
+                        perl5i::2::MethodInfo->new($class, $name,
+                                                  \$sym_table->{$name});
                     next;
                 }
                 $code = $glob;
@@ -84,11 +88,16 @@ sub methods {
             }
             my $sig = $code->signature;
             next if $sig and !$sig->is_method;
-            $all_methods{$name} = $class;
+            $all_methods{$name} =
+                perl5i::2::MethodInfo->new($class, $name,
+                                          \$sym_table->{$name});
         }
     }
 
-    return wantarray ? keys %all_methods : [keys %all_methods];
+    my @ret = map perl5i::2::MethodInfo->new($_, $all_methods{$_}),
+                  keys %all_methods;
+
+    return wantarray ? values %all_methods : [values %all_methods];
 }
 
 sub symbol_table {
