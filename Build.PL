@@ -2,8 +2,7 @@
 
 use strict;
 
-# Include 'lib' so it sees our perl5i::VERSION when version checking
-use lib 'inc', 'lib';
+use lib 'inc';
 use MyBuild;
 
 use 5.010;
@@ -12,7 +11,6 @@ my $builder = MyBuild->new(
     module_name => 'perl5i',
     license     => 'perl',
     dist_author => 'Michael G Schwern <schwern@pobox.com>',
-    dist_version => "v2.13.2",
 
     requires => {
         'perl'                    => '5.10.0',
