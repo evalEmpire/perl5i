@@ -13,8 +13,9 @@ use Carp::Fix::1_25;
 use perl5i::2::autobox;
 use Import::Into;
 
-use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
+our $VERSION = 'v2.13.2';
 
+use perl5i::VERSION;
 our $Latest = perl5i::VERSION->latest;
 
 my %Features = (

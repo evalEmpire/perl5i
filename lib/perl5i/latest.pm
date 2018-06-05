@@ -3,9 +3,10 @@ package perl5i::latest;
 use strict;
 use warnings;
 
-use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
+our $VERSION = 'v2.13.2';
 
 my $Latest;
+use perl5i::VERSION;
 BEGIN { $Latest = perl5i::VERSION->latest; }
 
 use parent ($Latest);

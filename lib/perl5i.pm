@@ -8,7 +8,7 @@ package perl5i;
 use strict;
 use parent 'perl5i::latest';
 
-use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
+our $VERSION = 'v2.13.2';
 
 my $Latest = perl5i::VERSION->latest;
 

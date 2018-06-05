@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
 
 $new_version = shift || die "$0 <new version>\n";
 $old_version = $new_version - 1;
@@ -13,7 +13,8 @@ run(qq[find lib/perl5i/$new_version -type f -print0 | xargs -0 $change_version])
 run("$change_version lib/perl5i/{Meta,VERSION,latest,$new_version}.pm lib/*.pm lib/*.pod");
 
 # Change the distribution version number to $new.0.0
-run(qq[perl -i -pe 's{v$old_version [.\\d]+}{v$new_version.0.0}x' lib/perl5i/VERSION.pm Build.PL]);
+use App::RewriteVersion;
+App::RewriteVersion->new(verbose => 1)->rewrite_versions("v${new_version}.0.0");
 
 sub run {
     my @cmd = @_;

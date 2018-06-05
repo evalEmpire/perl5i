@@ -1,7 +1,8 @@
-#!/usr/bin/perl
+#!/usr/bin/env perl
+
+use App::RewriteVersion;
 
 my $version = shift;
 die "$0 <version>\n" unless $version;
-system qq[perl -i -pe 's{(dist_version \\s* => \\s*) \\S+ (.*)}{\$1"v$version",}x' Build.PL];
-system qq[perl -i -pe 's{v[.\\d_]+}{v$version}' lib/perl5i/VERSION.pm];
+App::RewriteVersion->new(verbose => 1)->rewrite_versions($version);
 

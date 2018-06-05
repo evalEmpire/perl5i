@@ -19,7 +19,7 @@ use perl5i::0::Meta;
 use autobox;
 use Encode ();
 
-use perl5i::VERSION; our $VERSION = perl5i::VERSION->VERSION;
+our $VERSION = 'v2.13.2';
 
 our $Latest = 'perl5i::0';
 
