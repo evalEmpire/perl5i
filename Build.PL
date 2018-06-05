@@ -89,17 +89,8 @@ my $builder = MyBuild->new(
             IRC         => "irc://irc.perl.org/#perl5i",
         },
         no_index => {
-            file  => [qw(
-                lib/perl5i/0/DateTime.pm
-                lib/perl5i/0/ARRAY.pm
-                lib/perl5i/0/DEFAULT.pm
-                lib/perl5i/0/HASH.pm
-                lib/perl5i/0/Meta.pm
-                lib/perl5i/0/Meta/Class.pm
-                lib/perl5i/0/Meta/Instance.pm
-                lib/perl5i/0/SCALAR.pm
-                lib/perl5i/VERSION.pm
-            )],
+            namespace  => [qw(perl5i::0 perl5i::1 perl5i::2)],
+            file       => [qw(lib/perl5i/VERSION.pm)],
         },
     },
 
